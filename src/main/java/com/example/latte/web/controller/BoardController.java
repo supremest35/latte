@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.exception.PasswordMismatchException;
 import com.example.exception.UserNotFoundException;
 import com.example.latte.dao.BoardDao;
+import com.example.latte.form.BoardForm;
 import com.example.latte.service.BoardService;
 import com.example.latte.service.CategoryService;
 import com.example.latte.service.UserService;
@@ -28,7 +29,6 @@ import com.example.latte.vo.Board;
 import com.example.latte.vo.BoardDto;
 import com.example.latte.vo.Category;
 import com.example.latte.vo.User;
-import com.example.latte.web.form.BoardForm;
 
 @Controller
 @RequestMapping("/board")
@@ -84,27 +84,7 @@ public class BoardController {
 		return "board/loginform";
 	}
 	
-	@RequestMapping("/login.do")
-	public String login(@RequestParam("id") String userId,
-						@RequestParam("password") String password) {
-		if(StringUtils.isEmpty(userId) || StringUtils.isEmpty(password)) {
-			return "redirect:loginform.do?error=empty";
-		}
-		
-		try {
-			User user = userService.getLoginedUserInfo(userId, password);
-			
-			SessionUtils.setAttribute("LOGINED_USER", user);
-		} catch (UserNotFoundException e) {
-			e.printStackTrace();
-			return "redirect:loginform.do?error=notfount";
-		} catch (PasswordMismatchException e) {
-			e.printStackTrace();
-			return "redirect:loginform.do?error=mismatch";
-		}
-		
-		return "board/index";
-	}
+	
 	
 	@RequestMapping("/register.do")
 	public String registerForm(BoardForm boardForm) throws  IOException {
