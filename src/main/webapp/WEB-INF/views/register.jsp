@@ -35,12 +35,12 @@
                     </div>
                     <div class="card-body">
                         <div class="form-row">
-                            <div class="form-group col-6">
+                            <div class="form-group col-8">
                                 <label>아이디(이메일)</label>
                                 <span id="id-info" style="font-size: 5px; color:blue;">
                                     * 아이디는 이메일형식으로 입력하세요. 예시) hong@abc.com
                                 </span>
-                                <input type="text" class="form-control" name="id" id="r-id" />
+                                <input type="text" class="form-control" id="r-id" v-model="id" />
 	                            <span class="register-msg" id="id-msg"></span>
                             </div>
                             <div class="form-group col-2">
@@ -49,19 +49,6 @@
                                 	<small>이메일 중복체크</small>
                                 </button>
                             </div>
-                            <div class="form-group col-4">
-                                <label>성별</label>
-                                <div class="form-control" id="gender-box">
-                                    <span  class="mr-3">
-                                        <input type="radio" name="gender" value="200">
-                                        <label><small>남자</small></label>
-                                    </span>
-                                    <span  class="mr-3">
-                                        <input type="radio" name="gender" value="300">
-                                        <label><small>여자</small></label>
-                                    </span>
-                                </div>
-                        	</div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-6">
@@ -176,6 +163,7 @@
     var idCheck = false;
     var pwdCheck = false;
 	var checkFd = false;
+	
     // 우편번호 검색 api
     var addr = ''; // 주소 변수
     var detailAddr = ''; //
@@ -317,19 +305,13 @@
                 password: '',
                 tel: '',
                 birthday: '',
-                address: addr + ' ' + detailAddr,
+                address: '',
+                addressDetail: '',
                 postCode: '',
                 deptNo: '100',
                 position: '사용자',
                 photo: ''
-            },
-            password2: '',
-            style: { fontSize: "3px", color: "crimson" },
-            idMsg: '',
-            nameMsg: '',
-            password1Msg: '',
-            password2Msg: '',
-            telMsg: ''
+            }
         },
         methods: {
              addUser: function () {
@@ -345,6 +327,7 @@
                 app.deptList = response.data;
             })
         }
+        
     })
 
 

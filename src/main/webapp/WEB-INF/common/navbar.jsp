@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ include file="taglib.jsp"%>
 
 <style>
 	/* 네브바 스타일 시작 */
@@ -231,7 +231,7 @@
 		<div class="row" style="height: 237px; max-height: 237px;">
 			<!-- 로고 존 -->
 			<div class="col-2" id="nav-logo" style="height: 237px; max-height: 237px;">
-				<a href="main.do"> <img class="nav-logo-img" id="logo-img" src="../resources/imgs/logo.jpg"
+				<a href="main.do"> <img class="nav-logo-img" id="logo-img" src="/resources/images/logo.jpg"
 						alt="logo" />
 				</a>
 			</div>
@@ -349,7 +349,7 @@
 							<div class="col-sm-12" id="info-top-line" style="height: 167px; max-height: 167px;">
 							<div class="row no-gutters">
 								<div class="col-sm-5">
-									<img class="ml-1 mt-2 border" id="user-img" src="../resources/imgs/user.jpg" alt="logo" />
+									<img class="ml-1 mt-2 border" id="user-img" src="/resources/images/user.jpg" alt="logo" />
 								</div>
 								<div class="col-sm-7 mt-1">
 									<button class="info-btn btn-sm btn-warning mr-1" id="btn-profile">프로필 수정</button>
@@ -394,7 +394,7 @@
 							<div class="card-footer" id="info-box-footer">
 								<div class="hp-row row no-gutters">
 									<button type="button" id="btn-minihp">
-										<a href="http://naver.com" target="_blank" id="my-minihp">내미니홈피 가기</a>
+										<a href="http://localhost/minihome.do" target="_blank" id="my-minihp">내미니홈피 가기</a>
 									</button>
 								</div>
 									<!-- 정보창 3열 일촌 파도타기 셀렉트박스 -->

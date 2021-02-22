@@ -18,6 +18,7 @@ public class User {
 	private Date birthday;
 	private String tel;
 	private String address;
+	private String addressDetail;
 	private int postCode;
 	private String available;
 	private int deptNo;

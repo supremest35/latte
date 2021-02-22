@@ -12,6 +12,7 @@
 			user_birthday as birthday,
 			user_tel as tel,
 			user_address as address,
+			user_address_detail as addressDetail,
 			user_postcode as postCode,
 			user_available as available,
 			user_dept_no as deptNo,
@@ -40,10 +41,10 @@
 		</selectKey>
 		insert into LATTE_USERS
 		(user_no, user_name, user_id, user_password, user_nickname, user_birthday, 
-		user_tel, user_address, user_postcode, user_dept_no, user_position)
+		user_tel, user_address, user_address_detail, user_postcode, user_dept_no, user_position)
 		values
 		(#{no}, #{name}, #{id},  #{password},  #{nickName}, #{birthday}, #{tel},
-		 #{address}, #{postCode}, #{deptNo}, #{position})
+		 #{address}, #{addressDetail}, #{postCode}, #{deptNo}, #{position})
 	</insert>
 	
 	<select id="getAllUsers" resultType="com.example.latte.vo.User">
@@ -56,6 +57,7 @@
 			user_birthday as birthday,
 			user_tel as tel,
 			user_address as address,
+			user_address_detail as addressDetail,
 			user_postcode as postCode,
 			user_available as available,
 			user_dept_no as deptNo,
@@ -76,6 +78,7 @@
 			user_birthday as birthday,
 			user_tel as tel,
 			user_address as address,
+			user_address_detail as addressDetail,
 			user_postcode as postCode,
 			user_available as available,
 			user_dept_no as deptNo,
@@ -98,6 +101,7 @@
 			user_birthday as birthday,
 			user_tel as tel,
 			user_address as address,
+			user_address_detail as addressDetail,
 			user_postcode as postCode,
 			user_available as available,
 			user_dept_no as deptNo,
@@ -116,6 +120,7 @@
 			user_birthday = #{birthday},
 			user_tel = #{tel},
 			user_address = #{address},
+			user_address_detail = #{addressDetail},
 			user_postcode = #{postCode},
 			user_available = #{available},
 			user_dept_no = #{deptNo},
@@ -125,6 +130,7 @@
 	</update>
 	
 	<delete id="deleteUserByNo" parameterType="int">
-		
+		delete from latte_users
+		where user_no = #{value}
 	</delete>
 </mapper>
