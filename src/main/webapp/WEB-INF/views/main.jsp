@@ -18,7 +18,7 @@
 <body>
 	<div class="container">
 		
-		<%@ include file="../common/navbar.jsp" %>
+		<%@ include file="/WEB-INF/common/navbar.jsp" %>
 		
 		<div class="row">
 			<div class="col-2">날씨</div>
