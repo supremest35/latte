@@ -1,71 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.latte.dao.UserDao">
 
+	<select id="getUserByOption" parameterType="map" resultType="com.example.latte.vo.User">
+		select 
+			user_no as no,
+			user_name as name,
+			user_id as id, 
+			user_password as password,
+			user_nickname as nickName,
+			user_birthday as birthday,
+			user_tel as tel,
+			user_address as address,
+			user_postcode as postCode,
+			user_available as available,
+			user_dept_no as deptNo,
+			user_position as position,
+			user_acorn_cnt as acornCnt,
+			user_friend_cnt as friendCnt,
+			user_created_date as createdDate
+		from latte_users
+		<where>
+			<if test="name != null">
+				user_name = #{name}
+			</if>
+			<if test="tel != null">
+				and user_tel = #{tel}
+			</if>
+			<if test="id != null">
+				and user_id = #{id}
+			</if>
+		</where>
+	</select>
+	
+	
+	<insert id="insertUser" parameterType="com.example.latte.vo.User">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select LATTE_USER_NO_SEQ.nextval from dual
+		</selectKey>
+		insert into LATTE_USERS
+		(user_no, user_name, user_id, user_password, user_nickname, user_birthday, 
+		user_tel, user_address, user_postcode, user_dept_no, user_position)
+		values
+		(#{no}, #{name}, #{id},  #{password},  #{nickName}, #{birthday}, #{tel},
+		 #{address}, #{postCode}, #{deptNo}, #{position})
+	</insert>
+	
 	<select id="getAllUsers" resultType="com.example.latte.vo.User">
-		select
-			user_no					as no,
-			user_name				as name,
-			user_id					as id,
-			user_password			as password,
-			user_nickname			as nickName,
-			user_birthday			as birthday,
-			user_tel				as tel,
-			user_address			as address,
-			user_postcode			as postcode,
-			user_available			as available,
-			user_dept_no			as deptNo,
-			user_position			as position,
-			user_acorn_cnt			as acornCnt,
-			user_friend_cnt			as friendCnt,
-			user_created_date		as createdDate
-		from
-			latte_users
+		select 
+			user_no as no,
+			user_name as name,
+			user_id as id, 
+			user_password as password,
+			user_nickname as nickName,
+			user_birthday as birthday,
+			user_tel as tel,
+			user_address as address,
+			user_postcode as postCode,
+			user_available as available,
+			user_dept_no as deptNo,
+			user_position as position,
+			user_acorn_cnt as acornCnt,
+			user_friend_cnt as friendCnt,
+			user_created_date as createdDate
+		from latte_users
 	</select>
-	<select id="getUserById" parameterType="string" resultType="com.example.latte.vo.User">
-		select
-			user_no					as no,
-			user_name				as name,
-			user_id					as id,
-			user_password			as password,
-			user_nickname			as nickName,
-			user_birthday			as birthday,
-			user_tel				as tel,
-			user_address			as address,
-			user_postcode			as postcode,
-			user_available			as available,
-			user_dept_no			as deptNo,
-			user_position			as position,
-			user_acorn_cnt			as acornCnt,
-			user_friend_cnt			as friendCnt,
-			user_created_date		as createdDate
-		from
-			latte_users
-		where
-			user_id = #{value}
-	</select>
+	
 	<select id="getUserByNo" parameterType="int" resultType="com.example.latte.vo.User">
-		select
-			user_no					as no,
-			user_name				as name,
-			user_id					as id,
-			user_password			as password,
-			user_nickname			as nickName,
-			user_birthday			as birthday,
-			user_tel				as tel,
-			user_address			as address,
-			user_postcode			as postcode,
-			user_available			as available,
-			user_dept_no			as deptNo,
-			user_position			as position,
-			user_acorn_cnt			as acornCnt,
-			user_friend_cnt			as friendCnt,
-			user_created_date		as createdDate
-		from
-			latte_users
-		where
-			user_no = #{value}
+		select 
+			user_no as no,
+			user_name as name,
+			user_id as id, 
+			user_password as password,
+			user_nickname as nickName,
+			user_birthday as birthday,
+			user_tel as tel,
+			user_address as address,
+			user_postcode as postCode,
+			user_available as available,
+			user_dept_no as deptNo,
+			user_position as position,
+			user_acorn_cnt as acornCnt,
+			user_friend_cnt as friendCnt,
+			user_created_date as createdDate
+		from latte_users
+		where user_no = #{value}
+		and user_available = 'Y'
 	</select>
-
+	
+	<select id="getUserById" parameterType="string" resultType="com.example.latte.vo.User">
+		select 
+			user_no as no,
+			user_name as name,
+			user_id as id, 
+			user_password as password,
+			user_nickname as nickName,
+			user_birthday as birthday,
+			user_tel as tel,
+			user_address as address,
+			user_postcode as postCode,
+			user_available as available,
+			user_dept_no as deptNo,
+			user_position as position,
+			user_acorn_cnt as acornCnt,
+			user_friend_cnt as friendCnt,
+			user_created_date as createdDate
+		from latte_users
+		where user_id = #{value}
+		and user_available = 'Y'
+	</select>
+	<update id="updateUser" parameterType="com.example.latte.vo.User">
+		update latte_users
+		set 
+			user_nickname = #{nickName},
+			user_birthday = #{birthday},
+			user_tel = #{tel},
+			user_address = #{address},
+			user_postcode = #{postCode},
+			user_available = #{available},
+			user_dept_no = #{deptNo},
+			user_position = #{position},
+			user_acorn_cnt = #{acornCnt},
+			user_friend_cnt = #{friendCnt}
+	</update>
+	
+	<delete id="deleteUserByNo" parameterType="int">
+		
+	</delete>
 </mapper>

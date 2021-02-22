@@ -47,7 +47,7 @@ public class MiniHomeController {
 
 	@GetMapping("/profile/basicInfo/{no}")
 	public User getbasicInfo(@PathVariable("no") int userNo) {
-		return userService.getUserByNo(userNo);
+		return userService.getUserById("m@abc.com");
 	}
 
 	@GetMapping("/photo/parentFolder/{miniHomeNo}&{categoryNo}")
