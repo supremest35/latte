@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.latte.dao.BoardDao">
+	<select id="getBoardsByCategoryNo" parameterType="int" resultType="com.example.latte.vo.Board">
+		select
+			pan_board_no					as no,
+			pan_board_category_no			as categoryNo,
+			pan_board_title					as title,
+			user_no							as userNo,
+			pan_board_content				as content,
+			pan_board_hit_cnt				as hitCnt,
+			pan_board_comment_cnt			as commentCnt,
+			pan_board_like_cnt				as likeCnt,
+			pan_board_dislike_cnt			as dislikeCnt,
+			pan_board_deleted				as deleted,
+			pan_board_created_date			as createdDate,
+			pan_board_image_filename		as imageFilename
+		from
+			latte_pan_boards
+		where 
+			pan_board_category_no = #{value}
+	</select>
+
+	<select id="getAllBoards" resultType="com.example.latte.vo.Board">
+		select
+			pan_board_no					as no,
+			pan_board_category_no			as categoryNo,
+			pan_board_title					as title,
+			user_no							as userNo,
+			pan_board_content				as content,
+			pan_board_hit_cnt				as hitCnt,
+			pan_board_comment_cnt			as commentCnt,
+			pan_board_like_cnt				as likeCnt,
+			pan_board_dislike_cnt			as dislikeCnt,
+			pan_board_deleted				as deleted,
+			pan_board_created_date			as createdDate,
+			pan_board_image_filename		as imageFilename
+		from
+			latte_pan_boards
+	</select>
+	
+	<select id="getBoardByNo" parameterType="int" resultType="com.example.latte.vo.Board">
+		select
+			pan_board_no					as no,
+			pan_board_category_no			as categoryNo,
+			pan_board_title					as title,
+			user_no							as userNo,
+			pan_board_content				as content,
+			pan_board_hit_cnt				as hitCnt,
+			pan_board_comment_cnt			as commentCnt,
+			pan_board_like_cnt				as likeCnt,
+			pan_board_dislike_cnt			as dislikeCnt,
+			pan_board_deleted				as deleted,
+			pan_board_created_date			as createdDate,
+			pan_board_image_filename		as imageFilename
+		from
+			latte_pan_boards
+		where 
+			pan_board_no = #{no}
+	</select>
+	
+	<select id="getBoardDtoByNo" parameterType="int" resultType="com.example.latte.vo.BoardDto">
+		select
+			a.pan_board_no						as no,
+			a.pan_board_category_no				as categoryNo,
+			a.pan_board_title					as title,
+			a.user_no							as userNo,
+			a.pan_board_content					as content,
+			a.pan_board_hit_cnt					as hitCnt,
+			a.pan_board_comment_cnt				as commentCnt,
+			a.pan_board_like_cnt				as likeCnt,
+			a.pan_board_dislike_cnt				as dislikeCnt,
+			a.pan_board_deleted					as deleted,
+			a.pan_board_created_date			as createdDate,
+			a.pan_board_image_filename			as imageFilename,
+			b.pan_board_comment_content			as commentContent,
+			b.pan_board_comment_created_date  	as commentCreatedDate,
+			b.pan_board_comment_like_cnt		as commentLikeCnt,
+			c.user_nickname						as nickname
+		from
+			latte_pan_boards a, latte_pan_board_comments b, latte_users c
+		where
+			a.user_no = c.user_no
+		and
+			a.pan_board_no = b.pan_board_no(+)
+		and
+			a.pan_board_no = #{value}
+	</select>
+	
+	<select id="getAllBoardDtoByCategoryNo" parameterType="int" resultType="com.example.latte.vo.BoardDto">
+		select
+			a.pan_board_no						as no,
+			a.pan_board_category_no				as categoryNo,
+			a.pan_board_title					as title,
+			a.user_no							as userNo,
+			a.pan_board_content					as content,
+			a.pan_board_hit_cnt					as hitCnt,
+			a.pan_board_comment_cnt				as commentCnt,
+			a.pan_board_like_cnt				as likeCnt,
+			a.pan_board_dislike_cnt				as dislikeCnt,
+			a.pan_board_deleted					as deleted,
+			a.pan_board_created_date			as createdDate,
+			a.pan_board_image_filename			as imageFilename,
+			b.pan_board_comment_content			as commentContent,
+			b.pan_board_comment_created_date  	as commentCreatedDate,
+			b.pan_board_comment_like_cnt		as commentLikeCnt,
+			c.user_nickname						as nickname
+		from
+			latte_pan_boards a, latte_pan_board_comments b, latte_users c
+		where
+			a.user_no = c.user_no
+		and
+			a.pan_board_no = b.pan_board_no(+)
+		and
+			a.pan_board_category_no = #{value}
+	</select>
+	
+	<insert id="insertBoard" parameterType="com.example.latte.vo.Board">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select latte_pan_board_no_seq.nextval from dual
+		</selectKey>
+		insert into latte_pan_boards
+		(pan_board_no, pan_board_category_no, pan_board_title, pan_board_content, pan_board_created_date, pan_board_image_filename, user_no)
+		values
+		(#{no}, #{categoryNo}, #{title}, #{content}, #{createdDate}, #{imageFilename}, #{userNo})
+	</insert>
+
+</mapper>
