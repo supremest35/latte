@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.latte.dao.DeptDao">
+
+	<select id="getAllDepts" resultType="com.example.latte.vo.Dept">
+		select  dept_no as no, dept_name as name from latte_depts
+	</select>
+
+</mapper>
