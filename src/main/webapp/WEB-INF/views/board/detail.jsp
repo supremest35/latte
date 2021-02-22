@@ -16,7 +16,7 @@
 <div class="container" id="app">
       <div class="row">
 		<div class="col-12">
-			<%@ include file="../common/panNavbar.jsp" %>
+				<%@ include file="../../common/panNavbar.jsp" %>
 		</div>
 	  </div>
 		 <div class="row">

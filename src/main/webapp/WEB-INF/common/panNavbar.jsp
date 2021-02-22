@@ -23,7 +23,7 @@
         </div><br>
         <div class="row">
           <div class="col-12" >
-            <a href="index.do?catno=100"><img src="../resources/images/logo.jpg" alt="logo" style="width:190px;height:100px;"></a>
+            <a href="index.do?catno=100"><img src="../resources/images/panLogo.jpg" alt="logo" style="width:190px;height:100px;"></a>
           </div>
         </div>
         

@@ -15,7 +15,7 @@
 <div class="container">
 	<div class="row">
 		<div class='col-12'>
-			<%@ include file="../common/panNavbar.jsp" %> 
+				<%@ include file="../../common/panNavbar.jsp" %>
 		</div>
 	</div>
 	<c:if test="${param.error eq 'empty' }"> <!-- 요청파라미터값 error가 'empty'와 같다면 -->
