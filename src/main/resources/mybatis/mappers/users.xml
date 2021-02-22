@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.latte.dao.UserDao">
+
+	<select id="getAllUsers" resultType="com.example.latte.vo.User">
+		select
+			user_no					as no,
+			user_name				as name,
+			user_id					as id,
+			user_password			as password,
+			user_nickname			as nickName,
+			user_birthday			as birthday,
+			user_tel				as tel,
+			user_address			as address,
+			user_postcode			as postcode,
+			user_available			as available,
+			user_dept_no			as deptNo,
+			user_position			as position,
+			user_acorn_cnt			as acornCnt,
+			user_friend_cnt			as friendCnt,
+			user_created_date		as createdDate
+		from
+			latte_users
+	</select>
+	<select id="getUserById" parameterType="string" resultType="com.example.latte.vo.User">
+		select
+			user_no					as no,
+			user_name				as name,
+			user_id					as id,
+			user_password			as password,
+			user_nickname			as nickName,
+			user_birthday			as birthday,
+			user_tel				as tel,
+			user_address			as address,
+			user_postcode			as postcode,
+			user_available			as available,
+			user_dept_no			as deptNo,
+			user_position			as position,
+			user_acorn_cnt			as acornCnt,
+			user_friend_cnt			as friendCnt,
+			user_created_date		as createdDate
+		from
+			latte_users
+		where
+			user_id = #{value}
+	</select>
+	<select id="getUserByNo" parameterType="int" resultType="com.example.latte.vo.User">
+		select
+			user_no					as no,
+			user_name				as name,
+			user_id					as id,
+			user_password			as password,
+			user_nickname			as nickName,
+			user_birthday			as birthday,
+			user_tel				as tel,
+			user_address			as address,
+			user_postcode			as postcode,
+			user_available			as available,
+			user_dept_no			as deptNo,
+			user_position			as position,
+			user_acorn_cnt			as acornCnt,
+			user_friend_cnt			as friendCnt,
+			user_created_date		as createdDate
+		from
+			latte_users
+		where
+			user_no = #{value}
+	</select>
+
+</mapper>

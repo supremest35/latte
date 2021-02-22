@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.latte.dao.FolderDao">
+	<select id="getParentFoldersByMiniHomeNoAndCategoryNo" resultType="com.example.latte.vo.Folder">
+		select 
+			folder_no					as no,
+			minihome_no					as miniHomeNo,
+			folder_name					as name,
+			folder_parent_no			as parentNo,
+			folder_category_no			as categoryNo
+		from 
+			minihome_board_folders a
+		where 
+			folder_parent_no = (select b.folder_no 
+								from 
+									minihome_board_folders b 
+								where 
+									b.minihome_no = #{miniHomeNo}
+									and b.folder_category_no = #{categoryNo}
+									and b.folder_parent_no is null)
+	</select>
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.latte.dao.ProfileDao">
+	<select id="getProfileByMiniHomeNo" parameterType="int" resultType="com.example.latte.vo.Profile">
+		select 
+			profile_no					as no,
+			minihome_no					as miniHomeNo,
+			profile_content				as content,
+			profile_photo_filename		as photoFilename,
+			profile_created_date		as createdDate
+		from 
+			minihome_profiles
+		where 
+			minihome_no = #{value}
+	</select>
+</mapper>

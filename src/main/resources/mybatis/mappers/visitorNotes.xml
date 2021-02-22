@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.latte.dao.VisitorNoteDao">
+	<select id="getVisitorNoteByMiniHomeNoAndIndex" resultType="com.example.latte.vo.VisitorNote">
+		select 
+			visitor_note_no					as no,
+			minihome_no						as miniHomeNo,
+			user_no							as userNo,
+			visitor_note_content			as content,
+			visitor_note_secret				as secret,
+			visitor_note_deleted			as deleted,
+			visitor_note_created_date		as createdDate
+		from 
+			(select 
+				row_number() over(order by a.visitor_note_created_date desc) rn, a.*
+			 from 
+			 	minihome_visitor_notes a
+			 where
+			 	minihome_no = #{miniHomeNo})
+		where rn = #{index}
+	</select>
+</mapper>
