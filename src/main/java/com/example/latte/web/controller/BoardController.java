@@ -1,7 +1,6 @@
 package com.example.latte.web.controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.exception.PasswordMismatchException;
-import com.example.exception.UserNotFoundException;
 import com.example.latte.dao.BoardDao;
 import com.example.latte.form.BoardForm;
 import com.example.latte.service.BoardService;
