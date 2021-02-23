@@ -1,4 +1,6 @@
 <%@ page pageEncoding="UTF-8"%>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.15/vue.js"></script>
 <nav class="navbar navbar-expand-sm bg-white navbar-info">
   	<ul class="navbar-nav">	
 	    <li class="nav-item dropdown">
@@ -6,7 +8,7 @@
 	      	전체 카테고리
 	      </a>
 	      <div class="dropdown-menu">
-	      	<c:forEach var="category" items="${categories }">
+	      	<c:forEach var="category" items="${allCategories }">
 	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
 	        </c:forEach>
 	      </div>
@@ -16,7 +18,7 @@
 	      	패션/뷰티
 	      </a>
 	      <div class="dropdown-menu">
-	      	<c:forEach var="category" items="${categories }">
+	      	<c:forEach var="category" items="${allCategories }">
 	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
 	        </c:forEach>
 	      </div>
@@ -33,7 +35,7 @@
 	    </li>
 	    <li class="nav-item dropdown">
 	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	      	가구/생활/건강
+	      	가구/리빙/건강
 	      </a>
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${categories }">
@@ -43,7 +45,27 @@
 	    </li>
 	    <li class="nav-item dropdown">
 	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	      	전체 카테고리
+	      	식품/유아동
+	      </a>
+	      <div class="dropdown-menu">
+	      	<c:forEach var="category" items="${categories }">
+	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	        </c:forEach>
+	      </div>
+	    </li>
+	    <li class="nav-item dropdown">
+	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+	      	여행/레저/자동차
+	      </a>
+	      <div class="dropdown-menu">
+	      	<c:forEach var="category" items="${categories }">
+	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	        </c:forEach>
+	      </div>
+	    </li>
+	    <li class="nav-item dropdown">
+	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+	      	도토리마켓
 	      </a>
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${categories }">

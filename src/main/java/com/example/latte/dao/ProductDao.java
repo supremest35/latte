@@ -3,9 +3,14 @@ package com.example.latte.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.latte.vo.Product;
 import com.example.latte.vo.ProductPhoto;
 
+@Mapper
+@Transactional
 public interface ProductDao {
 
 	int getTotalCountByCondition(Map<String, Object> condition);

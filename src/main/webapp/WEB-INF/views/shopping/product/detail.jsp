@@ -20,6 +20,9 @@
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
 	}
+	a {
+		color: rgb(34, 34, 34);
+	}
 	</style>
 </head>
 <body>
@@ -37,58 +40,50 @@
 		<div class="card-header">
 			<a href="">홈</a> > <a href="">중분류</a> > 소분류
 		</div>
-	</div>
-</div>
-
-<div class="container">
-	<div class="row mb-3">
-		<div class="col-12 mb-3">
-			<div class="card">
-		  		<div class="row no-gutters">
-		    		<div class="col-md-3">
-		      			<img src="/resources/images/products/${product.photoFilename }" class="card-img" alt="...">
-		      			<h5>${product.createdDate }</h5>
-		    		</div>
-		    		<div class="col-md-7">
-		      			<div class="card-body">
-		        			<h5 class="card-title">${product.name }</h5>
-		        			<h5 class="card-title"><strong>25000 ~ ${product.salePrice } </strong>원</h5>
-	    						<a href="${product.url }" class="btn btn-primary">구매URL</a>
-	    						<button type="button" class="btn btn-info" >가격비교</button>
-	    						<a href="list.do?pageno=1" class="btn btn-outline-primary">쇼핑계속</a>
-		        			<table class="table">
-		        				<tbody>
-		        					<tr>
-		        						<th>판매쇼핑몰</th>
-		        					</tr>
-		        					<tr>
-		        						<th>티몬</th>
-		        						<td>${product.salePrice} 원
-		        						<c:choose>
-				        					<c:when test="${product.freeDelivery eq 'Y' }">
-		                                       <span class="badge badge-info">무료배송</span>
-		                                 	</c:when>
-		                                 	<c:otherwise>
-		                                 		<span class="badge badge-secondary">유료배송</span>
-		                                 	</c:otherwise>
-	                                 	</c:choose>
-		        						</td>
-		        					</tr>
-		        					<tr>
-		        						<th>G마켓</th>
-		        						<td>25000 원
-		        							<span class="badge badge-secondary">유료배송</span>
-		        						</td>
-		        					</tr>
-		        				</tbody>
-		        			</table>
-		      			</div>
-			  		</div>
-				</div>
+		<div class="card-body">
+	  		<div class="row no-gutters">
+	    		<div class="col-md-3">
+	      			<img src="/resources/images/products/${product.photoFilename }" class="card-img" alt="...">
+	      			<h5>${product.createdDate }</h5>
+	    		</div>
+	    		<div class="col-md-7">
+	      			<div class="card-body">
+	        			<h5 class="card-title">${product.name }</h5>
+	        			<h5 class="card-title"><strong>25000 ~ ${product.salePrice } </strong>원</h5>
+    						<a href="${product.url }" class="btn btn-primary">구매URL</a>
+    						<button type="button" class="btn btn-info" >가격비교</button>
+    						<a href="list.do?pageno=1" class="btn btn-outline-primary">쇼핑계속</a>
+	        			<table class="table">
+	        				<tbody>
+	        					<tr>
+	        						<th>판매쇼핑몰</th>
+	        					</tr>
+	        					<tr>
+	        						<th>티몬</th>
+	        						<td>${product.salePrice} 원
+	        						<c:choose>
+			        					<c:when test="${product.freeDelivery eq 'Y' }">
+	                                       <span class="badge badge-info">무료배송</span>
+	                                 	</c:when>
+	                                 	<c:otherwise>
+	                                 		<span class="badge badge-secondary">유료배송</span>
+	                                 	</c:otherwise>
+                                 	</c:choose>
+	        						</td>
+	        					</tr>
+	        					<tr>
+	        						<th>G마켓</th>
+	        						<td>25000 원
+	        							<span class="badge badge-secondary">유료배송</span>
+	        						</td>
+	        					</tr>
+	        				</tbody>
+	        			</table>
+	      			</div>
+		  		</div>
 			</div>
 		</div>
 	</div>
-	
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
@@ -112,7 +107,6 @@
 			</div>
 		</div>
 	</div>
-	
 	<div class="row">
 		<div class="col-12">
 			<div class="card">

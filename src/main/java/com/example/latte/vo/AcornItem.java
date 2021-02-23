@@ -9,6 +9,7 @@ public class AcornItem {
 
 	private int no;
 	private int categoryNo;
+	private int categoryMidNo;
 	private String name;
 	private int price;
 	private int stock;

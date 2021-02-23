@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.latte.service.AcornService;
+import com.example.latte.service.MarketCategoryService;
 import com.example.latte.vo.AcornItem;
-import com.example.latte.vo.MarketCategory;
+import com.example.latte.vo.MarketMidCategory;
 import com.example.latte.form.AcornForm;
 
 @Controller
@@ -22,6 +23,9 @@ public class AcornController {
 	
 	@Autowired
 	AcornService acornService;
+	
+	@Autowired
+	MarketCategoryService marketCategoryService;
 
 	@RequestMapping("/list.do")
 	public String list(@RequestParam(name="catno", required=false, defaultValue="-1") int categoryNo,
@@ -33,7 +37,7 @@ public class AcornController {
 		if (categoryNo != -1) {
 			condition.put("categoryNo", categoryNo);
 			
-			MarketCategory category = acornService.getCategory(categoryNo);
+			MarketMidCategory category = marketCategoryService.getMidCategory(categoryNo);
 			model.addAttribute("category", category);
 		}
 		condition.put("pageNo", pageNo);
@@ -53,7 +57,7 @@ public class AcornController {
 	public String detail(@RequestParam("acornno") int acornNo, Model model) {
 		AcornItem acorn = acornService.getAcornDetail(acornNo);
 		
-		MarketCategory category = acornService.getCategory(acorn.getCategoryNo());
+		MarketMidCategory category = marketCategoryService.getMidCategory(acorn.getCategoryNo());
 		
 		model.addAttribute("acorn", acorn);
 		model.addAttribute("category", category);

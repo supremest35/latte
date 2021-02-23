@@ -8,6 +8,8 @@ import lombok.Data;
 public class ProductForm {
 
 	private int categoryNo;
+	private int categoryMidNo;
+	private int categoryLowNo;
 	private int colorNo;
 	private int mallNo;
 	private String brandName;

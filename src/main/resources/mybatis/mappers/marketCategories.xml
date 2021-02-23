@@ -3,7 +3,7 @@
 
 <mapper namespace="com.example.latte.dao.MarketCategoryDao">
 
-	<select id="getAllCategories" resultType="com.example.latte.vo.MarketCategory">
+	<select id="getAllCategories" parameterType="int" resultType="com.example.latte.vo.MarketCategory">
 		select
 			market_category_no			as no,
 			market_category_name		as name,

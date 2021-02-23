@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -17,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.latte.service.MarketCategoryService;
 import com.example.latte.service.ProductService;
 import com.example.latte.vo.MarketCategory;
+import com.example.latte.vo.MarketLowCategory;
+import com.example.latte.vo.MarketMidCategory;
 import com.example.latte.vo.Product;
 import com.example.latte.form.ProductForm;
 
@@ -31,6 +33,9 @@ public class ProductController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	MarketCategoryService marketCategoryService;
 
 	@RequestMapping("/list.do")
 	public String list(@RequestParam(name="catno", required=false, defaultValue="-1") int categoryNo,
@@ -41,7 +46,7 @@ public class ProductController {
 		Map<String, Object> condition = new HashMap<String, Object>();
 		if (categoryNo != -1) {
 			condition.put("categoryNo", categoryNo);
-			MarketCategory category = productService.getCategory(categoryNo);
+			MarketMidCategory category = marketCategoryService.getLowCategory(categoryNo);
 			model.addAttribute("category", category);
 		}
 		condition.put("pageNo", pageNo);
@@ -61,7 +66,7 @@ public class ProductController {
 	public String detail(@RequestParam("prodno") int prodNo, Model model) {
 		Product product = productService.getProductDetail(prodNo);
 		
-		MarketCategory category = productService.getCategory(product.getCategoryNo());
+		MarketMidCategory category = marketCategoryService.getLowCategory(product.getCategoryLowNo());
 		
 		model.addAttribute("product", product);
 		model.addAttribute("category", category);

@@ -19,15 +19,18 @@
 	    line-height: 1.5;
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
-	}	
+	}
+	a {
+		color: rgb(34, 34, 34);
+	}
    .book-title {
       display: block;
-       height: 52px;
-       overflow: hidden;
+      height: 52px;
+      overflow: hidden;
    }
    .img-thumbnail {
-      width: 202.5px;
-      height: 289px;
+      width: 210px;
+      height: 210px;
    }
 	</style>
 </head>
@@ -55,14 +58,14 @@
                <c:forEach var="product" items="${products }">
                   <div class="col-3 mb-3">
                      <div class="card">
-                         <div class="card-body" style="height: 420px;" >
+                         <div class="card-body">
                              <a href="detail.do?prodno=${product.no }&pageno=${page.pageNo }&catno=${product.categoryNo }">
                                 <img class="img-thumbnail" src="/resources/images/products/${product.photoFilename }" alt="Card image">
                              </a>
                               <strong class="mb-2 product-brand-name">${product.brandName }</strong>
                               <strong class="mb-2 product-name">${product.name }</strong>
-                              <div class="d-flex justify-content-between">
-                                 <small><strong class="text-danger"><fmt:formatNumber value="${product.salePrice }" /></strong> 원 (<fmt:formatNumber value="${product.discountRate*100}" pattern="###"/>% 할인)</small> 
+                              <div class="d-flex justify-content">
+                                 <strong class="text-danger"><fmt:formatNumber value="${product.salePrice }" /></strong> 원 (<fmt:formatNumber value="${product.discountRate*100}" pattern="###"/>% 할인)
                               </div>
                               <div class="mt-3">
                                  <c:if test="${product.freeDelivery eq 'Y' }">

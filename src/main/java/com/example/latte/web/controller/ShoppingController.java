@@ -7,8 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.latte.dao.MarketCategoryDao;
 import com.example.latte.dao.ProductDao;
+import com.example.latte.service.MarketCategoryService;
+import com.example.latte.vo.MarketCategory;
 import com.example.latte.vo.Product;
 
 @Controller
@@ -19,12 +20,11 @@ public class ShoppingController {
 	ProductDao productDao;
 	
 	@Autowired
-	MarketCategoryDao marketCategoryDao;
+	MarketCategoryService marketCategoryService;
 	
 	@RequestMapping("/main.do")
 	public String main(Model model) {
 		List<Product> hitProducts = productDao.getHitProducts();
-		
 		model.addAttribute("hitProducts", hitProducts);
 		
 		return "/shopping/main";

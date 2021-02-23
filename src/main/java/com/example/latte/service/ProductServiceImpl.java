@@ -28,16 +28,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public MarketCategory getCategory(int categoryNo) {
-		return marketCategoryDao.getCategoryByNo(categoryNo);
-	}
-	
-	@Override
-	public List<MarketCategory> getCategories(int uppCatNo) {
-		return marketCategoryDao.getCategoriesByUppCatNo(uppCatNo);
-	}
-	
-	@Override
 	public Map<String, Object> getProducts(Map<String, Object> condition) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		

@@ -2,14 +2,14 @@ package com.example.latte.service;
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import com.example.latte.vo.MarketCategory;
+import com.example.latte.vo.MarketMidCategory;
 
-@Transactional
 public interface MarketCategoryService {
 
-	List<MarketCategory> getCategories(int uppNo);
+	List<MarketCategory> getAllCategories();
 	
-	List<MarketCategory> getCategoriesByOption();
+	MarketMidCategory getMidCategory(int categoryNo);
+	MarketMidCategory getLowCategory(int categoryNo);
+	
 }

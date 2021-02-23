@@ -9,6 +9,8 @@ public class Product {
 
 	private int no;
 	private int categoryNo;
+	private int categoryMidNo;
+	private int categoryLowNo;
 	private int colorNo;
 	private int mallNo;
 	private String brandName;

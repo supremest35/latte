@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.latte.web.interceptor.RunningTimeCheckInterceptor;
+import com.example.latte.web.interceptor.ShoppingCategoriesInterceptor;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -16,10 +17,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Autowired
 	RunningTimeCheckInterceptor runningTimeCheckInterceptor;
 	
+	@Autowired
+	ShoppingCategoriesInterceptor shoppingCategoriesInterceptor;
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 사용자 정의 HandlerInterceptor를 registry에 등록할 수 있다.
 		registry.addInterceptor(runningTimeCheckInterceptor).addPathPatterns("/**");
+		registry.addInterceptor(shoppingCategoriesInterceptor).addPathPatterns("/**");
 	}
 	
 	@Override
