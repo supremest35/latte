@@ -13,7 +13,7 @@ public class User {
 	private String name;
 	private String password;
 	private String id;
-	//private MultipartFile photo;
+	private String photo;
 	private String nickName;
 	private Date birthday;
 	private String tel;

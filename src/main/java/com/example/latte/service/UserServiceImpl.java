@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void addUser(User user) {
 		//전달받은 사용자 정보의 비밀번호를 암호화해서 데이터베이스에 저장 
+		System.out.println("회원가입 서비스 메소드 호출");
 		String codePwd = DigestUtils.sha256Hex(user.getPassword());
 		user.setPassword(codePwd);
 		userDao.insertUser(user);

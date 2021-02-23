@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.latte.vo.User;
 
 @Mapper
+@Transactional
 public interface UserDao {
 
 	User getUserByOption(Map<String, Object> option);

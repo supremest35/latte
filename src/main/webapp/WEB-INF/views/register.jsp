@@ -28,7 +28,6 @@
  </div> --%>
         <div class="row">
             <div class="col-12">
-            <form action="/users/addUser.do" method="post" id="register-form">
                 <div class="card">
                     <div class="card-header">
                         <h4>회원가입</h4>
@@ -40,7 +39,7 @@
                                 <span id="id-info" style="font-size: 5px; color:blue;">
                                     * 아이디는 이메일형식으로 입력하세요. 예시) hong@abc.com
                                 </span>
-                                <input type="text" class="form-control" id="r-id" v-model="id" />
+                                <input type="text" class="form-control" id="r-id" v-model="user.id" />
 	                            <span class="register-msg" id="id-msg"></span>
                             </div>
                             <div class="form-group col-2">
@@ -53,19 +52,19 @@
                         <div class="form-row">
                             <div class="form-group col-6">
                                 <label>이름</label>
-                                <input type="text" class="form-control" name="name" id="r-name"/>
+                                <input type="text" class="form-control" name="name" id="r-name" v-model="user.name"/>
                                 <span class="register-msg" id="name-msg" style="font-size: 3px; color: crimson;"></span>
                             </div>
                             <div class="form-group col-6">
                                 <label>닉네임</label>
-                                <input type="text" class="form-control" name="nickName" id="r-nickName"/>
+                                <input type="text" class="form-control" name="nickName" id="r-nickName" v-model="user.nickName"/>
                                 <span class="register-msg" id="nickName-msg" style="font-size: 3px; color: crimson;"></span>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-6">
                                 <label>비밀번호</label>
-                                <input type="password" class="form-control" name="password" id="r-pwd" onclick="cleanMsg()" />
+                                <input type="password" class="form-control" name="password" id="r-pwd" onclick="cleanMsg()" v-model="user.password" />
 	                            <span class="register-msg" id="pwd-msg"></span>
                             </div>
                             <div class="form-group col-6">
@@ -78,46 +77,37 @@
                         <div class="form-row">
                             <div class="form-group col-6">
                                 <label>전화번호</label>
-                                <input type="text" class="form-control" name="tel" id="r-tel" />
+                                <input type="text" class="form-control" name="tel" id="r-tel" v-model="user.tel"/>
 	                            <span class="register-msg" id="tel-msg"></span>
                             </div>
                             <div class="form-group col-6">
                                 <label>생일</label>
-                                <input type="date" class="form-control" name="birthday" id="r-brd"/>
+                                <input type="date" class="form-control" name="birthday" id="r-brd" v-model="user.birthday"/>
 	                            <span class="register-msg" id="brd-msg"></span>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-6">
-                                <input type="text" id="sample6_postcode" name="postCode" placeholder="우편번호" id="r-post">
+                                <input type="text" id="sample6_postcode" name="postCode" placeholder="우편번호" id="r-post" v-model="user.postCode" >
                                 <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-                                <input type="text" id="sample6_address" name="addr" placeholder="주소" id="r-adde"><br>
-                                <input type="text" id="sample6_detailAddress" name="detailAddr" placeholder="상세주소" id="r-addr2">
-                                <input type="text" id="sample6_extraAddress" placeholder="참고항목">
-	                            <span class="register-msg" id="addr-msg"></span>
+                                <input type="text" id="sample6_address" name="addr" placeholder="주소" id="r-adde" v-model="user.address"><br>
+                                <input type="text" id="sample6_detailAddress" name="detailAddr" placeholder="상세주소" id="r-addr2" v-model="user.adressDetail">
+                                <input type="text" id="sample6_extraAddress" placeholder="참고항목" id="r-addr2">
                             </div>
                         </div>
 
-
-                        <!-- <div class="form-row">
-                            <div class="form-group col-6">
-                                <label>우편번호</label>
-                                <input type="text" class="form-control" v-model="user.postCode" />
+                         <div class="form-row">
+                             <div class="form-group col-8">
+                                 <label>프로필 사진</label>
+                                 <input type="file" class="form-control" @change="selectFiles" ref="file"/>
+                             </div>
+                              <div class="form-group col-2">
+                                <label>&nbsp;</label><br />
+                                <button type="button" @click="uploadPhoto" class="btn btn-info btn-sm form-control">
+                                	<small>사진 등록</small>
+                                </button>
                             </div>
-                            <div class="form-group col-6">
-                                <label>주소</label>
-                                <input type="text" class="form-control" v-model="user.address" />
-                            </div>
-                        </div> -->
-                        <!-- 
-                            ### 프로필 설정 div
-                            <div class="form-row">
-                                <div class="form-group col-12">
-                                    <label>프로필 사진</label>
-                                    <input type="file" class="form-control"  value="user.jpg"/>
-                                </div>
-                            -->
-
+						</div>
                         <!--사용자가 아닐 경우만 직급창 표시되도록  -->
                         <div class="form-row">
                             <div class="form-group col-12">
@@ -147,13 +137,12 @@
                         <div class="form-row">
                             <div class="text-right">
                                 <a href="main.html" class="btn btn-secondary">취소</a>
-                                <button type="button" onclick="addUser()" class="btn btn-primary" id="add-btn">회원가입</button>
+                                <button type="button" @click="addUser" class="btn btn-primary" id="add-btn">회원가입</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            </form>
         </div>
     </div>
 </body>
@@ -166,7 +155,6 @@
 	
     // 우편번호 검색 api
     var addr = ''; // 주소 변수
-    var detailAddr = ''; //
     var extraAddr = ''; // 참고항목 변수
     function sample6_execDaumPostcode() {
         new daum.Postcode({
@@ -208,11 +196,11 @@
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('sample6_postcode').value = data.zonecode;
                 document.getElementById("sample6_address").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
-                detailAddr = document.getElementById("sample6_detailAddress");
             }
         }).open();
+        
+        console.log("##addr: " + addr);
+        console.log("##extraAddr: "+ extraAddr);
     }
     
     // 아이디 중복체크 버튼
@@ -287,10 +275,9 @@
 	   }
 	   
 	   if(idCheck && pwdCheck && checkFd){
-		  alert("회원가입에 성공하였습니다.");
 //		  $("#register-form").submit();
 	   }else{
-		  alert("회원가입에 실패하였습니다.");
+		  alert("모든 값은 필수 입력값입니다.");
 	   }
 	}
 	
@@ -309,16 +296,48 @@
                 addressDetail: '',
                 postCode: '',
                 deptNo: '100',
-                position: '사용자',
-                photo: ''
-            }
+                position: '사용자'
+            },
+            selectedFiles: undefined,
+            currentFile: undefined
         },
         methods: {
+        	selectFiles: function () {
+				this.selectedFiles = this.$refs.file.files;
+			},
+			uploadPhoto: function () {
+            	 this.currentFile = this.selectedFiles[0];
+            	 console.log("사진 등록 호출");
+            	 console.log(this.currentFile);
+			},
              addUser: function () {
-                axios.post('http://localhost/api/users/addUser', this.user)
+            	 console.log("###addUser 호출-------");
+            	 console.log("##addr: " + addr);
+                 console.log("##extraAddr: "+ extraAddr);
+            	 var formData = new FormData();
+            	 
+            	 formData.append('id', this.user.id);
+            	 formData.append('name', this.user.name);
+            	 formData.append('nickName', this.user.nickName);
+            	 formData.append('password', this.user.password);
+            	 formData.append('tel', this.user.tel);
+            	 formData.append('birthday', this.user.birthday);
+            	 formData.append('address', addr);
+            	 formData.append('addressDetail', extraAddr);
+            	 formData.append('postCord', this.user.postCord);
+            	 formData.append('photo', this.currentFile);
+            	 formData.append('deptNo', this.user.deptNo);
+            	 formData.append('position', this.user.position);
+            	 
+            	 console.log("###저장된 값: "+formData);
+                axios.post('http://localhost/api/users/addUser.do', formData,{
+                			headers:{
+                				'Content-Type':'multipart/form-data'
+                			}})
                     .then(function (response) {
                         // 성공하면 url을 변경
-                        location.href = "http://localhost/main.html"
+                        console.log("### 응답: " + response);
+                        //location.href = "http://localhost/main.html"
                     })
        		}
         },

@@ -275,7 +275,7 @@
 									</div>
 								</li>
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> 라떼판 </a>
+									<a class="nav-link dropdown-toggle" href="../board/index" id="navbardrop" data-toggle="dropdown"> 라떼판 </a>
 									<div class="dropdown-menu">
 										<a class="dropdown-item" href="#">화제의톡</a> 
 										<a class="dropdown-item" href="#">유머/정보</a> 
@@ -283,7 +283,7 @@
 									</div>
 								</li>
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> 도토리마켓 </a>
+									<a class="nav-link dropdown-toggle" href=" /shooping/main.do" id="navbardrop" data-toggle="dropdown"> 쇼핑 </a>
 									<div class="dropdown-menu">
 										<a class="dropdown-item" href="#">패션/뷰티</a> 
 										<a class="dropdown-item" href="#">Link 2</a> 
@@ -310,7 +310,7 @@
 		 --%>
 			<c:if test="${empty LOGINED_USER}">
 			<div class="col-3" id="nav-login" style="height: 237px; max-height: 237px;">
-				<form action="users/login.do" method="post" id="login-form">
+				<form action="login.do" method="post" id="login-form">
 					<div class="card login-box">
 						<div class="card-body mt-3">
 							<div class="card-item col-12">
@@ -354,7 +354,7 @@
 								<div class="col-sm-7 mt-1">
 									<button class="info-btn btn-sm btn-warning mr-1" id="btn-profile">프로필 수정</button>
 									<button class="info-btn btn-sm btn-secondary mr-1" id="btn-logout">
-										<a href="/users/logout.do" >Logout</a>
+										<a href="/logout.do" >Logout</a>
 									</button>
 									<table class="info-table table-borderless" id="info-t">
 										
@@ -393,8 +393,8 @@
 							<!-- 정보창 2열 내미니홈피 버튼 -->
 							<div class="card-footer" id="info-box-footer">
 								<div class="hp-row row no-gutters">
-									<button type="button" id="btn-minihp">
-										<a href="http://localhost/minihome.do" target="_blank" id="my-minihp">내미니홈피 가기</a>
+									<button type="button" id="btn-minihp" onclick="openMiniHome()">
+										내미니홈피 가기
 									</button>
 								</div>
 									<!-- 정보창 3열 일촌 파도타기 셀렉트박스 -->
@@ -506,4 +506,8 @@
 			$("#login-form").submit();
 		}
 	}
+	
+	function openMiniHome() {
+	      window.open('/minihome.html', '_blank', "width=1400, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
+	   }
 </script>
