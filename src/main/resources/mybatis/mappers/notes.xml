@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.latte.dao.NoteDao">
+
+	<select id="getAllNoteCategories" resultType="com.example.latte.vo.NoteCategory">
+		select 
+			note_category_no as no,
+			note_category_name as name
+		from
+			latte_note_categories 
+	</select>
+	
+	<select id="getNoteCategiryByNo" parameterType="int" resultType="com.example.latte.vo.NoteCategory">
+		select 
+			note_category_no as no,
+			note_category_name as name
+		from 
+			latte_note_categories
+		where 
+			note_category_no = #{value} 
+	</select>
+	
+	<update id="updateNote" parameterType="int">
+		update latte_notes
+			note_status = 'Y'
+		where note_no = #{value}
+	</update>
+	
+	<delete id="deleteNoteByNo" parameterType="int">
+		delete latte_notes
+		where note_no = #{value}
+	</delete>
+	
+	<insert id="insertNote" parameterType="com.example.latte.vo.Note">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select LATTE_NOTE_NO_SEQ.nextval from dual
+		</selectKey>
+		insert into latte_no
+			(note_no, category_no, sender_no, rec_dept_no, recipient_no, note_content)
+		values
+			(#{no}, #{categoryNo}, #{senderNo}, #{recDeptNo}, #{recipientNo}, #{content})
+	</insert>
+	
+	
+</mapper>

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.relation.Relation;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void getLoginUser(Map<String, String> param){
 		// 전달받은 아이디로 사용자정보를 불러오고 전달받은 비밀번호를 암호화해 비교 데이터를 생성
+		System.out.println("# 로그인 서비스 메서드 호출됨");
 		User savedUser = getUserById(param.get("id"));
 		String codePwd = DigestUtils.sha256Hex(param.get("pwd"));
 		
@@ -81,6 +84,13 @@ public class UserServiceImpl implements UserService {
 		userDao.deleteUserByNo(userNo);
 	}
 	
+	public List<Relation> getMyFriendListByOpt(Map<String, Object> opt){
+		return userDao.getMyFriendListByOpt(opt);
+	};
 	
-
+	@Override
+	public Relation getFriendByNo(int userNo, int friendNo) {
+		return userDao.getFriendByNo(userNo, friendNo);
+	}
+	
 }

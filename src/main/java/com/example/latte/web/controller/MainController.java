@@ -42,17 +42,18 @@ public class MainController {
 	@RequestMapping("/login.do")
 	public String login(@RequestParam("id") String userId,
 			@RequestParam("pwd") String password, RedirectAttributes rd) {
-//		System.out.println("전달받은 아이다: " + userId);
-//		System.out.println("전달받은 비번: " + password);
+		System.out.println("전달받은 아이다: " + userId);
+		System.out.println("전달받은 비번: " + password);
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("id", userId);
 		param.put("pwd", password);
 		try {
 			userService.getLoginUser(param);
+			System.out.println("## 서비스 메서드  호출");
 		} catch (FailedLoginException e) {
 			rd.addFlashAttribute("message", e.getMessage());
-		}
-		
+		} 
+		System.out.println("# 리다이렉트 전");
 		return "redirect:../main.do";
 	}
 

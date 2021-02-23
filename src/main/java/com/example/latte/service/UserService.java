@@ -3,6 +3,8 @@ package com.example.latte.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.relation.Relation;
+
 import com.example.latte.vo.User;
 
 public interface UserService {
@@ -16,4 +18,7 @@ public interface UserService {
 	
 	User getUserWithIdOption(String name, String tel);
 	User getUserWithPwdOption(String name, String tel, String id);
+	
+	List<Relation> getMyFriendListByOpt(Map<String, Object> opt);
+	Relation getFriendByNo(int userNo, int friendNo);
 }

@@ -275,7 +275,7 @@
 									</div>
 								</li>
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="../board/index" id="navbardrop" data-toggle="dropdown"> 라떼판 </a>
+									<a class="nav-link dropdown-toggle" href="/board/index.go" id="navbardrop" data-toggle="dropdown"> 라떼판 </a>
 									<div class="dropdown-menu">
 										<a class="dropdown-item" href="#">화제의톡</a> 
 										<a class="dropdown-item" href="#">유머/정보</a> 
@@ -283,7 +283,7 @@
 									</div>
 								</li>
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href=" /shooping/main.do" id="navbardrop" data-toggle="dropdown"> 쇼핑 </a>
+									<a class="nav-link dropdown-toggle" href="/shoping/main.do" id="navbardrop" data-toggle="dropdown"> 쇼핑 </a>
 									<div class="dropdown-menu">
 										<a class="dropdown-item" href="#">패션/뷰티</a> 
 										<a class="dropdown-item" href="#">Link 2</a> 
@@ -328,8 +328,7 @@
 								<span class="loginbox-msg" id="loginbox-failMsg" >${message}</span>
 							</c:if>
 							<div class="col-12 text-right mt-2 mb-1">
-								<a href="/register.do"> 회원가입</a>
-								<button type="button" class="btn-sm btn-info" id="btn-register">회원가입</button>
+								<button type="button" class="btn-sm btn-info" id="btn-register"><a href="/register.do"> 회원가입</a></button>
 								<button type="button" class="btn-sm btn-primary" id="btn-login" onclick="loginCheck()">로그인</button>
 							</div>
 						</div>
@@ -401,7 +400,7 @@
 								<div class="fr-row row no-gutters">
 									<select name="selectFriend" id="friend-box">
 										<option value="-1" selected>---일촌파도타기---</option>
-										<option value="1111"><a href=""> 강감찬(닉네임)</a></option>
+										<option value="1111"> 강감찬(닉네임)</option>
 										<option value="2222">안중근</option>
 										<option value="3333">김구</option>
 										<option value="4444">김유신</option>
@@ -443,7 +442,6 @@
 		} else {
 			$('#findId-msg').hide();
 			$.getJSON('http://localhost/api/users/findId.do', { name: nameField, tel: telField }, function (user) {
-				console.log(user);
 				if (user.id == null) {
 					$('#findId-success').hide();
 					$('#findId-fail').show();
@@ -463,7 +461,6 @@
 		var nameField = $('#p-name').val();
 		var telField = $('#p-tel').val();
 		var idField = $('#p-id').val();
-		// 컨트롤러에 이름과 연락처를 보내 사용자를 조회한다. 
 		// 컨트롤러에 이름과 연락처를 보내 사용자를 조회한다. 
 		if (nameField == '' || telField == '' || idField == '') {
 			$('#findPwd-msg').show();
@@ -490,7 +487,7 @@
 	}
 
 	function loginCheck() {
-		console.log("로그인체크 호출");
+		console.log("###로그인체크 호출");
 		$("#loginbox-idMsg").text("");
 		$("#loginbox-pwdMsg").text("");
 		//로그인 누르면 입력칸 중에 비어있는 거 확인
@@ -502,7 +499,7 @@
 		}
 		// 비어있지 않으면 로그인 메서드 실행
 		if (!$("#loginbox-id").val() == '' && !$("#loginbox-pwd").val() == '') {
-			console.log("로그인 호출")
+			console.log("###로그인 호출")
 			$("#login-form").submit();
 		}
 	}
@@ -510,4 +507,5 @@
 	function openMiniHome() {
 	      window.open('/minihome.html', '_blank', "width=1400, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
 	   }
+
 </script>
