@@ -9,6 +9,7 @@ public interface UserService {
 
 	User getUserById(String userId);
 	void getLoginUser(Map<String, String> param);
+	User getLoginedUserInfo(String userId, String password);
 	List<User> getAllUsers();
 	User getUserDetail(int userNo);
 	void removeUser(int userNo);

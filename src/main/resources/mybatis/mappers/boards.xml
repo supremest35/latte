@@ -74,16 +74,11 @@
 			a.pan_board_deleted					as deleted,
 			a.pan_board_created_date			as createdDate,
 			a.pan_board_image_filename			as imageFilename,
-			b.pan_board_comment_content			as commentContent,
-			b.pan_board_comment_created_date  	as commentCreatedDate,
-			b.pan_board_comment_like_cnt		as commentLikeCnt,
-			c.user_nickname						as nickname
+			b.user_nickname						as nickname
 		from
-			latte_pan_boards a, latte_pan_board_comments b, latte_users c
+			latte_pan_boards a, latte_users b
 		where
-			a.user_no = c.user_no
-		and
-			a.pan_board_no = b.pan_board_no(+)
+			a.user_no = b.user_no
 		and
 			a.pan_board_no = #{value}
 	</select>
