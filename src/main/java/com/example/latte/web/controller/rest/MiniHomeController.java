@@ -50,9 +50,9 @@ public class MiniHomeController {
 		return userService.getUserById("m@abc.com");
 	}
 
-	@GetMapping("/photo/parentFolder/{miniHomeNo}&{categoryNo}")
+	@GetMapping("/folder/{miniHomeNo}&{categoryNo}")
 	public List<Folder> getParentFolders(@PathVariable("miniHomeNo") int miniHomeNo, @PathVariable("categoryNo") int categoryNo) {
-		return miniHomeService.getParentFoldersByMiniHomeNoAndCategoryNo(miniHomeNo, categoryNo);
+		return null;
 	}
 
 	@GetMapping("/visitorNote/{miniHomeNo}&{index}")

@@ -19,7 +19,7 @@ public interface MiniHomeService {
 	
 	Map<String, Object> getMiniHomeInfo(int userNo);
 	
-	List<Folder> getParentFoldersByMiniHomeNoAndCategoryNo(int miniHomeNo, int categoryNo);
+	Map<String, List<Folder>> getfoldersByMiniHomeNoAndCategoryNo(int miniHomeNo, int categoryNo);
 	
 	VisitorNote getVisitorNoteByMiniHomeNoAndIndex(int miniHomeNo, int index);
 }
