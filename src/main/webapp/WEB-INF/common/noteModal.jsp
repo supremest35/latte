@@ -6,7 +6,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h6>{{loginedUser.name (loginedUser.nickName)}}(님)의 쪽지함</h6>
+				<h6>${LOGINED_USER_NAME}(님)의 쪽지함</h6>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -16,10 +16,15 @@
 				<div class="container">
 					<!-- Nav tabs -->
 					<ul class="nav nav-tabs">
-						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">쪽지함</a>
+						<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#home">쪽지함</a>
 						</li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#friend">일촌신청</a></li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#write">쪽지쓰기</a></li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#friend">일촌신청</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#write" >쪽지쓰기</a>
+						</li>
 					</ul>
 				</div>
 				<!-- Tab panes -->
@@ -123,53 +128,48 @@
 							<div class="card-body" id="modal-cd-last">
 								<div class="form-group">
 									<label class="font-weight-bold">요약</label>
-									<div class="form-check">
-										<div class="form-check-inline">
-											<label class="form-check-label"> <input type="radio"
-													class="form-check-input" name="catrgory" value="1">일촌신청
-											</label>
-										</div>
-										<div class="form-check-inline">
-											<label class="form-check-label"> <input type="radio"
-													class="form-check-input" name="catrgory" value="2">초대
-											</label>
-										</div>
-										<div class="form-check-inline">
-											<label class="form-check-label"> <input type="radio"
-													class="form-check-input" name="catrgory" value="3">선물
-											</label>
-										</div>
-										<div class="form-check-inline">
-											<label class="form-check-label"> <input type="radio"
-													class="form-check-input" name="catrgory" value="4">기타
+									<div class="form-check" >
+										<div class="form-check-inline" v-for="(cat, index) in categories" :key="cat.no">
+											<label class="form-check-label"> 
+												<input type="radio" class="form-check-input" name="catrgory" :value="cat.no" v-model="newNote.categoryNo">{{cat.name}}
 											</label>
 										</div>
 									</div>
 								</div>
 								<div class="form-group row">
 									<div class="col-6">
-										<label class="font-weight-bold">보내는 이</label> <input type="text"
-											class="form-control" name="user" :value="loginedUser.name" readonly />
+										<label class="font-weight-bold">보내는 이</label> 
+										<input type="text" class="form-control" name="user" value=${LOGINED_USER_NAME} readonly />
 									</div>
 									<div class="col-6">
-										<label class="font-weight-bold">받는 사람</label> <input type="text"
-											class="form-control" name="recipient" />
+										<label class="font-weight-bold">받는 사람</label> 
+										<input type="text"class="form-control" name="recipient" v-model="newNote.recipientNo" />
 									</div>
+									<c:if test="newNote.categoryNo == 5">
+									<div class="col-6">
+										<label class="font-weight-bold">송신 부서</label> 
+										<input type="text" class="form-control" name="user" value=${LOGINED_USER_NAME} readonly />
+									</div>
+									<div class="col-6">
+										<label class="font-weight-bold">수신 부서</label> 
+										<input type="text"class="form-control" name="recipient" v-model="newNote.recipientNo" />
+									</div>
+									</c:if>
 								</div>
 								<div class="form-group">
-									<label class="font-weight-bold">제목</label> <input type="text" class="form-control"
-										name="title" />
+									<label class="font-weight-bold">제목</label> 
+									<input type="text" class="form-control"	name="title" v-model="newNote.title" />
 								</div>
 								<div class="form-group">
 									<label class="font-weight-bold">내용</label>
-									<textarea rows="5" class="form-control" name="content"></textarea>
+									<textarea rows="5" class="form-control" name="content" v-model="newNote.content"></textarea>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-						<button type="submit" class="btn btn-primary">보내기</button>
+						<button type="button" class="btn btn-primary" @click="sendNote">보내기</button>
 					</div>
 				</div>
 				<!-- end tab -->
@@ -178,3 +178,42 @@
 		</div>
 	</div>
 </div>
+<script>
+	var noteApp = new Vue({
+		el:'#modal-note',
+		data:{
+			noteCategories:[],
+			newNote:{
+				categoryNo:'',
+				recipientNo:'',
+				
+				title:'',
+				content:''
+			}
+		}, // end data
+		methods: {
+			sendNote: function () {
+				axios.get("http://localhost/api/note/sendNote").then(function (response) {
+					
+				})
+			}
+		},
+		computed: {
+			categories: function() {
+				var deptNo = '${loginedUser.deptNo}'
+				if (deptNo == 100) {
+					return this.noteCategories.slice(0.3); 
+				} else {
+					return this.noteCategories;
+				}
+			}
+		},
+		created(){
+			var that = this;
+			axios.get("http://localhost/api/note/getCategories").then(function(response){
+				that.noteCategories = response.data;
+			})
+		}
+		
+	})
+</script>

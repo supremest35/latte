@@ -1,6 +1,7 @@
 package com.example.latte.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,26 +11,37 @@ import com.example.latte.vo.Note;
 import com.example.latte.vo.NoteCategory;
 
 @Service
-public class NoteServiceImpl {
+public class NoteServiceImpl  implements NoteService{
 
 	@Autowired
 	NoteDao noteDao;
+
 	
-	List<NoteCategory> getAllCategories(){
+	
+	public List<NoteCategory> getAllCategories(){
 		return noteDao.getAllNoteCategories();
 	};
-	NoteCategory getNoteCategoryByNo(int categoryNo) {
+	
+	public NoteCategory getNoteCategoryByNo(int categoryNo) {
 		return noteDao.getNoteCategiryByNo(categoryNo);
 	};
 	
-	void insertNote(Note note) {
+	public void insertNote(Note note) {
 		noteDao.insertNote(note);
 	};
-	void deleteNoteByNo(int no) {
+	
+	public void deleteNoteByNo(int no) {
 		noteDao.deleteNoteByNo(no);
 	};
-	void updateNoteByNo(int no) {
+	
+	public void updateNoteByNo(int no) {
 		noteDao.updateNote(no);
 	};
+
+	@Override
+	public List<Note> getNoteListByOption(Map<String, Object> option) {
+		
+		return noteDao.getNoteListByOption(option);
+	}
 	
 }

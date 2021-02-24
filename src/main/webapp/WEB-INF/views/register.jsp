@@ -39,12 +39,8 @@
 </style>
 </head>
 <body>
-	<%-- <div class="container" id="registerPage">
-		<div class="row">
-     <div class="col-12">
-         <%@ include file="../common/navbar.jsp" %>
-     </div>
- </div>  --%>
+<div class="container" id="registerPage">
+
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
