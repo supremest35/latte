@@ -10,6 +10,7 @@ import com.example.latte.vo.User;
 public interface UserService {
 
 	User getUserById(String userId);
+	User getUserByNo(int userNo);
 	User getLoginUser(Map<String, String> param);
 	User getLoginedUserInfo(String userId, String password);
 	List<User> getAllUsers();

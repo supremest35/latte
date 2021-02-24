@@ -148,8 +148,8 @@
 									</div>
 									</template>
 									<div class="col-6">
-										<label class="font-weight-bold">보내는 이</label> 
-										<input type="text" class="form-control" name="user" value=${LOGINED_USER_NO} placeholder=${LOGINED_USER_NAME} readonly />
+										<label class="font-weight-bold">보내는 이</label>
+										<input type="text" class="form-control" name="user" value=${LOGINED_USER_NAME} readonly />
 									</div>
 									<div class="col-6">
 										<label class="font-weight-bold">받는 사람</label> 
@@ -187,7 +187,6 @@
 			deptList:[],
 			newNote:{
 				categoryNo:'',
-				userNo:'',
 				recipientNo:'',
 				title:'',
 				content:''
@@ -195,7 +194,13 @@
 		}, // end data
 		methods: {
 			sendNote: function () {
-				axios.post("http://localhost/api/note/sendNot"+noteApp.newNote).then(function (response) {
+				if(noteApp.newNote.categoryNo == ''){
+					alert("<요약> 항목을 선택해주세요.");
+					return;
+				}
+				console.log("##categoryNo " + noteApp.newNote.categoryNo);
+				
+				axios.post("http://localhost/api/note/sendNote", noteApp.newNote).then(function (response) {
 				})
 			}
 		},

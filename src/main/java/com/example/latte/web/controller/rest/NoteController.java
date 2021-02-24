@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,8 +38,7 @@ public class NoteController {
 	public void addNote(@RequestBody NoteForm noteForm) {
 		Note note = new Note();
 		BeanUtils.copyProperties(noteForm, note);
-		System.out.println("## 노트form : " + noteForm.toString());
-		System.out.println("##노트 : " + note.toString());
+		noteService.insertNote(note);
 		
 	}
 	

@@ -35,10 +35,10 @@
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
 			select LATTE_NOTE_NO_SEQ.nextval from dual
 		</selectKey>
-		insert into latte_no
-			(note_no, category_no, sender_no, rec_dept_no, recipient_no, note_content)
+		insert into latte_notes
+			(note_no, category_no, sender_no, rec_dept_no, recipient_no, note_title, note_content)
 		values
-			(#{no}, #{categoryNo}, #{senderNo}, #{recDeptNo}, #{recipientNo}, #{content})
+			(#{no}, #{categoryNo}, #{senderNo}, #{recDeptNo}, #{recipientNo}, #{title}, #{content})
 	</insert>
 	
 	
