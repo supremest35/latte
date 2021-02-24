@@ -16,6 +16,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Autowired
 	RunningTimeCheckInterceptor runningTimeCheckInterceptor;
 	
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 사용자 정의 HandlerInterceptor를 registry에 등록할 수 있다.

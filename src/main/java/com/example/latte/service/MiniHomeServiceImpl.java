@@ -78,8 +78,18 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	}
 
 	@Override
-	public List<Folder> getParentFoldersByMiniHomeNoAndCategoryNo(int miniHomeNo, int categoryNo) {
-		return folderDao.getParentFoldersByMiniHomeNoAndCategoryNo(miniHomeNo, categoryNo);
+	public Map<String, List<Folder>> getfoldersByMiniHomeNoAndCategoryNo(int miniHomeNo, int categoryNo) {
+		Map<Integer, List<Folder>> folders = new HashMap<Integer, List<Folder>>();
+		
+		List<Folder> parentFolders = folderDao.getParentFoldersByMiniHomeNoAndCategoryNo(miniHomeNo, categoryNo);
+		if (parentFolders.size() != 0) {
+			folders.put(parentFolders.get(0).getParentNo(), parentFolders);
+			for (Folder parentFolder : parentFolders) {
+				List<Folder> childFolders = folderDao.getParentFoldersByMiniHomeNoAndCategoryNo(miniHomeNo, categoryNo);
+			}
+		}
+		
+		return null;
 	}
 
 	@Override
