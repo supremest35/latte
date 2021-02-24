@@ -4,8 +4,11 @@
 
 
  <div class="row" style="border-bottom: 2px solid lightgray; background-color:ivory;">
-          <div class="col-8">
-            <span style="font-size: 10px;" >네이트 판 - 유머, 정보, 일상, 모두의 이야기가 있는 커뮤니티</span>
+          <div class="col-4">
+            <span style="font-size: 10px;" ><a href="../main.do">라떼월드 메인으로 가기</a></span>
+          </div>
+          <div class="col-4">
+            <span style="font-size: 10px;" >라떼 판  - 유머, 정보, 일상, 모두의 이야기가 있는 커뮤니티</span>
           </div>
            <c:if test="${empty LOGINED_USER }">
             <div class="col-1 text-right" >
@@ -22,42 +25,44 @@
             <a href="../board/logout.do">로그아웃</a>
             </c:if>
         </div><br>
-       <div class="row">
+       <div class="row" align="center" >
           <div class="col-12" >
-            <a href="../main.do"><img src="../resources/images/logo.jpg" alt="logo" style="width:100px;height:100px;"></a>&#128151;
+            <a href="../main.do"><img src="../resources/images/logo.jpg" alt="logo" style="width:100px;height:100px;"></a>
+            <img src="../resources/images/&logo3.png" style="width:30px; margin-right: 10px;"><a href="../board/index.do"><img src="../resources/images/panLogo4.png" alt="logo" style="width:100px;height:100px; align-content: center;"></a>
           </div>
-       <div class="row">
-          <div class="col-12" >
-            <a href="../board/index.do"><img src="../resources/images/panLogo.jpg" alt="logo" style="width:100px;height:100px; align-content: center;" >
-          </div>
-       </div>
+        </div>
+        <div class="row" align="center" style="margin-bottom: 20px;">
+        	<div class="col-12">
+        		<span style="font-size:8px; color: olive;">라떼월드 메인가기</span>
+        		<span style="font-size:8px; padding-left: 50px; color: olive;" >게시판 처음으로가기</span>
+        	</div>
         </div>
         
-        <nav class="navbar navbar-expand-sm bg-light navbar-light"> 
+        <nav class="navbar navbar-expand-sm  navbar-light" style="border-top: 1px solid lightgray; "> 
 
             <!-- Links -->
             <ul class="navbar-nav"> 
               <li class="nav-item active">
-                <a class="nav-link"  href="../board/index.do?catno=100" >화제의 톡 <span style='font-size:20px;'>&#11088;</span> </a>
+                <a class="nav-link"  href="../board/index.do?catno=100" style="font-size:20px;">모두의 공감<span style='font-size:20px; padding-right: 15px;'></span> </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="../board/index.do?catno=200">유머/정보 <span style='font-size:20px;'>&#128514;</span> </a>
+                <a class="nav-link " href="../board/index.do?catno=200">유머/정보 <span style='font-size:20px; padding-right: 15px;'></span> </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="../board/index.do?catno=300">고민/일상 <span style='font-size:20px;'>&#129300;</span></a>
+                <a class="nav-link " href="../board/index.do?catno=300">고민/일상 <span style='font-size:20px; padding-right: 15px;'></span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="../board/index.do?catno=400">공포/미스테리 <span style='font-size:20px;'>&#128561;</span></a>
+                <a class="nav-link " href="../board/index.do?catno=400">공포/미스테리 <span style='font-size:20px; padding-right: 15px;'></span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="../board/index.do?catno=500">자유주제 <span style='font-size:20px;'>&#128526;</span></a>
+                <a class="nav-link " href="../board/index.do?catno=500">자유주제 <span style='font-size:20px; padding-right: 15px;'></span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="../board/index.do?catno=600">아이돌/팬 <span style='font-size:20px;'>&#128525;</span></a>
+                <a class="nav-link " href="../board/index.do?catno=600">아이돌/팬 <span style='font-size:20px;'></span></a>
               </li>
             </ul>
 
-            <div class="search" style="float:right; text-align: right;" >
+            <div class="search"  style="padding-left: 150px;" >
               <input type="text" placeholder="" />
               <button class="btn btn-primary"> 검색</button>
             </div>
