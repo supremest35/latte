@@ -59,16 +59,21 @@
                      </div>
                 </div>
                 <div class="card-body" style="border-top: 2px solid lightgray;">
-                    <div class="row">
-                        <div class="col-12">
-                        	<p><img src="../resources/images/${dto.imageFilename }"></p>
-                            ${dto.content }q
-                            <hr/>
+                    <div class="row" >
+                        <div class="col-12" style="margin-top:30px; margin-bottom: 100px;">
+                        	<c:if test="${not empty dto.imageFilename  }">
+                        		<p><img src="../resources/images/${dto.imageFilename }"></p>
+                        	</c:if>
+                        	
+                            ${dto.content }
+                            
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12" style="text-align: center;">
-                            <button><a href="like.do?boardNo=${dto.no }">추천</a></button> <button>비추</button>
+                        <div class="col-12" style="text-align: center; margin-bottom: 20px;">
+                        	<c:if test="${not empty LOGINED_USER && dto.userNo != LOGINED_USER.no }">
+                            <button><a href="like.do?boardNo=${dto.no }&catno=${category.no}">추천</a></button> <button>비추</button>
+                        	</c:if>
                         </div>
                     </div>
                     <div class="row">

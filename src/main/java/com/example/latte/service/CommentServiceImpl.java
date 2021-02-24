@@ -35,6 +35,6 @@ public class CommentServiceImpl implements CommentService{
 		savedBoard.setCommentCnt(savedBoard.getCommentCnt()+1);
 		System.out.println("+1하고나서"+savedBoard);
 		
-		//업데이트 보드 해보자
+		boardDao.updateBoard(savedBoard);
 	}
 }

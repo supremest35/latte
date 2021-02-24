@@ -18,4 +18,5 @@ public interface BoardService {
 	List<Category> getAllCategories();
 	
 	void insertBoard(Board board);
+	void updateBaord(Board board);
 }

@@ -25,6 +25,7 @@ import com.example.latte.form.CommentForm;
 import com.example.latte.service.BoardService;
 import com.example.latte.service.CategoryService;
 import com.example.latte.service.CommentService;
+import com.example.latte.service.LikeService;
 import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
 import com.example.latte.util.StringUtils;
@@ -32,6 +33,7 @@ import com.example.latte.vo.Board;
 import com.example.latte.vo.BoardDto;
 import com.example.latte.vo.Category;
 import com.example.latte.vo.Comment;
+import com.example.latte.vo.Like;
 import com.example.latte.vo.User;
 
 @Controller
@@ -49,14 +51,16 @@ public class BoardController {
 	UserService userService;
 	@Autowired
 	CommentService commentService;
+	@Autowired
+	LikeService likeService;
 	
 	@RequestMapping("/index.do")
 	public String index(@RequestParam(name="catno", required = false, defaultValue = "100") int categoryNo, Model model) {
 		Category category = categoryService.getCategoryByNo(categoryNo);
 		model.addAttribute("category", category);
 
-		List<BoardDto> boardDto = boardService.getAllBoardDtoByCategoryNo(categoryNo);
-		model.addAttribute("boardDto", boardDto);
+		List<BoardDto> boards = boardService.getAllBoardDtoByCategoryNo(categoryNo);
+		model.addAttribute("boards", boards);
 		
 		
 		return "board/index";
@@ -84,6 +88,11 @@ public class BoardController {
 			
 			List<CommentDto> comments = commentService.getAllCommentsByBno(boardNo);
 			model.addAttribute("comments", comments);
+			
+			/*
+			 * int loginedUserNo = (int)SessionUtils.getAttribute("LOGINED_USER_NO");
+			 * model.addAttribute("loginedUserNo", loginedUserNo);
+			 */
 			
 		return "board/detail";
 	}
@@ -132,9 +141,14 @@ public class BoardController {
 			return "redirect:loginform.do?error=mismatch";
 		}
 		
-		
-		
 		return "board/index";
+	}
+	
+	@RequestMapping("/logout.do")
+	public String logout() {
+		SessionUtils.removeAttribute("LOGINED_USER");
+		
+		return "redirect:index.do";
 	}
 	
 	
@@ -170,9 +184,20 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/like.do")
-	public String like(@RequestParam("boardNo") int boardNo) {
+	public String like(@RequestParam("boardNo") int boardNo,
+			@RequestParam("catno") int categoryNo) {
+		int userNo = (int)SessionUtils.getAttribute("LOGINED_USER_NO");
+		Like savedLike = likeService.getLikeByBoardNoAndUserNo(boardNo, userNo);
 		
-		return null;
+		if (savedLike == null) {
+			likeService.insertLikes(boardNo, userNo);
+			
+			Board savedBoard = boardService.getBoardByNo(boardNo);
+			savedBoard.setLikeCnt(savedBoard.getLikeCnt() +1 );
+			boardService.updateBaord(savedBoard);
+		}
+		
+		return "redirect:detail.do?boardNo="+boardNo+"&catno="+categoryNo;
 	}
 	
 	

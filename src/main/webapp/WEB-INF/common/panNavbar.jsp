@@ -19,6 +19,7 @@
             <div class="col-3 text-right" >
                <span>${LOGINED_USER.name }(${LOGINED_USER.id })님 환영합니다.</span>
             </div>
+            <a href="../board/logout.do">로그아웃</a>
             </c:if>
         </div><br>
        <div class="row">
