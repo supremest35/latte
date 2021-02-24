@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.latte.dao.WishItemDao">
+
+	<insert id="insertWishItem" parameterType="com.example.latte.vo.WishItem">
+		insert into latte_wishitems
+			(wishitem_no, acorn_item_no, user_no, wishitem_amount)
+		values
+			(latte_wishitem_no_seq.nextval, #{acornNo}, #{userNo}, #{amount})
+	</insert>
+
+	<select id="getWishItemByNo" parameterType="int" resultType="com.example.latte.vo.WishItem">
+		select
+			wishitem_no				as no,
+			acorn_item_no			as acornNo,
+			user_no					as userNo,
+			wishitem_amount			as amount,
+			wishitem_created_date	as createdDate
+		from
+			latte_wishitems
+		where
+			wishitem_no = #{value}
+	</select>
+	<select id="getWishItemByAcornNoAndUserNo" resultType="com.example.latte.vo.WishItem">
+		select
+			wishitem_no				as no,
+			acorn_item_no			as acornNo,
+			user_no					as userNo,
+			wishitem_amount			as amount,
+			wishitem_created_date	as createdDate
+		from
+			latte_wishitems
+		where
+			acorn_item_no = #{acornNo}
+			and user_no = #{userNo}
+	</select>
+	<select id="getWishItemDtosByUserNo" parameterType="int" resultType="com.example.latte.dto.WishItemDto">
+		select
+			A.wishitem_no			as no,
+			A.acorn_item_no			as acornNo,
+			A.wishitem_amount		as amount,
+			B.category_no			as categoryNo,
+			B.acorn_item_name		as acornName,
+			B.acorn_item_price		as itemPrice,
+		from
+			latte_wishitems A, latte_acorn_items B
+		where
+			A.acorn_item_no = B.acorn_item_no
+			and A.user_no = #{value}
+	</select>
+	
+	<update id="updateWishItem" parameterType="com.example.latte.vo.WishItem">
+		update
+			latte_wishitems
+		set
+			acorn_item_no 	= #{acornNo},
+			user_no			= #{userNo},
+			wishitem_amount	= #{amount}
+		from
+			latte_wishitems
+		where
+			wishitem_no = #{value}
+	</update>
+	<delete id="deleteWishItem" parameterType="int">
+		delete from
+			latte_wishitems
+		where
+			wishitem_no = #{value}
+	</delete>
+	
+</mapper>

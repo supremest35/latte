@@ -1,30 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ include file="taglib.jsp"%>
+
+
  <div class="row" style="border-bottom: 2px solid lightgray; background-color:ivory;">
           <div class="col-8">
             <span style="font-size: 10px;" >네이트 판 - 유머, 정보, 일상, 모두의 이야기가 있는 커뮤니티</span>
           </div>
-          <c:if test="${empty LOGINED_USER }">
+           <c:if test="${empty LOGINED_USER }">
             <div class="col-1 text-right" >
                <a href="../board/loginform.do">로그인</a>
             </div>
             <div class="col-1 text-right" >
-              <a href="login.html">회원가입</a>
+              <a href="/register.do">회원가입</a>
             </div>
-            </c:if>
+            </c:if> 
             <c:if test="${not empty LOGINED_USER }">
             <div class="col-3 text-right" >
                <span>${LOGINED_USER.name }(${LOGINED_USER.id })님 환영합니다.</span>
             </div>
             </c:if>
-           
         </div><br>
-        <div class="row">
+       <div class="row">
           <div class="col-12" >
-            <a href="index.do?catno=100"><img src="../resources/images/logo.jpg" alt="logo" style="width:190px;height:100px;"></a>
+            <a href="../main.do"><img src="../resources/images/logo.jpg" alt="logo" style="width:100px;height:100px;"></a>&#128151;
           </div>
+       <div class="row">
+          <div class="col-12" >
+            <a href="../board/index.do"><img src="../resources/images/panLogo.jpg" alt="logo" style="width:100px;height:100px; align-content: center;" >
+          </div>
+       </div>
         </div>
         
         <nav class="navbar navbar-expand-sm bg-light navbar-light"> 
@@ -56,7 +61,8 @@
               <button class="btn btn-primary"> 검색</button>
             </div>
           
-          </nav><hr>
+        </nav><hr>
+
           
     
       

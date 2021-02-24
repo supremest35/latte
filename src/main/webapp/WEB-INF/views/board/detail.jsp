@@ -16,7 +16,7 @@
 <div class="container" id="app">
       <div class="row">
 		<div class="col-12">
-			<%@ include file="../common/panNavbar.jsp" %>
+				<%@ include file="../../common/panNavbar.jsp" %>
 		</div>
 	  </div>
 		 <div class="row">
@@ -82,7 +82,9 @@
                             <button>다음 글</button>
                         </div>
                     </div>
-                    <div class="row">
+                     </div>
+                     <!-- 댓글창 시작-->
+                   <%--  <div class="row">
                       <div class="col-12">
                         <div class="card-header">
                           댓글  ${dto.commentCnt } 개
@@ -95,6 +97,7 @@
                               <div class="col-2">
                                 <button>댓글추천</button>
                               </div>
+                              
                           </div>
                           <div class="row"  style="border-bottom: 1px solid lightgray;">
                               <div class="col-12">
@@ -103,17 +106,74 @@
                           </div>
                       </div>
                       </div>
-                      <div class="row">
-                        <div class="col-9">
+                      <c:if test="${LOGINED_USER !=  }">
+                      <form class="row" action="addComment">
+                      	<input type="hidden" value="${LOGINED_USER.no}" name="userNo">
+                        <div class="col-12">
                           <label>댓글 쓰기</label>
-                          <textarea row="3" class="form-control"></textarea>
+                          <textarea  class="form-control" name="commentContent"></textarea>
                         </div>
-                        <div class="col-3">
-                            <button>댓글등록</button>
+                        <div class="col-6">
+                            <input type="submit" class="btn btn-primary" value="댓글등록">
                         </div>
-                      </div>
-                    </div>
-                    </div>
+                      </form>
+                    </div> --%>
+                    <%--
+				댓글입력폼 표시여부
+					로그인한 사용자인 경우에만 댓글 입력폼을 표시한다.
+			 --%>
+			 	<!-- 댓글 입력폼 시작 -->
+			 	<%-- <%
+			 		if (loginedUserId != null) {
+			 	%> --%>
+				<div class="card-body">
+					<form method="post" action="commentInsert.do">
+						<input type="hidden" name="boardNo" value="${dto.no }" />
+						<input type="hidden" name="catno" value="${category.no }" />
+							<div class="form-group row">
+							<div class="col-11">
+								<textarea rows="3" class="form-control" name="content"></textarea>
+							</div>
+							<div class="col-1">
+								<input type="submit" class="btn btn-outline-primary" value="등록">
+							</div>
+						</div>
+					</form>
+				</div>
+				<%-- <%
+			 		}
+				%> --%>
+			 	<!-- 댓글 입력폼 끝-->
+			 	<!-- 댓글 목록 시작 -->
+				<ul class="list-group ">
+				<%-- <%
+					if(commentList.isEmpty()) {
+				%> --%>
+				<c:if test="${empty comments }">
+					<li class="lsit-group-item">댓글이 존재하지 않습니다.</li>
+				</c:if>
+				<c:forEach var="comment" items="${comments }">
+					<li class="list-group-item">
+    					<div class="d-flex w-100 justify-content-between">
+      						<h5 class="mb-1">${comment.nickname }</h5>
+      						<small>${comment.createdDate }</small>
+    					</div>
+    					<p class="mb-1">${comment.commentContent }</p>
+  					</li>
+				</c:forEach> 
+				
+				
+					
+					
+  				<%-- <%
+						}
+					}
+  				%> --%>
+				</ul>
+				<!--  댓긂 목록 끝 -->
+                    
+                    
+					
                 </div>
             </div><br>
 

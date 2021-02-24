@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.latte.Exception.FailedLoginException;
+import com.example.latte.Exception.PasswordMismatchException;
+import com.example.latte.Exception.UserNotFoundException;
 import com.example.latte.dao.UserDao;
 import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.User;
@@ -49,6 +51,26 @@ public class UserServiceImpl implements UserService {
 			throw new FailedLoginException("아이디와 비밀번호를 확인해주세요.");
 		}
 		SessionUtils.setAttribute("LOGINED_USER", savedUser);
+	}
+	
+	@Override
+	public User getLoginedUserInfo(String userId, String password) {
+		User savedUser = userDao.getUserById(userId);
+		System.out.println("유저번호:"+savedUser.getNo());
+		System.out.println("유저아이디:"+savedUser.getNo());
+		
+		if(savedUser == null) {
+			throw new UserNotFoundException("아이디: ["+userId+"]");
+		}
+		
+		String secretPassword = DigestUtils.sha256Hex(password);
+		if(!secretPassword.equals(savedUser.getPassword())) {
+			throw new PasswordMismatchException("");
+		}
+		SessionUtils.setAttribute("LOGINED_USER", savedUser);
+		SessionUtils.setAttribute("LOGINED_USER_NO", savedUser.getNo());
+		
+		return savedUser;
 	}
 	
 	

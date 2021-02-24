@@ -16,7 +16,7 @@
  <div class="container" id="form">
         <div class="row">
 		<div class="col-12">
-			<%@ include file="../common/panNavbar.jsp" %>
+				<%@ include file="../../common/panNavbar.jsp" %>
 		</div>
 	  </div>
   		 <div class="row">
@@ -34,7 +34,7 @@
                 <div class="card">
                         <div class="card-header"><h4>글쓰기</h4></div>
                         	<form id="board-form" method="post" action="register.do" enctype="multipart/form-data">
-		                        <%-- <input type="hidden" value="${LOGINED_USER.no }" name="userNo"> --%>
+		                         <input type="hidden" value="${LOGINED_USER.no }" name="userNo"> 
 		                        <div class="card-body">
 		                            <div class="form-group row">
 		                                <div class="col-2">
