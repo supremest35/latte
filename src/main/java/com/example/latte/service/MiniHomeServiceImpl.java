@@ -20,6 +20,7 @@ import com.example.latte.vo.Keyword;
 import com.example.latte.vo.MiniHome;
 import com.example.latte.vo.Profile;
 import com.example.latte.vo.Qna;
+import com.example.latte.vo.Relationship;
 import com.example.latte.vo.User;
 import com.example.latte.vo.VisitorNote;
 import com.example.latte.vo.WelcomeNote;
@@ -32,6 +33,9 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 
 	@Autowired
 	WelcomeNoteDao welcomeNoteDao;
+	
+	@Autowired
+	UserDao userDao;
 	
 	@Autowired
 	ProfileDao profileDao;
@@ -49,15 +53,28 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	VisitorNoteDao visitorNoteDao;
 	
 	@Override
-	public Map<String, Object> getMiniHomeInfo(int userNo) {
-		MiniHome miniHome = miniHomeDao.getMiniHomeByUserNo(userNo);
-		WelcomeNote welcomeNote = welcomeNoteDao.getWelcomeNoteByMiniHomeNo(miniHome.getNo());
+	public Map<String, Object> getMiniHomeInfoByOption(Map<String, Object> opt) {
+		MiniHome miniHome = miniHomeDao.getMiniHomeByOption(opt);
+		User hostUser = userDao.getUserByNo(miniHome.getUserNo());
+		/*
+		Map<String, Object> selectFriendsOpt = new HashMap<String, Object>();
+		친구 리스트 불러와서 저장하기
+		selectFriendsOpt.put("userNo", value)
+		List<Relationship> friends = userDao.getMyFriendListByOpt(opt);
+		*/
+		Map<String, Object> hostUserInfo = new HashMap<String, Object>();
+		hostUserInfo.put("no", hostUser.getNo());
+		hostUserInfo.put("id", hostUser.getId());
+		hostUserInfo.put("name", hostUser.getName());
+		hostUserInfo.put("nickName", hostUser.getNickName());
+		hostUserInfo.put("tel", hostUser.getTel());
+		hostUserInfo.put("email", hostUser.getId());
+		hostUserInfo.put("birthday", hostUser.getBirthday());
 		
-
+		// 나중에는 미니홈피 주인 일촌목록, 보유아이템(노래) 조회해서 저장하기 
 		Map<String, Object> miniHomeInfo = new HashMap<String, Object>();
 		miniHomeInfo.put("miniHome", miniHome);
-		miniHomeInfo.put("welcomeNote", welcomeNote);
-		
+		miniHomeInfo.put("hostUser", hostUserInfo);
 		
 		return miniHomeInfo;
 	}
@@ -96,4 +113,12 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	public VisitorNote getVisitorNoteByMiniHomeNoAndIndex(int miniHomeNo, int index) {
 		return visitorNoteDao.getVisitorNoteByMiniHomeNoAndIndex(miniHomeNo, index);
 	}
+
+	@Override
+	public WelcomeNote getWelcomeNoteByMiniHomeNo(int miniHomeNo) {
+		return welcomeNoteDao.getWelcomeNoteByMiniHomeNo(miniHomeNo);
+	}
+
+	
+
 }

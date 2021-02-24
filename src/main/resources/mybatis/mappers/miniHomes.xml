@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.MiniHomeDao">
-	<select id="getMiniHomeByUserNo" parameterType="int" resultType="com.example.latte.vo.MiniHome">
+	<select id="getMiniHomeByOption" parameterType="map" resultType="com.example.latte.vo.MiniHome">
 		select 
 			minihome_no					as no,
 			user_no						as userNo,
@@ -13,7 +13,13 @@
 			minihome_created_date		as createdDate
 		from 
 			latte_minihomes
-		where 
-			user_no = #{value}
+		<where>
+			<if test="userNo != null">
+				user_no = #{userNo}
+			</if>
+			<if test="miniHomeNo != -1">
+				and minihome_no = #{miniHomeNo}
+			</if>
+		</where>
 	</select>
 </mapper>

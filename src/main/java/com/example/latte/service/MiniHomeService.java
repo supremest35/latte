@@ -8,16 +8,19 @@ import com.example.latte.vo.Keyword;
 import com.example.latte.vo.Profile;
 import com.example.latte.vo.Qna;
 import com.example.latte.vo.VisitorNote;
+import com.example.latte.vo.WelcomeNote;
 
 public interface MiniHomeService {
 
 	Profile getProfileByMiniHomeNo(int miniHomeNo);
 
+	WelcomeNote getWelcomeNoteByMiniHomeNo(int miniHomeNo);
+
 	List<Keyword> getKeywordsByProfileNo(int profileNo);
 
 	List<Qna> getQnasByProfileNo(int profileNo);
-	
-	Map<String, Object> getMiniHomeInfo(int userNo);
+
+	Map<String, Object> getMiniHomeInfoByOption(Map<String,Object> opt);
 	
 	Map<String, List<Folder>> getfoldersByMiniHomeNoAndCategoryNo(int miniHomeNo, int categoryNo);
 	

@@ -3,9 +3,11 @@
 
 <div id="side-sections">
 	<div id="home-section-side">
-		<img class="card-img-top" src="/resources/images/1000001.jpg" alt="Card image cap" id="welcomeNote-img">
+		<div class="card-body" id="welcomeNote-img-box" >
+			<img class="card-img-top" src="${welcomeNote.photoFilename }" alt="Card image cap" id="welcomeNote-img">
+		</div>
 		<div class="card-body" id="welcomeNote-content">
-		  <p class="card-text"></p>
+		  <p class="card-text">${welcomeNote.content }</p>
 		</div>
 		<div id="welcomeNote-button">
 			<button class="badge badge-primary badge-xs">edit</button>
@@ -53,6 +55,6 @@
 </div>
 
 <script type="text/javascript">
-
+	
 
 </script>
