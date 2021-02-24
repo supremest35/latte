@@ -132,8 +132,9 @@
 											</a>
 										</div>
 										<div class="thumb-content">
+											<strong>${product.brandName } </strong>
 											<h4><a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}">${product.name }</a></h4>
-											<p class="item-price"><strong>${product.discountRate } %</strong> <span>${product.salePrice}</span>원</p>
+											<p class="item-price"><strong>${product.discountRate*100 } %</strong> <span>${product.salePrice}</span>원</p>
 											<c:if test="${product.freeDelivery eq 'Y' }">
 												<span class="badge badge-primary">무료배송</span>
 											</c:if>
@@ -154,8 +155,9 @@
 											</a>
 										</div>
 										<div class="thumb-content">
+											<strong>${product.brandName } </strong>
 											<h4><a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}">${product.name }</a></h4>
-											<p class="item-price"><strong>${product.discountRate } %</strong> <span>${product.salePrice}</span>원</p>
+											<p class="item-price"><strong>${product.discountRate*100 } %</strong> <span>${product.salePrice}</span>원</p>
 											<c:if test="${product.freeDelivery eq 'Y' }">
 												<span class="badge badge-primary">무료배송</span>
 											</c:if>

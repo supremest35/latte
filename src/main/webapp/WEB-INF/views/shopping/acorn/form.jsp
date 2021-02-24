@@ -17,6 +17,9 @@
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
 	}
+	a {
+		color: rgb(34, 34, 34);
+	}
 	</style>
 </head>
 <body>

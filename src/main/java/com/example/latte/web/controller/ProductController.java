@@ -25,6 +25,8 @@ import com.example.latte.vo.MarketMidCategory;
 import com.example.latte.vo.Product;
 import com.example.latte.vo.ProductBrand;
 import com.example.latte.vo.ProductColor;
+import com.example.latte.vo.ProductMall;
+import com.example.latte.vo.ProductPhoto;
 import com.example.latte.form.ProductForm;
 
 @Controller
@@ -86,11 +88,17 @@ public class ProductController {
 
 	@RequestMapping("/form.do")
 	public String product(Model model) {
-		List<MarketMidCategory> midCategories = marketCategoryService.getMidCategories(); 
-		List<MarketLowCategory> lowCategories = marketCategoryService.getLowCategories(); 
+		List<MarketCategory> categories = marketCategoryService.getAllCategories();
+		List<MarketMidCategory> midCategories = marketCategoryService.getAllMidCategories(); 
+		List<MarketLowCategory> lowCategories = marketCategoryService.getAllLowCategories();
+		List<ProductColor> colors = productService.getAllColors();
+		List<ProductMall> malls = productService.getAllMalls();
 		
+		model.addAttribute("categories", categories);
 		model.addAttribute("midCategories", midCategories);
 		model.addAttribute("lowCategories", lowCategories);
+		model.addAttribute("colors", colors);
+		model.addAttribute("malls", malls);
 		
 		return "/shopping/product/form";
 	}
@@ -98,7 +106,6 @@ public class ProductController {
 	@RequestMapping("/register.do")
 	public String register(ProductForm productForm) throws IOException {
 		
-		System.out.println(productForm);
 		Product product = new Product();
 		BeanUtils.copyProperties(productForm, product);
 		
@@ -114,6 +121,17 @@ public class ProductController {
 		}
 		
 		productService.addNewProduct(product);
+		
+		ProductPhoto photo = new ProductPhoto();
+		photo.setProductNo(product.getNo());
+		photo.setFilename(product.getPhotoFilename());
+		
+		productService.addNewProductPhoto(photo);
+		
+		ProductBrand brand = new ProductBrand();
+		brand.setName(product.getBrandName());
+		
+		productService.addNewProductBrand(brand);
 		
 		return "redirect:/shopping/main.do";
 	}

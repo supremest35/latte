@@ -7,7 +7,12 @@
 	      </a>
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${allCategories }">
-	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	      		<c:if test="${category.no != 600 }">
+	        		<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	        	</c:if>
+	      		<c:if test="${category.no == 600 }">
+	        		<a class="dropdown-item" href="/shopping/acorn/list.do?catno=${category.no }">${category.name }</a>
+	        	</c:if>
 	        </c:forEach>
 	      </div>
 	    </li>

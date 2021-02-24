@@ -17,6 +17,9 @@
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
 	}
+	a {
+		color: rgb(34, 34, 34);
+	}
 	</style>
 </head>
 <body>
@@ -39,9 +42,9 @@
 	            <div class="form-row">
 	               <div class="form-group col-4">
 	                  <label>대분류</label>
-	                  <select class="form-control" name="categoryNo" id="product-category" onchange="categoryChange(this)">
+	                  <select class="form-control" name="categoryNo" id="product-category" onchange="categoryChange(event)">
 		                  <option value=""> 선택하세요</option>
-		                  <c:forEach var="category" items="${allCategories }" end="4">
+		                  <c:forEach var="category" items="${categories }" end="4">
 			                 <option value="${category.no }"> ${category.name }</option>
 			              </c:forEach>
 					  </select>
@@ -50,7 +53,7 @@
 	                  <label>중분류</label>
 	                  <select class="form-control" name="categoryMidNo" id="good">
 		                  <option value=""> 선택하세요</option>
-	                  	  <c:forEach var="category" items="${fashionCategories }">
+	                  	  <c:forEach var="category" items="${midCategories }">
 		              		<option value="${category.no }"> ${category.name }</option>
 		              	  </c:forEach>
 	                  </select>
@@ -59,7 +62,7 @@
 	                  <label>소분류</label>
 	                  <select class="form-control" name="categoryLowNo" id="product-category">
 		           		  <option value=""> 선택하세요</option>
-	                  	  <c:forEach var="category" items="${fashionCategories }">
+	                  	  <c:forEach var="category" items="${lowCategories }">
 		              		<option value="${category.no }"> ${category.name }</option>
 		              	  </c:forEach>
 					  </select>
@@ -69,7 +72,10 @@
 	               <div class="form-group col-12">
 	                  <label>상품색</label>
 	                  <select class="form-control" name="colorNo" id="product-color">
-		                 <option value="1"> 빨강</option>
+						 <option value=""> 선택하세요</option>
+						 <c:forEach var="color" items="${colors }">
+		                 	<option value="${color.no }"> ${color.name }</option>
+		                 </c:forEach>
 					  </select>
 	               </div>
 	            </div>
@@ -77,8 +83,10 @@
 	               <div class="form-group col-12">
 	                  <label>쇼핑몰</label>
 	                  <select class="form-control" name="mallNo" id="product-mall">
-		                 <option value="1"> 11번가</option>
-		                 <option value="2"> G마켓</option>
+	                  	 <option value=""> 선택하세요</option>
+		                 <c:forEach var="mall" items="${malls }">
+		                 	<option value="${mall.no }"> ${mall.name }</option>
+		                 </c:forEach>
 					  </select>
 	               </div>
 	            </div>
@@ -126,6 +134,15 @@
 	            </div>
 	            <div class="form-row">
 	               <div class="form-group col-6">
+	                  <label>무료배송입니까?</label>
+	                  <select class="form-control" name="freeDelivery" id="product-free-delivery">
+	                  	 <option value="N"> 아니오</option>
+		                 <option value="Y"> 예</option>
+					  </select>
+	               </div>
+	            </div>
+	            <div class="form-row">
+	               <div class="form-group col-6">
 	                  <label>상품 사진</label>
 	                  <input type="file" class="form-control" name="photofile" id="product-photo-file" />
 	               </div>
@@ -147,7 +164,6 @@
 		var form = document.querySelector("#product-form");
 		
 		var value = document.querySelector("#product-category").value
-		
 	}
 
 </script>

@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 import com.example.latte.dao.MarketCategoryDao;
 import com.example.latte.dao.ProductDao;
 import com.example.latte.dto.Pagination;
-import com.example.latte.vo.MarketCategory;
 import com.example.latte.vo.Product;
 import com.example.latte.vo.ProductBrand;
 import com.example.latte.vo.ProductColor;
+import com.example.latte.vo.ProductMall;
+import com.example.latte.vo.ProductPhoto;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -35,6 +36,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductColor> getAllColors() {
 		return productDao.getAllColors();
+	}
+	@Override
+	public List<ProductMall> getAllMalls() {
+		return productDao.getAllMalls();
 	}
 	
 	@Override
@@ -61,5 +66,13 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void addNewProduct(Product product) {
 		productDao.insertProduct(product);
+	}
+	@Override
+	public void addNewProductPhoto(ProductPhoto photo) {
+		productDao.insertPhoto(photo);
+	}
+	@Override
+	public void addNewProductBrand(ProductBrand brand) {
+		productDao.insertBrand(brand);
 	}
 }

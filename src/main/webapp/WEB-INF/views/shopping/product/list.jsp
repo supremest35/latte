@@ -58,7 +58,7 @@
                <c:forEach var="product" items="${products }">
                   <div class="col-3 mb-3">
                      <div class="card">
-                         <div class="card-body">
+                         <div class="card-body" style="height: 400.61px;">
                              <a href="detail.do?prodno=${product.no }&pageno=${page.pageNo }&catno=${product.categoryNo }">
                                 <img class="img-thumbnail" src="/resources/images/products/${product.photoFilename }" alt="Card image">
                              </a>
