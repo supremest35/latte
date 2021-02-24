@@ -3,13 +3,71 @@
 
 <mapper namespace="com.example.latte.dao.MarketCategoryDao">
 
-	<select id="getAllCategories" parameterType="int" resultType="com.example.latte.vo.MarketCategory">
+	<select id="getAllCategories" resultType="com.example.latte.vo.MarketCategory">
 		select
 			market_category_no			as no,
 			market_category_name		as name,
 			market_category_upper_no	as uppNo
 		from
 			latte_market_categories
+	</select>
+	<select id="getMidCategories" resultType="com.example.latte.vo.MarketMidCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_mid_categories
+	</select>
+	<select id="getLowCategories" resultType="com.example.latte.vo.MarketLowCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_low_categories
+	</select>
+	
+	<select id="getMidCategories" parameterType="int" resultType="com.example.latte.vo.MarketMidCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_mid_categories
+		where
+			market_category_upper_no = ${value}
+	</select>
+	<select id="getLowCategories" parameterType="int" resultType="com.example.latte.vo.MarketLowCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_low_categories
+		where
+			market_category_upper_no = ${value}
+	</select>
+
+	<select id="getMidCategory" parameterType="int" resultType="com.example.latte.vo.MarketMidCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_mid_categories
+		where
+			market_category_no = #{value}
+	</select>
+	<select id="getLowCategory" parameterType="int" resultType="com.example.latte.vo.MarketLowCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_low_categories
+		where
+			market_category_no = #{value}
 	</select>
 	
 	<select id="getCategoryByNo" parameterType="int" resultType="com.example.latte.vo.MarketCategory">
@@ -22,7 +80,6 @@
 		where
 			market_category_no = #{value}
 	</select>
-
 	<select id="getCategoriesByUppCatNo" parameterType="int" resultType="com.example.latte.vo.MarketCategory">
 		select
 			market_category_no			as no,

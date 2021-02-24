@@ -22,6 +22,8 @@
 		       	row_number() over (order by product_no desc) as rn,
 		       	product_no				as no,
 				product_category_no		as categoryNo,
+				product_mid_category_no	as categoryMidNo,
+				product_low_category_no as categoryLowNo,
 				product_color_no		as colorNo,
 				product_mall_no			as mallNo,
 				product_brand_name		as brandName,
@@ -55,6 +57,8 @@
 		select
 			product_no				as no,
 			product_category_no		as categoryNo,
+			product_mid_category_no	as categoryMidNo,
+			product_low_category_no as categoryLowNo,
 			product_color_no		as colorNo,
 			product_mall_no			as mallNo,
 			product_brand_name		as brandName,
@@ -77,6 +81,8 @@
 		select
 			product_no				as no,
 			product_category_no		as categoryNo,
+			product_mid_category_no	as categoryMidNo,
+			product_low_category_no as categoryLowNo,
 			product_color_no		as colorNo,
 			product_mall_no			as mallNo,
 			product_brand_name		as brandName,
@@ -111,9 +117,9 @@
 		select latte_product_no_seq.nextval from dual
 	</selectKey>
 		insert into latte_products
-			(product_no, product_category_no, product_color_no, product_mall_no, product_brand_name, product_name, product_price, product_sale_price, product_discount_rate, product_information, product_url, product_photo_filename)
+			(product_no, product_category_no, product_mid_category_no, product_low_category_no, product_color_no, product_mall_no, product_brand_name, product_name, product_price, product_sale_price, product_discount_rate, product_information, product_url, product_photo_filename)
 		values
-			(latte_product_no_seq.nextval, #{categoryNo}, #{colorNo}, #{mallNo}, #{brandName}, #{name}, #{price}, #{salePrice}, #{discountRate}, #{information}, #{url}, #{photoFilename})
+			(latte_product_no_seq.nextval, #{categoryNo}, #{categoryMidNo}, #{categoryLowNo}, #{colorNo}, #{mallNo}, #{brandName}, #{name}, #{price}, #{salePrice}, #{discountRate}, #{information}, #{url}, #{photoFilename})
 	</insert>
 	<insert id="insertPhoto" parameterType="com.example.latte.vo.ProductPhoto">
 		insert into latte_product_photos
@@ -126,6 +132,8 @@
 		select
 			product_no				as no,
 			product_category_no		as categoryNo,
+			product_mid_category_no	as categoryMidNo,
+			product_low_category_no as categoryLowNo,
 			product_color_no		as colorNo,
 			product_mall_no			as mallNo,
 			product_brand_name		as brandName,
@@ -142,6 +150,20 @@
 			product_photo_filename	as photoFilename
 		from
 			latte_products
+	</select>
+	<select id="getAllBrands" resultType="com.example.latte.vo.ProductBrand">
+		select
+			product_brand_no		as no,
+			product_brand_name		as name
+		from
+			latte_product_brands
+	</select>
+	<select id="getAllColors" resultType="com.example.latte.vo.ProductColor">
+		select
+			product_color_no		as no,
+			product_color_name		as name
+		from
+			latte_product_colors
 	</select>
 
 </mapper>

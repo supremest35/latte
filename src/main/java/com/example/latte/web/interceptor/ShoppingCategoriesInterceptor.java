@@ -27,8 +27,31 @@ public class ShoppingCategoriesInterceptor implements HandlerInterceptor {
 		List<MarketCategory> allCategories = marketCategoryService.getAllCategories();
 		modelAndView.addObject("allCategories", allCategories);
 		
-		/*
-		List<MarketMidCategory> midCategories = marketCategoryService.
-		*/
+		for (int i=100; i<=600; i+=100) {
+			if (i == 100) {
+				List<MarketMidCategory> fashionCategories = marketCategoryService.getMidCategories(i);
+				modelAndView.addObject("fashionCategories", fashionCategories);
+			}
+			if (i == 200) {
+				List<MarketMidCategory> computerCategories = marketCategoryService.getMidCategories(i);
+				modelAndView.addObject("computerCategories", computerCategories);
+			}
+			if (i == 300) {
+				List<MarketMidCategory> livingCategories = marketCategoryService.getMidCategories(i);
+				modelAndView.addObject("livingCategories", livingCategories);
+			}
+			if (i == 400) {
+				List<MarketMidCategory> foodCategories = marketCategoryService.getMidCategories(i);
+				modelAndView.addObject("foodCategories", foodCategories);
+			}
+			if (i == 500) {
+				List<MarketMidCategory> carCategories = marketCategoryService.getMidCategories(i);
+				modelAndView.addObject("carCategories", carCategories);
+			}
+			if (i == 600) {
+				List<MarketMidCategory> acornCategories = marketCategoryService.getMidCategories(i);
+				modelAndView.addObject("acornCategories", acornCategories);
+			}
+		}
 	}
 }

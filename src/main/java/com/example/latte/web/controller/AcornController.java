@@ -2,6 +2,7 @@ package com.example.latte.web.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -57,7 +58,7 @@ public class AcornController {
 	public String detail(@RequestParam("acornno") int acornNo, Model model) {
 		AcornItem acorn = acornService.getAcornDetail(acornNo);
 		
-		MarketMidCategory category = marketCategoryService.getMidCategory(acorn.getCategoryNo());
+		MarketMidCategory category = marketCategoryService.getMidCategory(acorn.getCategoryMidNo());
 		
 		model.addAttribute("acorn", acorn);
 		model.addAttribute("category", category);
@@ -66,7 +67,11 @@ public class AcornController {
 	}
 
 	@RequestMapping("/form.do")
-	public String acorn() {
+	public String acorn(Model model) {
+		List<MarketMidCategory> acornCategories = marketCategoryService.getMidCategories(600); 
+		
+		model.addAttribute("acornCategories", acornCategories);
+		
 		return "/shopping/acorn/form";
 	}
 	

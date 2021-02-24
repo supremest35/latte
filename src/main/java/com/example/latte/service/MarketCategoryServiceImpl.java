@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.latte.dao.MarketCategoryDao;
 import com.example.latte.vo.MarketCategory;
+import com.example.latte.vo.MarketLowCategory;
 import com.example.latte.vo.MarketMidCategory;
 
 @Service
@@ -19,15 +20,31 @@ public class MarketCategoryServiceImpl implements MarketCategoryService {
 	public List<MarketCategory> getAllCategories() {
 		return marketCategoryDao.getAllCategories();
 	}
-	
 	@Override
-	public MarketMidCategory getMidCategory(int categoryNo) {
-		return marketCategoryDao.getMidCategory();
+	public List<MarketMidCategory> getMidCategories() {
+		return marketCategoryDao.getMidCategories();
+	}
+	@Override
+	public List<MarketLowCategory> getLowCategories() {
+		return marketCategoryDao.getLowCategories();
 	}
 	
 	@Override
-	public MarketMidCategory getLowCategory(int categoryNo) {
-		return marketCategoryDao.getLowCategory();
+	public List<MarketMidCategory> getMidCategories(int uppNo) {
+		return marketCategoryDao.getMidCategories(uppNo);
+	}
+	@Override
+	public List<MarketLowCategory> getLowCategories(int midCategoryNo) {
+		return marketCategoryDao.getLowCategories(midCategoryNo);
+	}
+	
+	@Override
+	public MarketMidCategory getMidCategory(int categoryNo) {
+		return marketCategoryDao.getMidCategory(categoryNo);
+	}
+	@Override
+	public MarketLowCategory getLowCategory(int categoryNo) {
+		return marketCategoryDao.getLowCategory(categoryNo);
 	}
 	
 }
