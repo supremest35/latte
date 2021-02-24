@@ -1,5 +1,7 @@
 package com.example.latte.dao;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,5 +11,5 @@ import com.example.latte.vo.MiniHome;
 @Transactional
 public interface MiniHomeDao {
 
-	MiniHome getMiniHomeByUserNo(int userNo);
+	MiniHome getMiniHomeByOption(Map<String, Object> opt);
 }

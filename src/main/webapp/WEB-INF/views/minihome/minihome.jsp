@@ -16,7 +16,7 @@
 			height: 20px;
 		}
 		#side-content {
-			height: 400px;
+			height: 380px;
 		}
 		#welcomeNote-content {
 			height: 150px;
@@ -67,8 +67,12 @@
 			text-align: center; 
 			margin-top: 20px;
 		}
-		#welcomeNote-img {
-			width: 140px;
+		#welcomeNote-img-box {
+			width:196px;
+			height: 200px;
+			display: table-cell;
+			text-align: center;
+			vertical-align: middle;
 		}
 		#main-content {
 			height: 600px;
@@ -87,15 +91,15 @@
 			<div class="col-2" id="side-frame">
 				<div class="card" >
 					<div class="card-header">
-						TODAY ${miniHomeInfo.miniHome.todayCnt } | TOTAL ${miniHomeInfo.miniHome.totalCnt }
+						TODAY ${miniHome.todayCnt } | TOTAL ${miniHome.totalCnt }
 					</div>
 					<div id="side-content">
 						
 					</div>
 					<div class="card-body" id="welcomeNote-userInfo">
 						<p class="card-text">
-							<div><strong>${LOGINED_USER.name }</strong></div>
-							<div>${LOGINED_USER.id }</div>
+							<div><strong>${hostUser.name }</strong></div>
+							<div>${hostUser.id }</div>
 						</p>
 					</div>
 					<div class="card-footer">
@@ -112,10 +116,10 @@
 			<div class="col-7" id="main-frame">
 				<div class="card" id="main-section">
 					<div class="card-header">
-						<h3 style="display: inline;"><a href="">${LOGINED_USER.name }님의 미니홈피</a></h3>
+						<h3 style="display: inline;"><a href="">${hostUser.nickName }님의 미니홈피</a></h3>
 						<span style="float: right;">
 							<button class="badge badge-primary badge-xs">수정</button>
-							<span>http://www.latteworld.com/${miniHomeInfo.miniHome.address }</span>
+							<span>http://www.latteworld.com/${miniHome.address }</span>
 						</span>
 					</div>
 					<div id="main-content">
@@ -180,13 +184,15 @@
 	</div>
 	</div>
 <script type="text/javascript">
+
+		
 	// 메인메뉴 버튼이 클릭될 때 이벤트
 	$("#main-menu button").click(function() {
 		// 메인컨텐츠 안의 내용 지우기
 		$("#main-content").empty();
 		
 		// 메인메뉴 버튼에 해당한 sideSection.jsp의 태그를 불러온다.
-		$("#side-content").load("sideSection.do " + $(this).data("section-id") + "-side", function() {
+		$("#side-content").load("sideSection.do " + $(this).data("section-id") + "-side", {sectionId:$(this).data("section-id"), miniHomeNo:${miniHome.no}} , function() {
 			// sideSection의 li:first a에 해당하는 태그가 클릭되는 콜백함수
 			$("#side-content li:first a").trigger("click");
 			
@@ -194,16 +200,23 @@
 	})
 	// 페이지가 로드되면 홈 버튼 클릭되게한다.
 	$("#btn-home").trigger("click");
-	
+		
 	// sideSection의 a 태그가 클릭될 때 이벤트
 	$("#side-content").on("click", "li a", function() {
 		// 메인컨텐츠 안의 내용 지우기
 		$("#main-content").empty();
 		// 메인컨텐츠 안에 내용 넣기
 		$("#main-content").load("mainSection.do " + $(this).data("content-id"), {contentId:$(this).data("content-id")});
-		
+		loadComplete();
 		return false;
 	})
+		
+		
+		
+
+		
+	
+		
 </script>
 </body>
 </html>
