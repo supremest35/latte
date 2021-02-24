@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.latte.vo.AcornItem;
 
-@Mapper
-@Transactional
+
 
 
 import com.example.latte.vo.AcornItem;
-@Mapper
 
+@Mapper
+@Transactional
 public interface AcornDao {
 
 	int getTotalCountByCondition(Map<String, Object> condition);
