@@ -17,8 +17,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Autowired
 	RunningTimeCheckInterceptor runningTimeCheckInterceptor;
 	
+
 	@Autowired
 	ShoppingCategoriesInterceptor shoppingCategoriesInterceptor;
+
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {

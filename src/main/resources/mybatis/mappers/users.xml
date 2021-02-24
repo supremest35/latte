@@ -133,4 +133,21 @@
 		delete from latte_users
 		where user_no = #{value}
 	</delete>
+	
+	<select id="getMyFriendListByNo" parameterType="map" resultType="com.example.latte.vo.Relationship">
+		select 
+			relation_no as no,
+			user_no as userNo,
+			friend_no as friendNo,
+			user_rel_nickname as userNickName,
+			friend_rel_nickname as friendNickName,
+			relation_status as status,
+			relation_created_date as createdDate
+		from
+			latte_relations
+		where 
+			user_no = #{userNo}
+		and 
+			relation_status = #{status}
+	</select>
 </mapper>

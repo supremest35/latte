@@ -15,16 +15,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.latte.Exception.FailedLoginException;
+import com.example.latte.Exception.PasswordMismatchException;
+import com.example.latte.Exception.UserNotFoundException;
 import com.example.latte.dao.BoardDao;
+import com.example.latte.dto.CommentDto;
 import com.example.latte.form.BoardForm;
+import com.example.latte.form.CommentForm;
 import com.example.latte.service.BoardService;
 import com.example.latte.service.CategoryService;
+import com.example.latte.service.CommentService;
 import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
 import com.example.latte.util.StringUtils;
 import com.example.latte.vo.Board;
 import com.example.latte.vo.BoardDto;
 import com.example.latte.vo.Category;
+import com.example.latte.vo.Comment;
 import com.example.latte.vo.User;
 
 @Controller
@@ -40,6 +47,8 @@ public class BoardController {
 	CategoryService categoryService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	CommentService commentService;
 	
 	@RequestMapping("/index.do")
 	public String index(@RequestParam(name="catno", required = false, defaultValue = "100") int categoryNo, Model model) {
@@ -72,8 +81,30 @@ public class BoardController {
 		
 			BoardDto dto = boardService.getBoardDtoByNo(boardNo);
 			model.addAttribute("dto", dto);
+			
+			List<CommentDto> comments = commentService.getAllCommentsByBno(boardNo);
+			model.addAttribute("comments", comments);
+			
 		return "board/detail";
 	}
+	
+	@RequestMapping("/commentInsert.do")
+	public String commentInsert(@RequestParam("boardNo") int boardNo, 
+			@RequestParam("catno") int categoryNo, CommentForm commentForm, Model model) {
+		System.out.println(boardNo);
+		System.out.println(categoryNo);
+		System.out.println(commentForm);
+		Comment comment = new Comment();
+		BeanUtils.copyProperties(commentForm, comment);
+		
+		int userNo = (int)SessionUtils.getAttribute("LOGINED_USER_NO");
+		comment.setUserNo(userNo);
+		commentService.addComment(comment);
+		System.out.println(comment);
+		
+		return "redirect:detail.do?boardNo="+boardNo+"&catno="+categoryNo;
+	}
+	
 	
 	@RequestMapping("/loginform.do")
 	public String loginform(Model model) {
@@ -81,12 +112,38 @@ public class BoardController {
 		return "board/loginform";
 	}
 	
+	@RequestMapping("/login.do")
+	public String login(@RequestParam("id") String userId,
+						@RequestParam("password") String password) {
+		if(StringUtils.isEmpty(userId) || StringUtils.isEmpty(password)) {
+			return "redirect:loginform.do?error=empty";
+		}
+		
+		try {
+			User user = userService.getLoginedUserInfo(userId, password);
+			
+			SessionUtils.setAttribute("LOGINED_USER", user);
+			SessionUtils.setAttribute("LOGINED_USER_NO", user.getNo());
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			return "redirect:loginform.do?error=notfount";
+		} catch (PasswordMismatchException e) {
+			e.printStackTrace();
+			return "redirect:loginform.do?error=mismatch";
+		}
+		
+		
+		
+		return "board/index";
+	}
 	
 	
 	@RequestMapping("/register.do")
-	public String registerForm(BoardForm boardForm) throws  IOException {
+	public String registerForm(BoardForm boardForm, Model model) throws  IOException {
+		
 		Board board = new Board();
 		BeanUtils.copyProperties(boardForm, board);
+		System.out.println("보드컨트롤러: "+board);
 		
 		MultipartFile photofile = boardForm.getPhotofile();
 		System.out.println(photofile);
@@ -104,6 +161,11 @@ public class BoardController {
 		
 		Board savedBoard = boardService.getBoardByNo(board.getNo());
 		int savedCatno = savedBoard.getCategoryNo();
+		System.out.println(savedCatno);
+		
+		SessionUtils.getAttribute("LOGINED_USER_NO");
+		
+		
 		return "redirect:index.do?catno="+savedCatno;
 	}
 	
