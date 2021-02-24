@@ -12,6 +12,7 @@ public class Note {
 	private int senderNo;
 	private int recDeptNo;
 	private int recipientNo;
+	private String title;
 	private String content;
 	private String status;
 	private Date createdDate;

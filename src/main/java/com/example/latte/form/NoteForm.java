@@ -6,7 +6,6 @@ import lombok.Data;
 public class NoteForm {
 
 	private int categoryNo;
-	private int senderNo;
 	private int recipientNo;
 	private String title;
 	private String content;

@@ -40,6 +40,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public User getUserByNo(int userNo) {
+		return userDao.getUserByNo(userNo);
+	}
+	
+	@Override
 	public User getLoginUser(Map<String, String> param){
 		// 전달받은 아이디로 사용자정보를 불러오고 전달받은 비밀번호를 암호화해 비교 데이터를 생성
 		User savedUser = getUserById(param.get("id"));
