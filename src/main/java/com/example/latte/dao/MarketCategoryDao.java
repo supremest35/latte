@@ -14,8 +14,8 @@ import com.example.latte.vo.MarketMidCategory;
 public interface MarketCategoryDao {
 
 	List<MarketCategory> getAllCategories();
-	List<MarketMidCategory> getMidCategories();
-	List<MarketLowCategory> getLowCategories();
+	List<MarketMidCategory> getAllMidCategories();
+	List<MarketLowCategory> getAllLowCategories();
 	
 	List<MarketMidCategory> getMidCategories(int uppNo);
 	List<MarketLowCategory> getLowCategories(int midCategoryNo);

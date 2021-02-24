@@ -11,7 +11,7 @@
 		from
 			latte_market_categories
 	</select>
-	<select id="getMidCategories" resultType="com.example.latte.vo.MarketMidCategory">
+	<select id="getAllMidCategories" resultType="com.example.latte.vo.MarketMidCategory">
 		select
 			market_category_no			as no,
 			market_category_name		as name,
@@ -19,7 +19,7 @@
 		from
 			latte_market_mid_categories
 	</select>
-	<select id="getLowCategories" resultType="com.example.latte.vo.MarketLowCategory">
+	<select id="getAllLowCategories" resultType="com.example.latte.vo.MarketLowCategory">
 		select
 			market_category_no			as no,
 			market_category_name		as name,
@@ -36,7 +36,7 @@
 		from
 			latte_market_mid_categories
 		where
-			market_category_upper_no = ${value}
+			market_category_upper_no = #{value}
 	</select>
 	<select id="getLowCategories" parameterType="int" resultType="com.example.latte.vo.MarketLowCategory">
 		select
@@ -46,7 +46,7 @@
 		from
 			latte_market_low_categories
 		where
-			market_category_upper_no = ${value}
+			market_category_upper_no = #{value}
 	</select>
 
 	<select id="getMidCategory" parameterType="int" resultType="com.example.latte.vo.MarketMidCategory">

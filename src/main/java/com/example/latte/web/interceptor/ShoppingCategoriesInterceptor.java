@@ -14,7 +14,11 @@ import com.example.latte.service.MarketCategoryService;
 import com.example.latte.vo.MarketCategory;
 import com.example.latte.vo.MarketMidCategory;
 
+import lombok.extern.log4j.Log4j2;
+
+
 @Component
+@Log4j2
 public class ShoppingCategoriesInterceptor implements HandlerInterceptor {
 	
 	@Autowired
