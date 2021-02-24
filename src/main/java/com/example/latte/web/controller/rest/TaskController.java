@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
-@RestController
+@RestController("apiTaskController")
 @RequestMapping("/api/task/")
 public class TaskController {
 

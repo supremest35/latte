@@ -259,36 +259,17 @@
 								<!-- 메뉴바 반복 -->
 								<!-- 메뉴바 하나 시작 -->
 								<li class="nav-item dropdown text-size: 20px">
-									<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> 뉴스 </a>
-									<div class="dropdown-menu">
-										<a class="dropdown-item" href="#">속보</a> 
-										<a class="dropdown-item" href="#">정치/경제</a> 
-										<a class="dropdown-item" href="#">스포츠</a>
-									</div>
+									<a class="nav-link" href="" id="navbardrop"> 뉴스 </a>
 								</li>
 								<!-- 메뉴바 하나 끝 -->
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> 메일 </a>
-									<div class="dropdown-menu">
-										<a class="dropdown-item" href="#">메일쓰기</a> 
-										<a class="dropdown-item" href="#">받은메일함</a>
-									</div>
+									<a class="nav-link" href="#" id="navbardrop" data-toggle="dropdown"> 메일 </a>
 								</li>
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="/board/index.go" id="navbardrop" data-toggle="dropdown"> 라떼판 </a>
-									<div class="dropdown-menu">
-										<a class="dropdown-item" href="#">화제의톡</a> 
-										<a class="dropdown-item" href="#">유머/정보</a> 
-										<a class="dropdown-item" href="#">고민...</a>
-									</div>
+									<a class="nav-link" href="/board/index.do" id="navbardrop"> 라떼판 </a>
 								</li>
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="/shoping/main.do" id="navbardrop" data-toggle="dropdown"> 쇼핑 </a>
-									<div class="dropdown-menu">
-										<a class="dropdown-item" href="#">패션/뷰티</a> 
-										<a class="dropdown-item" href="#">Link 2</a> 
-										<a class="dropdown-item" href="#">Link 3</a>
-									</div>
+									<a class="nav-link" href="/shopping/main.do" id="navbardrop"> 쇼핑 </a>
 								</li>
 								<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> LatteWork </a>
 									<div class="dropdown-menu">
@@ -308,7 +289,7 @@
 		<%--
 			${empty LOGINED_USER}"
 		 --%>
-			<c:if test="${empty LOGINED_USER}">
+			<c:if test="${empty LOGINED_USER_NO}">
 			<div class="col-3" id="nav-login" style="height: 237px; max-height: 237px;">
 				<form action="login.do" method="post" id="login-form">
 					<div class="card login-box">
@@ -339,7 +320,7 @@
 
 			<!-- 사용자 정보창 -->
 			<!-- ${not empty LOGINED_USER} -->
-			<c:if test="${not empty LOGINED_USER}">
+			<c:if test="${not empty LOGINED_USER_NO}">
 			<div class="col-3 border" id="nav-info">
 				<!-- 정보창 1열 프로필사진 정보 -->
 				<div class="row">
@@ -348,7 +329,7 @@
 							<div class="col-sm-12" id="info-top-line" style="height: 167px; max-height: 167px;">
 							<div class="row no-gutters">
 								<div class="col-sm-5">
-									<img class="ml-1 mt-2 border" id="user-img" src="/resources/images/user.jpg" alt="logo" />
+									<img class="ml-1 mt-2 border" id="user-img" src="/resources/images/userProfilePhoto/${loginedUser.photo }" alt="userPhoto" />
 								</div>
 								<div class="col-sm-7 mt-1">
 									<button class="info-btn btn-sm btn-warning mr-1" id="btn-profile">프로필 수정</button>
@@ -359,7 +340,7 @@
 										
 										<thead>
 											<tr id="info-tr">
-												<th>${LOGINED_USER.name }(${LOGINED_USER.nickName})님</th>
+												<th>${LOGINED_USER_NAME }(${LOGINED_USER_NICKNAME})님</th>
 												<td>
 													<button class="btn btn-outline-info" id="btn-note"
 														data-toggle="modal" data-target="#modal-note">
@@ -370,7 +351,7 @@
 										<tbody>
 											<tr>
 												<th>도토리수</th>
-												<td><a href="도토리마켓 링크">${LOGINED_USER.acornCnt}개</a></td>
+												<td><a href="도토리마켓 링크">${loginedUser.acornCnt}개</a></td>
 											</tr>
 											<tr>
 												<th>받은 쪽지</th>
@@ -429,7 +410,8 @@
 	// -------- 아이디 비번 찾기 -----------
 	var foundId;
 	var isLogined = false;
-
+	
+	
 	function findMyId() {
 		// 입력한 이름과 연락처를 받아온다.
 		var nameField = $('#i-name').val();
@@ -507,5 +489,7 @@
 	function openMiniHome() {
 	      window.open('/minihome.html', '_blank', "width=1400, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
 	   }
-
+	function getFrirendList(){
+		
+	}
 </script>

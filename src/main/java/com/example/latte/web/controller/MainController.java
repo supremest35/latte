@@ -15,6 +15,7 @@ import com.example.latte.Exception.FailedLoginException;
 import com.example.latte.service.DeptService;
 import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
+import com.example.latte.vo.User;
 
 @CrossOrigin("*")
 @Controller
@@ -42,28 +43,34 @@ public class MainController {
 	@RequestMapping("/login.do")
 	public String login(@RequestParam("id") String userId,
 			@RequestParam("pwd") String password, RedirectAttributes rd) {
-		System.out.println("전달받은 아이다: " + userId);
-		System.out.println("전달받은 비번: " + password);
+		
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("id", userId);
 		param.put("pwd", password);
 		try {
-			userService.getLoginUser(param);
-			System.out.println("## 서비스 메서드  호출");
+			User user = userService.getLoginUser(param);
+			rd.addFlashAttribute("loginedUser", user);
+			
+			Map<String, Object> opt = new HashMap<>();
+			opt.put("userNo", (int)SessionUtils.getAttribute("LOGINED_USER_NO"));
+			opt.put("status", "connected");
+			//rd.addFlashAttribute("freindList", userService.getMyFriendListByOpt(opt));
+			
 		} catch (FailedLoginException e) {
 			rd.addFlashAttribute("message", e.getMessage());
 		} 
-		System.out.println("# 리다이렉트 전");
-		return "redirect:../main.do";
+		return "redirect:/main.do";
 	}
 
 	// 로그아웃시 세션에 저장된 정보 삭제
 	@RequestMapping("/logout.do")
 	public String logout() {
 		//System.out.println("####전 : "+((User)SessionUtils.getAttribute("LOGINED_USER")).getName());
-		SessionUtils.removeAttribute("LOGINED_USER");
+		SessionUtils.removeAttribute("LOGINED_USER_NO");
+		SessionUtils.removeAttribute("LOGINED_USER_NAME");
+		SessionUtils.removeAttribute("LOGINED_USER_NICKNAME");
 		//System.out.println("####후 : "+SessionUtils.getAttribute("LOGINED_USER"));
-		return "redirect:../main.do";
+		return "redirect:/main.do";
 	}
 	
 	
