@@ -487,7 +487,7 @@
 	}
 	
 	function openMiniHome() {
-	      window.open('/minihome.html', '_blank', "width=1400, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
+	      window.open('/minihome.do', '_blank', "width=1400, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
 	   }
 	function getFrirendList(){
 		

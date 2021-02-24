@@ -137,24 +137,24 @@
 									</div>
 								</div>
 								<div class="form-group row">
+									<template v-if="newNote.categoryNo == 5">
+									<div class="col-6">
+										<label class="font-weight-bold">송신 부서</label> 
+										<input type="text" class="form-control" name="userDept" :value="userDept" readonly />
+									</div>
+									<div class="col-6">
+										<label class="font-weight-bold">수신 부서</label> 
+										<input type="text"class="form-control" name="recDept" value="수신자 부서" />
+									</div>
+									</template>
 									<div class="col-6">
 										<label class="font-weight-bold">보내는 이</label> 
-										<input type="text" class="form-control" name="user" value=${LOGINED_USER_NAME} readonly />
+										<input type="text" class="form-control" name="user" value=${LOGINED_USER_NO} placeholder=${LOGINED_USER_NAME} readonly />
 									</div>
 									<div class="col-6">
 										<label class="font-weight-bold">받는 사람</label> 
 										<input type="text"class="form-control" name="recipient" v-model="newNote.recipientNo" />
 									</div>
-									<c:if test="newNote.categoryNo == 5">
-									<div class="col-6">
-										<label class="font-weight-bold">송신 부서</label> 
-										<input type="text" class="form-control" name="user" value=${LOGINED_USER_NAME} readonly />
-									</div>
-									<div class="col-6">
-										<label class="font-weight-bold">수신 부서</label> 
-										<input type="text"class="form-control" name="recipient" v-model="newNote.recipientNo" />
-									</div>
-									</c:if>
 								</div>
 								<div class="form-group">
 									<label class="font-weight-bold">제목</label> 
@@ -182,27 +182,38 @@
 	var noteApp = new Vue({
 		el:'#modal-note',
 		data:{
+			userDept:'',
 			noteCategories:[],
+			deptList:[],
 			newNote:{
 				categoryNo:'',
+				userNo:'',
 				recipientNo:'',
-				
 				title:'',
 				content:''
 			}
 		}, // end data
 		methods: {
 			sendNote: function () {
-				axios.get("http://localhost/api/note/sendNote").then(function (response) {
-					
+				axios.post("http://localhost/api/note/sendNot"+noteApp.newNote).then(function (response) {
 				})
 			}
 		},
 		computed: {
 			categories: function() {
 				var deptNo = '${loginedUser.deptNo}'
+				
+				axios.get("http://localhost/api/depts").then(function(response){
+					for(var i =0; i <response.data.length; i++){
+						if(response.data[i].no == deptNo){
+							noteApp.userDept = response.data[i].name;
+						}
+					}
+					noteApp.deptList = response.data;
+				})
+				
 				if (deptNo == 100) {
-					return this.noteCategories.slice(0.3); 
+					return this.noteCategories.splice(0,4); 
 				} else {
 					return this.noteCategories;
 				}
