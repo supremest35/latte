@@ -34,15 +34,15 @@
 	   <div class="col-12">
 	      <div class="card">
 	         <form id="product-form" method="post" action="register.do" enctype="multipart/form-data" onsubmit="checkAcornForm(event)">
-	         <div class="card-header"><h4>도토리 상품등록 폼</h4></div>
+	         <div class="card-header"><h4>도토리상품 등록폼</h4></div>
 	         <div class="card-body">
 	            <div class="form-row">
 	               <div class="form-group col-12">
-	                  <label>카테고리 번호</label>
-	                  <select class="form-control" name="categoryNo" id="acorn-category">
-		                 <option value="600601"> 글꼴</option>
-		                 <option value="600602"> 음악</option>
-		                 <option value="600603"> 효과</option>
+	                  <label>카테고리</label>
+	                  <select class="form-control" name="categoryMidNo" id="acorn-category">
+	                  <c:forEach var="category" items="${acornCategories }">
+		                 <option value="${category.no }"> ${category.name }</option>
+		              </c:forEach>
 					  </select>
 	               </div>
 	            </div>
@@ -54,7 +54,7 @@
 	            </div>
 	            <div class="form-row">
 	               <div class="form-group col-12">
-	                  <label>가격</label>
+	                  <label>도토리 (1개 = 100원)</label>
 	                  <input type="number" class="form-control" name="price" id="acorn-price"/>
 	               </div>
 	            </div>

@@ -12,6 +12,8 @@ import com.example.latte.dao.ProductDao;
 import com.example.latte.dto.Pagination;
 import com.example.latte.vo.MarketCategory;
 import com.example.latte.vo.Product;
+import com.example.latte.vo.ProductBrand;
+import com.example.latte.vo.ProductColor;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -26,15 +28,13 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> getAllProductList() {
 		return productDao.getAllProducts();
 	}
-	
 	@Override
-	public MarketCategory getCategory(int categoryNo) {
-		return marketCategoryDao.getCategoryByNo(categoryNo);
+	public List<ProductBrand> getAllBrands() {
+		return productDao.getAllBrands();
 	}
-	
 	@Override
-	public List<MarketCategory> getCategories(int uppCatNo) {
-		return marketCategoryDao.getCategoriesByUppCatNo(uppCatNo);
+	public List<ProductColor> getAllColors() {
+		return productDao.getAllColors();
 	}
 	
 	@Override

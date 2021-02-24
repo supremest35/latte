@@ -11,7 +11,6 @@ import com.example.latte.dao.AcornDao;
 import com.example.latte.dao.MarketCategoryDao;
 import com.example.latte.dto.Pagination;
 import com.example.latte.vo.AcornItem;
-import com.example.latte.vo.MarketCategory;
 
 @Service
 public class AcornServiceImpl implements AcornService {
@@ -25,16 +24,6 @@ public class AcornServiceImpl implements AcornService {
 	@Override
 	public List<AcornItem> getAllAcornList() {
 		return acornDao.getAllAcorns();
-	}
-	
-	@Override
-	public MarketCategory getCategory(int categoryNo) {
-		return marketCategoryDao.getCategoryByNo(categoryNo);
-	}
-	
-	@Override
-	public List<MarketCategory> getCategories(int uppCatNo) {
-		return marketCategoryDao.getCategoriesByUppCatNo(uppCatNo);
 	}
 	
 	@Override

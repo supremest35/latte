@@ -14,12 +14,15 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<style>
+	<style type="text/css">
 	body, button {
 		font-size: 18px;
 	    line-height: 1.5;
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
+	}
+	a {
+		color: rgb(34, 34, 34);
 	}
 	.carousel {
 	    background: whitegray;
@@ -27,10 +30,10 @@
 	}
 	.carousel-item {
 	    text-align: center;
-	    min-height: 280px;
+	    min-height: 20px;
 	}
 	.carousel-item .img-box {
-		height: 200px;
+		height: 230px;
 		width: 100%;
 		position: relative;
 	}
@@ -67,15 +70,15 @@
 		font-size: 110%;
 	}
 	.carousel .carousel-control-prev {
-		height: 80px;
-	    width: 40px;
+		height: 60px;
+	    width: 30px;
 	    background: none;
 	    margin: auto 0;
 	    background: rgba(0, 0, 0, 0.2);
 	}
 	.carousel .carousel-control-next {
-		height: 80px;
-	    width: 40px;
+		height: 60px;
+	    width: 30px;
 	    background: none;
 	    margin: auto 0;
 	    background: rgba(0, 0, 0, 0.2);
@@ -124,7 +127,9 @@
 								<div class="col-sm-4">
 									<div class="thumb-wrcater">
 										<div class="img-box">
-											<a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}"><img src="/resources/images/products/${product.photoFilename }" class="img-responsive" alt=""></a>
+											<a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}">
+												<img class="img-thumbnail" src="/resources/images/products/${product.photoFilename }" alt="Card image">
+											</a>
 										</div>
 										<div class="thumb-content">
 											<h4><a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}">${product.name }</a></h4>
@@ -144,7 +149,9 @@
 								<div class="col-sm-4">
 									<div class="thumb-wrcater">
 										<div class="img-box">
-											<a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}"><img src="/resources/images/products/${product.photoFilename }" class="img-responsive" alt=""></a>
+											<a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}">
+												<img class="img-thumbnail" src="/resources/images/products/${product.photoFilename }" alt="Card image">
+											</a>
 										</div>
 										<div class="thumb-content">
 											<h4><a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}">${product.name }</a></h4>

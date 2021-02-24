@@ -17,9 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.latte.service.MarketCategoryService;
 import com.example.latte.service.ProductService;
 import com.example.latte.vo.MarketCategory;
+import com.example.latte.vo.MarketLowCategory;
+import com.example.latte.vo.MarketMidCategory;
 import com.example.latte.vo.Product;
+import com.example.latte.vo.ProductBrand;
+import com.example.latte.vo.ProductColor;
 import com.example.latte.form.ProductForm;
 
 @Controller
@@ -31,6 +36,9 @@ public class ProductController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	MarketCategoryService marketCategoryService;
 
 	@RequestMapping("/list.do")
 	public String list(@RequestParam(name="catno", required=false, defaultValue="-1") int categoryNo,
@@ -41,9 +49,17 @@ public class ProductController {
 		Map<String, Object> condition = new HashMap<String, Object>();
 		if (categoryNo != -1) {
 			condition.put("categoryNo", categoryNo);
-			MarketCategory category = productService.getCategory(categoryNo);
+			MarketMidCategory category = marketCategoryService.getMidCategory(categoryNo);
 			model.addAttribute("category", category);
 		}
+		List<MarketLowCategory> lowCategories = marketCategoryService.getLowCategories(categoryNo);
+		List<ProductBrand> brands = productService.getAllBrands();
+		List<ProductColor> colors = productService.getAllColors();
+		
+		model.addAttribute("lowCategories", lowCategories);
+		model.addAttribute("brands", brands);
+		model.addAttribute("colors", colors);
+		
 		condition.put("pageNo", pageNo);
 		condition.put("rows", rows);
 		condition.put("begin", (pageNo - 1)*rows + 1);
@@ -60,8 +76,7 @@ public class ProductController {
 	@RequestMapping("/detail.do")
 	public String detail(@RequestParam("prodno") int prodNo, Model model) {
 		Product product = productService.getProductDetail(prodNo);
-		
-		MarketCategory category = productService.getCategory(product.getCategoryNo());
+		MarketLowCategory category = marketCategoryService.getLowCategory(product.getCategoryLowNo());
 		
 		model.addAttribute("product", product);
 		model.addAttribute("category", category);
@@ -70,7 +85,13 @@ public class ProductController {
 	}
 
 	@RequestMapping("/form.do")
-	public String product() {
+	public String product(Model model) {
+		List<MarketMidCategory> midCategories = marketCategoryService.getMidCategories(); 
+		List<MarketLowCategory> lowCategories = marketCategoryService.getLowCategories(); 
+		
+		model.addAttribute("midCategories", midCategories);
+		model.addAttribute("lowCategories", lowCategories);
+		
 		return "/shopping/product/form";
 	}
 	

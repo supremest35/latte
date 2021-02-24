@@ -6,7 +6,7 @@
 	      	전체 카테고리
 	      </a>
 	      <div class="dropdown-menu">
-	      	<c:forEach var="category" items="${categories }">
+	      	<c:forEach var="category" items="${allCategories }">
 	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
 	        </c:forEach>
 	      </div>
@@ -16,7 +16,7 @@
 	      	패션/뷰티
 	      </a>
 	      <div class="dropdown-menu">
-	      	<c:forEach var="category" items="${categories }">
+	      	<c:forEach var="category" items="${fashionCategories }">
 	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
 	        </c:forEach>
 	      </div>
@@ -26,28 +26,48 @@
 	      	가전/컴퓨터
 	      </a>
 	      <div class="dropdown-menu">
-	      	<c:forEach var="category" items="${categories }">
+	      	<c:forEach var="category" items="${computerCategories }">
 	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
 	        </c:forEach>
 	      </div>
 	    </li>
 	    <li class="nav-item dropdown">
 	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	      	가구/생활/건강
+	      	가구/리빙/건강
 	      </a>
 	      <div class="dropdown-menu">
-	      	<c:forEach var="category" items="${categories }">
+	      	<c:forEach var="category" items="${livingCategories }">
 	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
 	        </c:forEach>
 	      </div>
 	    </li>
 	    <li class="nav-item dropdown">
 	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	      	전체 카테고리
+	      	식품/유아동
 	      </a>
 	      <div class="dropdown-menu">
-	      	<c:forEach var="category" items="${categories }">
+	      	<c:forEach var="category" items="${foodCategories }">
 	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	        </c:forEach>
+	      </div>
+	    </li>
+	    <li class="nav-item dropdown">
+	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+	      	여행/레저/자동차
+	      </a>
+	      <div class="dropdown-menu">
+	      	<c:forEach var="category" items="${carCategories }">
+	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	        </c:forEach>
+	      </div>
+	    </li>
+	    <li class="nav-item dropdown">
+	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+	      	도토리마켓
+	      </a>
+	      <div class="dropdown-menu">
+	      	<c:forEach var="category" items="${acornCategories }">
+	        	<a class="dropdown-item" href="/shopping/acorn/list.do?catno=${category.no }">${category.name }</a>
 	        </c:forEach>
 	      </div>
 	    </li>

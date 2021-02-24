@@ -22,6 +22,7 @@
 		       	row_number() over (order by acorn_item_no desc) as rn,
 		       	acorn_item_no				as no,
 				category_no					as categoryNo,
+				category_mid_no				as categoryMidNo,
 				acorn_item_name				as name,
 				acorn_item_price			as price,
 				acorn_item_stock			as stock,
@@ -34,7 +35,7 @@
 		       	latte_acorn_items
 		    <where>
 		    	<if test="categoryNo != null">
-		       		category_no = #{categoryNo}
+		       		category_mid_no = #{categoryNo}
 		       	</if>
 		    </where>
 			)
@@ -49,6 +50,7 @@
 		select
 	       	acorn_item_no				as no,
 			category_no					as categoryNo,
+			category_mid_no				as categoryMidNo,
 			acorn_item_name				as name,
 			acorn_item_price			as price,
 			acorn_item_stock			as stock,
@@ -65,9 +67,9 @@
 	
 	<insert id="insertAcorn" parameterType="com.example.latte.vo.AcornItem">
 		insert into latte_acorn_items
-			(acorn_item_no, category_no, acorn_item_name, acorn_item_price, acorn_item_stock)
+			(acorn_item_no, category_mid_no, acorn_item_name, acorn_item_price, acorn_item_stock)
 		values
-			(latte_acorn_item_no_seq.nextval, #{categoryNo}, #{name}, #{price}, #{stock})
+			(latte_acorn_item_no_seq.nextval, #{categoryMidNo}, #{name}, #{price}, #{stock})
 	</insert>
 	
 	
@@ -75,6 +77,7 @@
 		select
 	       	acorn_item_no				as no,
 			category_no					as categoryNo,
+			category_mid_no				as categoryMidNo,
 			acorn_item_name				as name,
 			acorn_item_price			as price,
 			acorn_item_stock			as stock,

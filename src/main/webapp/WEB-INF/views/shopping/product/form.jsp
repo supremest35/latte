@@ -37,11 +37,31 @@
 	         <div class="card-header"><h4>상품등록 폼</h4></div>
 	         <div class="card-body">
 	            <div class="form-row">
-	               <div class="form-group col-12">
-	                  <label>카테고리</label>
-	                  <select class="form-control" name="categoryNo" id="product-category">
-		                 <option value="100101101"> 니트/스웨터</option>
-		                 <option value="100101102"> 티셔츠</option>
+	               <div class="form-group col-4">
+	                  <label>대분류</label>
+	                  <select class="form-control" name="categoryNo" id="product-category" onchange="categoryChange(this)">
+		                  <option value=""> 선택하세요</option>
+		                  <c:forEach var="category" items="${allCategories }" end="4">
+			                 <option value="${category.no }"> ${category.name }</option>
+			              </c:forEach>
+					  </select>
+	               </div>
+	               <div class="form-group col-4">
+	                  <label>중분류</label>
+	                  <select class="form-control" name="categoryMidNo" id="good">
+		                  <option value=""> 선택하세요</option>
+	                  	  <c:forEach var="category" items="${fashionCategories }">
+		              		<option value="${category.no }"> ${category.name }</option>
+		              	  </c:forEach>
+	                  </select>
+	               </div>
+	               <div class="form-group col-4">
+	                  <label>소분류</label>
+	                  <select class="form-control" name="categoryLowNo" id="product-category">
+		           		  <option value=""> 선택하세요</option>
+	                  	  <c:forEach var="category" items="${fashionCategories }">
+		              		<option value="${category.no }"> ${category.name }</option>
+		              	  </c:forEach>
 					  </select>
 	               </div>
 	            </div>
@@ -122,14 +142,14 @@
 	   </div>
 	</div>
 </div>
-
 <script type="text/javascript">
-function checkProductForm(event) {
-	var form = document.querySelector("#product-form");
-	
-	var value = document.querySelector("#product-category").value
-	
-}
+	function checkProductForm(event) {
+		var form = document.querySelector("#product-form");
+		
+		var value = document.querySelector("#product-category").value
+		
+	}
+
 </script>
 </body>
 </html>

@@ -20,6 +20,9 @@
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
 	}
+	a {
+		color: rgb(34, 34, 34);
+	}
 	</style>
 </head>
 <body>
@@ -37,70 +40,66 @@
 		<div class="card-header">
 			<a href="">홈</a> > <a href="">중분류</a> > 소분류
 		</div>
-	</div>
-</div>
-
-<div class="container">
-	<div class="row mb-3">
-		<div class="col-12 mb-3">
-			<div class="card">
-		  		<div class="row no-gutters">
-		    		<div class="col-md-12">
-		      			<div class="card-body">
-		        			<h5 class="card-title">${acorn.name }</h5>
-		        			<form id="acorn-form" method="get" action="../order/form.do">
-		        				<input type="hidden" name="acornno" value="${acorn.no }" />
-			        			<table class="table">
-			        				<colgroup>
-			        					<col width="18%">
-			        					<col width="32%">
-			        					<col width="18%">
-			        					<col width="32%">
-			        				</colgroup>
-			        				<tbody>
-			        					<tr>
-			        						<th>이름</th>
-			        						<td>${acorn.name }</td>
-			        						<th>가격</th>
-			        						<td><i class="fad fa-acorn"></i> ${acorn.price } 개</td>
-			        					</tr>
-			        					<tr>
-			        						<th>잔여수량</th>
-			        						<td>${acorn.stock } 개</td>
-			        						<th>상품상태</th>
-			        						<td>${acorn.status }</td>
-			        					</tr>
-			        					<tr>
-			        						<th>좋아요</th>
-			        						<td>${acorn.likeCnt } 개</td>
-			        						<th>댓글</th>
-			        						<td>${acorn.commentCnt } 개</td>
-			        					</tr>
-			        					<tr>
-			        						<th>판매</th>
-			        						<td>${acorn.sellCnt } 개</td>
-			        						<th>등록일</th>
-			        						<td>${acorn.createdDate }</td>
-			        					</tr>
-			        					<tr>
-			        						<th>구매수량</th>
-			        						<td><input type="number" class="form-control" name="amount" value="1" style="width: 100px;"></td>
-			        						<td colspan="2" class="text-right">
-			        							<button type="button" class="btn btn-primary" ${acorn.stock eq 0 ? 'disabled' : '' } onclick="buy()">바로구매</button>
-			        							<button type="button" class="btn btn-info" ${acorn.stock eq 0 ? 'disabled' : '' } onclick="addCartItem()">장바구니</button>
-			        							<a href="list.do?pageno=1" class="btn btn-outline-primary">쇼핑계속</a>
-			        						</td>
-			        					</tr>
-			        				</tbody>
-			        			</table>
-		        			</form>
-		      			</div>
-			  		</div>
+		<div class="row mb-3">
+			<div class="col-12 mb-3">
+				<div class="card-body">
+			  		<div class="row no-gutters">
+			    		<div class="col-md-12">
+			      			<div class="card-body">
+			        			<h5 class="card-title">${acorn.name }</h5>
+			        			<form id="acorn-form" method="get" action="../order/form.do">
+			        				<input type="hidden" name="acornno" value="${acorn.no }" />
+				        			<table class="table">
+				        				<colgroup>
+				        					<col width="18%">
+				        					<col width="32%">
+				        					<col width="18%">
+				        					<col width="32%">
+				        				</colgroup>
+				        				<tbody>
+				        					<tr>
+				        						<th>이름</th>
+				        						<td>${acorn.name }</td>
+				        						<th>가격</th>
+				        						<td><i class="fad fa-acorn"></i> ${acorn.price } 개</td>
+				        					</tr>
+				        					<tr>
+				        						<th>잔여수량</th>
+				        						<td>${acorn.stock } 개</td>
+				        						<th>상품상태</th>
+				        						<td>${acorn.status }</td>
+				        					</tr>
+				        					<tr>
+				        						<th>좋아요</th>
+				        						<td>${acorn.likeCnt } 개</td>
+				        						<th>댓글</th>
+				        						<td>${acorn.commentCnt } 개</td>
+				        					</tr>
+				        					<tr>
+				        						<th>판매</th>
+				        						<td>${acorn.sellCnt } 개</td>
+				        						<th>등록일</th>
+				        						<td>${acorn.createdDate }</td>
+				        					</tr>
+				        					<tr>
+				        						<th>구매수량</th>
+				        						<td><input type="number" class="form-control" name="amount" value="1" style="width: 100px;"></td>
+				        						<td colspan="2" class="text-right">
+				        							<button type="button" class="btn btn-primary" ${acorn.stock eq 0 ? 'disabled' : '' } onclick="buy()">바로구매</button>
+				        							<button type="button" class="btn btn-info" ${acorn.stock eq 0 ? 'disabled' : '' } onclick="addCartItem()">장바구니</button>
+				        							<a href="list.do?pageno=1" class="btn btn-outline-primary">쇼핑계속</a>
+				        						</td>
+				        					</tr>
+				        				</tbody>
+				        			</table>
+			        			</form>
+			      			</div>
+				  		</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
