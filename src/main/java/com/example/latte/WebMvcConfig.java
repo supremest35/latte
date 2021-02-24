@@ -26,7 +26,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 사용자 정의 HandlerInterceptor를 registry에 등록할 수 있다.
 		registry.addInterceptor(runningTimeCheckInterceptor).addPathPatterns("/**");
-		registry.addInterceptor(shoppingCategoriesInterceptor).addPathPatterns("/**");
+		registry.addInterceptor(shoppingCategoriesInterceptor).addPathPatterns("/shopping/*");
 	}
 	
 	@Override

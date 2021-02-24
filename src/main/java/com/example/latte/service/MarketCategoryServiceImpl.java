@@ -22,11 +22,11 @@ public class MarketCategoryServiceImpl implements MarketCategoryService {
 	}
 	@Override
 	public List<MarketMidCategory> getMidCategories() {
-		return marketCategoryDao.getMidCategories();
+		return marketCategoryDao.getAllMidCategories();
 	}
 	@Override
 	public List<MarketLowCategory> getLowCategories() {
-		return marketCategoryDao.getLowCategories();
+		return marketCategoryDao.getAllLowCategories();
 	}
 	
 	@Override
