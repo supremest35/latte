@@ -55,4 +55,9 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardDto> getAllBoardDtoByCategoryNo(int categoryNo) {
 		return boardDao.getAllBoardDtoByCategoryNo(categoryNo);
 	}
+	
+	@Override
+	public void updateBaord(Board board) {
+		boardDao.updateBoard(board);
+	}
 }

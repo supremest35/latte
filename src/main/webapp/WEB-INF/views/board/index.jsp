@@ -51,7 +51,7 @@
                        </tr>
                    
                    <tbody>
-                   	<c:forEach var="board" items="${boardDto}">
+                   	<c:forEach var="board" items="${boards}">
                        <tr>
                            <td>${board.likeCnt } &uarr;</td> 
                            <td>${board.dislikeCnt} &darr;</td>

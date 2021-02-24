@@ -17,4 +17,5 @@ public interface BoardDao {
 	List<Board> getBoardsByCategoryNo(int categoryNo);
 	
 	void insertBoard(Board board);
+	void updateBoard(Board board);
 }

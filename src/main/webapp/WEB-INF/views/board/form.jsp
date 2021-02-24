@@ -39,9 +39,13 @@
 		                            <div class="form-group row">
 		                                <div class="col-2">
 		                                    <select class="form-control" name="categoryNo">
-		                                    <c:forEach var="category" items="${categories }">
-		                                        <option value="${category.no }"> ${category.name }</option>
-		                                    </c:forEach>
+		                                   <%--  <c:forEach var="category" items="${categories }"> --%>
+		                                        <option value="200" selected="selected"> 유머/정보</option>
+		                                        <option value="300"> 고민/일상</option>
+		                                        <option value="400"> 공포/미스테리</option>
+		                                        <option value="500"> 자유</option>
+		                                        <option value="600"> 아이돌/팬</option>
+		                                    <%-- </c:forEach> --%>
 		                                    </select>
 		                                </div>
 		                                <div class="col-10">
