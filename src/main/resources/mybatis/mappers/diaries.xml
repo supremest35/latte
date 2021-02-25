@@ -2,6 +2,65 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.DiaryDao">
-	<select id="getDiariesByMiniHomeNoAndYearMonth" resultType="com.example.latte.vo.Diary">
+	<select id="getDiaryByNo" parameterType="int" resultType="com.example.latte.vo.Diary">
+		select
+			diary_no					as no,
+			minihome_no					as miniHomeNo,
+			diary_title					as title,
+			diary_content				as content,
+			diary_secret				as secret,
+			diary_hit_cnt				as hitCnt,
+			diary_comment_cnt			as commentCnt,
+			diary_like_cnt				as likeCnt,
+			diary_deleted				as deleted,
+			diary_created_date			as createdDate
+		from
+			minihome_diaries
+		where
+			diary_no = #{value}
+			and diary_deleted = 'N'
+	</select>
+	<select id="getLatestDiaryByMiniHomeNo" parameterType="int" resultType="com.example.latte.vo.Diary">
+		select
+			diary_no					as no,
+			minihome_no					as miniHomeNo,
+			diary_title					as title,
+			diary_content				as content,
+			diary_secret				as secret,
+			diary_hit_cnt				as hitCnt,
+			diary_comment_cnt			as commentCnt,
+			diary_like_cnt				as likeCnt,
+			diary_deleted				as deleted,
+			diary_created_date			as createdDate
+		from
+			(select 
+				row_number() over(order by a.diary_created_date desc) rn, a.*
+			 from
+			 	minihome_diaries a
+			 where
+			 	a.minihome_no = #{value}
+			 	and diary_deleted = 'N')
+		where
+			rn = 1
+	</select>
+	<select id="getDiariesByOption" parameterType="map" resultType="com.example.latte.vo.Diary">
+		select
+			diary_no					as no,
+			minihome_no					as miniHomeNo,
+			diary_title					as title,
+			diary_content				as content,
+			diary_secret				as secret,
+			diary_hit_cnt				as hitCnt,
+			diary_comment_cnt			as commentCnt,
+			diary_like_cnt				as likeCnt,
+			diary_deleted				as deleted,
+			diary_created_date			as createdDate
+		from
+			minihome_diaries
+		where
+			minihome_no = #{miniHomeNo}
+			and to_char(diary_created_date, 'yyyy') = #{year}
+			and to_char(diary_created_date, 'mm') = #{month}
+		order by diary_no desc
 	</select>
 </mapper>

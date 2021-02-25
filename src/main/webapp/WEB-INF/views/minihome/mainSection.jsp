@@ -106,7 +106,7 @@
        					<th>닉네임</th><td>${hostUser.nickName}</td>
        				</tr>
        				<tr>
-       					<th>생일</th><td><fmt:formatDate value="${hostUser.birthday}" /> </td>
+       					<th>생일</th><td><fmt:formatDate value="${hostUser.birthday}" pattern="yyyy-MM-dd"/> </td>
        					<th>전화번호</th><td>${hostUser.tel}</td>
        				</tr>
        				<tr>
@@ -124,14 +124,24 @@
 			<a href="">글 삭제</a>
 		</div>
 		<div class="card">
-			<div class="card-header">
-				프로젝트 시작함
+			<div class="card-header" id="diary-title">
+				<c:out value="${diary.title }"/>
 			</div>	
-			<div class="card-body">
-				시작시작
+			<div class="card-body" id="diary-content">
+				<c:out value="${diary.content }"/>
 			</div>	
-			<div class="card-body">
-				공개설정 : 전체공개
+			<div class="card-body" id="diary-secret">
+				<p class="card-text">공개여부 : 
+					<c:choose>
+						<c:when test="${diary.secret == 'N' }">
+							전체공개
+						</c:when>
+						<c:otherwise>
+							비공개
+						</c:otherwise>
+					</c:choose>
+					<small>(<fmt:formatDate value="${diary.createdDate }" pattern="yyyy-MM-dd" />)</small>
+				</p>  
 			</div>	
 			<div class="card-footer">
 				<ul>

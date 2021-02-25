@@ -1,5 +1,7 @@
 package com.example.latte.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,6 @@ import com.example.latte.vo.Keyword;
 import com.example.latte.vo.MiniHome;
 import com.example.latte.vo.Profile;
 import com.example.latte.vo.Qna;
-import com.example.latte.vo.Relationship;
 import com.example.latte.vo.User;
 import com.example.latte.vo.VisitorNote;
 import com.example.latte.vo.WelcomeNote;
@@ -100,26 +101,6 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	}
 
 	@Override
-	public Map<String, List<Folder>> getfoldersByMiniHomeNoAndCategoryNo(int miniHomeNo, int categoryNo) {
-		Map<Integer, List<Folder>> folders = new HashMap<Integer, List<Folder>>();
-		
-		List<Folder> parentFolders = folderDao.getParentFoldersByMiniHomeNoAndCategoryNo(miniHomeNo, categoryNo);
-		if (parentFolders.size() != 0) {
-			folders.put(parentFolders.get(0).getParentNo(), parentFolders);
-			for (Folder parentFolder : parentFolders) {
-				List<Folder> childFolders = folderDao.getParentFoldersByMiniHomeNoAndCategoryNo(miniHomeNo, categoryNo);
-			}
-		}
-		
-		return null;
-	}
-
-	@Override
-	public VisitorNote getVisitorNoteByMiniHomeNoAndIndex(int miniHomeNo, int index) {
-		return visitorNoteDao.getVisitorNoteByMiniHomeNoAndIndex(miniHomeNo, index);
-	}
-
-	@Override
 	public WelcomeNote getWelcomeNoteByMiniHomeNo(int miniHomeNo) {
 		return welcomeNoteDao.getWelcomeNoteByMiniHomeNo(miniHomeNo);
 	}
@@ -135,10 +116,20 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	}
 
 	@Override
-	public Map<String, List<Diary>> getDiariesByMiniHomeNoAndYearMonth(int miniHomeNo, String yearMonth) {
-		//List<Diary> diaries = diaryDao.getDiariesByMiniHomeNoAndYearMonth(miniHomeNo, yearMonth);
-		return null;
+	public List<Diary> getDiariesByOption(Map<String, Object> opt) {
+		return diaryDao.getDiariesByOption(opt);
 	}
+
+	@Override
+	public Diary getDiaryByNo(int diaryNo) {
+		return diaryDao.getDiaryByNo(diaryNo);
+	}
+
+	@Override
+	public Diary getLatestDiaryByMiniHomeNo(int miniHomeNo) {
+		return diaryDao.getLatestDiaryByMiniHomeNo(miniHomeNo);
+	}
+
 
 	
 
