@@ -99,15 +99,12 @@
 	</style>
 </head>
 <body>
-
 <div class="container">
 	<%@ include file="/WEB-INF/views/shopping/common/shopping.jsp" %>
 </div>
-
 <div class="container">
 	<%@ include file="/WEB-INF/views/shopping/common/navbar.jsp" %>
 </div>
-
 <div class="container">
 	<div class="card bg-light text-dark">
 	    <div class="card-body">

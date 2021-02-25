@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.latte.dao.OrderItemDao">
+
+	<insert id="insertOrderItem" parameterType="com.example.latte.vo.OrderItem">
+		insert into latte_order_items
+			(order_item_no, order_no, acorn_item_no, order_item_amount, order_item_price)
+		values
+			(#{latte_order_item_no_seq.nextval}, #{orderNo}, #{acornNo}, #{amount}, #{price})
+	</insert>
+	
+</mapper>

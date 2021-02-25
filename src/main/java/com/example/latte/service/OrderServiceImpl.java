@@ -16,6 +16,7 @@ import com.example.latte.dao.WishItemDao;
 import com.example.latte.vo.AcornItem;
 import com.example.latte.vo.Order;
 import com.example.latte.vo.OrderItem;
+import com.example.latte.vo.User;
 import com.example.latte.vo.WishItem;
 
 @Service
@@ -89,5 +90,9 @@ public class OrderServiceImpl implements OrderService {
 			acorn.setStock(acorn.getStock() - orderItem.getAmount());
 			acornDao.updateAcorn(acorn);
 		}
+		
+		User user = userDao.getUserByNo(order.getUserNo());
+		user.setAcornCnt(user.getAcornCnt() - order.getUsedAcornAmount());
+		userDao.updateUser(user);
 	}
 }
