@@ -10,7 +10,7 @@
           <div class="col-4">
             <span style="font-size: 10px;" >라떼 판  - 유머, 정보, 일상, 모두의 이야기가 있는 커뮤니티</span>
           </div>
-           <c:if test="${empty LOGINED_USER }">
+           <c:if test="${empty LOGINED_USER_NO }">
             <div class="col-1 text-right" >
                <a href="../board/loginform.do">로그인</a>
             </div>
@@ -18,23 +18,23 @@
               <a href="/register.do">회원가입</a>
             </div>
             </c:if> 
-            <c:if test="${not empty LOGINED_USER }">
+            <c:if test="${not empty LOGINED_USER_NO }">
             <div class="col-3 text-right" >
-               <span>${LOGINED_USER.name }(${LOGINED_USER.id })님 환영합니다.</span>
+               <span>${LOGINED_USER_NICKNAME }(${LOGINED_USER_NAME })님 환영합니다.</span>
             </div>
             <a href="../board/logout.do">로그아웃</a>
             </c:if>
         </div><br>
-       <div class="row" align="center" >
+       <div class="row" align="left" >
           <div class="col-12" >
             <a href="../main.do"><img src="../resources/images/logo.jpg" alt="logo" style="width:100px;height:100px;"></a>
             <img src="../resources/images/&logo3.png" style="width:30px; margin-right: 10px;"><a href="../board/index.do"><img src="../resources/images/panLogo4.png" alt="logo" style="width:100px;height:100px; align-content: center;"></a>
           </div>
         </div>
-        <div class="row" align="center" style="margin-bottom: 20px;">
+        <div class="row" align="left" style="margin-bottom: 20px;">
         	<div class="col-12">
-        		<span style="font-size:8px; color: olive;">라떼월드 메인가기</span>
-        		<span style="font-size:8px; padding-left: 50px; color: olive;" >게시판 처음으로가기</span>
+        		<span style="font-size:8px; color: olive;">라떼월드 메인으로가기</span>
+        		<span style="font-size:8px; padding-left: 40px; color: olive;">게시판 처음으로가기</span>
         	</div>
         </div>
         
@@ -43,7 +43,7 @@
             <!-- Links -->
             <ul class="navbar-nav"> 
               <li class="nav-item active">
-                <a class="nav-link"  href="../board/index.do?catno=100" style="font-size:20px;">모두의 공감<span style='font-size:20px; padding-right: 15px;'></span> </a>
+                <a class="nav-link"  href="../board/index.do?catno=100" style="font-size:20px;">모두의 공감👑<span style='font-size:20px; padding-right: 15px;'></span> </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link " href="../board/index.do?catno=200">유머/정보 <span style='font-size:20px; padding-right: 15px;'></span> </a>

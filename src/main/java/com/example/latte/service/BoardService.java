@@ -16,6 +16,7 @@ public interface BoardService {
 	List<Board> getBoardsByCategoryNo(int categoryNo);
 	List<BoardDto> getAllBoardDtoByCategoryNo(int categoryNo);
 	List<Category> getAllCategories();
+	List<BoardDto> getBestByLikeCnt();
 	
 	void insertBoard(Board board);
 	void updateBaord(Board board);

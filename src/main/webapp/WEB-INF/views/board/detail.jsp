@@ -33,18 +33,18 @@
                 <div class="card">
                      <div class="card-header">
                          <div class="row">
-                             <div class="col-9">
+                             <div class="col-9" style="font-size: 20px;">
                                 ${dto.title }
                              </div>
-                             <div class="col-3">
-                                ${dto.createdDate }
+                             <div class="col-3" align="right">
+                               	 <fmt:formatDate value="${dto.createdDate }" pattern="yyyy.MM.dd hh:ss"/> 
                              </div>
                          </div>
                      </div>
                      <div class="card">
                         <div class="row">
                             <div class="col-8">
-                                ${dto.nickname }
+                                <span><small>${dto.nickname }</small></span>
                             </div>
                             <div class="col-2" style="font-size: 12px;">
                                조회수 ${dto.hitCnt }
@@ -60,6 +60,12 @@
                 </div>
                 <div class="card-body" style="border-top: 2px solid lightgray;">
                     <div class="row" >
+                    	<c:if test="${dto.userNo == LOGINED_USER_NO }">
+	                    	<div class="col-12" align="right">
+	                    	<a href="modifyform.do?boardNo=${dto.no }&catno=${dto.categoryNo}"><button>수정</button></a> 
+	                    	<a href="delete.do?boardNo=${dto.no }&catno=${dto.categoryNo}"><button>삭제</button></a>
+	                    	</div>
+                    	</c:if>
                         <div class="col-12" style="margin-top:30px; margin-bottom: 100px;">
                         	<c:if test="${not empty dto.imageFilename  }">
                         		<p><img src="../resources/images/${dto.imageFilename }"></p>
@@ -71,21 +77,21 @@
                     </div>
                     <div class="row">
                         <div class="col-12" style="text-align: center; margin-bottom: 20px;">
-                        	<c:if test="${not empty LOGINED_USER && dto.userNo != LOGINED_USER.no }">
-                            <button><a href="like.do?boardNo=${dto.no }&catno=${category.no}">추천</a></button> <button>비추</button>
+                        	<c:if test="${not empty LOGINED_USER_NO && dto.userNo != LOGINED_USER_NO }">
+                            <button><a href="like.do?boardNo=${dto.no }&catno=${category.no}">좋아요 &#128077;</a></button> <button><a href="dislike.do?boardNo=${dto.no }&catno=${category.no}">싫어요 &#128078;</a></button>
                         	</c:if>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-2">
+                        <!-- <div class="col-2">
                             <button>이전 글</button>
-                        </div>
-                        <div class="col-8" style="text-align: center;">
+                        </div> -->
+                        <div class="col-12" style="text-align: center;">
                             <button><a href="index.do?catno=${dto.categoryNo }">목록으로 가기</a></button>
                         </div>
-                        <div class="col-2">
+                        <!-- <div class="col-2">
                             <button>다음 글</button>
-                        </div>
+                        </div> -->
                     </div>
                      </div>
                      <!-- 댓글창 시작-->
@@ -137,10 +143,11 @@
 						<input type="hidden" name="catno" value="${category.no }" />
 							<div class="form-group row">
 							<div class="col-11">
+							댓글쓰기
 								<textarea rows="3" class="form-control" name="content"></textarea>
 							</div>
 							<div class="col-1">
-								<input type="submit" class="btn btn-outline-primary" value="등록">
+								<input type="submit" class="btn btn-outline-primary" value="댓글등록">
 							</div>
 						</div>
 					</form>
@@ -157,13 +164,14 @@
 				<c:if test="${empty comments }">
 					<li class="lsit-group-item">댓글이 존재하지 않습니다.</li>
 				</c:if>
+				<span>댓글 ${dto.commentCnt } 개</span> 
 				<c:forEach var="comment" items="${comments }">
 					<li class="list-group-item">
     					<div class="d-flex w-100 justify-content-between">
       						<h5 class="mb-1">${comment.nickname }</h5>
-      						<small>${comment.createdDate }</small>
+      						<small><fmt:formatDate value="${comment.createdDate }" pattern="yyyy.MM.dd hh:ss"/> </small>
     					</div>
-    					<p class="mb-1">${comment.commentContent }</p>
+    					<p class="mb-1"><small>${comment.commentContent }</small></p>
   					</li>
 				</c:forEach> 
 				

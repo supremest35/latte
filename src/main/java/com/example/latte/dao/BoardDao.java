@@ -15,6 +15,7 @@ public interface BoardDao {
 	BoardDto getBoardDtoByNo(int boardNo);
 	List<BoardDto> getAllBoardDtoByCategoryNo(int categoryNo);
 	List<Board> getBoardsByCategoryNo(int categoryNo);
+	List<BoardDto> getTop10ByLikeCnt();
 	
 	void insertBoard(Board board);
 	void updateBoard(Board board);

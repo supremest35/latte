@@ -10,11 +10,14 @@
 			a.pan_board_comment_content			as commentContent,
 			a.pan_board_comment_like_cnt		as likeCnt,
 			a.pan_board_comment_created_date	as createdDate,
-			b.user_nickname						as nickname
+			b.user_nickname						as nickname,
+			c.pan_board_comment_cnt				as commentCnt
 		from 
-			latte_pan_board_comments a, latte_users b
+			latte_pan_board_comments a, latte_users b, latte_pan_boards c
 		where
 			a.user_no = b.user_no
+		and
+			a.pan_board_no = c.pan_board_no
 		and
 			a.pan_board_no = #{value}
 	</select>

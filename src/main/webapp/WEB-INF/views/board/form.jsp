@@ -34,7 +34,7 @@
                 <div class="card">
                         <div class="card-header"><h4>글쓰기</h4></div>
                         	<form id="board-form" method="post" action="register.do" enctype="multipart/form-data">
-		                         <input type="hidden" value="${LOGINED_USER.no }" name="userNo"> 
+		                         <input type="hidden" value="${LOGINED_USER_NO }" name="userNo"> 
 		                        <div class="card-body">
 		                            <div class="form-group row">
 		                                <div class="col-2">

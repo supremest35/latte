@@ -57,6 +57,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public List<BoardDto> getBestByLikeCnt() {
+		return boardDao.getTop10ByLikeCnt();
+	}
+	
+	@Override
 	public void updateBaord(Board board) {
 		boardDao.updateBoard(board);
 	}
