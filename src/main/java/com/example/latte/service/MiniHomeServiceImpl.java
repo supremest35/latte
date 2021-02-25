@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.latte.dao.DiaryDao;
 import com.example.latte.dao.FolderDao;
 import com.example.latte.dao.KeywordDao;
 import com.example.latte.dao.MiniHomeDao;
@@ -15,6 +16,7 @@ import com.example.latte.dao.QnaDao;
 import com.example.latte.dao.UserDao;
 import com.example.latte.dao.VisitorNoteDao;
 import com.example.latte.dao.WelcomeNoteDao;
+import com.example.latte.vo.Diary;
 import com.example.latte.vo.Folder;
 import com.example.latte.vo.Keyword;
 import com.example.latte.vo.MiniHome;
@@ -45,6 +47,9 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	
 	@Autowired
 	KeywordDao keywordDao;
+	
+	@Autowired
+	DiaryDao diaryDao;
 	
 	@Autowired
 	FolderDao folderDao;
@@ -117,6 +122,22 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	@Override
 	public WelcomeNote getWelcomeNoteByMiniHomeNo(int miniHomeNo) {
 		return welcomeNoteDao.getWelcomeNoteByMiniHomeNo(miniHomeNo);
+	}
+
+	@Override
+	public MiniHome getMiniHomeByNo(int miniHomeNo) {
+		return miniHomeDao.getMiniHomeByNo(miniHomeNo);
+	}
+
+	@Override
+	public MiniHome getMiniHomeByUserNo(int userNo) {
+		return miniHomeDao.getMiniHomeByUserNo(userNo);
+	}
+
+	@Override
+	public Map<String, List<Diary>> getDiariesByMiniHomeNoAndYearMonth(int miniHomeNo, String yearMonth) {
+		//List<Diary> diaries = diaryDao.getDiariesByMiniHomeNoAndYearMonth(miniHomeNo, yearMonth);
+		return null;
 	}
 
 	

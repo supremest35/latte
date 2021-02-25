@@ -14,8 +14,10 @@ import com.example.latte.service.MiniHomeService;
 import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.Keyword;
+import com.example.latte.vo.MiniHome;
 import com.example.latte.vo.Profile;
 import com.example.latte.vo.Qna;
+import com.example.latte.vo.User;
 import com.example.latte.vo.WelcomeNote;
 
 @Controller
@@ -29,39 +31,81 @@ public class MiniHomeController {
 	
 	@RequestMapping("/minihome.do")
 	public String minihome(@RequestParam(name="miniHomeNo", required = false, defaultValue = "-1") int miniHomeNo, Model model) {
-		Map<String, Object> opt = new HashMap<String, Object>();
-		opt.put("userNo", SessionUtils.getAttribute("LOGINED_USER_NO"));
-		opt.put("miniHomeNo", miniHomeNo);
 		
-		Map<String, Object> miniHomeInfo = miniHomeService.getMiniHomeInfoByOption(opt);
-		model.addAttribute("miniHome", miniHomeInfo.get("miniHome"));
-		model.addAttribute("hostUser", miniHomeInfo.get("hostUser"));
+		MiniHome miniHome = null;
+		User hostUser = null;
+		
+		if (miniHomeNo != -1) {
+			miniHome = miniHomeService.getMiniHomeByNo(miniHomeNo);
+			hostUser = userService.getUserByNo(miniHome.getUserNo());
+		} else {
+			int userNo = (int) SessionUtils.getAttribute("LOGINED_USER_NO");
+			miniHome = miniHomeService.getMiniHomeByUserNo(userNo);
+			hostUser = userService.getUserByNo(userNo);
+		}
+		
+		Map<String, Object> hostUserInfo = new HashMap<String, Object>();
+		hostUserInfo.put("no", hostUser.getNo());
+		hostUserInfo.put("id", hostUser.getId());
+		hostUserInfo.put("name", hostUser.getName());
+		hostUserInfo.put("nickName", hostUser.getNickName());
+		
+		model.addAttribute("miniHome", miniHome);
+		model.addAttribute("hostUser", hostUserInfo);
+		
 		return "minihome/minihome";
 	}
 
 	@RequestMapping("/sideSection.do")
 	public String sideSection(@RequestParam("sectionId") String sectionId, @RequestParam("miniHomeNo") int miniHomeNo, Model model) {
-		WelcomeNote welcomeNote = miniHomeService.getWelcomeNoteByMiniHomeNo(miniHomeNo);
-		welcomeNote.setPhotoFilename("/resources/images/miniHome/" + welcomeNote.getPhotoFilename());
-		model.addAttribute("welcomeNote", welcomeNote);
+		
+	
+		if ("#home-section".equals(sectionId) || "#visitor-section".equals(sectionId)) {
+			WelcomeNote welcomeNote = miniHomeService.getWelcomeNoteByMiniHomeNo(miniHomeNo);
+			welcomeNote.setPhotoFilename("/resources/images/miniHome/" + welcomeNote.getPhotoFilename());
+			model.addAttribute("welcomeNote", welcomeNote);
+		} else if ("#diary-section".equals(sectionId)) {
+			
+		} else if ("#photo-section".equals(sectionId)) {
+			
+		} else if ("#video-section".equals(sectionId)) {
+			
+		} else if ("#board-section".equals(sectionId)) {
+			
+		}
+		
 		return "minihome/sideSection";
 	}
 
 	@RequestMapping("/mainSection.do")
-	public String mainSection(@RequestParam("contentId") String contentId, Model model) {
+	public String mainSection(@RequestParam("contentId") String contentId, @RequestParam("miniHomeNo") int miniHomeNo, Model model) {
 		if ("#profile-intro".equals(contentId)) {
-			Profile profile = miniHomeService.getProfileByMiniHomeNo(1);
+			Profile profile = miniHomeService.getProfileByMiniHomeNo(miniHomeNo);
 			profile.setPhotoFilename("/resources/images/miniHome/" + profile.getPhotoFilename());
 			
 			model.addAttribute("profile", profile);
 		} else if ("#profile-keyword".equals(contentId)) {
-			List<Keyword> keywords = miniHomeService.getKeywordsByProfileNo(1);
+			List<Keyword> keywords = miniHomeService.getKeywordsByProfileNo(miniHomeNo);
 			
 			model.addAttribute("keywords", keywords);
 		} else if ("#profile-qna".equals(contentId)) {
-			List<Qna> qnas = miniHomeService.getQnasByProfileNo(1);
+			List<Qna> qnas = miniHomeService.getQnasByProfileNo(miniHomeNo);
 			
 			model.addAttribute("qnas", qnas);
+		} else if ("#profile-basicInfo".equals(contentId)) {
+			MiniHome miniHome = miniHomeService.getMiniHomeByNo(miniHomeNo);
+			User hostUser = userService.getUserByNo(miniHome.getUserNo());
+			
+			Map<String, Object> hostUserInfo = new HashMap<String, Object>();
+			hostUserInfo.put("no", hostUser.getNo());
+			hostUserInfo.put("id", hostUser.getId());
+			hostUserInfo.put("name", hostUser.getName());
+			hostUserInfo.put("nickName", hostUser.getNickName());
+			hostUserInfo.put("birthday", hostUser.getBirthday());
+			hostUserInfo.put("tel", hostUser.getTel());
+			hostUserInfo.put("address", hostUser.getAddress());
+			
+			model.addAttribute("hostUser", hostUserInfo);
 		}
 		return "minihome/mainSection";
 	}
