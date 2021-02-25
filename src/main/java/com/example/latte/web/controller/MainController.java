@@ -48,13 +48,12 @@ public class MainController {
 		param.put("id", userId);
 		param.put("pwd", password);
 		try {
-			User user = userService.getLoginUser(param);
-			rd.addFlashAttribute("loginedUser", user);
+			userService.getLoginUser(param);
 			
 			Map<String, Object> opt = new HashMap<>();
-			opt.put("userNo", (int)SessionUtils.getAttribute("LOGINED_USER_NO"));
+			opt.put("userNo", ((User)SessionUtils.getAttribute("LOGINED_USER")).getNo());
 			opt.put("status", "connected");
-			//rd.addFlashAttribute("freindList", userService.getMyFriendListByOpt(opt));
+			//SessionUtils.setAttribute("freindList", userService.getMyFriendListByOpt(opt));
 			
 		} catch (FailedLoginException e) {
 			rd.addFlashAttribute("message", e.getMessage());
@@ -65,11 +64,7 @@ public class MainController {
 	// 로그아웃시 세션에 저장된 정보 삭제
 	@RequestMapping("/logout.do")
 	public String logout() {
-		//System.out.println("####전 : "+((User)SessionUtils.getAttribute("LOGINED_USER")).getName());
-		SessionUtils.removeAttribute("LOGINED_USER_NO");
-		SessionUtils.removeAttribute("LOGINED_USER_NAME");
-		SessionUtils.removeAttribute("LOGINED_USER_NICKNAME");
-		//System.out.println("####후 : "+SessionUtils.getAttribute("LOGINED_USER"));
+		SessionUtils.removeAttribute("LOGINED_USER");
 		return "redirect:/main.do";
 	}
 	

@@ -6,7 +6,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h6>${LOGINED_USER_NAME}(님)의 쪽지함</h6>
+				<h6>${LOGINED_USER.name}(님)의 쪽지함</h6>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -136,24 +136,32 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group row">
-									<template v-if="newNote.categoryNo == 5">
+								<div class="form-group row" v-show="newNote.categoryNo == 5">
 									<div class="col-6">
 										<label class="font-weight-bold">송신 부서</label> 
 										<input type="text" class="form-control" name="userDept" :value="userDept" readonly />
 									</div>
 									<div class="col-6">
 										<label class="font-weight-bold">수신 부서</label> 
-										<input type="text"class="form-control" name="recDept" value="수신자 부서" />
+										<input type="text"class="form-control" name="recDept" placeHoder="수신자 부서" id="selectedRec-dept" readonly/>
 									</div>
-									</template>
+								</div>
+								<div class="form-group row">
 									<div class="col-6">
 										<label class="font-weight-bold">보내는 이</label>
-										<input type="text" class="form-control" name="user" value=${LOGINED_USER_NAME} readonly />
+										<input type="text" class="form-control" name="user" value=${LOGINED_USER.name} readonly />
 									</div>
 									<div class="col-6">
 										<label class="font-weight-bold">받는 사람</label> 
-										<input type="text"class="form-control" name="recipient" v-model="newNote.recipientNo" />
+										<input type="text"class="form-control" name="recipient" @input="typing" id="selectedRec-name"/>
+									</div>
+									<div class="col-6 offset-6 mt-2">
+										<ul v-show="showSearchedUserList" class="list-group">
+											<li class="list-group-item" 
+												style="cursor: pointer;"
+												v-for="(recipient, index) in searchedUserList" :key="index"
+												@click="[selectRecipient(recipient),getRecDept(recipient)]">{{recipient.name}}({{recipient.nickName}})</li>
+										</ul>
 									</div>
 								</div>
 								<div class="form-group">
@@ -190,9 +198,40 @@
 				recipientNo:'',
 				title:'',
 				content:''
-			}
+			},
+			showSearchedUserList:false,
+			userList:[],
+			searchedUserList: []
 		}, // end data
 		methods: {
+			typing: function(e) {
+				this.noteSearchName = e.target.value;
+				this.searchedUserList = [];
+				this.showSearchedUserList = false;
+				
+				if (this.noteSearchName) {
+					this.userList.filter(function(user, index) {
+						return user.name.indexOf(noteApp.noteSearchName) != -1;
+					}).forEach(function(user, index) {
+						noteApp.searchedUserList.push(user);
+					})
+					this.showSearchedUserList =!! this.searchedUserList.length
+				} 
+			},
+			selectRecipient: function(recipient) {
+				this.recipientUser = recipient;
+				document.querySelector('#selectedRec-name').value = recipient.name +"("+ recipient.nickName+")";
+				this.newNote.recipientNo = recipient.no;
+				this.searchedUserList = [];
+				this.showSearchedUserList = false;
+			},
+			getRecDept: function (recipient) {
+				for(var i =0; i <noteApp.deptList.length; i++){
+					if(noteApp.deptList[i].no === recipient.deptNo ){
+						document.querySelector('#selectedRec-dept').value = noteApp.deptList[i].name;
+					}
+				}
+			},
 			sendNote: function () {
 				if(noteApp.newNote.categoryNo == ''){
 					alert("<요약> 항목을 선택해주세요.");
@@ -201,17 +240,20 @@
 				console.log("##categoryNo " + noteApp.newNote.categoryNo);
 				
 				axios.post("http://localhost/api/note/sendNote", noteApp.newNote).then(function (response) {
+					alert('쪽지 전송이 완료되었습니다.');
+					noteApp.newNote.title = '';
+					noteApp.newNote.content = '';
 				})
 			}
 		},
 		computed: {
 			categories: function() {
-				var deptNo = '${loginedUser.deptNo}'
-				
-				axios.get("http://localhost/api/depts").then(function(response){
+				var that = this
+				var deptNo = '${LOGINED_USER.deptNo}'
+				axios.get("http://localhost/api/depts").then(response => {
 					for(var i =0; i <response.data.length; i++){
 						if(response.data[i].no == deptNo){
-							noteApp.userDept = response.data[i].name;
+							this.userDept = response.data[i].name;
 						}
 					}
 					noteApp.deptList = response.data;
@@ -228,6 +270,10 @@
 			var that = this;
 			axios.get("http://localhost/api/note/getCategories").then(function(response){
 				that.noteCategories = response.data;
+			})
+			
+			axios.get("http://localhost/api/users/getAllAvailableUser").then(function(response){
+				that.userList = response.data;
 			})
 		}
 		

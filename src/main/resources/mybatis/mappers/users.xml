@@ -48,7 +48,7 @@
 		 #{address}, #{addressDetail}, #{postCode}, #{deptNo}, #{position}, #{photo})
 	</insert>
 	
-	<select id="getAllUsers" resultType="com.example.latte.vo.User">
+	<select id="getAllUsers" parameterType="map" resultType="com.example.latte.vo.User">
 		select 
 			user_no as no,
 			user_name as name,
@@ -68,6 +68,11 @@
 			user_photo as photo,
 			user_created_date as createdDate
 		from latte_users
+		<where>
+			<if test="available != null">
+				user_available = #{available}
+			</if>
+		</where>
 	</select>
 	
 	<select id="getUserByNo" parameterType="int" resultType="com.example.latte.vo.User">

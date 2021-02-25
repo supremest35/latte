@@ -35,7 +35,7 @@ public class NoteServiceImpl  implements NoteService{
 		User recipient = userDao.getUserByNo(note.getRecipientNo());
 		System.out.println("###########노트 service호출됨");
 		
-		note.setSenderNo((int)SessionUtils.getAttribute("LOGINED_USER_NO"));
+		note.setSenderNo(((User)SessionUtils.getAttribute("LOGINED_USER")).getNo());
 		note.setRecDeptNo(recipient.getDeptNo());
 		System.out.println("########서비스 노트"+note);
 		noteDao.insertNote(note);

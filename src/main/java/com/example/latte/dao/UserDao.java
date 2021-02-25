@@ -16,7 +16,7 @@ public interface UserDao {
 
 	User getUserByOption(Map<String, Object> option);
 	void insertUser(User user);
-	List<User> getAllUsers();
+	List<User> getAllUsers(Map<String, String> condition);
 	User getUserByNo(int userNo);
 	User getUserById(String userId);
 	void updateUser(User user);

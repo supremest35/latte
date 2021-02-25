@@ -11,9 +11,9 @@ public interface UserService {
 
 	User getUserById(String userId);
 	User getUserByNo(int userNo);
-	User getLoginUser(Map<String, String> param);
+	void getLoginUser(Map<String, String> param);
 	User getLoginedUserInfo(String userId, String password);
-	List<User> getAllUsers();
+	List<User> getAllUsers(Map<String, String> condition);
 	void removeUser(int userNo);
 	void addUser(User user);
 	

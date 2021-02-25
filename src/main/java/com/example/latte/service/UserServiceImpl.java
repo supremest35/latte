@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User getLoginUser(Map<String, String> param){
+	public void getLoginUser(Map<String, String> param){
 		// 전달받은 아이디로 사용자정보를 불러오고 전달받은 비밀번호를 암호화해 비교 데이터를 생성
 		User savedUser = getUserById(param.get("id"));
 		String codePwd = DigestUtils.sha256Hex(param.get("pwd"));
@@ -54,11 +54,7 @@ public class UserServiceImpl implements UserService {
 		if(savedUser == null || !codePwd.equals(savedUser.getPassword())){
 			throw new FailedLoginException("아이디와 비밀번호를 확인해주세요.");
 		}
-		SessionUtils.setAttribute("LOGINED_USER_NO", savedUser.getNo());
-		SessionUtils.setAttribute("LOGINED_USER_NAME", savedUser.getName());
-		SessionUtils.setAttribute("LOGINED_USER_NICKNAME", savedUser.getNickName());
-		
-		return savedUser;
+		SessionUtils.setAttribute("LOGINED_USER", savedUser);
 	}                         
 	
 	@Override
@@ -98,8 +94,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public List<User> getAllUsers() {
-		return userDao.getAllUsers();
+	public List<User> getAllUsers(Map<String, String> condition) {
+		return userDao.getAllUsers(condition);
 	}
 
 
