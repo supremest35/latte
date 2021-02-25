@@ -78,8 +78,8 @@
 		      <td><i class="fad fa-acorn"></i> ${acorn.price }개</td>
 		      <td><a href=""><i class="far fa-heart"></i> ${acorn.likeCnt }</a></td>
 		      <td><a href="/shopping/cart/list.do"><i class="fas fa-plus"></i></a></td>
-		      <td><a href="/shopping/order/form.do">바로구매</a></td>
-		      <td><a href="/shopping/order/form.do">선물하기</a></td>
+		      <td><a href="/shopping/order/form.do?acornno=${acorn.no }&amount=1">바로구매</a></td>
+		      <td><a href="/shopping/order/form.do?acornno=${acorn.no }&amount=1">선물하기</a></td>
 		    </tr>
 		    </c:forEach>
 		  </tbody>

@@ -87,9 +87,11 @@
 			from
 		       	latte_products
 		    <where>
-		    	<if test="categoryNo != null">
-		       		product_category_no = #{categoryNo}
-		       	</if>
+		    	<choose>
+		    		<when test="categoryNo != -1">
+		    			product_category_no = #{categoryNo}
+		    		</when>
+		       	</choose>
 		    </where>
 			)
 		<where>

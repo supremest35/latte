@@ -3,7 +3,7 @@
   	<ul class="navbar-nav">	
 	    <li class="nav-item dropdown">
 	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	      	전체 카테고리
+	      	<i class="fas fa-bars"></i> 전체 카테고리
 	      </a>
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${allCategories }">

@@ -21,4 +21,6 @@ public interface WishItemDao {
 	
 	void updateWishItem(WishItem wishItem);
 	void deleteWishItem(int itemNo);
+
+	WishItem getCartItemByNo(int wishItemNo);
 }

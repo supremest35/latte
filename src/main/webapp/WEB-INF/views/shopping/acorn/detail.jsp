@@ -47,7 +47,7 @@
 			    		<div class="col-md-12">
 			      			<div class="card-body">
 			        			<h5 class="card-title">${acorn.name }</h5>
-			        			<form id="acorn-form" method="get" action="../order/form.do">
+			        			<form id="acorn-form" method="get" action="/shopping/order/form.do">
 			        				<input type="hidden" name="acornno" value="${acorn.no }" />
 				        			<table class="table">
 				        				<colgroup>

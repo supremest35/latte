@@ -51,7 +51,7 @@
 	               </div>
 	               <div class="form-group col-4">
 	                  <label>중분류</label>
-	                  <select class="form-control" name="categoryMidNo" id="good">
+	                  <select class="form-control" name="categoryMidNo" id="product-mid-category">
 		                  <option value=""> 선택하세요</option>
 	                  	  <c:forEach var="category" items="${midCategories }">
 		              		<option value="${category.no }"> ${category.name }</option>
@@ -60,7 +60,7 @@
 	               </div>
 	               <div class="form-group col-4">
 	                  <label>소분류</label>
-	                  <select class="form-control" name="categoryLowNo" id="product-category">
+	                  <select class="form-control" name="categoryLowNo" id="product-low-category">
 		           		  <option value=""> 선택하세요</option>
 	                  	  <c:forEach var="category" items="${lowCategories }">
 		              		<option value="${category.no }"> ${category.name }</option>
