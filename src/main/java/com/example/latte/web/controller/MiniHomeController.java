@@ -39,9 +39,9 @@ public class MiniHomeController {
 			miniHome = miniHomeService.getMiniHomeByNo(miniHomeNo);
 			hostUser = userService.getUserByNo(miniHome.getUserNo());
 		} else {
-			int userNo = (int) SessionUtils.getAttribute("LOGINED_USER_NO");
-			miniHome = miniHomeService.getMiniHomeByUserNo(userNo);
-			hostUser = userService.getUserByNo(userNo);
+			hostUser = (User) SessionUtils.getAttribute("LOGINED_USER");
+			miniHome = miniHomeService.getMiniHomeByUserNo(hostUser.getNo());
+			
 		}
 		
 		Map<String, Object> hostUserInfo = new HashMap<String, Object>();
@@ -106,6 +106,8 @@ public class MiniHomeController {
 			hostUserInfo.put("address", hostUser.getAddress());
 			
 			model.addAttribute("hostUser", hostUserInfo);
+		} else if ("#diary-section".equals(contentId)) {
+			model.addAttribute("diary", miniHomeService.getLatestDiaryByMiniHomeNo(miniHomeNo));
 		}
 		return "minihome/mainSection";
 	}

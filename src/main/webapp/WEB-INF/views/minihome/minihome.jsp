@@ -93,7 +93,15 @@
 			<div class="col-2" id="side-frame">
 				<div class="card" >
 					<div class="card-header">
-						TODAY ${miniHome.todayCnt } | TOTAL ${miniHome.totalCnt }
+						<div class="row">
+							<div class="col-5">
+								<small>today ${miniHome.todayCnt }</small>
+							</div>
+								<small>|</small>
+							<div class="col-5">
+								<small>total ${miniHome.totalCnt }</small>
+							</div>
+						</div>
 					</div>
 					<div id="side-content">
 						
@@ -118,11 +126,17 @@
 			<div class="col-7" id="main-frame">
 				<div class="card" id="main-section">
 					<div class="card-header">
-						<h3 style="display: inline;"><a href="">${hostUser.nickName }님의 미니홈피</a></h3>
-						<span style="float: right;">
-							<button class="badge badge-primary badge-xs">수정</button>
-							<span>http://www.latteworld.com/${miniHome.address }</span>
-						</span>
+						<div class="row">
+							<div class="col-7">
+								<h3 style="display: inline;"><a href="">${hostUser.nickName }님의 미니홈피</a></h3>
+							</div>
+							<div class="col-1">
+								<button class="badge badge-primary badge-xs">수정</button>
+							</div>
+							<div class="col-4">
+								<small>http://www.latteworld.com/${miniHome.address }</small>
+							</div>
+						</div>
 					</div>
 					<div id="main-content">
 						
@@ -187,8 +201,6 @@
 	</div>
 <script type="text/javascript">
 
-	
-		
 	// 메인메뉴 버튼이 클릭될 때 이벤트
 	$("#main-menu button").click(function() {
 		// 메인컨텐츠 안의 내용 지우기
@@ -197,20 +209,23 @@
 		var sectionId = $(this).data("section-id");
 		// 메인메뉴 버튼에 해당한 sideSection.jsp의 태그를 불러온다.
 		$("#side-content").load("sideSection.do " + sectionId + "-side", {sectionId:$(this).data("section-id"), miniHomeNo:${miniHome.no}} , function() {
-		
+
+			// 다이어리 버튼을 눌렀을 때, 사이드컨텐츠에 달력 출력 
 			if (sectionId == "#diary-section") {
 				initCalendar();
+				// 다이어리 버튼 눌렀을 때 메인컨텐츠가져오기
+				$("#main-content").load("mainSection.do #diary-section", {contentId:"#diary-section", miniHomeNo:${miniHome.no}});
+			} else {
+				// sideSection의 li:first a에 해당하는 태그가 클릭되는 콜백함수
+				$("#side-content li:first a").trigger("click");
+				// 눌린 버튼이 다이어리일때
 			}
-			// sideSection의 li:first a에 해당하는 태그가 클릭되는 콜백함수
-			$("#side-content li:first a").trigger("click");
-			// 눌린 버튼이 다이어리일때
-			
 		});
 	})
 	// 페이지가 로드되면 홈 버튼 클릭되게한다.
 	$("#btn-home").trigger("click");
 		
-	// sideSection의 a 태그가 클릭될 때 이벤트
+	// sideSection의 a 태그가 클릭될 때 이벤트(프로필 폴더, 게시판 폴더들)
 	$("#side-content").on("click", "li a", function() {
 		// 메인컨텐츠 안의 내용 지우기
 		$("#main-content").empty();
@@ -218,23 +233,40 @@
 		$("#main-content").load("mainSection.do " + $(this).data("content-id"), {contentId:$(this).data("content-id"), miniHomeNo:${miniHome.no}});
 		return false;
 	})
-		
+	
+	// Diary 달력
 	//달력 생성 후 calendar변수에 저장
 	var calendar;
 	function initCalendar() {
 		var calendarEl = document.getElementById('calendar');
 	    calendar = new FullCalendar.Calendar(calendarEl, {
 	    	initialView: 'dayGridMonth',
-	      	events: function(info) {
-				var yearMonth = moment(info.start).format("YYYYMM");
-	      		axios.get("http://localhost/minihome/api/diary/" + yearMonth + "&" + ${miniHome.no}, function(response) {
-	      			console.log(response.data);
+	    	events: function(info, successCallback, failureCallback) {
+				var yearMonth = moment().format("YYYYMM");
+	      		axios.get("http://localhost/minihome/api/diary/eventList/" + yearMonth + "&" + ${miniHome.no}).then(function(response) {
+	      			successCallback(response.data);
 	      		})
-	      	} 
+	      	},
+	      	eventClick: function(info) {
+				axios.get("http://localhost/minihome/api/diary/" + info.event.id).then(function(response) {
+					var diary = response.data;
+					$("#diary-title").text(diary.title);
+					$("#diary-content").text(diary.content);
+					var secret = "공개여부 : ";
+					if (diary.secret == "N") {
+						secret += "전체공개 "
+					} else if(diary.secret == "Y") {
+						secret += "비공개";
+					}
+					secret += "<small>(" + moment(diary.createdDate).format("YYYY-MM-DD") + ")</small>";
+					$("#diary-secret > p").empty().append(secret);
+				}) 		
+	      	}
+	      
 	    });
 	    calendar.render();
 	}
-		
+
 </script>
 </body>
 </html>

@@ -4,12 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.latte.vo.Diary;
-import com.example.latte.vo.Folder;
 import com.example.latte.vo.Keyword;
 import com.example.latte.vo.MiniHome;
 import com.example.latte.vo.Profile;
 import com.example.latte.vo.Qna;
-import com.example.latte.vo.VisitorNote;
 import com.example.latte.vo.WelcomeNote;
 
 public interface MiniHomeService {
@@ -22,7 +20,11 @@ public interface MiniHomeService {
 
 	WelcomeNote getWelcomeNoteByMiniHomeNo(int miniHomeNo);
 	
-	Map<String, List<Diary>> getDiariesByMiniHomeNoAndYearMonth(int miniHomeNo, String yearMonth);
+	Diary getDiaryByNo(int diaryNo);
+
+	Diary getLatestDiaryByMiniHomeNo(int miniHomeNo);
+	
+	List<Diary> getDiariesByOption(Map<String, Object> opt);
 
 	List<Keyword> getKeywordsByProfileNo(int profileNo);
 
@@ -30,7 +32,4 @@ public interface MiniHomeService {
 
 	Map<String, Object> getMiniHomeInfoByOption(Map<String,Object> opt);
 	
-	Map<String, List<Folder>> getfoldersByMiniHomeNoAndCategoryNo(int miniHomeNo, int categoryNo);
-	
-	VisitorNote getVisitorNoteByMiniHomeNoAndIndex(int miniHomeNo, int index);
 }
