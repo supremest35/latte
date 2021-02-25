@@ -32,8 +32,6 @@ public class MainController {
 	// 회원가입시 선택할 부서 목록
 	@GetMapping("depts")
 	public List<Dept> getAllDepts(){
-//		List<Dept> depts = deptService.getAllDepts(); 
-//		System.out.println(depts);
 		return deptService.getAllDepts();
 	}
 	

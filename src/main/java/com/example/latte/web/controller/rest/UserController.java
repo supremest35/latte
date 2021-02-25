@@ -114,8 +114,19 @@ public class UserController {
 					@RequestParam(value="stauts") String status){
 		
 		Map<String, Object> opt = new HashMap<>();
-		opt.put("userNo", status);
+		opt.put("userNo", userNo);
+		opt.put("status", "connected");
 		
 		return userService.getMyFriendListByOpt(opt);
 	}
+	
+	// 가입된 모든 사용자 (탍퇴회원 제외)
+	@RequestMapping("getAllAvailableUser")
+	public List<User> getAllUser(){
+		Map<String, String> condition = new HashMap<>();
+		condition.put("available", "Y");
+		return userService.getAllUsers(condition);
+	}
+	
+	
 }

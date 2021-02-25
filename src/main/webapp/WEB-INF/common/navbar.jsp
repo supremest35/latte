@@ -286,10 +286,7 @@
 			<!-- 메뉴바 끝 -->
 
 			<!-- 로그인창 -->
-		<%--
-			${empty LOGINED_USER}"
-		 --%>
-			<c:if test="${empty LOGINED_USER_NO}">
+			<c:if test="${empty LOGINED_USER}">
 			<div class="col-3" id="nav-login" style="height: 237px; max-height: 237px;">
 				<form action="login.do" method="post" id="login-form">
 					<div class="card login-box">
@@ -319,8 +316,7 @@
 			</c:if>
 
 			<!-- 사용자 정보창 -->
-			<!-- ${not empty LOGINED_USER} -->
-			<c:if test="${not empty LOGINED_USER_NO}">
+			<c:if test="${not empty LOGINED_USER}">
 			<div class="col-3 border" id="nav-info">
 				<!-- 정보창 1열 프로필사진 정보 -->
 				<div class="row">
@@ -329,7 +325,7 @@
 							<div class="col-sm-12" id="info-top-line" style="height: 167px; max-height: 167px;">
 							<div class="row no-gutters">
 								<div class="col-sm-5">
-									<img class="ml-1 mt-2 border" id="user-img" src="/resources/images/userProfilePhoto/${loginedUser.photo }" alt="userPhoto" />
+									<img class="ml-1 mt-2 border" id="user-img" src="/resources/images/userProfilePhoto/${LOGINED_USER.photo }" alt="userPhoto" />
 								</div>
 								<div class="col-sm-7 mt-1">
 									<button class="info-btn btn-sm btn-warning mr-1" id="btn-profile">프로필 수정</button>
@@ -340,7 +336,7 @@
 										
 										<thead>
 											<tr id="info-tr">
-												<th>${LOGINED_USER_NAME }(${LOGINED_USER_NICKNAME})님</th>
+												<th>${LOGINED_USER.name }(${LOGINED_USER.nickName})님</th>
 												<td>
 													<button class="btn btn-outline-info" id="btn-note"
 														data-toggle="modal" data-target="#modal-note">
@@ -351,7 +347,7 @@
 										<tbody>
 											<tr>
 												<th>도토리수</th>
-												<td><a href="도토리마켓 링크">${loginedUser.acornCnt}개</a></td>
+												<td><a href="도토리마켓 링크">${LOGINED_USER.acornCnt}개</a></td>
 											</tr>
 											<tr>
 												<th>받은 쪽지</th>
