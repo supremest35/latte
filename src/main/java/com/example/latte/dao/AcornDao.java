@@ -10,21 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.latte.vo.AcornItem;
 
-
-
-
-import com.example.latte.vo.AcornItem;
-
 @Mapper
 @Transactional
 public interface AcornDao {
 
-	int getTotalCountByCondition(Map<String, Object> condition);
-	List<AcornItem> getAcornsBycondition(Map<String, Object> condition);
-	
 	AcornItem getAcornByNo(int acornNo);
 	
-	void insertAcorn(AcornItem acorn);
-
+	int getTotalCountByCondition(Map<String, Object> condition);
+	
+	List<AcornItem> getAcornsBycondition(Map<String, Object> condition);
 	List<AcornItem> getAllAcorns();
+	
+	void insertAcorn(AcornItem acorn);
+	void updateAcorn(AcornItem acorn);
 }
