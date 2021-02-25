@@ -10,5 +10,4 @@ import com.example.latte.vo.Order;
 public interface OrderDao {
 
 	void insertOrder(Order order);
-
 }

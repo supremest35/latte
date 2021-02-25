@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.latte.dao.ProductDao;
 import com.example.latte.service.MarketCategoryService;
-import com.example.latte.vo.MarketCategory;
 import com.example.latte.vo.Product;
 
 @Controller
@@ -28,6 +27,5 @@ public class ShoppingController {
 		model.addAttribute("hitProducts", hitProducts);
 		
 		return "/shopping/main";
-	}
-	
+	}	
 }

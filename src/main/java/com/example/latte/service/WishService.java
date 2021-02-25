@@ -10,6 +10,6 @@ public interface WishService {
 	List<WishItemDto> getWishItemsList(int userNo);
 	
 	void deleteWishItems(List<Integer> wishNoList, int userNo);
-	void insertOrIncreaseAmount(WishItem cartItem);
+	void insertOrIncreaseAmount(WishItem wishItem);
 	void updateWishItem(WishItem wishItem);
 }

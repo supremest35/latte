@@ -89,7 +89,7 @@
 		    <where>
 		    	<choose>
 		    		<when test="categoryNo != -1">
-		    			product_category_no = #{categoryNo}
+		    			product_mid_category_no = #{categoryNo}
 		    		</when>
 		       	</choose>
 		    </where>
@@ -102,28 +102,35 @@
 	</select>
 	
 	<select id="getHitProducts" resultType="com.example.latte.vo.Product">
-		select
-			product_no				as no,
-			product_category_no		as categoryNo,
-			product_mid_category_no	as categoryMidNo,
-			product_low_category_no as categoryLowNo,
-			product_color_no		as colorNo,
-			product_mall_no			as mallNo,
-			product_brand_name		as brandName,
-			product_name			as name,
-			product_price			as price,
-			product_sale_price		as salePrice,
-			product_discount_rate	as discountRate,
-			product_information		as information,
-			product_free_delivery	as freeDelivery,
-			product_url				as url,
-			product_deleted			as deleted,
-			product_hit_cnt			as hitCnt,
-			product_created_date	as createdDate,
-			product_photo_filename	as photoFilename
+		select *
 		from
-			latte_products
-		order by product_hit_cnt desc
+			(select
+				row_number() over (order by product_hit_cnt desc) as rn,
+				product_no				as no,
+				product_category_no		as categoryNo,
+				product_mid_category_no	as categoryMidNo,
+				product_low_category_no as categoryLowNo,
+				product_color_no		as colorNo,
+				product_mall_no			as mallNo,
+				product_brand_name		as brandName,
+				product_name			as name,
+				product_price			as price,
+				product_sale_price		as salePrice,
+				product_discount_rate	as discountRate,
+				product_information		as information,
+				product_free_delivery	as freeDelivery,
+				product_url				as url,
+				product_deleted			as deleted,
+				product_hit_cnt			as hitCnt,
+				product_created_date	as createdDate,
+				product_photo_filename	as photoFilename
+			from
+				latte_products)
+			<where>
+				<if test="begin != 0 and end != 0">
+					rn >= 1	and rn &lt;= 6
+				</if>
+			</where>
 	</select>
 	<select id="getProductByNo" resultType="com.example.latte.vo.Product">
 		select
