@@ -12,6 +12,7 @@ public class CommentDto {
 	private int userNo;
 	private String nickname;
 	private String commentContent;
+	private int commentCnt;
 	private int likeCnt;
 	private Date createdDate;
 }

@@ -33,6 +33,7 @@ import com.example.latte.vo.Board;
 import com.example.latte.vo.BoardDto;
 import com.example.latte.vo.Category;
 import com.example.latte.vo.Comment;
+import com.example.latte.vo.DisLike;
 import com.example.latte.vo.Like;
 import com.example.latte.vo.User;
 
@@ -56,11 +57,25 @@ public class BoardController {
 	
 	@RequestMapping("/index.do")
 	public String index(@RequestParam(name="catno", required = false, defaultValue = "100") int categoryNo, Model model) {
-		Category category = categoryService.getCategoryByNo(categoryNo);
-		model.addAttribute("category", category);
-
-		List<BoardDto> boards = boardService.getAllBoardDtoByCategoryNo(categoryNo);
-		model.addAttribute("boards", boards);
+		
+		if(categoryNo == 100) {
+			Category category = categoryService.getCategoryByNo(categoryNo);
+			model.addAttribute("category", category);
+			
+			List<BoardDto> boards = boardService.getBestByLikeCnt();
+			System.out.println("보드컨트롤러"+boards);
+			model.addAttribute("boards", boards);
+			
+			
+		} else {
+			Category category = categoryService.getCategoryByNo(categoryNo);
+			model.addAttribute("category", category);
+			
+			List<BoardDto> boards = boardService.getAllBoardDtoByCategoryNo(categoryNo);
+			model.addAttribute("boards", boards);
+			System.out.println(boards);
+			
+		}
 		
 		
 		return "board/index";
@@ -133,6 +148,8 @@ public class BoardController {
 			
 			SessionUtils.setAttribute("LOGINED_USER", user);
 			SessionUtils.setAttribute("LOGINED_USER_NO", user.getNo());
+			SessionUtils.setAttribute("LOGINED_USER_NAME", user.getName());
+			SessionUtils.setAttribute("LOGINED_USER_NICKNAME", user.getNickName());
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 			return "redirect:loginform.do?error=notfount";
@@ -141,12 +158,14 @@ public class BoardController {
 			return "redirect:loginform.do?error=mismatch";
 		}
 		
-		return "board/index";
+		return "redirect:index.do";
 	}
 	
 	@RequestMapping("/logout.do")
 	public String logout() {
-		SessionUtils.removeAttribute("LOGINED_USER");
+		SessionUtils.removeAttribute("LOGINED_USER_NO");
+		SessionUtils.removeAttribute("LOGINED_USER_NAME");
+		SessionUtils.removeAttribute("LOGINED_USER_NICKNAME");
 		
 		return "redirect:index.do";
 	}
@@ -196,6 +215,24 @@ public class BoardController {
 			savedBoard.setLikeCnt(savedBoard.getLikeCnt() +1 );
 			boardService.updateBaord(savedBoard);
 		}
+		
+		return "redirect:detail.do?boardNo="+boardNo+"&catno="+categoryNo;
+	}
+	
+	@RequestMapping("/dislike.do")
+	public String dislike(@RequestParam("boardNo") int boardNo,
+			@RequestParam("catno") int categoryNo) {
+		int userNo = (int)SessionUtils.getAttribute("LOGINED_USER_NO");
+		DisLike savedDisLike = likeService.getDisLikeByBoardNoAndUserNo(boardNo, userNo);
+		
+		if (savedDisLike == null) {
+			likeService.insertDisLikes(boardNo, userNo);
+			
+			Board savedBoard = boardService.getBoardByNo(boardNo);
+			savedBoard.setDislikeCnt(savedBoard.getDislikeCnt() +1 );
+			boardService.updateBaord(savedBoard);
+		}
+		
 		
 		return "redirect:detail.do?boardNo="+boardNo+"&catno="+categoryNo;
 	}
