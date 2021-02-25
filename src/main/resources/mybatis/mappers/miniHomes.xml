@@ -2,6 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.MiniHomeDao">
+	<select id="getMiniHomeByNo" parameterType="int" resultType="com.example.latte.vo.MiniHome">
+		select 
+			minihome_no					as no,
+			user_no						as userNo,
+			minihome_today_cnt			as todayCnt,
+			minihome_total_cnt			as totalCnt,
+			minihome_address			as address,
+			minihome_secret				as secret,
+			minihome_created_date		as createdDate
+		from 
+			latte_minihomes
+		where
+			minihome_no = #{value}
+	</select>
+	<select id="getMiniHomeByUserNo" parameterType="int" resultType="com.example.latte.vo.MiniHome">
+		select 
+			minihome_no					as no,
+			user_no						as userNo,
+			minihome_today_cnt			as todayCnt,
+			minihome_total_cnt			as totalCnt,
+			minihome_address			as address,
+			minihome_secret				as secret,
+			minihome_created_date		as createdDate
+		from 
+			latte_minihomes
+		where
+			user_no = #{value}
+	</select>
 	<select id="getMiniHomeByOption" parameterType="map" resultType="com.example.latte.vo.MiniHome">
 		select 
 			minihome_no					as no,

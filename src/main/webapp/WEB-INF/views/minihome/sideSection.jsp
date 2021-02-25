@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <div id="side-sections">
 	<div id="home-section-side">
 		<div class="card-body" id="welcomeNote-img-box" >
@@ -30,7 +29,6 @@
 	</div>
 	<div id="diary-section-side">
 		<div id="calendar">
-			
 		</div>
 	</div>
 	<div id="photo-section-side">
@@ -53,8 +51,9 @@
 		</div>
 	</div>
 </div>
-
 <script type="text/javascript">
-	
 
+	
+	
+		
 </script>

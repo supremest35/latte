@@ -9,10 +9,11 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link href='resources/calendar/main.css' rel='stylesheet' />
-    <script src='resources/calendar/main.js'></script>
+	<script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+	<link href='/resources/calendar/main.css' rel='stylesheet' />
+    <script src='/resources/calendar/main.js'></script>
 <style type="text/css">
-	#minihome-blank {
+		#minihome-blank {
 			height: 20px;
 		}
 		#side-content {
@@ -34,9 +35,6 @@
 			margin: 0;
 		}
 
-		.card-img-top {
-			width: 70%;	
-		}
 		.card-body {
 			border-top: 2px solid lightgray;
 		}
@@ -49,7 +47,7 @@
 			height: 580px;
 		}
 		#side-section {
-			width: 13rem;
+			width: 7rem;
 		}
 		#main-frame {
 			padding-right: 0;
@@ -57,6 +55,10 @@
 		#side-frame {
 			padding-right: 0;
 		}
+		#calendar {
+			width:99%;
+		}
+		
 		ul {
 			list-style: none;
 		}
@@ -123,7 +125,7 @@
 						</span>
 					</div>
 					<div id="main-content">
-
+						
 					</div>
 				</div>
 			</div>
@@ -185,18 +187,25 @@
 	</div>
 <script type="text/javascript">
 
+	
 		
 	// 메인메뉴 버튼이 클릭될 때 이벤트
 	$("#main-menu button").click(function() {
 		// 메인컨텐츠 안의 내용 지우기
 		$("#main-content").empty();
 		
+		var sectionId = $(this).data("section-id");
 		// 메인메뉴 버튼에 해당한 sideSection.jsp의 태그를 불러온다.
-		$("#side-content").load("sideSection.do " + $(this).data("section-id") + "-side", {sectionId:$(this).data("section-id"), miniHomeNo:${miniHome.no}} , function() {
+		$("#side-content").load("sideSection.do " + sectionId + "-side", {sectionId:$(this).data("section-id"), miniHomeNo:${miniHome.no}} , function() {
+		
+			if (sectionId == "#diary-section") {
+				initCalendar();
+			}
 			// sideSection의 li:first a에 해당하는 태그가 클릭되는 콜백함수
 			$("#side-content li:first a").trigger("click");
+			// 눌린 버튼이 다이어리일때
 			
-		});		
+		});
 	})
 	// 페이지가 로드되면 홈 버튼 클릭되게한다.
 	$("#btn-home").trigger("click");
@@ -206,16 +215,25 @@
 		// 메인컨텐츠 안의 내용 지우기
 		$("#main-content").empty();
 		// 메인컨텐츠 안에 내용 넣기
-		$("#main-content").load("mainSection.do " + $(this).data("content-id"), {contentId:$(this).data("content-id")});
-		loadComplete();
+		$("#main-content").load("mainSection.do " + $(this).data("content-id"), {contentId:$(this).data("content-id"), miniHomeNo:${miniHome.no}});
 		return false;
 	})
 		
-		
-		
-
-		
-	
+	//달력 생성 후 calendar변수에 저장
+	var calendar;
+	function initCalendar() {
+		var calendarEl = document.getElementById('calendar');
+	    calendar = new FullCalendar.Calendar(calendarEl, {
+	    	initialView: 'dayGridMonth',
+	      	events: function(info) {
+				var yearMonth = moment(info.start).format("YYYYMM");
+	      		axios.get("http://localhost/minihome/api/diary/" + yearMonth + "&" + ${miniHome.no}, function(response) {
+	      			console.log(response.data);
+	      		})
+	      	} 
+	    });
+	    calendar.render();
+	}
 		
 </script>
 </body>

@@ -101,6 +101,18 @@
        					<col width="32%">
        			</colgroup>
        			<tbody>
+       				<tr>
+       					<th>이름</th><td>${hostUser.name}</td>
+       					<th>닉네임</th><td>${hostUser.nickName}</td>
+       				</tr>
+       				<tr>
+       					<th>생일</th><td><fmt:formatDate value="${hostUser.birthday}" /> </td>
+       					<th>전화번호</th><td>${hostUser.tel}</td>
+       				</tr>
+       				<tr>
+       					<th>이메일</th><td>${hostUser.id}</td>
+       					<th>주소</th><td>${hostUser.address}</td>
+       				</tr>
        			</tbody>
 			  </table>
 			</div>
