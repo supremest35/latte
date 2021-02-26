@@ -14,5 +14,5 @@ public interface NoteService {
 	void insertNote(Note note);
 	void deleteNoteByNo(int no);
 	void updateNoteByNo(int no);
-	List<Note> getNoteListByOption(Map<String, Object> option);
+	List<Note> getNoteList(Map<String, Object> opt);
 }

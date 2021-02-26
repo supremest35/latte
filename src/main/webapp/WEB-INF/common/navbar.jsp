@@ -338,7 +338,7 @@
 											<tr id="info-tr">
 												<th>${LOGINED_USER.name }(${LOGINED_USER.nickName})님</th>
 												<td>
-													<button class="btn btn-outline-info" id="btn-note"
+													<button class="btn btn-outline-info" id="btn-note" 
 														data-toggle="modal" data-target="#modal-note">
 														쪽지함</button>
 												</td>
