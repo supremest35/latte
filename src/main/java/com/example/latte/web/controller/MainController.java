@@ -42,7 +42,10 @@ public class MainController {
 	// 로그인시 아이디와 비밀번호 확인 후 성공하면  세션에 아이디 저장 실패하면 오류 메세지 띄우기
 	@RequestMapping("/login.do")
 	public String login(@RequestParam("id") String userId,
-			@RequestParam("pwd") String password, RedirectAttributes rd) {
+			@RequestParam("pwd") String password,@RequestParam("pathName") String pn, RedirectAttributes rd) {
+		System.out.println("로그인 호출");
+		System.out.println("####URL ===>" + pn);
+		System.out.println("####ID ===>"+ userId);
 		
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("id", userId);
@@ -50,15 +53,23 @@ public class MainController {
 		try {
 			userService.getLoginUser(param);
 			
-			Map<String, Object> opt = new HashMap<>();
-			opt.put("userNo", ((User)SessionUtils.getAttribute("LOGINED_USER")).getNo());
-			opt.put("status", "connected");
+			// 일촌리스트 저장할 경우 사용할 코드
+			//Map<String, Object> opt = new HashMap<>();
+			//opt.put("userNo", ((User)SessionUtils.getAttribute("LOGINED_USER")).getNo());
+			//opt.put("status", "connected");
 			//SessionUtils.setAttribute("freindList", userService.getMyFriendListByOpt(opt));
 			
 		} catch (FailedLoginException e) {
 			rd.addFlashAttribute("message", e.getMessage());
 		} 
-		return "redirect:/main.do";
+		
+		if(pn.contains("board")) {
+			return "redirect:/board/index.do";
+		}else if(pn.contains("shopping")) {
+			return "redirect:/shopping/main.do";
+		}else {
+			return "redirect:/main.do";
+		}
 	}
 
 	// 로그아웃시 세션에 저장된 정보 삭제
