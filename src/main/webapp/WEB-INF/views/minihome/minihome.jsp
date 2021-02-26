@@ -83,6 +83,17 @@
 		#profile-section .card-img-top {
 			width: 20%;
 		}
+		#profile-intro img {
+			width: 500px;
+		}
+		#profile-intro .card-body:first{
+			width: 500px;
+			height: 400px;
+			display: table-cell;
+			text-align: center;
+			
+		}
+		
 </style>
 </head>
 
@@ -208,31 +219,59 @@
 		
 		var sectionId = $(this).data("section-id");
 		// 메인메뉴 버튼에 해당한 sideSection.jsp의 태그를 불러온다.
-		$("#side-content").load("sideSection.do " + sectionId + "-side", {sectionId:$(this).data("section-id"), miniHomeNo:${miniHome.no}} , function() {
+		$("#side-content").load("sideSection.do " + sectionId + "-side", {sectionId:sectionId, miniHomeNo:${miniHome.no}}, function() {
 
 			// 다이어리 버튼을 눌렀을 때, 사이드컨텐츠에 달력 출력 
 			if (sectionId == "#diary-section") {
 				initCalendar();
-				// 다이어리 버튼 눌렀을 때 메인컨텐츠가져오기
-				$("#main-content").load("mainSection.do #diary-section", {contentId:"#diary-section", miniHomeNo:${miniHome.no}});
+				// 메인컨텐츠가져오기
+				$("#main-content").load("mainSection.do " + sectionId, {contentId:sectionId, miniHomeNo:${miniHome.no}});		
+				
 			} else {
 				// sideSection의 li:first a에 해당하는 태그가 클릭되는 콜백함수
 				$("#side-content li:first a").trigger("click");
-				// 눌린 버튼이 다이어리일때
 			}
 		});
 	})
 	// 페이지가 로드되면 홈 버튼 클릭되게한다.
 	$("#btn-home").trigger("click");
 		
+	
+	
+	
 	// sideSection의 a 태그가 클릭될 때 이벤트(프로필 폴더, 게시판 폴더들)
 	$("#side-content").on("click", "li a", function() {
+		var contentId = $(this).data("content-id");
+		
+		// 게시판인 경우 실행
+		var folderNo = $(this).data("folder-no");
+		if(folderNo > 0) {
+			// 게시판 폴더리스트 나오게 하는 실행문
+			axios.get("http://localhost/minihome/api/folder/" + folderNo).then(function(response) {
+				var folders = response.data;
+				
+				var childFolderList = "";
+				for (var index = 0; index < folders.length; index++) {
+					childFolderList += "<li><a href='' data-folder-no='" + folders[index].no + "' data-content-id='#visualContents-section'>" + folders[index].name + "</a></li>";
+				}
+				
+				$("#childFolder-" + folderNo).empty().append(childFolderList);
+				
+			})
+		}
+		// 게시판쪽이 아니라면
 		// 메인컨텐츠 안의 내용 지우기
 		$("#main-content").empty();
 		// 메인컨텐츠 안에 내용 넣기
-		$("#main-content").load("mainSection.do " + $(this).data("content-id"), {contentId:$(this).data("content-id"), miniHomeNo:${miniHome.no}});
+		$("#main-content").load("mainSection.do " + contentId, {contentId:contentId, miniHomeNo:${miniHome.no}, folderNo:folderNo});
+
+		
 		return false;
 	})
+	
+	
+	
+	
 	
 	// Diary 달력
 	//달력 생성 후 calendar변수에 저장
@@ -266,7 +305,7 @@
 	    });
 	    calendar.render();
 	}
-
+	
 </script>
 </body>
 </html>

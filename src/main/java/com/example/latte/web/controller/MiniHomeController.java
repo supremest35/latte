@@ -52,14 +52,12 @@ public class MiniHomeController {
 		
 		model.addAttribute("miniHome", miniHome);
 		model.addAttribute("hostUser", hostUserInfo);
-		
 		return "minihome/minihome";
 	}
 
 	@RequestMapping("/sideSection.do")
 	public String sideSection(@RequestParam("sectionId") String sectionId, @RequestParam("miniHomeNo") int miniHomeNo, Model model) {
 		
-	
 		if ("#home-section".equals(sectionId) || "#visitor-section".equals(sectionId)) {
 			WelcomeNote welcomeNote = miniHomeService.getWelcomeNoteByMiniHomeNo(miniHomeNo);
 			welcomeNote.setPhotoFilename("/resources/images/miniHome/" + welcomeNote.getPhotoFilename());
@@ -67,7 +65,10 @@ public class MiniHomeController {
 		} else if ("#diary-section".equals(sectionId)) {
 			
 		} else if ("#photo-section".equals(sectionId)) {
-			
+			Map<String, Object> opt = new HashMap<String, Object>();
+			opt.put("miniHomeNo", miniHomeNo);
+			opt.put("categoryNo", 100);
+			model.addAttribute("folders", miniHomeService.getParentFoldersByOption(opt));
 		} else if ("#video-section".equals(sectionId)) {
 			
 		} else if ("#board-section".equals(sectionId)) {
@@ -78,7 +79,7 @@ public class MiniHomeController {
 	}
 
 	@RequestMapping("/mainSection.do")
-	public String mainSection(@RequestParam("contentId") String contentId, @RequestParam("miniHomeNo") int miniHomeNo, Model model) {
+	public String mainSection(@RequestParam(name="contentId", required=false) String contentId, @RequestParam("miniHomeNo") int miniHomeNo, @RequestParam(name="folderNo", required=false, defaultValue="-1") int folderNo, Model model) {
 		if ("#profile-intro".equals(contentId)) {
 			Profile profile = miniHomeService.getProfileByMiniHomeNo(miniHomeNo);
 			profile.setPhotoFilename("/resources/images/miniHome/" + profile.getPhotoFilename());
@@ -107,7 +108,17 @@ public class MiniHomeController {
 			
 			model.addAttribute("hostUser", hostUserInfo);
 		} else if ("#diary-section".equals(contentId)) {
+			System.out.println(miniHomeNo);
+			System.out.println(miniHomeService.getLatestDiaryByMiniHomeNo(miniHomeNo));
 			model.addAttribute("diary", miniHomeService.getLatestDiaryByMiniHomeNo(miniHomeNo));
+		} else if ("#visualContents-section".equals(contentId)) {
+
+			
+		
+		
+		
+		
+		
 		}
 		return "minihome/mainSection";
 	}

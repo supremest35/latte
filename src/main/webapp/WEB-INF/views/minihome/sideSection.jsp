@@ -37,13 +37,41 @@
 		</div>
 		<div class="card-body">
 			<ul id="photo-folder-list">
+				<li><a href="" data-content-id="#visualContents-section" data-folder-no="${folders[0].parentNo }">전체보기</a></li>
+				<c:forEach var="folder" items="${folders}">
+					<li>
+						<a href="" data-content-id="#visualContents-section" data-folder-no="${folder.no}">${folder.name}</a>
+						<ul id="childFolder-${folder.no}">
+						</ul>	
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
+	</div>
+	<div id="video-section-side">
+		<div class="card-body">
+			<h5>video</h5>
+		</div>
+		<div class="card-body">
+			<ul id="video-folder-list">
+			</ul>
+		</div>
+	</div>
+	<div id="board-section-side">
+		<div class="card-body">
+			<h5>board</h5>
+		</div>
+		<div class="card-body">
+			<ul id="board-folder-list">
 			</ul>
 		</div>
 	</div>
 	<div id="visitor-section-side">
-		<img class="card-img-top" src="/resources/images/1000001.jpg" alt="Card image cap" id="welcomeNote-img">
+		<div class="card-body" id="welcomeNote-img-box" >
+			<img class="card-img-top" src="${welcomeNote.photoFilename }" alt="Card image cap" id="welcomeNote-img">
+		</div>
 		<div class="card-body" id="welcomeNote-content">
-		  <p class="card-text">${miniHomeInfo.welcomeNote.content }</p>
+		  <p class="card-text">${welcomeNote.content }</p>
 		</div>
 		<div id="welcomeNote-button">
 			<button class="badge badge-primary badge-xs">edit</button>
