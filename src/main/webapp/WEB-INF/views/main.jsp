@@ -123,10 +123,5 @@
 			<div class="col-2">챗봇</div>
 		</div>
 	</div>
-	<script>
-
-
-
-    </script>
 </body>
 </html>

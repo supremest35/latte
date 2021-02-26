@@ -23,6 +23,9 @@
 							<a class="nav-link" data-toggle="tab" href="#friend">일촌신청</a>
 						</li>
 						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#send" >보낸 쪽지함</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link" data-toggle="tab" href="#write" >쪽지쓰기</a>
 						</li>
 					</ul>
@@ -52,19 +55,12 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td><input type="checkbox" name="쪽지번호"></td>
-											<td>손예진(이쁜언니)</td>
-											<td>이쁜언니님께서 선물을 보냈습니다.</td>
-											<td>2021-02-13</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td><input type="checkbox" name="쪽지번호"></td>
-											<td>한지민(예쁜언니)</td>
-											<td>예쁜언니님께서 둘리님을 초대합니다.</td>
-											<td>2021-02-10</td>
-											<td>수락</td>
+										<tr v-for="oNote in otherOriginNotes" :key="oNote.no">
+											<td><input type="checkbox" name="oNote.no"></td>
+											<td>{{oNote.senderNo}}번 유저이름</td>
+											<td>{{oNote.title}}</td>
+											<td>{{oNote.createdDate}}</td>
+											<td>{{oNote.status}}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -98,19 +94,12 @@
 													</tr>
 												</thead>
 												<tbody>
-													<tr>
-														<td><input type="checkbox" name="쪽지번호"></td>
-														<td>공지철(도깨비)</td>
-														<td>도깨비님께서 일촌신청을 보냈습니다.</td>
-														<td>2021-02-13</td>
-														<td>대기</td>
-													</tr>
-													<tr>
-														<td><input type="checkbox" name="쪽지번호"></td>
-														<td>이동욱(저승이)</td>
-														<td>저승이님께서 일촌신청을 보냈습니다..</td>
-														<td>2021-02-10</td>
-														<td>수락</td>
+													<tr v-for="fNote in freindOriginNotes" :key="fNote.no">
+														<td><input type="checkbox" value="fNote.no"></td>
+														<td>{{fNote.senderNo}}</td>
+														<td>{{fNote.title}}</td>
+														<td>{{fNote.createdDate}}</td>
+														<td>{{fNote.status}}</td>
 													</tr>
 												</tbody>
 											</table>
@@ -121,6 +110,48 @@
 						</div>
 					</div>
 					<!-- 일촌신청 리스트 끝 -->
+					<!-- 보낸 쪽지함 시작 -->
+					<div id="send" class="container tab-pane fade">
+						<br>
+						<div class="card">
+							<div class="card-body" id="modal-cd-second">
+								<div class="card-column">
+									<div class="card-box">
+										<div class="card-view">
+											<table class="card-table table-sm">
+												<colgroup>
+													<col width="5%">
+													<col width="20%">
+													<col width="*">
+													<col width="17%">
+													<col width="8%">
+												</colgroup>
+												<thead>
+													<tr>
+														<th></th>
+														<th>보낸이</th>
+														<th>제목</th>
+														<th>날짜</th>
+														<th>상태</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr v-for="sNote in sendNoteList" :key="sNote.no">
+														<td><input type="checkbox" value="sNote.no"></td>
+														<td>{{sNote.senderNo}}</td>
+														<td>{{sNote.title}}</td>
+														<td>{{sNote.createdDate}}</td>
+														<td>{{sNote.status}}</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 보낸 쪽지함 끝 -->
 					<!-- 쪽지쓰기 -->
 					<div id="write" class="container tab-pane fade">
 						<br>
@@ -190,6 +221,16 @@
 	var noteApp = new Vue({
 		el:'#modal-note',
 		data:{
+			sendNoteList:[],
+	        recivedNoteList:[],
+	        freindOriginNotes:[],
+        	numOfFriendPage:'',
+        	friendCalList:[],
+	        otherOriginNotes:[],
+        	numOfOtherPage:'',
+        	calOtherList:[],
+			dataPerPage:5,
+			curPageNo:1,
 			userDept:'',
 			noteCategories:[],
 			deptList:[],
@@ -264,17 +305,60 @@
 				} else {
 					return this.noteCategories;
 				}
-			}
+			},
+			sortNotes: function() {
+	            this.recivedNoteList.forEach(note => {
+	                if(note.categoryNo == 1){
+	                    this.freindOriginNotes.push(note);
+	                }else{
+	                    this.otherOriginNotes.push(note);
+	                }
+	            })
+	        },
+			start() {
+				return ((this.curPageNo -1) * this.dataPerPage);
+			},
+			end() {
+				return ((this.start + this.dataPetPage));
+			},
+			numOfFriendPages() {
+			        return Math.ceil(this.freindOriginNotes.length / this.dataPerPage);
+			},
+			numOfOtherPages() {
+			        return Math.ceil(this.otherOriginNotes.length / this.dataPerPage);
+			},
+			calFreindNoteList() {
+				return this.freindOriginNotes.slice(this.start, this.end);
+			},
+			calOtherNoteList() {
+				return this.otherOriginNotes.slice(this.start, this.end);
+			} 
 		},
 		created(){
 			var that = this;
+			var loginedNo = '${LOGINED_USER.no}'
+			console.log("### 노트 created 사용자 번호 ==>" + loginedNo);
+	
 			axios.get("http://localhost/api/note/getCategories").then(function(response){
 				that.noteCategories = response.data;
 			})
 			
+			axios.get("http://localhost/api/note/getAllNotes/"+loginedNo).then(function(response){
+	            for(var i = 0; i < response.data.length; i++){
+	                var note = response.data[i];
+	                if(note.senderNo == loginedNo){
+	                    that.sendNoteList.push(note);
+	                }else{
+	                    that.recivedNoteList.push(note);
+	                }
+	            }
+	        })
+			
+			
 			axios.get("http://localhost/api/users/getAllAvailableUser").then(function(response){
 				that.userList = response.data;
 			})
+			
 		}
 		
 	})

@@ -16,7 +16,7 @@ public interface NoteDao {
 	NoteCategory getNoteCategiryByNo(int categoryNo);
 	
 	// 안읽은 쪽지 개수 가져오기 (페이징) 안읽은 쪽지 ->status:N , 읽은 쪽지->status:Y , categoty -> 100/ 
-	List<Note> getNoteListByOption(Map<String, Object> condition);
+	List<Note> getNoteList(Map<String, Object> opt);
 	
 	// 내가 보낸 쪽지 가져오기 (페이징)
 	// insert 쪽지 
