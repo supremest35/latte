@@ -183,7 +183,7 @@
 	
 	function addWishItem() {
 		var form = document.getElementById("acorn-form");
-		form.setAttribute("action", "../cart/insertItem.do");
+		form.setAttribute("action", "../wish/insertItem.do");
 		form.submit();
 	}
 

@@ -13,14 +13,13 @@ import com.example.latte.vo.WishItem;
 @Transactional
 public interface WishItemDao {
 
-	void insertWishItem(WishItem wishItem);
-	
 	WishItem getWishItemByNo(int wishNo);
 	WishItem getWishItemByAcornNoAndUserNo(@Param("userNo") int userNo, @Param("acornNo") int acornNo);
+	
 	List<WishItemDto> getWishItemDtosByUserNo(int userNo);
 	
-	void updateWishItem(WishItem wishItem);
 	void deleteWishItem(int itemNo);
+	void insertWishItem(WishItem wishItem);
+	void updateWishItem(WishItem wishItem);
 
-	WishItem getCartItemByNo(int wishItemNo);
 }

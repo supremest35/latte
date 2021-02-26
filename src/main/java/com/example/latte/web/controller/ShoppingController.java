@@ -27,5 +27,15 @@ public class ShoppingController {
 		model.addAttribute("hitProducts", hitProducts);
 		
 		return "/shopping/main";
-	}	
+	}
+	
+	@RequestMapping("/my/acornhistory.do")
+	public String acornHistory() {
+		return "/shopping/my/acornhistory";
+	}
+	
+	@RequestMapping("/my/havingitem.do")
+	public String havingItem() {
+		return "/shopping/my/havingitem";
+	}
 }

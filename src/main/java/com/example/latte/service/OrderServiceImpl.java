@@ -34,11 +34,11 @@ public class OrderServiceImpl implements OrderService {
 	UserDao userDao;
 
 	@Override
-	public List<Map<String, Object>> getOrderItems(List<Integer> wishItemNoList) {
+	public List<Map<String, Object>> getOrderItems(List<Integer> wishNoList) {
 		List<Map<String, Object>> orderItemList = new ArrayList<Map<String,Object>>();
 		
-		for (int wishItemNo : wishItemNoList) {
-			WishItem wishItem = wishItemDao.getCartItemByNo(wishItemNo);
+		for (int wishNo : wishNoList) {
+			WishItem wishItem = wishItemDao.getWishItemByNo(wishNo);
 			AcornItem acorn = acornDao.getAcornByNo(wishItem.getAcornNo());
 			
 			Map<String, Object> item = new HashMap<String, Object>();
