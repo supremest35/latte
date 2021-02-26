@@ -45,7 +45,7 @@
 </div>
 
 <div class="container">
-	<%@ include file="/WEB-INF/views/shopping/common/searchForm.jsp" %>
+	<%@ include file="/WEB-INF/views/shopping/common/searchform.jsp" %>
 </div>
 
 <div class="container">

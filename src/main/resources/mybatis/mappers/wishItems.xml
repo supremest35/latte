@@ -42,7 +42,7 @@
 			A.wishitem_amount		as amount,
 			B.category_no			as categoryNo,
 			B.acorn_item_name		as acornName,
-			B.acorn_item_price		as itemPrice,
+			B.acorn_item_price		as itemPrice
 		from
 			latte_wishitems A, latte_acorn_items B
 		where

@@ -67,20 +67,21 @@
 		  </thead>
 		  <tbody>
 		    <c:forEach var="acorn" items="${acorns }">
-		    <tr>
-		      <th scope="row">
-				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="checkbox" value="select">
-					<label class="form-check-label" for="checkbox"></label>
-				</div>
-		      </th>
-		      <td><a href="detail.do?acornno=${acorn.no }&pageno=${page.pageNo }&catno=${acorn.categoryNo }">${acorn.name }</a></td>
-		      <td><i class="fad fa-acorn"></i> ${acorn.price }개</td>
-		      <td><a href=""><i class="far fa-heart"></i> ${acorn.likeCnt }</a></td>
-		      <td><a href="/shopping/cart/list.do"><i class="fas fa-plus"></i></a></td>
-		      <td><a href="/shopping/order/form.do?acornno=${acorn.no }&amount=1">바로구매</a></td>
-		      <td><a href="/shopping/order/form.do?acornno=${acorn.no }&amount=1">선물하기</a></td>
-		    </tr>
+			    <tr>
+			      <th scope="row">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" id="checkbox" value="select">
+						<label class="form-check-label" for="checkbox"></label>
+					</div>
+			      </th>
+			      <td><a href="detail.do?acornno=${acorn.no }&pageno=${page.pageNo }&catno=${acorn.categoryNo }">${acorn.name }</a></td>
+			      <td><i class="fad fa-acorn"></i> ${acorn.price }개</td>
+			      <td><a href=""><i class="far fa-heart"></i> ${acorn.likeCnt }</a></td>
+			      <td><a href="/shopping/wish/insertItem.do?acornno=${acorn.no }&amount=1"><i class="fas fa-plus"></i></a></td>
+			      <td><a href="/shopping/order/form.do?acornno=${acorn.no }&amount=1">바로구매</a></td>
+			      <td><a href="/shopping/order/form.do?acornno=${acorn.no }&amount=1">선물하기</a></td>
+			    </tr>
+		    </form>
 		    </c:forEach>
 		  </tbody>
 		</table>

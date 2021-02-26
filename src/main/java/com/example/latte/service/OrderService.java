@@ -8,7 +8,7 @@ import com.example.latte.vo.OrderItem;
 
 public interface OrderService {
 
-	List<Map<String, Object>> getOrderItems(List<Integer> cartNoList);
+	List<Map<String, Object>> getOrderItems(List<Integer> wishNoList);
 	
 	Map<String, Object> getOrderItem(int acornNo, int amount);
 

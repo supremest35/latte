@@ -14,6 +14,7 @@ import com.example.latte.form.OrderForm;
 import com.example.latte.service.AcornService;
 import com.example.latte.service.OrderService;
 import com.example.latte.service.WishService;
+import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.Order;
 import com.example.latte.vo.OrderItem;
 import com.example.latte.vo.User;
@@ -28,6 +29,11 @@ public class OrderController {
 	WishService wishService;
 	@Autowired
 	AcornService acornService;
+	
+	@RequestMapping("/list.do")
+	public String orderList() {
+		return "/shopping/order/list";
+	}
 	
 	@RequestMapping("/form.do")
 	public String orderForm(@RequestParam(name="acornno", required=false, defaultValue="-1") int acornNo,
