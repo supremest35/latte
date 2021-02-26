@@ -1,8 +1,10 @@
 package com.example.latte.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.latte.vo.Board;
 import com.example.latte.vo.BoardDto;
@@ -19,4 +21,7 @@ public interface BoardDao {
 	
 	void insertBoard(Board board);
 	void updateBoard(Board board);
+	
+	int getTotalCountByCondition(Map<String, Object> condition);
+	List<BoardDto> getBoardDtoByCondition(Map<String, Object> condition);
 }

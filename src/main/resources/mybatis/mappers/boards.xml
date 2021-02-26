@@ -107,8 +107,39 @@
 			a.pan_board_category_no = c.category_no
 		and
 			a.pan_board_category_no = #{value}
+		and
+			a.pan_board_deleted = 'N'
 		order by
 			pan_board_no desc
+	</select>
+	
+	<select id="getBoardDtoByCondition" parameterType="map" resultType="com.example.latte.vo.BoardDto">
+		select *
+		 from (select row_number() over (order by pan_board_no desc) as rn,
+	            a.pan_board_no						    as no,
+				a.pan_board_category_no				    as categoryNo,
+				a.pan_board_title						as title,
+				a.user_no								as userNo,
+				a.pan_board_content					    as content,
+				a.pan_board_hit_cnt					    as hitCnt,
+				a.pan_board_comment_cnt				    as commentCnt,
+				a.pan_board_like_cnt					as likeCnt,
+				a.pan_board_dislike_cnt				    as dislikeCnt,
+				a.pan_board_deleted					    as deleted,
+				a.pan_board_created_date				as createdDate,
+				a.pan_board_image_filename			    as imageFilename,
+				b.user_nickname						    as nickname,
+				c.category_name						    as categoryName
+	        from latte_pan_boards a, latte_users b, latte_pan_board_categories c 
+	        where a.user_no = b.user_no 
+	        and a.pan_board_category_no = c.category_no
+	        and a.pan_board_category_no = #{categoryNo}
+	        and a.pan_board_deleted = 'N')
+   		 <where>
+   		 	<if test="begin != 0 and end != 0">
+   		 		rn >= #{begin} and rn &lt;= #{end}
+   		 	</if>
+   		 </where> 
 	</select>
 	
 	<select id="getTop10ByLikeCnt" resultType="com.example.latte.vo.BoardDto">
@@ -133,7 +164,24 @@ select
      	 where a.user_no = b.user_no and a.pan_board_category_no = c.category_no)
 	where 
 		rn &lt;= 10
+	and
+		pan_board_deleted = 'N'
 	</select>
+	
+	<select id="getTotalCountByCondition" parameterType="map" resultType="int">
+		select 
+			count(*) cnt
+		from
+			latte_pan_boards
+		<where>
+			<if test="categoryNo != null">
+				pan_board_category_no = #{categoryNo}
+			</if>
+		</where>
+	</select>
+	
+	
+	
 	
 	<insert id="insertBoard" parameterType="com.example.latte.vo.Board">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">

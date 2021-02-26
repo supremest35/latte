@@ -62,7 +62,7 @@
                     <div class="row" >
                     	<c:if test="${dto.userNo == LOGINED_USER_NO }">
 	                    	<div class="col-12" align="right">
-	                    	<a href="modifyform.do?boardNo=${dto.no }&catno=${dto.categoryNo}"><button>수정</button></a> 
+	                    	<%-- <a href="modifyform.do?boardNo=${dto.no }&catno=${dto.categoryNo}"><button>수정</button></a>  보류--%> 
 	                    	<a href="delete.do?boardNo=${dto.no }&catno=${dto.categoryNo}"><button>삭제</button></a>
 	                    	</div>
                     	</c:if>
