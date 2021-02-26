@@ -28,7 +28,8 @@
        <div class="row" align="left" >
           <div class="col-12" >
             <a href="../main.do"><img src="../resources/images/logo.jpg" alt="logo" style="width:100px;height:100px;"></a>
-            <img src="../resources/images/&logo3.png" style="width:30px; margin-right: 10px;"><a href="../board/index.do"><img src="../resources/images/panLogo4.png" alt="logo" style="width:100px;height:100px; align-content: center;"></a>
+            <img src="../resources/images/&logo3.png" style="width:30px; margin-right: 10px;">
+            <a href="../board/index.do"><img src="../resources/images/panLogo4.png" alt="logo" style="width:100px;height:100px; align-content: center;"></a>
           </div>
         </div>
         <div class="row" align="left" style="margin-bottom: 20px;">
@@ -43,7 +44,8 @@
             <!-- Links -->
             <ul class="navbar-nav"> 
               <li class="nav-item active">
-                <a class="nav-link"  href="../board/index.do?catno=100" style="font-size:20px;">모두의 공감👑<span style='font-size:20px; padding-right: 15px;'></span> </a>
+                <a class="nav-link"  href="../board/index.do?catno=100" style="font-size:20px;">베스트 이슈<span style="font-size:12px; color: red;"> 공감 top10</span><span style='font-size:20px; padding-right: 15px;'></span> </a>
+                <!-- <p><span style="font-size:10px; color: red;">실시간 공감 top10</span></p> -->
               </li>
               <li class="nav-item">
                 <a class="nav-link " href="../board/index.do?catno=200">유머/정보 <span style='font-size:20px; padding-right: 15px;'></span> </a>
@@ -62,10 +64,10 @@
               </li>
             </ul>
 
-            <div class="search"  style="padding-left: 150px;" >
+           <!--  <div class="search"  style="padding-left: 150px;" >
               <input type="text" placeholder="" />
               <button class="btn btn-primary"> 검색</button>
-            </div>
+            </div> -->
           
         </nav><hr>
 

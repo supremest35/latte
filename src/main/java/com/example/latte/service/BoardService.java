@@ -1,6 +1,8 @@
 package com.example.latte.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.latte.vo.Board;
 import com.example.latte.vo.BoardDto;
@@ -20,4 +22,10 @@ public interface BoardService {
 	
 	void insertBoard(Board board);
 	void updateBaord(Board board);
+	
+	Map<String, Object> getBoardDtoList(Map<String, Object> condition);
+		
+	
+	
+	
 }

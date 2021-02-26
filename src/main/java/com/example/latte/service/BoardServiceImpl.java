@@ -1,12 +1,16 @@
 package com.example.latte.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.latte.dao.BoardDao;
 import com.example.latte.dao.CategoryDao;
+import com.example.latte.dto.BoardPagination;
+import com.example.latte.dto.Pagination;
 import com.example.latte.vo.Board;
 import com.example.latte.vo.BoardDto;
 import com.example.latte.vo.Category;
@@ -65,4 +69,22 @@ public class BoardServiceImpl implements BoardService {
 	public void updateBaord(Board board) {
 		boardDao.updateBoard(board);
 	}
+	
+@Override
+	public Map<String, Object> getBoardDtoList(Map<String, Object> condition) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		int totalRows = boardDao.getTotalCountByCondition(condition);
+		
+		List<BoardDto> boardDtoList = boardDao.getBoardDtoByCondition(condition);
+		
+		BoardPagination pagination = new BoardPagination((Integer)condition.get("pageNo"), totalRows);
+		
+		result.put("boardDto", boardDtoList);
+		result.put("pagination", pagination);
+		
+		return result;
+	}
+	
+	
 }
