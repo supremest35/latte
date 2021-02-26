@@ -1,7 +1,5 @@
 package com.example.latte.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +20,10 @@ import com.example.latte.vo.Diary;
 import com.example.latte.vo.Folder;
 import com.example.latte.vo.Keyword;
 import com.example.latte.vo.MiniHome;
+import com.example.latte.vo.MiniHomeBoard;
 import com.example.latte.vo.Profile;
 import com.example.latte.vo.Qna;
 import com.example.latte.vo.User;
-import com.example.latte.vo.VisitorNote;
 import com.example.latte.vo.WelcomeNote;
 
 @Service
@@ -128,6 +126,29 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	@Override
 	public Diary getLatestDiaryByMiniHomeNo(int miniHomeNo) {
 		return diaryDao.getLatestDiaryByMiniHomeNo(miniHomeNo);
+	}
+
+	@Override
+	public List<Folder> getParentFoldersByOption(Map<String, Object> opt) {
+		// 각 게시판의 최상위 폴더
+		Folder rootFolder = folderDao.getRootFolderByOpt(opt);
+		opt.put("parentFolderNo", rootFolder.getNo());
+		// 각 게시판의 상위폴더들 반환
+		return folderDao.getFoldersByOpt(opt);
+		
+	}
+
+	@Override
+	public List<Folder> getChildFoldersByParentFolderNo(int parentFolderNo) {
+		return folderDao.getChildFoldersByParentFoderNo(parentFolderNo);
+	}
+
+	@Override
+	public List<MiniHomeBoard> getBoardsByFolderNo(int folderNo) {
+		List<Folder> childFolders = folderDao.getChildFoldersByParentFoderNo(folderNo);
+		
+		
+		return null;
 	}
 
 

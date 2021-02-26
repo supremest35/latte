@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.latte.form.DiaryEventForm;
 import com.example.latte.service.MiniHomeService;
 import com.example.latte.vo.Diary;
+import com.example.latte.vo.Folder;
 
 @CrossOrigin("*")
 @RestController("apiMiniHomeController")
@@ -54,6 +55,11 @@ public class MiniHomeController {
 	@GetMapping("/diary/{diaryNo}")
 	public Diary getDiary(@PathVariable("diaryNo") int diaryNo) {
 		return miniHomeService.getDiaryByNo(diaryNo);
+	}
+
+	@GetMapping("/folder/{parentFolderNo}")
+	public List<Folder> getChildFolders(@PathVariable("parentFolderNo") int parentFolderNo) {
+		return miniHomeService.getChildFoldersByParentFolderNo(parentFolderNo);
 	}
 	
 	

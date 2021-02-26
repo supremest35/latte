@@ -59,7 +59,9 @@
 	<div class="card-body" id="profile-section">
 		<a class="badge badge-primary" href="">edit</a>
 		<div class="card" id="profile-intro">
-		<img class="card-img-top" src="${profile.photoFilename }" alt="Card image cap">
+			<div class="card-body">
+				<img class="card-img-top" src="${profile.photoFilename }" alt="Card image cap">
+			</div>
 			<div class="card-body">
 			  <p class="card-text">${profile.content }</p>
 			</div>
@@ -169,7 +171,7 @@
 
 		</div>
 	</div>
-	<div class="card-body" id="photo-section">
+	<div class="card-body" id="visualContents-section">
 		<div class="row mb-3" id="photo-folder-1">
 			<div class="col-3 mb-3">
 				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
