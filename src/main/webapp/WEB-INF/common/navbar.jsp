@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="taglib.jsp"%>
-
+<script src="/resources/js/moment.js"></script>
 <style>
 	/* 네브바 스타일 시작 */
 	#nav {
@@ -289,6 +289,7 @@
 			<c:if test="${empty LOGINED_USER}">
 			<div class="col-3" id="nav-login" style="height: 237px; max-height: 237px;">
 				<form action="login.do" method="post" id="login-form">
+				<input type="hidden" id="pathName" name="pathName" value="main"  />
 					<div class="card login-box">
 						<div class="card-body mt-3">
 							<div class="card-item col-12">
@@ -406,6 +407,7 @@
 	// -------- 아이디 비번 찾기 -----------
 	var foundId;
 	var isLogined = false;
+	var curPathName = window.location.pathname;
 	
 	
 	function findMyId() {
@@ -465,7 +467,8 @@
 	}
 
 	function loginCheck() {
-		console.log("###로그인체크 호출");
+		//console.log("###로그인체크 호출");
+		console.log("###pathName===>" + curPathName);
 		$("#loginbox-idMsg").text("");
 		$("#loginbox-pwdMsg").text("");
 		//로그인 누르면 입력칸 중에 비어있는 거 확인
@@ -477,7 +480,7 @@
 		}
 		// 비어있지 않으면 로그인 메서드 실행
 		if (!$("#loginbox-id").val() == '' && !$("#loginbox-pwd").val() == '') {
-			console.log("###로그인 호출")
+			$('#pathName').val(curPathName);
 			$("#login-form").submit();
 		}
 	}
