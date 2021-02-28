@@ -27,32 +27,39 @@ public class WishItemController {
 		
 		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
 		
-		WishItem wishItem = new WishItem();
-		wishItem.setAcornNo(acornNo);
-		wishItem.setUserNo(user.getNo());
-		wishItem.setAmount(amount);
+		if (user == null) {
+			return "redirect:/shopping/acorn/list.do";
+		} else {
+			WishItem wishItem = new WishItem();
+			wishItem.setAcornNo(acornNo);
+			wishItem.setUserNo(user.getNo());
+			wishItem.setAmount(amount);
+			
+			wishService.insertOrIncreaseAmount(wishItem);
+			
+			return "redirect:/shopping/wish/list.do";
+		}
 		
-		wishService.insertOrIncreaseAmount(wishItem);
-		
-		return "redirect:/shopping/wish/list.do";
 	}
 	
 	@RequestMapping("/list.do")
 	public String wishList(Model model) {
 		
 		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
-		System.out.println("유저 이름: " + user.getName());
-
-		List<WishItemDto> wishItemDtoList = wishService.getWishItemsList(user.getNo());
 		
-		int totalPrice = 0;
-		for (WishItemDto dto : wishItemDtoList) {
-			totalPrice += dto.getItemPrice()*dto.getItemAmount();
+		if (user == null) {
+			return "redirect:/shopping/main.do";
 		}
-		
-		model.addAttribute("wishItems", wishItemDtoList);
-		model.addAttribute("totalPrice", totalPrice);
-
+		else {
+			List<WishItemDto> wishItemDtoList = wishService.getWishItemsList(user.getNo());
+			
+			int totalPrice = 0;
+			for (WishItemDto dto : wishItemDtoList) {
+				totalPrice += dto.getItemPrice()*dto.getItemAmount();
+			}
+			model.addAttribute("wishItems", wishItemDtoList);
+			model.addAttribute("totalPrice", totalPrice);
+		}
 		return "/shopping/wish/list";
 	}
 	

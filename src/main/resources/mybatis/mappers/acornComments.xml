@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.latte.dao.AcornCommentDao">
+
+	<select id="getCommentDtosByRangeWithoutUserNo" parameterType="int" resultType="com.example.latte.dto.AcornItemCommentDto">
+		select *
+		from (select row_number() over (order by A.acorn_item_comment_no desc) rn,
+		              A.acorn_item_comment_no		as no,
+		              A.user_no						as userNo,
+		              B.user_id						as userId,
+		              B.user_photo					as userPhoto,
+		              A.acorn_item_comment_content	as content,
+		              A.acorn_item_comment_like_cnt	as likeCnt,
+		              A.item_comment_created_date	as createdDate
+		      from
+		      	latte_acorn_item_comments A, latte_users B 
+		      where
+		      	A.acorn_item_no = #{acornNo}
+		      	and A.user_no = B.user_no)
+		where #{end} >= rn and rn >= #{begin}
+	</select>
+	<select id="getCommentDtosByRange" parameterType="int" resultType="com.example.latte.dto.AcornItemCommentDto">
+		select *
+		from (select row_number() over (order by A.acorn_item_comment_no desc) rn,
+		              A.acorn_item_comment_no		as no,
+		              A.user_no						as userNo,
+		              B.user_id						as userId,
+		              B.user_photo					as userPhoto,
+		              A.acorn_item_comment_content	as content,
+		              A.acorn_item_comment_like_cnt	as likeCnt,
+		              A.item_comment_created_date	as createdDate,
+		              nvl2 ((select X.user_no
+		              		from acorn_item_comment_likes X
+		              		where X.comment_no = A.acorn_item_comment_no
+		              		and X.user_no = #{userNo}), 'Y', 'N') as commentLiked
+		      from
+		      	latte_acorn_item_comments A, latte_users B 
+		      where
+		      	A.acorn_item_no = #{acornNo}
+		      	and A.user_no = B.user_no)
+		where
+			#{end} >= rn and rn >= #{begin}
+	</select>
+	
+	<select id="getCommentByNo" parameterType="int" resultType="com.example.latte.vo.AcornItemComment">
+		select
+			acorn_item_comment_no		as no,
+			acorn_item_no				as itemNo,
+			user_no						as userNo,
+			acorn_item_comment_content	as content,
+			acorn_item_comment_like_cnt	as likeCnt,
+			item_comment_created_date	as createdDate
+		from
+			latte_acorn_item_comments
+		where
+			acorn_item_comment_no = #{commentNo}
+	</select>
+
+	<select id="getCommentsCountByAcornNo" parameterType="int" resultType="int">
+		select
+			count(*) cnt
+		from
+			latte_acorn_item_comments
+		where
+			acorn_item_no = #{acornNo}
+	</select>
+	
+	<insert id="insertComment" parameterType="com.example.latte.vo.AcornItemComment">
+		insert into latte_acorn_item_comments
+			(acorn_item_comment_no, acorn_item_no, user_no, acorn_item_comment_content)
+		values
+			(acorn_item_comment_no_seq.nextval, #{itemNo}, #{userNo}, #{content})
+	</insert>
+	<insert id="insertCommentLike" parameterType="com.example.latte.vo.AcornItemCommentLike">
+		insert into acorn_item_comment_likes
+			(comment_no, user_no)
+		values
+			(#{commentNo}, #{userNo})
+	</insert>
+	<update id="updateComment" parameterType="com.example.latte.vo.AcornItemComment">
+		update latte_acorn_item_comments
+		set
+			acorn_item_comment_content = #{content},
+			acorn_item_comment_like_cnt	= #{likeCnt}
+		where
+			acorn_item_comment_no = #{no}
+	</update>
+	
+</mapper>

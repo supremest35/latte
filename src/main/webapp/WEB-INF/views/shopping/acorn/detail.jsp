@@ -23,6 +23,10 @@
 	a {
 		color: rgb(34, 34, 34);
 	}
+   .img-thumbnail {
+      width: 110px;
+      height: 110px;
+   }
 	</style>
 </head>
 <body>
@@ -105,37 +109,46 @@
 			<div class="card">
 				<div class="card-header">
 					<h5>
-						<button class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modal-comment-form">댓글쓰기</button>
+						<c:if test="${not empty LOGINED_USER }">
+							<button class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modal-comment-form">댓글쓰기</button>
+						</c:if>
 						사용자 댓글
 					</h5>
 				</div>
-				<div class="card-body">
-					<div class="card-text text-center">작성된 댓글이 없습니다.</div>
-				</div>
-				<div class="card-body border border-left-0 border-top-0 border-right-0">
-					<h5 class="card-title  d-flex justify-content-between">
-						<span>사진</span>
-						<span>내용</span>
-						<small>
-							<a href="likeComment.do?acornno=1&cartno=100&pageno=1&commentno=1&commentpageno=1" class="ml-3 btn btn-outline-secondary btn-xs ">
-							<i class="fa fa-heart text-danger"></i> 5 </a>
-						</small>
-					</h5>
-				</div>
+				<c:choose>
+					<c:when test="${empty comments }">
+					<div class="card-body">
+						<div class="card-text text-center">작성된 댓글이 없습니다.</div>
+					</div>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="comment" items="${comments }">
+						<div class="card-body border border-left-0 border-top-0 border-right-0">
+							<h5 class="card-title  d-flex justify-content-between">
+								<span><img class="img-thumbnail" src="/resources/images/userProfilePhoto/${comment.userPhoto }" alt="Card image"></span>
+								<span>${comment.userId }</span>
+								<span class="col-6">${comment.content }</span>
+								<small>
+									<a href="likeComment.do?acornno=${acorn.no }&pageno=${pageNo }&commentno=${comment.no }&commentpageno=${commentPageNo}" class="ml-3 btn btn-outline-secondary btn-xs ${comment.commentLiked eq 'Y' ? 'disabled' : '' }">
+									<i class="fa ${comment.commentLiked eq 'Y' ? 'fa-heart text-danger' : 'fa-heart-o' }"></i> ${comment.likeCnt } </a>
+								</small>
+							</h5>
+						</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>	
 			</div>
 			<div class="card-body border border-left-0 border-top-0 border-right-0">
 				<div class="p-3">
 					<ul class="pagination justify-content-center">
-				  		<li class="page-item ">
-				  			<a class="page-link  " href="detail.do?acornno=${acorn.no }&pageno=1&reviewpageno=1">이전</a>
+				  		<li class="page-item ${commentPageNo eq 1 ? 'disabled' : '' }">
+				  			<a class="page-link " href="detail.do?acornno=${acorn.no }&pageno=${pageNo }&reviewpageno=${commentPageNo-1 }">이전</a>
 				  		</li>
-					  		<li class="page-item active"><a class="page-link" href="detail.do?acornno=${acorn.no }&pageno=1&reviewpageno=1">1</a></li>
-					  		<li class="page-item "><a class="page-link" href="detail.jsp?acornno=${acorn.no }&pageno=1&reviewpageno=2">2</a></li>
-					  		<li class="page-item "><a class="page-link" href="detail.jsp?acornno=${acorn.no }&pageno=1&reviewpageno=3">3</a></li>
-					  		<li class="page-item "><a class="page-link" href="detail.jsp?acornno=${acorn.no }pageno=1&reviewpageno=4">4</a></li>
-					  		<li class="page-item "><a class="page-link" href="detail.jsp?acornno=${acorn.no }&pageno=1&reviewpageno=5">5</a></li>
-				  		<li class="page-item ">
-				  			<a class="page-link  " href="detail.do?acornno=${acorn.no }&pageno=1&reviewpageno=1">다음</a>
+				  		<c:forEach var="num" begin="1" end="${totalPages }">
+					  		<li class="page-item ${commentPageNo eq num ? 'active' : '' }"><a class="page-link" href="detail.do?acornno=${acorn.no }&pageno=${pageNo }&commentpageno=${num }">${num }</a></li>
+					  	</c:forEach>
+				  		<li class="page-item ${commentPageNo eq totalPages ? 'disabled' : '' }">
+				  			<a class="page-link " href="detail.do?acornno=${acorn.no }&pageno=${pageNo }&reviewpageno=${commentPageNo+1 }">다음</a>
 				  		</li>
 					</ul>
 				</div>
