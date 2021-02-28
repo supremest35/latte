@@ -12,4 +12,5 @@ import com.example.latte.vo.Dept;
 public interface DeptDao {
 	
 	List<Dept> getAllDepts();
+	Dept getDeptByNo(int no);
 }

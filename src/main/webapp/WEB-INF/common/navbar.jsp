@@ -43,37 +43,30 @@
 		margin: 15px;
 		flex-wrap: nowrap;
 	}
-
 	.nav-item.col-6 {
 		margin: 1px;
 	}
-
 	a.nav-link {
 		color: #070502;
 		text-align: center;
 	}
-
 	.nav-pills .nav-link.active,
 	.nav-pills .show>.nav-link {
 		color: rgb(255, 140, 45);
 		background-color: white;
 	}
-
 	.find-label {
 		margin: 10px 10px;
 		text-align: right;
 	}
-
 	input.find-input {
 		width: 60%;
 		margin-top: 20px;
 	}
-
 	.nav-item {
 		margin-left: 0px;
 		padding: 0px 5px;
 	}
-
 	.find-btn.id-btn {
 		float: right;
 		margin-right: 55px;
@@ -109,6 +102,10 @@
 	}
 
 	/* 로그인 사용자 정보창 */
+	.card-body#user-info-box,
+	.card-body#login-box{
+		padding: 0px;
+	}
 	.col-12#info-btn{
 		margin: 0px;
 	}
@@ -159,10 +156,10 @@
 	}
 
 	/*쪽지 모달창*/
-	.card-body{
-		padding: 0px;
+	.card-body#note-modal{
+		padding: 10px;
 	}
-
+	
 	.info-btn {
 		margin-top: 2px 0px 0px 0px;
 		padding: 0px;
@@ -181,6 +178,30 @@
 		padding: 1px;
 		float: left;
 		font-size: 14px;
+	}
+	.card-header flex-container{
+		display: flex;
+		float: left;
+		padding: 2px;
+	}
+	#btn-close{
+		float: right;
+	    font-size: 1.5rem;
+	    font-weight: 700;
+	    line-height: 1;
+	    height: 19px;
+	    color: #000;
+	    text-shadow: 0 1px 0 #fff;
+	    padding: 0;
+	    background-color: transparent;
+	    border: 0;
+	    flex: 1;
+	}
+	#modal-h{
+		float: left;
+		width: 143px;
+		margin: 0px;
+		flex: 1;
 	}
 	div.card-body#paging{
 		hight: 45px;
@@ -229,7 +250,7 @@
 	/* 네브바 스타일 끝 */
 </style>
 
-<div class="row mt-3" id="nav">
+<div class="row mt-3" id="nav" style="height: 237px; max-height: 237px;">
 	<div class="col-12">
 		<div class="row" style="height: 237px; max-height: 237px;">
 			<!-- 로고 존 -->
@@ -294,7 +315,7 @@
 				<form action="login.do" method="post" id="login-form">
 				<input type="hidden" id="pathName" name="pathName" value="main"  />
 					<div class="card login-box">
-						<div class="card-body mt-3">
+						<div class="card-body mt-3" id="login-box">
 							<div class="card-item col-12">
 								<label>아이디</label>
 								<button type="button" class="form-control" data-toggle="modal" data-target="#modal-findId" id="btn-findId" @click="findId()"> 아이디/비밀번호 찾기</button>
@@ -325,14 +346,16 @@
 				<!-- 정보창 1열 프로필사진 정보 -->
 				<div class="row">
 					<div class="card" style="height: 237px; max-height: 237px;">
-						<div class="card-body">
+						<div class="card-body" id="user-info-box">
 							<div class="col-sm-12" id="info-top-line" style="height: 167px; max-height: 167px;">
 							<div class="row no-gutters">
 								<div class="col-sm-5">
 									<img class="ml-1 mt-2 border" id="user-img" src="/resources/images/userProfilePhoto/${LOGINED_USER.photo }" alt="userPhoto" />
 								</div>
 								<div class="col-sm-7 mt-1">
-									<button class="info-btn btn-sm btn-warning mr-1" id="btn-profile">프로필 수정</button>
+									<button class="info-btn btn-sm btn-warning mr-1" id="btn-profile">
+										<a href="/myProfile.do">프로필 수정</a>
+									</button>
 									<button class="info-btn btn-sm btn-secondary mr-1" id="btn-logout">
 										<a href="/logout.do" >Logout</a>
 									</button>

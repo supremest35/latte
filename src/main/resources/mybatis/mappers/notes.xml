@@ -65,7 +65,22 @@
 				sender_no = #{userNo} or recipient_no = #{userNo} 
 			</if>
 		</where> 
-			
 	</select>
 	
+	<select id="getNoteByNo" parameterType="int" resultType="com.example.latte.vo.Note">
+		select 
+			note_no as no,
+			category_no as categoryNo,
+			sender_no as senderNo,
+			rec_dept_no as recDeptNo,
+			recipient_no as recipientNo,
+			note_title as title,
+			note_content as content,
+			note_status as status,
+			note_created_date as createdDate
+		from 
+			latte_notes
+		where 
+			note_no = #{value}
+	</select>
 </mapper>

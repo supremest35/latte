@@ -8,4 +8,5 @@ import com.example.latte.vo.Dept;
 public interface DeptService {
 
 	List<Dept> getAllDepts();
+	Dept getDeptByNo(int no);
 }

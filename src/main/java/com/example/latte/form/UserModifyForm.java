@@ -8,19 +8,14 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.Data;
 
 @Data
-public class UserForm {
+public class UserModifyForm {
 
 	private String name;
 	private String password;
-	private String id;
 	private MultipartFile photoFile;
 	private String nickName;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date birthday;
 	private String tel;
 	private String address;
 	private String addressDetail;
 	private int postCode;
-	private int deptNo;
-	private String position;
 }

@@ -37,7 +37,7 @@
 					<div id="home" class="container tab-pane active">
 						<br>
 						<div class="card">
-							<div class="card-body">
+							<div class="card-body" id="note-modal">
 								<table class="card-table-snd table-sm">
 									<colgroup>
 										<col width="5%">
@@ -59,8 +59,8 @@
 										<tr v-for="oNote in otherOriginNotes" :key="oNote.no">
 											<td><input type="checkbox" name="oNote.no"></td>
 											<td>{{oNote.senderNo}}번 유저이름</td>
-											<td>{{oNote.title}}</td>
-											<td>{{oNote.createdDate}}</td>
+											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(oNote)">{{oNote.title}}</a></td>
+											<td>{{oNote.createdDate | moment}}</td>
 											<td>{{oNote.status}}</td>
 										</tr>
 									</tbody>
@@ -73,7 +73,7 @@
 					<div id="friend" class="container tab-pane fade">
 						<br>
 						<div class="card">
-							<div class="card-body">
+							<div class="card-body" id="note-modal">
 								<table class="card-table-snd table-sm">
 									<colgroup>
 										<col width="5%">
@@ -94,9 +94,9 @@
 									<tbody>
 										<tr v-for="fNote in freindOriginNotes" :key="fNote.no">
 											<td><input type="checkbox" value="fNote.no"></td>
-											<td>{{fNote.senderNo}}</td>
-											<td>{{fNote.title}}</td>
-											<td>{{fNote.createdDate}}</td>
+											<td>${LOGINED_USER.name}</td>
+											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(fNote)">{{fNote.title}}</a></td>
+											<td>{{fNote.createdDate | moment}}</td>
 											<td>{{fNote.status}}</td>
 										</tr>
 									</tbody>
@@ -106,10 +106,10 @@
 					</div>
 					<!-- 일촌신청 리스트 끝 -->
 					<!-- 보낸 쪽지함 시작 -->
-					<div id="send" class="container tab-pane fade">
+					<div id="send" class="container tab-pane fade" >
 						<br>
 						<div class="card">
-							<div class="card-body">
+							<div class="card-body" id="note-modal">
 								<table class="card-table table-sm">
 									<colgroup>
 										<col width="5%">
@@ -131,8 +131,8 @@
 										<tr v-for="sNote in sendNoteList" :key="sNote.no">
 											<td><input type="checkbox" value="sNote.no"></td>
 											<td>{{sNote.senderNo}}</td>
-											<td>{{sNote.title}}</td>
-											<td>{{sNote.createdDate}}</td>
+											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(sNote.no)">{{sNote.title}}</a></td>
+											<td>{{sNote.createdDate | moment}}</td>
 											<td>{{sNote.status}}</td>
 										</tr>
 									</tbody>
@@ -145,7 +145,7 @@
 					<div id="write" class="container tab-pane fade">
 						<br>
 						<div class="card">
-							<div class="card-body" id="modal-cd-last">
+							<div class="card-body" id="note-modal">
 								<div class="form-group">
 									<label class="font-weight-bold">요약</label>
 									<div class="form-check" >
@@ -180,7 +180,8 @@
 											<li class="list-group-item" 
 												style="cursor: pointer;"
 												v-for="(recipient, index) in searchedUserList" :key="index"
-												@click="[selectRecipient(recipient),getRecDept(recipient)]">{{recipient.name}}({{recipient.nickName}})</li>
+												@click="selectRecipient(recipient)">{{recipient.name}}({{recipient.nickName}})
+											</li>
 										</ul>
 									</div>
 								</div>
@@ -193,11 +194,66 @@
 									<textarea rows="5" class="form-control" name="content" v-model="newNote.content"></textarea>
 								</div>
 							</div>
+							<div class="card-footer">
+								<button type="button" class="btn btn-primary" @click="sendNote">보내기</button>
+							</div>
 						</div>
 					</div>
+					<!-- 노트 상세보기 시작 -->
+					<div id="detail" class="inner-modal" v-show="showInnerModal">
+						<br>
+						<div class="card" id="detail-modal">
+							<div class="card-header flex-container" >
+								<h6 id="modal-h">쪽지 상세보기</h6>
+								<button type="button" class="btn-sm" id="btn-close" @click="closeInnerModal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>									
+								</button>
+							</div>
+							<div class="card-body" id="note-modal">
+								<div class="form-group row">
+									<div class="col-6">
+										<label class="font-weight-bold">요약</label>
+										<p>{{detailNote.categoryName}}</p>
+									</div>
+									<div class="col-6">
+										<label class="font-weight-bold">날짜</label>
+										<p>{{detailNote.date | moment}}</p>
+									</div>
+								</div>
+								<div class="form-group row" v-show="detailNote.categoryNo == 5">
+									<div class="col-6">
+										<label class="font-weight-bold">송신 부서</label> 
+										<input type="text" class="form-control" name="senderDept" :value="detailNote.senderDept" readonly />
+									</div>
+									<div class="col-6">
+										<label class="font-weight-bold">수신 부서</label> 
+										<input type="text"class="form-control" name="recDept" :value="detailNote.recipientDept" readonly/>
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-6">
+										<label class="font-weight-bold">보내는 이</label>
+										<input type="text" class="form-control" name="user" :value="detailNote.senderName" readonly />
+									</div>
+									<div class="col-6">
+										<label class="font-weight-bold">받는 사람</label> 
+										<input type="text"class="form-control" name="recipient" :value="detailNote.recipientName" readonly/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="font-weight-bold">제목</label> 
+									<input type="text" class="form-control"	name="title" :value="detailNote.title" readonly />
+								</div>
+								<div class="form-group">
+									<label class="font-weight-bold">내용</label>
+									<textarea rows="5" class="form-control" name="content" :value="detailNote.content" readonly></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 노트 상세보기 끝 -->
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary" @click="sendNote">보내기</button>
+						<button type="button" class="btn btn-warning" data-dismiss="modal">쪽지함 닫기</button>
 					</div>
 				</div>
 				<!-- end tab -->
@@ -207,9 +263,11 @@
 	</div>
 </div>
 <script>
+	
 	var noteApp = new Vue({
 		el:'#modal-note',
 		data:{
+			showInnerModal:false,
 			sendNoteList:[],
 	        recivedNoteList:[],
 	        freindOriginNotes:[],
@@ -224,6 +282,17 @@
 				recipientNo:'',
 				title:'',
 				content:''
+			},
+			detailNote:{
+				categoryNo:'',
+				categoryName:'',
+				senderName:'',
+				senderDept:'',
+				recipientName:'',
+				recipientDept:'',
+				title:'',
+				content:'',
+				date:''
 			},
 			showSearchedUserList:false,
 			userList:[],
@@ -250,11 +319,12 @@
 				this.newNote.recipientNo = recipient.no;
 				this.searchedUserList = [];
 				this.showSearchedUserList = false;
+				document.querySelector('#selectedRec-dept').value = this.getDeptName(recipient.deptNo);
 			},
-			getRecDept: function (recipient) {
+			getDeptName: function (no) {
 				for(var i =0; i <noteApp.deptList.length; i++){
-					if(noteApp.deptList[i].no === recipient.deptNo ){
-						document.querySelector('#selectedRec-dept').value = noteApp.deptList[i].name;
+					if(noteApp.deptList[i].no === no ){
+						return noteApp.deptList[i].name;
 					}
 				}
 			},
@@ -271,23 +341,33 @@
 					noteApp.newNote.content = '';
 				})
 			},
-			previous: function () {
-				if(noteApp.curPageNo == 1){
-					alert("첫 페이지입니다.");
-				}else{
-					noteApp.curPageNo = note.curPageNo - 1;
-					
-				}
+			shownoteDetail: function (no) {
+				noteApp.showInnerModal = true;
+				
+				console.log("디테일 번호===>" + no)
+				axios.get("http://localhost/api/note/getNoteDetail/"+no).then(function(response){
+					var detail = response.data;
+					noteApp.detailNote.categoryNo = detail.noteCategory.no;
+					noteApp.detailNote.categoryName = detail.noteCategory.name;
+					noteApp.detailNote.senderName = detail.sender.name+"("+detail.sender.nickName+")";
+					noteApp.detailNote.senderDept = detail.senderDept.name;
+					noteApp.detailNote.recipientName = detail.recipient.name+"("+detail.recipient.nickName+")";
+					noteApp.detailNote.recipientDept = detail.senderDept.name;
+					noteApp.detailNote.title = detail.note.title;
+					noteApp.detailNote.content = detail.note.content;
+					noteApp.detailNote.date = detail.note.createdDate;
+				})
 			},
-			next: function () {
-				if(noteApp.curPageNo == previous){
-					alert("마지막 페이지입니다.");
-				}else{
-					noteApp.curPageNo = note.curPageNo + 1;
-					
-				}
+			closeInnerModal: function () {
+				noteApp.showInnerModal = false
+				
 			}
 		}, // end methods
+		filters: {
+			moment: function (value) {
+				return moment(value).format('YYYY-MM-DD');
+			}
+		},
 		computed: {
 			categories: function() {
 				var that = this
@@ -321,11 +401,11 @@
 			},
 			end() {
 				return ((this.start + this.dataPetPage));
+			}
 		},
 		created(){
 			var that = this;
 			var loginedNo = '${LOGINED_USER.no}'
-			console.log("### 노트 created 사용자 번호 ==>" + loginedNo);
 	
 			axios.get("http://localhost/api/note/getCategories").then(function(response){
 				that.noteCategories = response.data;
@@ -342,12 +422,9 @@
 	            }
 	        })
 			
-			
 			axios.get("http://localhost/api/users/getAllAvailableUser").then(function(response){
 				that.userList = response.data;
 			})
-			
 		}
-		
 	})
 </script>

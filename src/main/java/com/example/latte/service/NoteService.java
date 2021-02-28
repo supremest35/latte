@@ -10,7 +10,7 @@ public interface NoteService {
 	
 	List<NoteCategory> getAllCategories();
 	NoteCategory getNoteCategoryByNo(int categoryNo);
-	
+	Note getNoteByNo(int noteNo);
 	void insertNote(Note note);
 	void deleteNoteByNo(int no);
 	void updateNoteByNo(int no);

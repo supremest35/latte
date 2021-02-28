@@ -52,8 +52,12 @@ public class NoteServiceImpl  implements NoteService{
 
 	@Override
 	public List<Note> getNoteList(Map<String, Object> opt) {
-		
 		return noteDao.getNoteList(opt);
+	}
+	
+	@Override
+	public Note getNoteByNo(int noteNo) {
+		return noteDao.getNoteByNo(noteNo);
 	}
 	
 }

@@ -15,6 +15,7 @@ import com.example.latte.Exception.FailedLoginException;
 import com.example.latte.service.DeptService;
 import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
+import com.example.latte.vo.Dept;
 import com.example.latte.vo.User;
 
 @CrossOrigin("*")
@@ -79,5 +80,12 @@ public class MainController {
 		return "redirect:/main.do";
 	}
 	
-	
+	@RequestMapping("/myProfile.do")
+	public String myProfile(Model model) {
+		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		System.out.println(user.getDeptNo());
+		Dept dept = deptService.getDeptByNo(user.getDeptNo());
+		model.addAttribute("deptName", dept.getName());
+		return "../common/myProfile";
+	}
 }
