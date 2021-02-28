@@ -19,6 +19,7 @@ import com.example.latte.form.DiaryEventForm;
 import com.example.latte.service.MiniHomeService;
 import com.example.latte.vo.Diary;
 import com.example.latte.vo.Folder;
+import com.example.latte.vo.MiniHomeBoard;
 
 @CrossOrigin("*")
 @RestController("apiMiniHomeController")
@@ -61,6 +62,18 @@ public class MiniHomeController {
 	public List<Folder> getChildFolders(@PathVariable("parentFolderNo") int parentFolderNo) {
 		return miniHomeService.getChildFoldersByParentFolderNo(parentFolderNo);
 	}
-	
-	
+
+	@GetMapping("/boards/{folderNo}&{pageNo}")
+	public List<MiniHomeBoard> getBoards(@PathVariable("folderNo") int folderNo, @PathVariable("pageNo") int pageNo) {
+		// 처음에는 16개가 보여지기때문에 무한스크롤이 시작하면 17번째부터 보여줘야됨(8개씩)
+		int begin = (pageNo - 1)*4 + 13;
+		int end = pageNo*4 + 12;
+		
+		Map<String, Object> opt = new HashMap<String, Object>();
+		opt.put("folderNo", folderNo);
+		opt.put("begin", begin);
+		opt.put("end", end);
+		return miniHomeService.getBoardsByOption(opt);
+	}
+
 }

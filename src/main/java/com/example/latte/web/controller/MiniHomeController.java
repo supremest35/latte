@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.latte.service.MiniHomeService;
 import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
+import com.example.latte.vo.Board;
+import com.example.latte.vo.Folder;
 import com.example.latte.vo.Keyword;
 import com.example.latte.vo.MiniHome;
+import com.example.latte.vo.MiniHomeBoard;
 import com.example.latte.vo.Profile;
 import com.example.latte.vo.Qna;
 import com.example.latte.vo.User;
@@ -70,29 +73,37 @@ public class MiniHomeController {
 			opt.put("categoryNo", 100);
 			model.addAttribute("folders", miniHomeService.getParentFoldersByOption(opt));
 		} else if ("#video-section".equals(sectionId)) {
-			
+			Map<String, Object> opt = new HashMap<String, Object>();
+			opt.put("miniHomeNo", miniHomeNo);
+			opt.put("categoryNo", 200);
+			model.addAttribute("folders", miniHomeService.getParentFoldersByOption(opt));
 		} else if ("#board-section".equals(sectionId)) {
-			
+			Map<String, Object> opt = new HashMap<String, Object>();
+			opt.put("miniHomeNo", miniHomeNo);
+			opt.put("categoryNo", 300);
+			model.addAttribute("folders", miniHomeService.getParentFoldersByOption(opt));
 		}
 		
 		return "minihome/sideSection";
 	}
 
 	@RequestMapping("/mainSection.do")
-	public String mainSection(@RequestParam(name="contentId", required=false) String contentId, @RequestParam("miniHomeNo") int miniHomeNo, @RequestParam(name="folderNo", required=false, defaultValue="-1") int folderNo, Model model) {
+	public String mainSection(@RequestParam(name="contentId", required=false) String contentId, @RequestParam("miniHomeNo") int miniHomeNo, @RequestParam(name="folderNo", required=false, defaultValue="-1") int folderNo, @RequestParam(name="boardNo", required=false, defaultValue="-1") int boardNo, Model model) {
+		System.out.println(contentId);
 		if ("#profile-intro".equals(contentId)) {
+			System.out.println(1);
 			Profile profile = miniHomeService.getProfileByMiniHomeNo(miniHomeNo);
 			profile.setPhotoFilename("/resources/images/miniHome/" + profile.getPhotoFilename());
-			
 			model.addAttribute("profile", profile);
+		
 		} else if ("#profile-keyword".equals(contentId)) {
 			List<Keyword> keywords = miniHomeService.getKeywordsByProfileNo(miniHomeNo);
-			
 			model.addAttribute("keywords", keywords);
+
 		} else if ("#profile-qna".equals(contentId)) {
 			List<Qna> qnas = miniHomeService.getQnasByProfileNo(miniHomeNo);
-			
 			model.addAttribute("qnas", qnas);
+
 		} else if ("#profile-basicInfo".equals(contentId)) {
 			MiniHome miniHome = miniHomeService.getMiniHomeByNo(miniHomeNo);
 			User hostUser = userService.getUserByNo(miniHome.getUserNo());
@@ -105,20 +116,45 @@ public class MiniHomeController {
 			hostUserInfo.put("birthday", hostUser.getBirthday());
 			hostUserInfo.put("tel", hostUser.getTel());
 			hostUserInfo.put("address", hostUser.getAddress());
-			
 			model.addAttribute("hostUser", hostUserInfo);
-		} else if ("#diary-section".equals(contentId)) {
-			System.out.println(miniHomeNo);
-			System.out.println(miniHomeService.getLatestDiaryByMiniHomeNo(miniHomeNo));
-			model.addAttribute("diary", miniHomeService.getLatestDiaryByMiniHomeNo(miniHomeNo));
-		} else if ("#visualContents-section".equals(contentId)) {
 
+		} else if ("#diary-section".equals(contentId)) {
+			model.addAttribute("diary", miniHomeService.getLatestDiaryByMiniHomeNo(miniHomeNo));
+
+		} else if ("#visualContents-section".equals(contentId)) {
+			Map<String, Object> opt = new HashMap<String, Object>();
+			opt.put("folderNo", folderNo);
+			List<MiniHomeBoard> boards = miniHomeService.getBoardsByOption(opt);
+			int boardsSize = boards.size();
+			for (int i = 0; i < boardsSize; i++) {
+				boards.get(i).setImgFilename("/resources/images/" + boards.get(i).getImgFilename());
+			}
 			
+			model.addAttribute("boards", boards);
 		
+		} else if ("#board-section".equals(contentId)) {
+			Map<String, Object> opt = new HashMap<String, Object>();
+			opt.put("folderNo", folderNo);
+			opt.put("begin", 1);
+			opt.put("end", 5);
+			List<MiniHomeBoard> boards = miniHomeService.getBoardsByOption(opt);
+			User user = userService.getUserByNo(boards.get(0).getUserNo());
+			
+			model.addAttribute("boards", boards);
+			model.addAttribute("userName", user.getName());
 		
-		
-		
-		
+		} else if ("#visual-content-detail".equals(contentId)) {
+			MiniHomeBoard board = miniHomeService.getBoardByNo(boardNo);
+			User user = userService.getUserByNo(board.getUserNo());
+			Folder folder = miniHomeService.getFolderByNo(board.getFolderNo());
+			board.setImgFilename("/resources/images/" + board.getImgFilename());
+			
+			if (folder.getCategoryNo() == 200) {
+				board.setExtraFilename("/resources/videos/miniHome/" + board.getExtraFilename());
+			}
+			model.addAttribute("board", board);
+			model.addAttribute("folderCategoryNo", folder.getCategoryNo());
+			model.addAttribute("userName", user.getName());
 		}
 		return "minihome/mainSection";
 	}

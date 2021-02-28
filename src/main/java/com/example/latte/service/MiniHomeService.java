@@ -26,6 +26,10 @@ public interface MiniHomeService {
 
 	Diary getLatestDiaryByMiniHomeNo(int miniHomeNo);
 	
+	Folder getFolderByNo(int folderNo);
+
+	MiniHomeBoard getBoardByNo(int boardNo);
+	
 	List<Diary> getDiariesByOption(Map<String, Object> opt);
 
 	List<Keyword> getKeywordsByProfileNo(int profileNo);
@@ -38,6 +42,5 @@ public interface MiniHomeService {
 
 	List<Folder> getChildFoldersByParentFolderNo(int parentFolderNo);
 	
-	List<MiniHomeBoard> getBoardsByFolderNo(int folderNo);
-	
+	List<MiniHomeBoard> getBoardsByOption(Map<String, Object> opt);
 }

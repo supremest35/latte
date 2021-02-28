@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.FolderDao">
+	<select id="getFolderByNo" resultType="com.example.latte.vo.Folder">
+		select 
+			folder_no					as no,
+			minihome_no					as miniHomeNo,
+			folder_name					as name,
+			folder_parent_no			as parentNo,
+			folder_category_no			as categoryNo
+		from 
+			minihome_board_folders
+		where
+			folder_no = #{value}
+	</select>
 	<select id="getRootFolderByOpt" resultType="com.example.latte.vo.Folder">
 		select 
 			folder_no					as no,

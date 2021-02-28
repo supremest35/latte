@@ -12,7 +12,8 @@ public class MiniHomeBoard {
 	private int userNo;
 	private String title;
 	private String content;
-	private String filename;
+	private String imgFilename;
+	private String extraFilename;
 	private int hitCnt;
 	private int likeCnt;
 	private int commentCnt;

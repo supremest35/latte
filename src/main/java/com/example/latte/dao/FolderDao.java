@@ -12,6 +12,7 @@ import com.example.latte.vo.Folder;
 @Transactional
 public interface FolderDao {
 	
+	Folder getFolderByNo(int folderNo);
 	Folder getRootFolderByOpt(Map<String, Object> opt);
 	List<Folder> getChildFoldersByParentFoderNo(int parentFolderNo);
 	List<Folder> getFoldersByOpt(Map<String, Object> opt);

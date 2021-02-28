@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.latte.dao.DiaryDao;
 import com.example.latte.dao.FolderDao;
 import com.example.latte.dao.KeywordDao;
+import com.example.latte.dao.MiniHomeBoardDao;
 import com.example.latte.dao.MiniHomeDao;
 import com.example.latte.dao.ProfileDao;
 import com.example.latte.dao.QnaDao;
@@ -55,6 +56,9 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	
 	@Autowired
 	VisitorNoteDao visitorNoteDao;
+	
+	@Autowired
+	MiniHomeBoardDao miniHomeBoardDao;
 	
 	@Override
 	public Map<String, Object> getMiniHomeInfoByOption(Map<String, Object> opt) {
@@ -144,14 +148,18 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	}
 
 	@Override
-	public List<MiniHomeBoard> getBoardsByFolderNo(int folderNo) {
-		List<Folder> childFolders = folderDao.getChildFoldersByParentFoderNo(folderNo);
-		
-		
-		return null;
+	public List<MiniHomeBoard> getBoardsByOption(Map<String, Object> opt) {
+		return miniHomeBoardDao.getBoardsByOption(opt);
 	}
 
+	@Override
+	public MiniHomeBoard getBoardByNo(int boardNo) {
+		return miniHomeBoardDao.getBoardByNo(boardNo);
+	}
 
-	
+	@Override
+	public Folder getFolderByNo(int folderNo) {
+		return folderDao.getFolderByNo(folderNo);
+	}
 
 }

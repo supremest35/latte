@@ -211,7 +211,9 @@
 	</div>
 	</div>
 <script type="text/javascript">
-
+	var folderNo;
+	var pageNo;
+	var isInfiniteScroll=true;
 	// 메인메뉴 버튼이 클릭될 때 이벤트
 	$("#main-menu button").click(function() {
 		// 메인컨텐츠 안의 내용 지우기
@@ -220,7 +222,7 @@
 		var sectionId = $(this).data("section-id");
 		// 메인메뉴 버튼에 해당한 sideSection.jsp의 태그를 불러온다.
 		$("#side-content").load("sideSection.do " + sectionId + "-side", {sectionId:sectionId, miniHomeNo:${miniHome.no}}, function() {
-
+			isInfiniteScroll=false;
 			// 다이어리 버튼을 눌렀을 때, 사이드컨텐츠에 달력 출력 
 			if (sectionId == "#diary-section") {
 				initCalendar();
@@ -241,36 +243,69 @@
 	
 	// sideSection의 a 태그가 클릭될 때 이벤트(프로필 폴더, 게시판 폴더들)
 	$("#side-content").on("click", "li a", function() {
+		
 		var contentId = $(this).data("content-id");
 		
 		// 게시판인 경우 실행
-		var folderNo = $(this).data("folder-no");
+		folderNo = $(this).data("folder-no");
 		if(folderNo > 0) {
-			// 게시판 폴더리스트 나오게 하는 실행문
+			// 무한스크롤 위한 페이지 번호
+			pageNo = 1;
+			// 게시판 폴더리스트와 해당 폴더의 내용이 나오게 하는 실행문
 			axios.get("http://localhost/minihome/api/folder/" + folderNo).then(function(response) {
 				var folders = response.data;
-				
-				var childFolderList = "";
-				for (var index = 0; index < folders.length; index++) {
-					childFolderList += "<li><a href='' data-folder-no='" + folders[index].no + "' data-content-id='#visualContents-section'>" + folders[index].name + "</a></li>";
+				// 최하위 폴더를 클릭했을 때는 더 추가할 폴더가 없으므로 실행하지 않는다.
+				if (folders.length != 0) {
+					var childFolderList = "";
+					if (folders[0].categoryNo != 300) {
+						isInfiniteScroll = true;
+						for (var index = 0; index < folders.length; index++) {
+							childFolderList += "<li><a href='' data-folder-no='" + folders[index].no + "' data-content-id='#visualContents-section'>" + folders[index].name + "</a></li>";
+						}
+					} else {
+						isInfiniteScroll = false;
+						for (var index = 0; index < folders.length; index++) {
+							childFolderList += "<li><a href='' data-folder-no='" + folders[index].no + "' data-content-id='#board-section'>" + folders[index].name + "</a></li>";
+						}
+					}
+					
+					$("#childFolder-" + folderNo).empty().append(childFolderList);
 				}
-				
-				$("#childFolder-" + folderNo).empty().append(childFolderList);
 				
 			})
 		}
-		// 게시판쪽이 아니라면
 		// 메인컨텐츠 안의 내용 지우기
 		$("#main-content").empty();
 		// 메인컨텐츠 안에 내용 넣기
 		$("#main-content").load("mainSection.do " + contentId, {contentId:contentId, miniHomeNo:${miniHome.no}, folderNo:folderNo});
 
-		
 		return false;
 	})
 	
+	// 무한 스크롤
+	$("#main-content").scroll(function() {
+		// 게시글 상세보기 때는 실행 안함
+		if (isInfiniteScroll) {
+			var frameHeight = $(this).height();
+			var contentHeight = $("#main-content .card-body").height();
 	
-	
+			var scrollTop = $(this).scrollTop();
+			if (contentHeight <= scrollTop + frameHeight + 50) {
+				pageNo++;
+				axios.get("http://localhost/minihome/api/boards/" + folderNo + "&" + pageNo).then(function(response) {
+					var boards = response.data;
+					var imgs = "";
+					for (var index = 0; index < boards.length; index++) {
+						imgs += "<div class='col-3 mb-3'><a href='' data-board-no='" + boards[index].no + "' data-content-id='#visual-content-detail'><img class='card-img' src='/resources/images/" + boards[index].imgFilename + "'></a></div>";
+					}
+					
+					$("#contents").append(imgs);
+		
+				})
+				
+			}
+		}
+	})
 	
 	
 	// Diary 달력
@@ -305,6 +340,20 @@
 	    });
 	    calendar.render();
 	}
+	
+	// 사진, 동영상 디테일뷰
+	$("#main-content").on("click", "div a", function() {
+		isInfiniteScroll = false;
+		var contentId = $(this).data("content-id");
+		var boardNo = $(this).data("board-no");
+		// 메인컨텐츠 안의 내용 지우기
+		$("#main-content").empty();
+		// 메인컨텐츠 안에 내용 넣기
+		$("#main-content").load("mainSection.do " + contentId, {contentId:contentId, miniHomeNo:${miniHome.no}, boardNo:boardNo});
+		
+		return false;
+	})
+	
 	
 </script>
 </body>

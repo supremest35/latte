@@ -172,170 +172,66 @@
 		</div>
 	</div>
 	<div class="card-body" id="visualContents-section">
-		<div class="row mb-3" id="photo-folder-1">
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000009.jpg"></a>
-			</div>
+		<div class="row mb-3" id="contents">
+			<c:forEach var="board" items="${boards }">
+				<div class="col-3 mb-3">
+					<a href="" data-board-no="${board.no }" data-content-id="#visual-content-detail"><img class="card-img" src="${board.imgFilename }"></a>
+				</div>
+			</c:forEach>
 		</div>
-		<div class="row mb-3" id="photo-folder-2">
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
+	</div>							
+	<div class="card-body" id="visual-content-detail">
+		<div class="card">
+			<div class="card-header">
+				<c:out value="${board.title }"/>
 			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
+			<div class="row">
+				<div class="col-10">
+					<a href="">${userName }</a>					
+				</div>
+				<div class="col-2">
+					<small><fmt:formatDate value="${board.createdDate }" pattern="yyyy-MM-dd" /></small>					
+				</div>
 			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
+			<div class="card-body">
+				<c:choose>
+					<c:when test="${folderCategoryNo eq 100 }">
+						<img class="card-img-top" src="${board.imgFilename }"/>
+						<c:out value="${board.content }"/>
+					</c:when>
+					<c:when test="${folderCategoryNo eq 200 }">
+						<video width="100%" poster="${board.imgFilename }" autoplay loop controls>
+							<source src="${board.extraFilename }" type="video/mp4"/>
+						</video>
+						<c:out value="${board.content }"/>
+					</c:when>
+				</c:choose>
 			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000011.jpg"></a>
-			</div>
-		</div>
-		<div class="row mb-3" id="photo-folder-6">
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000012.jpg"></a>
+			<div class="card-footer">
+				<ul>
+					<li>
+						<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
+						<a href=""><i class="fas fa-comment-dots"></i></a>
+						<a href=""><i class="fas fa-lock"></i></a>
+						<a href=""><i class="fas fa-ban"></i></a>
+					</li>
+					<li>
+						<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
+						<a href=""><i class="fas fa-comment-dots"></i></a>
+						<a href=""><i class="fas fa-lock"></i></a>
+						<a href=""><i class="fas fa-ban"></i></a>
+					</li>
+					<li>
+						<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
+						<a href=""><i class="fas fa-comment-dots"></i></a>
+						<a href=""><i class="fas fa-lock"></i></a>
+						<a href=""><i class="fas fa-ban"></i></a>
+					</li>
+				</ul>
+				<input type="text" name="comment"> <button class="badge badge-primary">등록</button>
 			</div>
 		</div>
 	</div>
-							
-	<div class="card-body" id="video-section">
-	</div>
-							
 	<div class="card-body" id="board-section">
 		<div>
 			<a href="" class="badge badge-primary">새 글 쓰기</a>
@@ -361,30 +257,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<th><input type="checkbox"></th>
-					<td>3</td>
-					<td><a href="">프로젝트자료</a><div class="badge badge-secondary">3</div></td>
-					<td>홍길동</td>
-					<td>2021.01.17.</td>
-					<td>3</td>
-				</tr>
-				<tr>
-					<th><input type="checkbox"></th>
-					<td>2</td>
-					<td><a href="">데이터베이스자료</a><div class="badge badge-secondary">3</div></td>
-					<td>홍길동</td>
-					<td>2021.01.17.</td>
-					<td>3</td>
-				</tr>
-				<tr>
-					<th><input type="checkbox"></th>
-					<td>1</td>
-					<td><a href="">레이아웃자료</a><div class="badge badge-secondary">3</div></td>
-					<td>홍길동</td>
-					<td>2021.01.17.</td>
-					<td>3</td>
-				</tr>
+				<c:forEach var="board" items="${boards }" varStatus="status">
+					<tr>
+						<th><input type="checkbox"></th>
+						<td>${status.count }</td>
+						<td><a href=""><c:out value="${board.title }"/></a><div class="badge badge-secondary"> ${board.likeCnt }</div></td>
+						<td>${userName }</td>
+						<td><fmt:formatDate value="${board.createdDate }" pattern="yyyy-MM-dd" /></td>
+						<td>${board.hitCnt }</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 		<div class="card-footer">
