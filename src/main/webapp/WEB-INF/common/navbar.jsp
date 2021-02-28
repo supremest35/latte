@@ -14,7 +14,7 @@
 		margin-left: 20px;
 	}
 
-	li {
+	#nav-menu-li {
 		margin-left: 25px;
 	}
 	.loginbox-msg {
@@ -182,7 +182,10 @@
 		float: left;
 		font-size: 14px;
 	}
-
+	div.card-body#paging{
+		hight: 45px;
+		padding: 0px;
+	}
 	.info-table {
 		padding: 1px;
 		margin-top: opx;
@@ -258,20 +261,20 @@
 							<ul class="navbar-nav" id="nav-ul">
 								<!-- 메뉴바 반복 -->
 								<!-- 메뉴바 하나 시작 -->
-								<li class="nav-item dropdown text-size: 20px">
+								<li class="nav-item text-size: 20px" id="nav-menu-li">
 									<a class="nav-link" href="" id="navbardrop"> 뉴스 </a>
 								</li>
 								<!-- 메뉴바 하나 끝 -->
-								<li class="nav-item dropdown">
+								<li class="nav-item" id="nav-menu-li">
 									<a class="nav-link" href="#" id="navbardrop" data-toggle="dropdown"> 메일 </a>
 								</li>
-								<li class="nav-item dropdown">
+								<li class="nav-item" id="nav-menu-li">
 									<a class="nav-link" href="/board/index.do" id="navbardrop"> 라떼판 </a>
 								</li>
-								<li class="nav-item dropdown">
+								<li class="nav-item dropdown" id="nav-menu-li">
 									<a class="nav-link" href="/shopping/main.do" id="navbardrop"> 쇼핑 </a>
 								</li>
-								<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> LatteWork </a>
+								<li class="nav-item dropdown" id="nav-menu-li"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> LatteWork </a>
 									<div class="dropdown-menu">
 										<a class="dropdown-item" href="#">일정목록</a> 
 										<a class="dropdown-item" href="#">캘린더</a> 
