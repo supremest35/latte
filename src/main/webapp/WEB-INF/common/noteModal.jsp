@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="taglib.jsp"%>
 
+
 <div class="modal fade" id="modal-note" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -72,40 +73,34 @@
 					<div id="friend" class="container tab-pane fade">
 						<br>
 						<div class="card">
-							<div class="card-body" id="modal-cd-second">
-								<div class="card-column">
-									<div class="card-box">
-										<div class="card-view">
-											<table class="card-table table-sm">
-												<colgroup>
-													<col width="5%">
-													<col width="20%">
-													<col width="*">
-													<col width="17%">
-													<col width="8%">
-												</colgroup>
-												<thead>
-													<tr>
-														<th></th>
-														<th>보낸이</th>
-														<th>제목</th>
-														<th>날짜</th>
-														<th>상태</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr v-for="fNote in freindOriginNotes" :key="fNote.no">
-														<td><input type="checkbox" value="fNote.no"></td>
-														<td>{{fNote.senderNo}}</td>
-														<td>{{fNote.title}}</td>
-														<td>{{fNote.createdDate}}</td>
-														<td>{{fNote.status}}</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
+							<div class="card-body">
+								<table class="card-table-snd table-sm">
+									<colgroup>
+										<col width="5%">
+										<col width="20%">
+										<col width="*">
+										<col width="17%">
+										<col width="8%">
+									</colgroup>
+									<thead>
+										<tr>
+											<th></th>
+											<th>보낸이</th>
+											<th>제목</th>
+											<th>날짜</th>
+											<th>상태</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="fNote in freindOriginNotes" :key="fNote.no">
+											<td><input type="checkbox" value="fNote.no"></td>
+											<td>{{fNote.senderNo}}</td>
+											<td>{{fNote.title}}</td>
+											<td>{{fNote.createdDate}}</td>
+											<td>{{fNote.status}}</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -114,40 +109,34 @@
 					<div id="send" class="container tab-pane fade">
 						<br>
 						<div class="card">
-							<div class="card-body" id="modal-cd-second">
-								<div class="card-column">
-									<div class="card-box">
-										<div class="card-view">
-											<table class="card-table table-sm">
-												<colgroup>
-													<col width="5%">
-													<col width="20%">
-													<col width="*">
-													<col width="17%">
-													<col width="8%">
-												</colgroup>
-												<thead>
-													<tr>
-														<th></th>
-														<th>보낸이</th>
-														<th>제목</th>
-														<th>날짜</th>
-														<th>상태</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr v-for="sNote in sendNoteList" :key="sNote.no">
-														<td><input type="checkbox" value="sNote.no"></td>
-														<td>{{sNote.senderNo}}</td>
-														<td>{{sNote.title}}</td>
-														<td>{{sNote.createdDate}}</td>
-														<td>{{sNote.status}}</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
+							<div class="card-body">
+								<table class="card-table table-sm">
+									<colgroup>
+										<col width="5%">
+										<col width="20%">
+										<col width="*">
+										<col width="17%">
+										<col width="8%">
+									</colgroup>
+									<thead>
+										<tr>
+											<th></th>
+											<th>보낸이</th>
+											<th>제목</th>
+											<th>날짜</th>
+											<th>상태</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="sNote in sendNoteList" :key="sNote.no">
+											<td><input type="checkbox" value="sNote.no"></td>
+											<td>{{sNote.senderNo}}</td>
+											<td>{{sNote.title}}</td>
+											<td>{{sNote.createdDate}}</td>
+											<td>{{sNote.status}}</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -224,11 +213,7 @@
 			sendNoteList:[],
 	        recivedNoteList:[],
 	        freindOriginNotes:[],
-        	numOfFriendPage:'',
-        	friendCalList:[],
 	        otherOriginNotes:[],
-        	numOfOtherPage:'',
-        	calOtherList:[],
 			dataPerPage:5,
 			curPageNo:1,
 			userDept:'',
@@ -285,8 +270,24 @@
 					noteApp.newNote.title = '';
 					noteApp.newNote.content = '';
 				})
+			},
+			previous: function () {
+				if(noteApp.curPageNo == 1){
+					alert("첫 페이지입니다.");
+				}else{
+					noteApp.curPageNo = note.curPageNo - 1;
+					
+				}
+			},
+			next: function () {
+				if(noteApp.curPageNo == previous){
+					alert("마지막 페이지입니다.");
+				}else{
+					noteApp.curPageNo = note.curPageNo + 1;
+					
+				}
 			}
-		},
+		}, // end methods
 		computed: {
 			categories: function() {
 				var that = this
@@ -320,19 +321,6 @@
 			},
 			end() {
 				return ((this.start + this.dataPetPage));
-			},
-			numOfFriendPages() {
-			        return Math.ceil(this.freindOriginNotes.length / this.dataPerPage);
-			},
-			numOfOtherPages() {
-			        return Math.ceil(this.otherOriginNotes.length / this.dataPerPage);
-			},
-			calFreindNoteList() {
-				return this.freindOriginNotes.slice(this.start, this.end);
-			},
-			calOtherNoteList() {
-				return this.otherOriginNotes.slice(this.start, this.end);
-			} 
 		},
 		created(){
 			var that = this;
