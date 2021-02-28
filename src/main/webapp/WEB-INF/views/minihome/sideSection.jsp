@@ -54,6 +54,14 @@
 		</div>
 		<div class="card-body">
 			<ul id="video-folder-list">
+				<li><a href="" data-content-id="#visualContents-section" data-folder-no="${folders[0].parentNo }">전체보기</a></li>
+				<c:forEach var="folder" items="${folders}">
+					<li>
+						<a href="" data-content-id="#visualContents-section" data-folder-no="${folder.no}">${folder.name}</a>
+						<ul id="childFolder-${folder.no}">
+						</ul>	
+					</li>
+				</c:forEach>
 			</ul>
 		</div>
 	</div>
@@ -63,6 +71,14 @@
 		</div>
 		<div class="card-body">
 			<ul id="board-folder-list">
+				<li><a href="" data-content-id="#board-section" data-folder-no="${folders[0].parentNo }">전체보기</a></li>
+				<c:forEach var="folder" items="${folders}">
+					<li>
+						<a href="" data-content-id="#board-section" data-folder-no="${folder.no}">${folder.name}</a>
+						<ul id="childFolder-${folder.no}">
+						</ul>	
+					</li>
+				</c:forEach>
 			</ul>
 		</div>
 	</div>

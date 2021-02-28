@@ -2,6 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.MiniHomeBoardDao">
-	<select id="getBoardsByFolderNo" parameterType="int" resultType="com.example.latte.vo.MiniHomeBoard">
+	<select id="getBoardsByOption" parameterType="map" resultType="com.example.latte.vo.MiniHomeBoard">
+		select 
+			board_no					as no,
+			board_folder_no				as folderNo,
+			user_no						as userNo,
+			board_title					as title,
+			board_content				as content,
+			board_image_filename		as imgFilename,
+			board_extra_filename		as extraFilename,
+			board_hit_cnt				as hitCnt,
+			board_like_cnt				as likeCnt,
+			board_comment_cnt			as commentCnt,
+			board_created_date			as createdDate
+		from
+			(select 
+				row_number() over(order by a.board_no desc) rn, a.*			
+			 from
+				minihome_boards a, (select 
+										folder_no
+									from
+										minihome_board_folders
+									start with
+										folder_no = #{folderNo}
+									connect by 
+										prior folder_no = folder_parent_no) b
+			 where 
+				a.board_folder_no = b.folder_no)
+		where
+			<if test="begin == null">
+				rn >= 1 and rn &lt;= 16			
+			</if>
+			<if test="begin != null">
+				rn >= #{begin} and rn &lt;= #{end}			
+			</if>
+	</select>
+	<select id="getBoardByNo" parameterType="int" resultType="com.example.latte.vo.MiniHomeBoard">
+		select 
+			board_no					as no,
+			board_folder_no				as folderNo,
+			user_no						as userNo,
+			board_title					as title,
+			board_content				as content,
+			board_image_filename		as imgFilename,
+			board_extra_filename		as extraFilename,
+			board_hit_cnt				as hitCnt,
+			board_like_cnt				as likeCnt,
+			board_comment_cnt			as commentCnt,
+			board_created_date			as createdDate
+		from
+			minihome_boards
+		where
+			board_no = #{value}
 	</select>
 </mapper>
