@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.latte.form.UserForm;
+import com.example.latte.form.UserRegisterForm;
 import com.example.latte.service.DeptService;
 import com.example.latte.service.UserService;
 import com.example.latte.vo.User;
@@ -77,7 +77,7 @@ public class UserController {
 	
 	// 회원가입시 사용자 정보 저장
 	@RequestMapping("/addUser.do")
-	public Map<String, Object> addUser(UserForm userForm) {
+	public Map<String, Object> addUser(UserRegisterForm userForm) {
 		System.out.println("###컨트롤러 addUser 실행-----");
 		Map<String, Object> result = new HashMap<>();
 		

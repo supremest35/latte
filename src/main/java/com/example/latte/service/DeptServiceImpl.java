@@ -18,4 +18,9 @@ public class DeptServiceImpl implements DeptService{
 	public List<Dept> getAllDepts() {
 		return deptDao.getAllDepts();
 	}
+	
+	@Override
+	public Dept getDeptByNo(int no) {
+		return deptDao.getDeptByNo(no);
+	}
 }

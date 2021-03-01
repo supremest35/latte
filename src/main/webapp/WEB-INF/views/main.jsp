@@ -21,7 +21,7 @@
 		
 		<%@ include file="/WEB-INF/common/navbar.jsp" %>
 		
-		<div class="row">
+		<div class="row mt-4" style="width: 1110px;">
 			<div class="col-2">날씨</div>
 			<div class="col-8">
 				<div class="row">

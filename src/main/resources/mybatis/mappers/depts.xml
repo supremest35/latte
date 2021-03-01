@@ -3,7 +3,18 @@
 <mapper namespace="com.example.latte.dao.DeptDao">
 
 	<select id="getAllDepts" resultType="com.example.latte.vo.Dept">
-		select  dept_no as no, dept_name as name from latte_depts
+		select  
+			dept_no as no, dept_name as name 
+		from 
+			latte_depts
 	</select>
 
+	<select id="getDeptByNo" parameterType="int" resultType="com.example.latte.vo.Dept">
+		select  
+			dept_no as no, dept_name as name 
+		from 
+			latte_depts
+		where 
+			dept_no = #{value}
+	</select>
 </mapper>
