@@ -354,7 +354,7 @@
 								</div>
 								<div class="col-sm-7 mt-1">
 									<button class="info-btn btn-sm btn-warning mr-1" id="btn-profile">
-										<a href="/myProfile.do">프로필 수정</a>
+										<a href="/myProfile.do" >프로필 수정</a>
 									</button>
 									<button class="info-btn btn-sm btn-secondary mr-1" id="btn-logout">
 										<a href="/logout.do" >Logout</a>

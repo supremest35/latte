@@ -10,12 +10,6 @@ import lombok.Data;
 @Data
 public class UserModifyForm {
 
-	private String name;
-	private String password;
-	private MultipartFile photoFile;
 	private String nickName;
 	private String tel;
-	private String address;
-	private String addressDetail;
-	private int postCode;
 }

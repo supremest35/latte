@@ -58,25 +58,6 @@ public class UserServiceImpl implements UserService {
 	}                         
 	
 	@Override
-	public User getLoginedUserInfo(String userId, String password) {
-		User savedUser = userDao.getUserById(userId);
-		
-		if(savedUser == null) {
-			throw new UserNotFoundException("아이디: ["+userId+"]");
-		}
-		
-		String secretPassword = DigestUtils.sha256Hex(password);
-		if(!secretPassword.equals(savedUser.getPassword())) {
-			throw new PasswordMismatchException("");
-		}
-		SessionUtils.setAttribute("LOGINED_USER", savedUser);
-		SessionUtils.setAttribute("LOGINED_USER_NO", savedUser.getNo());
-		
-		return savedUser;
-	}
-	
-	
-	@Override
 	public User getUserWithIdOption(String name, String tel) {
 		Map<String, Object> option = new HashMap<String, Object>();
 		option.put("name", name);
@@ -102,6 +83,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void removeUser(int userNo) {
 		userDao.deleteUserByNo(userNo);
+	}
+	
+	@Override
+	public void updateUser(User user) {
+		userDao.updateUser(user);
 	}
 	
 	public List<Relation> getMyFriendListByOpt(Map<String, Object> opt){

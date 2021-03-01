@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.latte.form.UserRegisterForm;
 import com.example.latte.service.DeptService;
 import com.example.latte.service.UserService;
+import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.User;
 
 @RestController("apiUserController")
@@ -127,6 +128,7 @@ public class UserController {
 		condition.put("available", "Y");
 		return userService.getAllUsers(condition);
 	}
+	
 	
 	
 }

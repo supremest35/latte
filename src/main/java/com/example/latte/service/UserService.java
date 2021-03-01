@@ -12,13 +12,13 @@ public interface UserService {
 	User getUserById(String userId);
 	User getUserByNo(int userNo);
 	void getLoginUser(Map<String, String> param);
-	User getLoginedUserInfo(String userId, String password);
-	List<User> getAllUsers(Map<String, String> condition);
-	void removeUser(int userNo);
-	void addUser(User user);
-	
 	User getUserWithIdOption(String name, String tel);
 	User getUserWithPwdOption(String name, String tel, String id);
+	List<User> getAllUsers(Map<String, String> condition);
+	
+	void removeUser(int userNo);
+	void addUser(User user);
+	void updateUser(User user);
 	
 	List<Relation> getMyFriendListByOpt(Map<String, Object> opt);
 	Relation getFriendByNo(int userNo, int friendNo);
