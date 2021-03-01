@@ -28,18 +28,20 @@ public class WishItemController {
 		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
 		
 		if (user == null) {
-			return "redirect:/shopping/acorn/list.do";
-		} else {
-			WishItem wishItem = new WishItem();
+			return "redirect:/main.do";	// '로그인이 필요한 서비스입니다' 에러화면 추가.
+		}
+		WishItem wishItem = wishService.getWishItemByAcornNoAndUserNo(acornNo, user.getNo());
+		if (wishItem == null) {
+			wishItem = new WishItem();
 			wishItem.setAcornNo(acornNo);
 			wishItem.setUserNo(user.getNo());
 			wishItem.setAmount(amount);
-			
-			wishService.insertOrIncreaseAmount(wishItem);
-			
-			return "redirect:/shopping/wish/list.do";
+			wishService.insertWishItem(wishItem);
+		} else {
+			return "redirect:/shopping/wish/list.do?error=exist";
 		}
 		
+		return "redirect:/shopping/wish/list.do";
 	}
 	
 	@RequestMapping("/list.do")
@@ -50,23 +52,31 @@ public class WishItemController {
 		if (user == null) {
 			return "redirect:/shopping/main.do";
 		}
-		else {
-			List<WishItemDto> wishItemDtoList = wishService.getWishItemsList(user.getNo());
-			
-			int totalPrice = 0;
-			for (WishItemDto dto : wishItemDtoList) {
-				totalPrice += dto.getItemPrice()*dto.getItemAmount();
-			}
-			model.addAttribute("wishItems", wishItemDtoList);
-			model.addAttribute("totalPrice", totalPrice);
+		
+		List<WishItemDto> wishItemDtoList = wishService.getWishItemsList(user.getNo());
+		
+		int totalPrice = 0;
+		for (WishItemDto dto : wishItemDtoList) {
+			totalPrice += dto.getAcornPrice()*dto.getAcornAmount();
 		}
+		model.addAttribute("wishItems", wishItemDtoList);
+		model.addAttribute("totalPrice", totalPrice);
+		
 		return "/shopping/wish/list";
 	}
 	
 	@RequestMapping("/deleteItem.do")
-	public String deleteCartItem(@RequestParam("wishno") List<Integer> wishNoList,
-			User user) {
-		wishService.deleteWishItems(wishNoList, user.getNo());
+	public String deleteCartItem(@RequestParam("wishno") List<Integer> wishNoList) {
+		
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		if (user == null) {
+			return "redirect:/shopping/main.do";
+		}
+		
+		for (int wishNo : wishNoList) {
+			wishService.deleteWishItem(wishNo);
+		}
 		
 		return "redirect:/shopping/wish/list.do";
 	}

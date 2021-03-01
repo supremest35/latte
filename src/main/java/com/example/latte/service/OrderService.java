@@ -9,9 +9,10 @@ import com.example.latte.vo.OrderItem;
 public interface OrderService {
 
 	List<Map<String, Object>> getOrderItems(List<Integer> wishNoList);
+	List<Order> getOrdersByUserNo(int userNo);
 	
 	Map<String, Object> getOrderItem(int acornNo, int amount);
 
-	void insertOrder(Order order, List<OrderItem> orderItems);
-
+	void insertOrder(Order order);
+	void insertOrderItem(OrderItem orderItems);
 }

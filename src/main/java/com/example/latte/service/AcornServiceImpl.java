@@ -85,6 +85,10 @@ public class AcornServiceImpl implements AcornService {
 		acornCommentDao.insertCommentLike(commentNo, userNo);
 	}
 	@Override
+	public void updateAcorn(AcornItem acorn) {
+		acornDao.updateAcorn(acorn);
+	}
+	@Override
 	public void updateComment(AcornItemComment comment) {
 		acornCommentDao.updateComment(comment);
 	}

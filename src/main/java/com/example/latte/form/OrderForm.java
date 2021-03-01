@@ -8,9 +8,9 @@ import lombok.Data;
 public class OrderForm {
 
 	private List<Integer> acornNo;
-	private List<Integer> salePrice;
+	private List<Integer> price;
 	private List<Integer> amount;
-	private int recNo;
+	private String recId;
 	private String message;
 	private int totalPrice;
 }

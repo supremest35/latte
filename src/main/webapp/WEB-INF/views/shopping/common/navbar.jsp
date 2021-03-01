@@ -1,4 +1,6 @@
 <%@ page pageEncoding="UTF-8"%>
+<link rel='stylesheet' href='/resources/css/navbar.css'/>
+
 <nav class="navbar navbar-expand-sm bg-white navbar-info">
   	<ul class="navbar-nav">	
 	    <li class="nav-item dropdown">
@@ -8,10 +10,10 @@
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${allCategories }">
 	      		<c:if test="${category.no != 600 }">
-	        		<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	        		<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }&catlvl=1">${category.name }</a>
 	        	</c:if>
 	      		<c:if test="${category.no == 600 }">
-	        		<a class="dropdown-item" href="/shopping/acorn/list.do?catno=${category.no }">${category.name }</a>
+	        		<a class="dropdown-item" href="/shopping/acorn/list.do?catno=${category.no }&catlvl=1">${category.name }</a>
 	        	</c:if>
 	        </c:forEach>
 	      </div>
@@ -22,7 +24,7 @@
 	      </a>
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${fashionCategories }">
-	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }&catlvl=2">${category.name }</a>
 	        </c:forEach>
 	      </div>
 	    </li>
@@ -32,7 +34,7 @@
 	      </a>
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${computerCategories }">
-	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }&catlvl=2">${category.name }</a>
 	        </c:forEach>
 	      </div>
 	    </li>
@@ -42,7 +44,7 @@
 	      </a>
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${livingCategories }">
-	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }&catlvl=2">${category.name }</a>
 	        </c:forEach>
 	      </div>
 	    </li>
@@ -52,7 +54,7 @@
 	      </a>
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${foodCategories }">
-	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }&catlvl=2">${category.name }</a>
 	        </c:forEach>
 	      </div>
 	    </li>
@@ -62,7 +64,7 @@
 	      </a>
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${carCategories }">
-	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }">${category.name }</a>
+	        	<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }&catlvl=2">${category.name }</a>
 	        </c:forEach>
 	      </div>
 	    </li>
@@ -72,7 +74,7 @@
 	      </a>
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${acornCategories }">
-	        	<a class="dropdown-item" href="/shopping/acorn/list.do?catno=${category.no }">${category.name }</a>
+	        	<a class="dropdown-item" href="/shopping/acorn/list.do?catno=${category.no }&catlvl=2">${category.name }</a>
 	        </c:forEach>
 	      </div>
 	    </li>

@@ -21,6 +21,76 @@
 		color: rgb(34, 34, 34);
 	}
 	</style>
+	<script type="text/javascript">
+	$(document).ready(function(){
+
+		/* Event */
+		
+		//중분류 조회
+		$("#product-category").change(function() {
+			var data = {};
+			data["UPP_NO"] = $("#product-category option:selected").val();
+			$.ajax({
+				contentType : 'application/json',
+				dataType : 'json',
+				url : "/ShoppingManage/retireveMidCategory.do",
+				type : 'post',
+				data : JSON.stringify(data), // json -> string <-> parse
+				contentType : 'application/json; charset=utf-8',
+				success : function(data) {
+					if(data.length > 0){
+						$('#product-mid-category').empty();
+						for(var i=0 in data){                
+			                var option = $("<option value='"+ data[i].MARKET_CATEGORY_NO +"'>"+data[i].MARKET_CATEGORY_NAME+"</option>");
+			                $('#product-mid-category').append(option);
+			            }
+						
+						$('#product-mid-category').val(data[0].MARKET_CATEGORY_NO).trigger('change');
+					}else{
+						var option  = $("<option>선택하세요</option>");
+						var option2 = $("<option>선택하세요</option>");
+						$('#product-mid-category').empty();
+						$('#product-low-category').empty();
+		                $('#product-mid-category').append(option);
+		                $('#product-low-category').append(option2);
+					}
+				},
+				error : function() {
+					alert("error");
+				}
+			});
+		});
+		
+		//소분류 조회
+		$("#product-mid-category").change(function() {
+			var data = {};
+			data["UPP_NO"] = $("#product-mid-category option:selected").val();
+			$.ajax({
+				contentType : 'application/json',
+				dataType : 'json',
+				url : "/ShoppingManage/retireveLowCategory.do",
+				type : 'post',
+				data : JSON.stringify(data), // json -> string <-> parse
+				contentType : 'application/json; charset=utf-8',
+				success : function(data) {
+					if(data.length > 0){
+						$('#product-low-category').empty();
+						for(var i=0 in data){                
+			                var option = $("<option value='"+ data[i].MARKET_CATEGORY_NO +"'>"+data[i].MARKET_CATEGORY_NAME+"</option>");
+			                $('#product-low-category').append(option);
+			            }
+					}
+				},
+				error : function() {
+					alert("error");
+				}
+			});
+		});
+	});
+	
+	/* Event End */
+	
+	</script>
 </head>
 <body>
 

@@ -43,10 +43,11 @@ public class ProductController {
 	MarketCategoryService marketCategoryService;
 
 	@RequestMapping("/list.do")
-	public String list(@RequestParam(name="catno", required=false, defaultValue="-1") int categoryNo,
-			@RequestParam(name="pageno", required=false, defaultValue="1") int pageNo,
-			@RequestParam(name="rows", required=false, defaultValue="6") int rows,
-			Model model) {
+	public String list( @RequestParam(name="catno", required=false, defaultValue="-1") int categoryNo,
+						@RequestParam(name="catlvl", required=false) String catlvl,
+						@RequestParam(name="pageno", required=false, defaultValue="1") int pageNo,
+						@RequestParam(name="rows", required=false, defaultValue="6") int rows,
+						Model model) {
 		
 		Map<String, Object> condition = new HashMap<String, Object>();
 		if (categoryNo != -1) {
@@ -55,10 +56,12 @@ public class ProductController {
 			model.addAttribute("category", category);
 		}
 		List<MarketLowCategory> lowCategories = marketCategoryService.getLowCategories(categoryNo);
+		List<MarketMidCategory> midCategories = marketCategoryService.getMidCategories(categoryNo);
 		List<ProductBrand> brands = productService.getAllBrands();
 		List<ProductColor> colors = productService.getAllColors();
 		
 		model.addAttribute("lowCategories", lowCategories);
+		model.addAttribute("midCategories", midCategories);
 		model.addAttribute("brands", brands);
 		model.addAttribute("colors", colors);
 		
@@ -66,11 +69,13 @@ public class ProductController {
 		condition.put("rows", rows);
 		condition.put("begin", (pageNo - 1)*rows + 1);
 		condition.put("end",  pageNo*rows);
+		condition.put("catlvl",  catlvl);
 		
 		Map<String, Object> resultMap = productService.getProducts(condition);
 		
 		model.addAttribute("page", resultMap.get("pagination"));
 		model.addAttribute("products", resultMap.get("products"));
+		model.addAttribute("resVo", condition);
 		
 		return "/shopping/product/list";
 	}

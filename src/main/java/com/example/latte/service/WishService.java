@@ -9,7 +9,10 @@ public interface WishService {
 
 	List<WishItemDto> getWishItemsList(int userNo);
 	
-	void deleteWishItems(List<Integer> wishNoList, int userNo);
-	void insertOrIncreaseAmount(WishItem wishItem);
-	void updateWishItem(WishItem wishItem);
+	WishItem getWishItemByAcornNoAndUserNo(int acornNo, int userNo);
+	WishItem getWishItemByNo(int wishNo);
+	
+	void deleteWishItem(int wishNo);
+	void deleteWishItemByUserNoAndAcornNo(int userNo, int acornNo);
+	void insertWishItem(WishItem wishItem);
 }

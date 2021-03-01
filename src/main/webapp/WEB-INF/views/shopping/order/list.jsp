@@ -74,9 +74,9 @@
 										<td><a href="/shopping/order/detail.do?orderno=${order.no }">${order.no }</a></td>
 										<td><fmt:formatDate value="${order.createdDate }"/></td>
 										<td><a href="/shopping/order/detail.do?orderno=${order.no }">${order.description }</a></td>
-										<td><fmt:formatNumber value="${order.totalOrderPrice }"/>원/${order.amount }종</td>
+										<td><fmt:formatNumber value="${order.totalPrice }"/>원/${order.amount }종</td>
 										<td><span class="text-success">${order.status }</span></td>
-										<td>${order.recNo }</td>
+										<td>${order.recId }</td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>

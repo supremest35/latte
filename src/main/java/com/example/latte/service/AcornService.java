@@ -24,5 +24,6 @@ public interface AcornService {
 	void addNewAcorn(AcornItem acorn);
 	void insertComment(AcornItemComment comment);
 	void insertCommentLike(int commentNo, int userNo);
+	void updateAcorn(AcornItem acorn);
 	void updateComment(AcornItemComment comment);
 }

@@ -87,16 +87,29 @@
 			from
 		       	latte_products
 		    <where>
-		    	<choose>
-		    		<when test="categoryNo != -1">
-		    			product_mid_category_no = #{categoryNo}
-		    		</when>
-		       	</choose>
-		    </where>
+				<if test='categoryNo != -1'>
+					<choose>
+						<when test='catlvl == "1"'>
+							PRODUCT_CATEGORY_NO = #{categoryNo}
+						</when>
+						<when test='catlvl == "2"'>
+							PRODUCT_MID_CATEGORY_NO = #{categoryNo}
+						</when>
+						<when test='catlvl == "3"'>
+							PRODUCT_LOW_CATEGORY_NO = #{categoryNo}
+						</when>
+						<otherwise>
+							PRODUCT_CATEGORY_NO = #{categoryNo}
+						</otherwise>
+					</choose>
+				</if>
+			</where>
 			)
 		<where>
 			<if test="begin != 0 and end != 0">
-				rn >= #{begin}	and rn &lt;= #{end}
+			<![CDATA[
+				rn >= #{begin}	and rn <= #{end}
+			]]>
 			</if>
 		</where>
 	</select>

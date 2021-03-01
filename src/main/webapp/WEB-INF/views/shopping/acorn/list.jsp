@@ -53,8 +53,7 @@
 		    <tr>
 		      <th scope="col">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="checkbox" value="allSelect">
-					<label class="form-check-label" for="checkbox"></label>
+					<input type="checkbox" id="chk-all" onchange="toggleAllChecked()"/>
 				</div>
 		      </th>
 		      <th scope="col">상품명</th>
@@ -70,16 +69,21 @@
 			    <tr>
 			      <th scope="row">
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox" id="checkbox" value="select">
-						<label class="form-check-label" for="checkbox"></label>
+						<input type="checkbox" name="acornno" value="${acorn.no }" />
 					</div>
 			      </th>
 			      <td><a href="detail.do?acornno=${acorn.no }&pageno=${page.pageNo }&catno=${acorn.categoryNo }">${acorn.name }</a></td>
 			      <td><i class="fad fa-acorn"></i> ${acorn.price }개</td>
 			      <td><a href=""><i class="far fa-heart"></i> ${acorn.likeCnt }</a></td>
 			      <td><a href="/shopping/wish/insertItem.do?acornno=${acorn.no }&amount=1"><i class="fas fa-plus"></i></a></td>
-			      <td><a href="/shopping/order/form.do?acornno=${acorn.no }&amount=1">바로구매</a></td>
-			      <td><a href="/shopping/order/form.do?acornno=${acorn.no }&amount=1">선물하기</a></td>
+			      <c:if test="${empty LOGINED_USER }">
+				      <td><a href="/main.do">바로구매</a></td>
+				      <td><a href="/main.do">선물하기</a></td>
+			      </c:if>
+			      <c:if test="${not empty LOGINED_USER }">
+				      <td><a href="/shopping/order/form.do?acornno=${acorn.no }&amount=1">바로구매</a></td>
+				      <td><a href="/shopping/order/form.do?acornno=${acorn.no }&amount=1">선물하기</a></td>
+			      </c:if>
 			    </tr>
 		    </form>
 		    </c:forEach>
@@ -104,5 +108,14 @@
 	    </div>
 	</div>
 </div>
+<script type="text/javascript">
+	function toggleAllChecked() {
+		var isChecked = document.getElementById("chk-all").checked;
+		var checkboxes = document.querySelectorAll("[name='acornno']");
+		for (var i=0; i<checkboxes.length; i++) {
+			checkboxes[i].checked = isChecked;
+		}
+	}
+</script>
 </body>
 </html>

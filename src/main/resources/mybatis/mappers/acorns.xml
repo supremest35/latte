@@ -3,6 +3,25 @@
 
 <mapper namespace="com.example.latte.dao.AcornDao">
 
+	<select id="getAcornByNo" resultType="com.example.latte.vo.AcornItem">
+		select
+	       	acorn_item_no				as no,
+			category_no					as categoryNo,
+			category_mid_no				as categoryMidNo,
+			acorn_item_name				as name,
+			acorn_item_price			as price,
+			acorn_item_stock			as stock,
+			acorn_item_status			as status,
+			acorn_item_like_cnt			as likeCnt,
+			acorn_item_comment_cnt		as commentCnt,
+			acorn_item_sell_cnt			as sellCnt,
+			acorn_item_created_date		as createdDate
+		from
+	       	latte_acorn_items
+		where
+			acorn_item_no = #{value}
+	</select>
+	
 	<select id="getTotalCountByCondition" parameterType="map" resultType="int">
 		select
 			count(*)
@@ -14,6 +33,7 @@
 			</if>
 		</where>
 	</select>
+	
 	<select id="getAcornsBycondition" parameterType="map" resultType="com.example.latte.vo.AcornItem">
 		 select *
 		 from
@@ -45,34 +65,6 @@
 			</if>
 		</where>
 	</select>
-	
-	<select id="getAcornByNo" resultType="com.example.latte.vo.AcornItem">
-		select
-	       	acorn_item_no				as no,
-			category_no					as categoryNo,
-			category_mid_no				as categoryMidNo,
-			acorn_item_name				as name,
-			acorn_item_price			as price,
-			acorn_item_stock			as stock,
-			acorn_item_status			as status,
-			acorn_item_like_cnt			as likeCnt,
-			acorn_item_comment_cnt		as commentCnt,
-			acorn_item_sell_cnt			as sellCnt,
-			acorn_item_created_date		as createdDate
-		from
-	       	latte_acorn_items
-		where
-			acorn_item_no = #{value}
-	</select>
-	
-	<insert id="insertAcorn" parameterType="com.example.latte.vo.AcornItem">
-		insert into latte_acorn_items
-			(acorn_item_no, category_mid_no, acorn_item_name, acorn_item_price, acorn_item_stock)
-		values
-			(latte_acorn_item_no_seq.nextval, #{categoryMidNo}, #{name}, #{price}, #{stock})
-	</insert>
-	
-	
 	<select id="getAllAcorns" resultType="com.example.latte.vo.AcornItem">
 		select
 	       	acorn_item_no				as no,
@@ -89,5 +81,17 @@
 		from
 	       	latte_acorn_items
 	</select>
+
+	<insert id="insertAcorn" parameterType="com.example.latte.vo.AcornItem">
+		insert into latte_acorn_items
+			(acorn_item_no, category_mid_no, acorn_item_name, acorn_item_price, acorn_item_stock)
+		values
+			(latte_acorn_item_no_seq.nextval, #{categoryMidNo}, #{name}, #{price}, #{stock})
+	</insert>
+	<update id="updateAcorn" parameterType="com.example.latte.vo.AcornItem">
+		update latte_acorn_items
+		set
+			acorn_item_stock = #{stock}
+	</update>
 
 </mapper>

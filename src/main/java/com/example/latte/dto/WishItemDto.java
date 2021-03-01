@@ -6,9 +6,9 @@ import lombok.Data;
 public class WishItemDto {
 
 	private int itemNo;
-	private int categoryNo;
 	private int acornNo;
+	private int categoryNo;
 	private String acornName;
-	private int itemPrice;
-	private int itemAmount;
+	private int acornPrice;
+	private int acornAmount;
 }

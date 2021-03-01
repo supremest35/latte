@@ -21,22 +21,24 @@ public class WishServiceImpl implements WishService {
 	}
 	
 	@Override
-	public void deleteWishItems(List<Integer> wishNoList, int userNo) {
-		
+	public WishItem getWishItemByAcornNoAndUserNo(int acornNo, int userNo) {
+		return wishItemDao.getWishItemByAcornNoAndUserNo(acornNo, userNo);
 	}
 	@Override
-	public void insertOrIncreaseAmount(WishItem wishItem) {
-		WishItem savedWishItem = wishItemDao.getWishItemByAcornNoAndUserNo(wishItem.getUserNo(), wishItem.getAcornNo());
-		
-		if (savedWishItem != null) {
-			savedWishItem.setAmount(savedWishItem.getAmount() + wishItem.getAmount());
-			wishItemDao.updateWishItem(savedWishItem);
-		} else {
-			wishItemDao.insertWishItem(wishItem);
-		}
+	public WishItem getWishItemByNo(int wishNo) {
+		return wishItemDao.getWishItemByNo(wishNo);
+	}
+	
+	@Override
+	public void deleteWishItem(int wishNo) {
+		wishItemDao.deleteWishItem(wishNo);
 	}
 	@Override
-	public void updateWishItem(WishItem wishItem) {
-		
+	public void deleteWishItemByUserNoAndAcornNo(int userNo, int acornNo) {
+		wishItemDao.deleteWishItemByUserNoAndAcornNo(userNo, acornNo);
+	}
+	@Override
+	public void insertWishItem(WishItem wishItem) {
+		wishItemDao.insertWishItem(wishItem);
 	}
 }
