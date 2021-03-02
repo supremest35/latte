@@ -44,9 +44,6 @@ public class MainController {
 	@RequestMapping("/login.do")
 	public String login(@RequestParam("id") String userId,
 			@RequestParam("pwd") String password,@RequestParam("pathName") String pn, RedirectAttributes rd) {
-		System.out.println("로그인 호출");
-		System.out.println("####URL ===>" + pn);
-		System.out.println("####ID ===>"+ userId);
 		
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("id", userId);
@@ -81,11 +78,7 @@ public class MainController {
 	}
 	
 	@RequestMapping("/myProfile.do")
-	public String myProfile(Model model) {
-		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
-		System.out.println(user.getDeptNo());
-		Dept dept = deptService.getDeptByNo(user.getDeptNo());
-		model.addAttribute("deptName", dept.getName());
+	public String myProfile() {
 		return "../common/myProfile";
 	}
 }

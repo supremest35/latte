@@ -104,6 +104,11 @@ public class UserServiceImpl implements UserService {
 		userDao.deleteUserByNo(userNo);
 	}
 	
+	@Override
+	public void update(User user) {
+		userDao.updateUser(user);
+	}
+	
 	public List<Relation> getMyFriendListByOpt(Map<String, Object> opt){
 		return userDao.getMyFriendListByOpt(opt);
 	};
@@ -112,5 +117,6 @@ public class UserServiceImpl implements UserService {
 	public Relation getFriendByNo(int userNo, int friendNo) {
 		return userDao.getFriendByNo(userNo, friendNo);
 	}
+	
 	
 }
