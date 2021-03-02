@@ -1,6 +1,5 @@
 package com.example.latte.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import com.example.latte.dao.WishItemDao;
 import com.example.latte.vo.AcornItem;
 import com.example.latte.vo.Order;
 import com.example.latte.vo.OrderItem;
-import com.example.latte.vo.WishItem;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -30,30 +28,21 @@ public class OrderServiceImpl implements OrderService {
 	UserDao userDao;
 
 	@Override
-	public List<Map<String, Object>> getOrderItems(List<Integer> wishNoList) {
-		List<Map<String, Object>> orderItemList = new ArrayList<Map<String,Object>>();
-		
-		for (int wishNo : wishNoList) {
-			WishItem wishItem = wishItemDao.getWishItemByNo(wishNo);
-			AcornItem acorn = acornDao.getAcornByNo(wishItem.getAcornNo());
-			
-			Map<String, Object> item = new HashMap<String, Object>();
-			item.put("acornNo", acorn.getNo());
-			item.put("acornCategoryNo", acorn.getCategoryNo());
-			item.put("acornCategoryMidNo", acorn.getCategoryMidNo());
-			item.put("acornName", acorn.getName());
-			item.put("acornPrice", acorn.getPrice());
-			item.put("amount", wishItem.getAmount());
-			item.put("orderPrice", acorn.getPrice()*wishItem.getAmount());
-			
-			orderItemList.add(item);
-		}
-		
-		return orderItemList;
+	public Order getOrderByNo(int orderNo) {
+		return orderDao.getOrderByNo(orderNo);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getMapOrderItemsByOrderNo(int orderNo) {
+		return orderDao.getgetMapOrderItemsByOrderNo(orderNo);
 	}
 	@Override
 	public List<Order> getOrdersByUserNo(int userNo) {
 		return orderDao.getOrdersByUserNo(userNo);
+	}
+	@Override
+	public List<OrderItem> getOrderItemsByOrderNo(int orderNo) {
+		return orderDao.getOrderItemsByOrderNo(orderNo);
 	}
 	
 	@Override
@@ -79,5 +68,9 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void insertOrderItem(OrderItem orderItems) {
 		orderDao.insertOrderItem(orderItems);
+	}
+	@Override
+	public void updateOrder(Order order) {
+		orderDao.updateOrder(order);
 	}
 }

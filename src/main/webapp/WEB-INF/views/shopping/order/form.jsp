@@ -63,7 +63,7 @@
 							<c:forEach var="item" items="${orderItemList }">
 								<tr>
 									<td>
-										<span class="align-top"><a href="/shopping/acorn/detail.do?acornno=${item.aconrNo}&catno=${item.acornCategoryMidNo }" class="text-body">${item.acornName}</a></span>
+										<span class="align-top"><a href="/shopping/acorn/detail.do?acornno=${item.acornNo}&catno=${item.acornCategoryNo }" class="text-body">${item.acornName}</a></span>
 										<input type="hidden" name="acornNo" value="${item.acornNo }" />
 										<input type="hidden" name="price" value="${item.acornPrice }" />
 										<input type="hidden" name="amount" value="${item.amount }" />
