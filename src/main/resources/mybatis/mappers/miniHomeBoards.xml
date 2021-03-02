@@ -2,6 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.MiniHomeBoardDao">
+	<select id="getTotalBoardsByOption" parameterType="map" resultType="int">
+		select 
+			count(*)
+		from
+			(select 
+				row_number() over(order by a.board_no desc) rn, a.*			
+			 from
+				minihome_boards a, (select 
+										folder_no
+									from
+										minihome_board_folders
+									start with
+										folder_no = #{folderNo}
+									connect by 
+										prior folder_no = folder_parent_no) b
+			 where 
+				a.board_folder_no = b.folder_no)
+	</select>
 	<select id="getBoardsByOption" parameterType="map" resultType="com.example.latte.vo.MiniHomeBoard">
 		select 
 			board_no					as no,

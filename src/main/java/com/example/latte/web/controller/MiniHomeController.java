@@ -1,5 +1,6 @@
 package com.example.latte.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,8 +66,6 @@ public class MiniHomeController {
 			WelcomeNote welcomeNote = miniHomeService.getWelcomeNoteByMiniHomeNo(miniHomeNo);
 			welcomeNote.setPhotoFilename("/resources/images/miniHome/" + welcomeNote.getPhotoFilename());
 			model.addAttribute("welcomeNote", welcomeNote);
-		} else if ("#diary-section".equals(sectionId)) {
-			
 		} else if ("#photo-section".equals(sectionId)) {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("miniHomeNo", miniHomeNo);
@@ -88,8 +87,9 @@ public class MiniHomeController {
 	}
 
 	@RequestMapping("/mainSection.do")
-	public String mainSection(@RequestParam(name="contentId", required=false) String contentId, @RequestParam("miniHomeNo") int miniHomeNo, @RequestParam(name="folderNo", required=false, defaultValue="-1") int folderNo, @RequestParam(name="boardNo", required=false, defaultValue="-1") int boardNo, Model model) {
-		System.out.println(contentId);
+	public String mainSection(@RequestParam(name="contentId", required=false) String contentId, @RequestParam("miniHomeNo") int miniHomeNo, 
+			@RequestParam(name="folderNo", required=false, defaultValue="-1") int folderNo, @RequestParam(name="boardNo", required=false, defaultValue="-1") int boardNo, 
+			@RequestParam(name="pageNo", required=false, defaultValue="1") int pageNo, @RequestParam(name="rows", required=false, defaultValue="5") int rows, Model model) {
 		if ("#profile-intro".equals(contentId)) {
 			System.out.println(1);
 			Profile profile = miniHomeService.getProfileByMiniHomeNo(miniHomeNo);
@@ -124,7 +124,9 @@ public class MiniHomeController {
 		} else if ("#visualContents-section".equals(contentId)) {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("folderNo", folderNo);
-			List<MiniHomeBoard> boards = miniHomeService.getBoardsByOption(opt);
+			
+			Map<String, Object> resultMap = miniHomeService.getBoardsByOption(opt);
+			List<MiniHomeBoard> boards = (List) resultMap.get("boards");
 			int boardsSize = boards.size();
 			for (int i = 0; i < boardsSize; i++) {
 				boards.get(i).setImgFilename("/resources/images/" + boards.get(i).getImgFilename());
@@ -135,13 +137,16 @@ public class MiniHomeController {
 		} else if ("#board-section".equals(contentId)) {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("folderNo", folderNo);
-			opt.put("begin", 1);
-			opt.put("end", 5);
-			List<MiniHomeBoard> boards = miniHomeService.getBoardsByOption(opt);
-			User user = userService.getUserByNo(boards.get(0).getUserNo());
+			opt.put("rows", rows);
+			opt.put("pageNo", pageNo);
+			opt.put("begin", (pageNo - 1)*rows + 1);
+			opt.put("end", pageNo*rows);
 			
-			model.addAttribute("boards", boards);
-			model.addAttribute("userName", user.getName());
+			Map<String, Object> resultMap = miniHomeService.getBoardsByOption(opt);
+			
+			model.addAttribute("boards", resultMap.get("boards"));
+			model.addAttribute("userName", resultMap.get("userName"));
+			model.addAttribute("pagination", resultMap.get("pagination"));
 		
 		} else if ("#visual-content-detail".equals(contentId)) {
 			MiniHomeBoard board = miniHomeService.getBoardByNo(boardNo);
@@ -155,6 +160,16 @@ public class MiniHomeController {
 			model.addAttribute("board", board);
 			model.addAttribute("folderCategoryNo", folder.getCategoryNo());
 			model.addAttribute("userName", user.getName());
+		} else if ("#board-detail".equals(contentId)) {
+			MiniHomeBoard board = miniHomeService.getBoardByNo(boardNo);
+			User user = userService.getUserByNo(board.getUserNo());
+			
+			model.addAttribute("board", board);
+			model.addAttribute("userName", user.getName());
+		} else if ("#visitor-section".equals(contentId)) {
+			Map<String, Object> opt = new HashMap<String, Object>();
+			opt.put("miniHomeNo", miniHomeNo);
+			model.addAttribute("visitorNotes", miniHomeService.getVisitorNotesByOption(opt));
 		}
 		return "minihome/mainSection";
 	}

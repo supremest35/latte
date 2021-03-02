@@ -211,15 +211,19 @@
 	</div>
 	</div>
 <script type="text/javascript">
+	var sectionId;
 	var folderNo;
 	var pageNo;
 	var isInfiniteScroll=true;
+	
 	// 메인메뉴 버튼이 클릭될 때 이벤트
 	$("#main-menu button").click(function() {
+		// 무한스크롤 위한 페이지 번호
+		pageNo = 1;
 		// 메인컨텐츠 안의 내용 지우기
 		$("#main-content").empty();
 		
-		var sectionId = $(this).data("section-id");
+		sectionId = $(this).data("section-id");
 		// 메인메뉴 버튼에 해당한 sideSection.jsp의 태그를 불러온다.
 		$("#side-content").load("sideSection.do " + sectionId + "-side", {sectionId:sectionId, miniHomeNo:${miniHome.no}}, function() {
 			isInfiniteScroll=false;
@@ -227,6 +231,12 @@
 			if (sectionId == "#diary-section") {
 				initCalendar();
 				// 메인컨텐츠가져오기
+				$("#main-content").load("mainSection.do " + sectionId, {contentId:sectionId, miniHomeNo:${miniHome.no}});		
+				
+			} else if (sectionId == "#visitor-section") {
+				// 메인컨텐츠가져오기
+				$("#main-content").load("mainSection.do " + sectionId, {contentId:sectionId, miniHomeNo:${miniHome.no}});		
+			} else if (sectionId == "#home-section") {
 				$("#main-content").load("mainSection.do " + sectionId, {contentId:sectionId, miniHomeNo:${miniHome.no}});		
 				
 			} else {
@@ -268,7 +278,6 @@
 							childFolderList += "<li><a href='' data-folder-no='" + folders[index].no + "' data-content-id='#board-section'>" + folders[index].name + "</a></li>";
 						}
 					}
-					
 					$("#childFolder-" + folderNo).empty().append(childFolderList);
 				}
 				
@@ -292,16 +301,31 @@
 			var scrollTop = $(this).scrollTop();
 			if (contentHeight <= scrollTop + frameHeight + 50) {
 				pageNo++;
-				axios.get("http://localhost/minihome/api/boards/" + folderNo + "&" + pageNo).then(function(response) {
-					var boards = response.data;
-					var imgs = "";
-					for (var index = 0; index < boards.length; index++) {
-						imgs += "<div class='col-3 mb-3'><a href='' data-board-no='" + boards[index].no + "' data-content-id='#visual-content-detail'><img class='card-img' src='/resources/images/" + boards[index].imgFilename + "'></a></div>";
-					}
+				if (sectionId == "#home-section") {
 					
-					$("#contents").append(imgs);
-		
-				})
+				} else if (sectionId == "#visitor-section") {
+					axios.get("http://localhost/minihome/api/boards/" + folderNo + "&" + pageNo).then(function(response) {
+						var boards = response.data;
+						for (var index = 0; index < boards.length; index++) {
+							imgs += "<div class='col-3 mb-3'><a href='' data-board-no='" + boards[index].no + "' data-content-id='#visual-content-detail'><img class='card-img' src='/resources/images/" + boards[index].imgFilename + "'></a></div>";
+							
+						}
+						
+						$("#contents").append(imgs);
+			
+					})
+				} else {
+					axios.get("http://localhost/minihome/api/boards/" + folderNo + "&" + pageNo).then(function(response) {
+						var boards = response.data;
+						var imgs = "";
+						for (var index = 0; index < boards.length; index++) {
+							imgs += "<div class='col-3 mb-3'><a href='' data-board-no='" + boards[index].no + "' data-content-id='#visual-content-detail'><img class='card-img' src='/resources/images/" + boards[index].imgFilename + "'></a></div>";
+						}
+						
+						$("#contents").append(imgs);
+			
+					})
+				}
 				
 			}
 		}
@@ -316,8 +340,10 @@
 	    calendar = new FullCalendar.Calendar(calendarEl, {
 	    	initialView: 'dayGridMonth',
 	    	events: function(info, successCallback, failureCallback) {
-				var yearMonth = moment().format("YYYYMM");
-	      		axios.get("http://localhost/minihome/api/diary/eventList/" + yearMonth + "&" + ${miniHome.no}).then(function(response) {
+				var start = info.start;
+				var end = info.end;
+	      		axios.get("http://localhost/minihome/api/diary/eventList/" + start + "&" + end + "&" + ${miniHome.no}).then(function(response) {
+	      			console.log(response.data);
 	      			successCallback(response.data);
 	      		})
 	      	},
@@ -342,7 +368,7 @@
 	}
 	
 	// 사진, 동영상 디테일뷰
-	$("#main-content").on("click", "div a", function() {
+	$("#main-content").on("click", "#contents a", function() {
 		isInfiniteScroll = false;
 		var contentId = $(this).data("content-id");
 		var boardNo = $(this).data("board-no");
@@ -354,6 +380,28 @@
 		return false;
 	})
 	
+	// 게시판 디테일뷰
+	$("#main-content").on("click", "table a", function() {
+		isInfiniteScroll = false;
+		var contentId = $(this).data("content-id");
+		var boardNo = $(this).data("board-no");
+		// 메인컨텐츠 안의 내용 지우기
+		$("#main-content").empty();
+		// 메인컨텐츠 안에 내용 넣기
+		$("#main-content").load("mainSection.do " + contentId, {contentId:contentId, miniHomeNo:${miniHome.no}, boardNo:boardNo});
+		
+		return false;
+	})
+	
+	$("#main-content").on("click", "li a", function() {
+		isInfiniteScroll = false;
+		var contentId = $(this).data("content-id");
+		// 메인컨텐츠 안의 내용 지우기
+		$("#main-content").empty();
+		// 메인컨텐츠 안에 내용 넣기
+		$("#main-content").load("mainSection.do " + contentId, {contentId:contentId, miniHomeNo:${miniHome.no}, folderNo:folderNo, pageNo:$(this).data("page-no"), rows:5});
+		return false;
+	})	
 	
 </script>
 </body>
