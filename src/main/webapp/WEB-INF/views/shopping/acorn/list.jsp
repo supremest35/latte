@@ -39,8 +39,8 @@
 	<div>
 		<h3>${not empty category ? category.name : '전체' }</h3>
 		<div>
-			<button type="button" class="btn btn-outline-secondary"><i class="fas fa-plus"></i>담기</button>
-			<button type="button" class="btn btn-outline-secondary">구매</button>
+			<button type="button" class="btn btn-outline-secondary" onclick="addWishItems()"><i class="fas fa-plus"></i>담기</button>
+			<button type="button" class="btn btn-outline-secondary" onclick="orderItems()">구매</button>
 			<button type="button" class="btn btn-outline-secondary">선물</button>
 		</div>
 		<div>
@@ -48,6 +48,7 @@
 				&nbsp;|&nbsp;
 			<a href="">최신순</a>
 		</div>
+		<form id="acorn-list-form" method="post" action="../order/form.do">
 		<table class="table">
 		  <thead>
 		    <tr>
@@ -73,7 +74,7 @@
 					</div>
 			      </th>
 			      <td><a href="detail.do?acornno=${acorn.no }&pageno=${page.pageNo }&catno=${acorn.categoryNo }">${acorn.name }</a></td>
-			      <td><i class="fad fa-acorn"></i> ${acorn.price }개</td>
+			      <td><i class="fad fa-acorn"></i> ${acorn.price }개 <input type="hidden" name="amount" value=1 /></td>
 			      <td><a href=""><i class="far fa-heart"></i> ${acorn.likeCnt }</a></td>
 			      <td><a href="/shopping/wish/insertItem.do?acornno=${acorn.no }&amount=1"><i class="fas fa-plus"></i></a></td>
 			      <c:if test="${empty LOGINED_USER }">
@@ -85,10 +86,10 @@
 				      <td><a href="/shopping/order/form.do?acornno=${acorn.no }&amount=1">선물하기</a></td>
 			      </c:if>
 			    </tr>
-		    </form>
 		    </c:forEach>
 		  </tbody>
 		</table>
+		</form>
 	</div>
 	<div class="container">
 	    <div class="row">
@@ -115,6 +116,18 @@
 		for (var i=0; i<checkboxes.length; i++) {
 			checkboxes[i].checked = isChecked;
 		}
+	}
+	
+	function addWishItems() {
+		var form = document.getElementById("acorn-list-form");
+		form.setAttribute("action", "../wish/insertItem.do");
+		form.submit();
+	}
+	
+	function orderItems() {
+		var form = document.getElementById("acorn-list-form");
+		form.setAttribute("action", "../order/form.do");
+		form.submit();
 	}
 </script>
 </body>

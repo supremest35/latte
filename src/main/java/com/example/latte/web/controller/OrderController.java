@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.latte.form.OrderForm;
 import com.example.latte.service.AcornService;
 import com.example.latte.service.OrderService;
+import com.example.latte.service.UserService;
 import com.example.latte.service.WishService;
 import com.example.latte.util.SessionUtils;
 import com.example.latte.util.StringUtils;
@@ -33,6 +34,57 @@ public class OrderController {
 	WishService wishService;
 	@Autowired
 	AcornService acornService;
+	@Autowired
+	UserService userService;
+	
+	@RequestMapping("/cancel.do")
+	public String cancelOrder(@RequestParam(name="order") int orderNo,
+			Model model) {
+		
+		Order order = orderService.getOrderByNo(orderNo);
+		
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		if (user == null) {
+			return "redirect:/shopping/main.do";
+		}
+		
+		if (order.getUserNo() != user.getNo()) {
+			return "redirect:/shopping/order/detail.do?orderno="+orderNo+"&error=fail";
+		}
+		
+		order.setStatus("주문취소");
+		orderService.updateOrder(order);
+		
+		List<Map<String, Object>> items = orderService.getMapOrderItemsByOrderNo(orderNo);
+		for (Map<String, Object> item : items) {
+			int acornNo = (Integer) item.get("acornNo");
+			int itemAmount = (Integer) item.get("itemAmount");
+			
+			AcornItem acorn = acornService.getAcornByNo(acornNo);
+			acorn.setStock(acorn.getStock() + itemAmount);
+			acornService.updateAcorn(acorn);
+		}
+		
+		return "redirect:/shopping/order/list.do";
+	}
+	
+	@RequestMapping("/detail.do")
+	public String orderDetail(@RequestParam(name="orderno") int orderNo,
+			Model model) {
+		
+		Order order = orderService.getOrderByNo(orderNo);
+		String recId = order.getRecId();
+		
+		model.addAttribute("order", order);
+		model.addAttribute("recUser", userService.getUserById(recId));
+		
+		List<OrderItem> orderItems = orderService.getOrderItemsByOrderNo(orderNo);
+		
+		model.addAttribute("orderItems", orderItems);
+		
+		return "/shopping/order/detail";
+	}
 	
 	@RequestMapping("/form.do")
 	public String orderForm(@RequestParam(name="acornno", required=false, defaultValue="-1") int acornNo,
@@ -120,6 +172,11 @@ public class OrderController {
 		orderService.insertOrder(order);
 		
 		List<Integer> acornNoList = orderForm.getAcornNo();
+		List<AcornItem> acorns = new ArrayList<>();
+		for (int i=0; i<acornNoList.size(); i++) {
+			AcornItem acorn = acornService.getAcornByNo(acornNoList.get(i));
+			acorns.add(acorn);
+		}
 		List<Integer> priceList = orderForm.getPrice();
 		List<Integer> amountList = orderForm.getAmount();
 		
@@ -128,6 +185,7 @@ public class OrderController {
 			OrderItem item = new OrderItem();
 			item.setOrderNo(order.getNo());
 			item.setAcornNo(acornNoList.get(i));
+			item.setAcornName(acorns.get(i).getName());
 			item.setPrice(priceList.get(i));
 			item.setAmount(amountList.get(i));
 			

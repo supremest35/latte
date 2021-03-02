@@ -52,7 +52,7 @@
 						<div class="col-12">
 							<div class="alert alert-danger">
 								<div class="text-center">
-									<strong>주의!</strong> 이미 등록하신 상품입니다.
+									<strong>이미 등록하신 상품입니다!</strong>
 								</div>
 							</div>
 						</div>
@@ -94,7 +94,7 @@
 												<a href="../acorn/detail.do?acornno=${dto.acornNo }&catno=${dto.categoryNo}" class="text-body">${dto.acornName }</a>
 											</span>
 										</td>
-										<td>${dto.acornPrice } 개</td>
+										<td>${dto.acornPrice } 개<input type="hidden" name="amount" value="${dto.acornPrice }"></td>
 										<td>
 											<input type="number" name="amount" value="${dto.acornAmount }" style="width: 43px; height: 20px;" readonly/><br/>
 										</td>

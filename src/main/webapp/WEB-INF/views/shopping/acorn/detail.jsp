@@ -90,7 +90,7 @@
 				        						<td><input type="number" class="form-control" name="amount" value="1" style="width: 100px;"></td>
 				        						<td colspan="2" class="text-right">
 				        							<button type="button" class="btn btn-primary" ${acorn.stock eq 0 ? 'disabled' : '' } onclick="buy()">바로구매</button>
-				        							<button type="button" class="btn btn-info" ${acorn.stock eq 0 ? 'disabled' : '' } onclick="addCartItem()">장바구니</button>
+				        							<button type="button" class="btn btn-info" ${acorn.stock eq 0 ? 'disabled' : '' } onclick="addWishItem()">장바구니</button>
 				        							<a href="list.do?pageno=1" class="btn btn-outline-primary">쇼핑계속</a>
 				        						</td>
 				        					</tr>
