@@ -47,6 +47,17 @@
 			<div class="card">
 				<div class="card-header font-weight-bold">소원 리스트</div>
 				<div class="card-body">
+				<c:if test="${not empty param.error and param.error eq 'exist' }">
+					<div class="row">
+						<div class="col-12">
+							<div class="alert alert-danger">
+								<div class="text-center">
+									<strong>주의!</strong> 이미 등록하신 상품입니다.
+								</div>
+							</div>
+						</div>
+					</div>
+				</c:if>
 				<form id="wish-form" method="post" action="../order/form.hta">
 					<table class="table">
 						<colgroup>
@@ -83,12 +94,11 @@
 												<a href="../acorn/detail.do?acornno=${dto.acornNo }&catno=${dto.categoryNo}" class="text-body">${dto.acornName }</a>
 											</span>
 										</td>
-										<td><fmt:formatNumber value="${dto.itemPrice }" />개</td>
+										<td>${dto.acornPrice } 개</td>
 										<td>
-											<input type="number" name="amount" id="amount-${dto.itemNo }" value="${dto.itemAmount }" style="width: 43px; height: 20px;"/><br/>
-											<button type="button" class="btn btn-outline-secondary btn-xs" onclick="changeAmount(${dto.itemNo })" >변경</button>
+											<input type="number" name="amount" value="${dto.acornAmount }" style="width: 43px; height: 20px;" readonly/><br/>
 										</td>
-										<td><strong><fmt:formatNumber value="${dto.itemPrice * dto.itemAmount }" />개</strong></td>
+										<td><strong>${dto.acornPrice * dto.acornAmount } 개</strong></td>
 										<td>
 											<button type="button" class="btn btn-primary btn-xs" onclick="buy(${dto.itemNo })">주문하기</button><br />
 											<a href="deleteItem.do?wishno=${dto.itemNo }" class="btn btn-secondary btn-xs">삭제하기</a>
@@ -103,11 +113,36 @@
 				</div>
 				<div class="card-footer d-flex justify-content-between">
 					<span>선택한 도토리상품 <button class="btn btn-primary btn-xs" onclick="orderItems()">주문하기</button> <button class="btn btn-secondary btn-xs" onclick="deleteItems()">삭제하기</button></span>
-					<span>필요한 총 도토리 갯수 : <strong class="mr-5"><fmt:formatNumber value="${totalOrderPrice }" /> 개</strong></span>
+					<span>필요한 총 도토리 갯수 : <strong class="mr-5">${totalPrice } 개</strong></span>
 				</div>	
 			</div>
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	function toggleAllChecked() {
+		var isChecked = document.getElementById("chk-all").checked;
+		var checkboxes = document.querySelectorAll("[name='wishno']");
+		for (var i=0; i<checkboxes.length; i++) {
+			checkboxes[i].checked = isChecked;
+		}
+	}
+
+	function buy(wishNo) {
+		location.href = "../order/form.do?wishno=" + wishNo;
+	}
+	
+	function orderItems() {
+		var form = document.getElementById("wish-form");
+		form.setAttribute("action", "../order/form.do");
+		form.submit();
+	}
+	
+	function deleteItems() {
+		var form = document.getElementById("wish-form");
+		form.setAttribute("action", "deleteItem.do");
+		form.submit();
+	}
+</script>
 </body>
 </html>

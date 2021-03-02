@@ -27,12 +27,19 @@ public class WishItemController {
 		
 		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
 		
-		WishItem wishItem = new WishItem();
-		wishItem.setAcornNo(acornNo);
-		wishItem.setUserNo(user.getNo());
-		wishItem.setAmount(amount);
-		
-		wishService.insertOrIncreaseAmount(wishItem);
+		if (user == null) {
+			return "redirect:/main.do";	// '로그인이 필요한 서비스입니다' 에러화면 추가.
+		}
+		WishItem wishItem = wishService.getWishItemByAcornNoAndUserNo(acornNo, user.getNo());
+		if (wishItem == null) {
+			wishItem = new WishItem();
+			wishItem.setAcornNo(acornNo);
+			wishItem.setUserNo(user.getNo());
+			wishItem.setAmount(amount);
+			wishService.insertWishItem(wishItem);
+		} else {
+			return "redirect:/shopping/wish/list.do?error=exist";
+		}
 		
 		return "redirect:/shopping/wish/list.do";
 	}
@@ -41,25 +48,35 @@ public class WishItemController {
 	public String wishList(Model model) {
 		
 		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
-		System.out.println("유저 이름: " + user.getName());
-
+		
+		if (user == null) {
+			return "redirect:/shopping/main.do";
+		}
+		
 		List<WishItemDto> wishItemDtoList = wishService.getWishItemsList(user.getNo());
 		
 		int totalPrice = 0;
 		for (WishItemDto dto : wishItemDtoList) {
-			totalPrice += dto.getItemPrice()*dto.getItemAmount();
+			totalPrice += dto.getAcornPrice()*dto.getAcornAmount();
 		}
-		
 		model.addAttribute("wishItems", wishItemDtoList);
 		model.addAttribute("totalPrice", totalPrice);
-
+		
 		return "/shopping/wish/list";
 	}
 	
 	@RequestMapping("/deleteItem.do")
-	public String deleteCartItem(@RequestParam("wishno") List<Integer> wishNoList,
-			User user) {
-		wishService.deleteWishItems(wishNoList, user.getNo());
+	public String deleteCartItem(@RequestParam("wishno") List<Integer> wishNoList) {
+		
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		if (user == null) {
+			return "redirect:/shopping/main.do";
+		}
+		
+		for (int wishNo : wishNoList) {
+			wishService.deleteWishItem(wishNo);
+		}
 		
 		return "redirect:/shopping/wish/list.do";
 	}

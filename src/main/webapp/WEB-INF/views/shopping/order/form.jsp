@@ -39,8 +39,6 @@
 </div>
 <div class="container">
 	<form method="post" action="insert.do">
-		<input type="hidden" value="${LOGINED_USER.no }" name="userNo">
-		<!-- 주문 상품 정보 시작 -->
 		<div class="row mb-3">
 			<div class="col-12">
 				<div class="card">
@@ -65,8 +63,8 @@
 							<c:forEach var="item" items="${orderItemList }">
 								<tr>
 									<td>
-										<span class="align-top"><a href="/shopping/acorn/detail.do?acornno=${item.aconrNo}&catno=${item.acornCategoryNo }" class="text-body">${acorn.name}</a></span>
-										<input type="hidden" name="acornno" value="${item.acornNo }" />
+										<span class="align-top"><a href="/shopping/acorn/detail.do?acornno=${item.aconrNo}&catno=${item.acornCategoryMidNo }" class="text-body">${item.acornName}</a></span>
+										<input type="hidden" name="acornNo" value="${item.acornNo }" />
 										<input type="hidden" name="price" value="${item.acornPrice }" />
 										<input type="hidden" name="amount" value="${item.amount }" />
 									</td>
@@ -87,8 +85,8 @@
 					<div class="card-body">
 						<div class="form-row">
 							<div class="form-group col-3">
-								<label>받는사람 아이디</label>
-      							<input type="text" class="form-control" name="id">
+								<label>받는사람 아이디 (예: m@abc.com)</label>
+      							<input type="text" class="form-control" name="recId">
 							</div>
 						</div>
 						<div class="form-row">
@@ -104,20 +102,20 @@
 					<div class="card-body">
 						<div class="form-row">
 							<div class="form-group col-3">
-								<label>사용가능 도토리 <button type="button" class="btn btn-primary btn-xs" id="btn-use-acorn" onclick="useAcorn()" ${LOGINED_USER.availableAcorn eq 0 ? 'disabled' : '' }>사용하기</button></label>
-      							<input type="text" class="form-control" name="usableAcorn" id="usable-acorn" value="${LOGINED_USER.availableAcorn}" readonly>
+								<label>사용가능 도토리 <button type="button" class="btn btn-primary btn-xs" id="btn-use-acorn" onclick="useAcorn()" ${LOGINED_USER.acornCnt eq 0 ? 'disabled' : '' }>사용하기</button></label>
+      							<input type="text" class="form-control" name="" id="usable-acorn" value="${user.acornCnt }" readonly>
 							</div>
 							<div class="form-group col-3">
 								<label>필요한 도토리</label>
-      							<input type="text" class="form-control" name="totalOrderPrice" id="total-order-price" value="${totalOrderPrice }" readonly>
+      							<input type="text" class="form-control" name="totalPrice" id="total-order-price" value="${totalOrderPrice }" readonly>
 							</div>
 							<div class="form-group col-3">
-								<label>사용할 도토리</label>
-      							<input type="text" class="form-control" name="usedAcorn" id="used-acorn" value="0" readonly>
+								<label>사용후 도토리</label>
+      							<input type="text" class="form-control" name="" id="used-acorn" value="0" readonly>
 							</div>
 							<div class="form-group col-3">
 								<label>총 결재 도토리</label>
-      							<input type="text" class="form-control" name="totalPayPrice" id="total-pay-price" value="${totalOrderPrice }" readonly>
+      							<input type="text" class="form-control" name="" id="total-pay-price" value="${totalOrderPrice }" readonly>
       							<input type="hidden" name="totalSavedAcorn" value="${totalSaveAcorn }" />
 							</div>
 						</div>
@@ -143,7 +141,7 @@
 		var totalPayPrice = parseInt(totalPayPriceField.value);
 		
 		if (!usableAcorn) {
-			alert("사용가능한 포인트가 없습니다.");
+			alert("사용가능한 도토리가 없습니다.");
 			return;
 		}
 		if (usableAcorn > totalOrderPrice) {

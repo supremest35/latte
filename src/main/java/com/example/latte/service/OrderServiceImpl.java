@@ -10,13 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.latte.dao.AcornDao;
 import com.example.latte.dao.OrderDao;
-import com.example.latte.dao.OrderItemDao;
 import com.example.latte.dao.UserDao;
 import com.example.latte.dao.WishItemDao;
 import com.example.latte.vo.AcornItem;
 import com.example.latte.vo.Order;
 import com.example.latte.vo.OrderItem;
-import com.example.latte.vo.User;
 import com.example.latte.vo.WishItem;
 
 @Service
@@ -28,8 +26,6 @@ public class OrderServiceImpl implements OrderService {
 	WishItemDao wishItemDao;
 	@Autowired
 	OrderDao orderDao;
-	@Autowired
-	OrderItemDao orderItemDao;
 	@Autowired
 	UserDao userDao;
 
@@ -55,6 +51,10 @@ public class OrderServiceImpl implements OrderService {
 		
 		return orderItemList;
 	}
+	@Override
+	public List<Order> getOrdersByUserNo(int userNo) {
+		return orderDao.getOrdersByUserNo(userNo);
+	}
 	
 	@Override
 	public Map<String, Object> getOrderItem(int acornNo, int amount) {
@@ -73,26 +73,11 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public void insertOrder(Order order, List<OrderItem> orderItems) {
-		
-		AcornItem firstAcorn = acornDao.getAcornByNo(orderItems.get(0).getAcornNo());
-		String description = firstAcorn.getName()
-				+ (orderItems.size() > 1 ? "외 " + (orderItems.size()-1) + "종" : "");
-		order.setDescription(description);
-		
+	public void insertOrder(Order order) {
 		orderDao.insertOrder(order);
-		
-		for (OrderItem orderItem : orderItems) {
-			orderItem.setOrderNo(order.getNo());
-			orderItemDao.insertOrderItem(orderItem);
-			
-			AcornItem acorn = acornDao.getAcornByNo(orderItem.getAcornNo());
-			acorn.setStock(acorn.getStock() - orderItem.getAmount());
-			acornDao.updateAcorn(acorn);
-		}
-		
-		User user = userDao.getUserByNo(order.getUserNo());
-		user.setAcornCnt(user.getAcornCnt() - order.getUsedAcornAmount());
-		userDao.updateUser(user);
+	}
+	@Override
+	public void insertOrderItem(OrderItem orderItems) {
+		orderDao.insertOrderItem(orderItems);
 	}
 }

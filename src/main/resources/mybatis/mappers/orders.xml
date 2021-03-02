@@ -3,15 +3,38 @@
 
 <mapper namespace="com.example.latte.dao.OrderDao">
 
+	<select id="getOrdersByUserNo" parameterType="int" resultType="com.example.latte.vo.Order">
+		select
+			order_no			as no,
+			user_no				as userNo,
+			order_description	as description,
+			order_rec_id		as recId,
+			order_amount		as amount,
+			order_status		as status,
+			order_total_price	as totalPrice,
+			order_message		as message,
+			order_created_date	as createdDate
+		from
+			latte_orders
+		where
+			user_no = #{userNo}
+	</select>
+
 	<insert id="insertOrder" parameterType="com.example.latte.vo.Order">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
 			select latte_order_no_seq.nextval 
 			from dual
 		</selectKey>
 		insert into latte_orders
-			(order_no, user_no, order_description, order_rec_no, order_amount, order_status, order_message, order_total_price)
+			(order_no, user_no, order_description, order_rec_id, order_amount, order_status, order_message, order_total_price)
 		values
-			(#{no}, #{userNo}, #{description}, #{recNo}, #{amount}, #{status}, #{message}, #{totalPrice})
+			(#{no}, #{userNo}, #{description}, #{recId}, #{amount}, #{status}, #{message}, #{totalPrice})
 	</insert>
-	
+	<insert id="insertOrderItem" parameterType="com.example.latte.vo.OrderItem">
+		insert into latte_order_items
+			(order_item_no, order_no, acorn_item_no, order_item_amount, order_item_price)
+		values
+			(latte_order_item_no_seq.nextval, #{orderNo}, #{acornNo}, #{amount}, #{price})
+	</insert>
+
 </mapper>

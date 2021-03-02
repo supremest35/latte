@@ -1,6 +1,7 @@
 package com.example.latte.web.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.latte.service.AcornService;
 import com.example.latte.service.MarketCategoryService;
+import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.AcornItem;
+import com.example.latte.vo.AcornItemComment;
 import com.example.latte.vo.MarketMidCategory;
+import com.example.latte.vo.User;
+
+import com.example.latte.dto.AcornItemCommentDto;
 import com.example.latte.form.AcornForm;
 
 @Controller
@@ -24,14 +30,13 @@ public class AcornController {
 	
 	@Autowired
 	AcornService acornService;
-	
 	@Autowired
 	MarketCategoryService marketCategoryService;
 
 	@RequestMapping("/list.do")
 	public String list(@RequestParam(name="catno", required=false, defaultValue="-1") int categoryNo,
 			@RequestParam(name="pageno", required=false, defaultValue="1") int pageNo,
-			@RequestParam(name="rows", required=false, defaultValue="4") int rows,
+			@RequestParam(name="rows", required=false, defaultValue="6") int rows,
 			Model model) {
 		
 		Map<String, Object> condition = new HashMap<String, Object>();
@@ -41,7 +46,7 @@ public class AcornController {
 			MarketMidCategory category = marketCategoryService.getMidCategory(categoryNo);
 			model.addAttribute("category", category);
 		}
-		condition.put("pageNo", pageNo);
+		condition.put("pageno", pageNo);
 		condition.put("rows", rows);
 		condition.put("begin", (pageNo - 1)*rows + 1);
 		condition.put("end",  pageNo*rows);
@@ -55,15 +60,75 @@ public class AcornController {
 	}
 	
 	@RequestMapping("/detail.do")
-	public String detail(@RequestParam("acornno") int acornNo, Model model) {
-		AcornItem acorn = acornService.getAcornDetail(acornNo);
+	public String detail(@RequestParam("acornno") int acornNo,
+			@RequestParam(name="catno", required=false, defaultValue="-1") int categoryNo,
+			@RequestParam(name="pageno", defaultValue="1") int pageNo,
+			Model model) {
 		
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		AcornItem acorn = acornService.getAcornDetail(acornNo);
 		MarketMidCategory category = marketCategoryService.getMidCategory(acorn.getCategoryMidNo());
+		
+		final int ROWS_PER_PAGE = 5;
+		int commentPageNo = pageNo;
+		int begin = (commentPageNo-1)*ROWS_PER_PAGE+1;
+		int end = commentPageNo*ROWS_PER_PAGE;
+		
+		int totalCount = acornService.getCommentsCountByAcornNo(acornNo);
+		int totalPages = (int) (Math.ceil((double) totalCount/ROWS_PER_PAGE));
+		
+		List<AcornItemCommentDto> commentDtoList = new ArrayList<>();
+		if (user == null) {
+			commentDtoList = acornService.getCommentDtosByRangeWithoutUserNo(acornNo, begin, end);
+		} else {
+			commentDtoList = acornService.getCommentDtosByRange(acornNo, user.getNo(), begin, end);
+		}
+		System.out.println("댓글리스트: "+commentDtoList);
 		
 		model.addAttribute("acorn", acorn);
 		model.addAttribute("category", category);
+		model.addAttribute("pageno", pageNo);
+		
+		model.addAttribute("comments", commentDtoList);
+		model.addAttribute("commentpageno", commentPageNo);
+		model.addAttribute("totalpages", totalPages);
 		
 		return "/shopping/acorn/detail";
+	}
+	
+	@RequestMapping("/insertComment.do")
+	public String insertComment(@RequestParam("acornno") int acornNo,
+			@RequestParam(name="pageno", defaultValue="1") int pageNo,
+			@RequestParam("content") String content) {
+		
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		AcornItemComment comment = new AcornItemComment();
+		comment.setUserNo(user.getNo());
+		comment.setItemNo(acornNo);
+		comment.setContent(content);
+		
+		acornService.insertComment(comment);
+		
+		return "redirect:/shopping/acorn/detail.do?acornno="+acornNo+"&pageno="+pageNo;
+	}
+	
+	@RequestMapping("/likeComment.do")
+	public String likeComment(@RequestParam("commentno") int commentNo,
+			@RequestParam(name="pageno", defaultValue="1") int pageNo,
+			@RequestParam(name="reviewpageno") int commentPageNo,
+			@RequestParam("acornno") int acornNo) {
+		
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		acornService.insertCommentLike(commentNo, user.getNo());
+		
+		AcornItemComment comment = acornService.getCommentByNo(commentNo);
+		comment.setLikeCnt(comment.getLikeCnt() + 1);
+		acornService.updateComment(comment);;
+		
+		return "redirect:/shopping/acorn/detail.do?acornno="+acornNo+"&pageno="+pageNo+"&commentno="+commentNo+"&commentpageno="+commentPageNo;
 	}
 
 	@RequestMapping("/form.do")
