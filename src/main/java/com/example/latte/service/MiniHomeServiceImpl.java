@@ -1,5 +1,6 @@
 package com.example.latte.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,8 @@ import com.example.latte.dao.QnaDao;
 import com.example.latte.dao.UserDao;
 import com.example.latte.dao.VisitorNoteDao;
 import com.example.latte.dao.WelcomeNoteDao;
+import com.example.latte.dto.MiniHomePagination;
+import com.example.latte.dto.VisitorNoteDto;
 import com.example.latte.vo.Diary;
 import com.example.latte.vo.Folder;
 import com.example.latte.vo.Keyword;
@@ -25,6 +28,7 @@ import com.example.latte.vo.MiniHomeBoard;
 import com.example.latte.vo.Profile;
 import com.example.latte.vo.Qna;
 import com.example.latte.vo.User;
+import com.example.latte.vo.VisitorNote;
 import com.example.latte.vo.WelcomeNote;
 
 @Service
@@ -148,8 +152,24 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	}
 
 	@Override
-	public List<MiniHomeBoard> getBoardsByOption(Map<String, Object> opt) {
-		return miniHomeBoardDao.getBoardsByOption(opt);
+	public Map<String, Object> getBoardsByOption(Map<String, Object> opt) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<MiniHomeBoard> boards = new ArrayList<MiniHomeBoard>();
+				
+		boards = miniHomeBoardDao.getBoardsByOption(opt);
+		
+		if (opt.get("pageNo") != null) {
+			int totalRows = miniHomeBoardDao.getTotalBoardsByOption(opt);
+			MiniHomePagination pagination = new MiniHomePagination((Integer) opt.get("pageNo"), totalRows);
+			resultMap.put("pagination", pagination);
+
+			User user = userDao.getUserByNo(boards.get(1).getUserNo());
+			resultMap.put("userName", user.getName());
+		}
+		
+		resultMap.put("boards", boards);
+		
+		return resultMap;
 	}
 
 	@Override
@@ -160,6 +180,27 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	@Override
 	public Folder getFolderByNo(int folderNo) {
 		return folderDao.getFolderByNo(folderNo);
+	}
+
+	@Override
+	public List<VisitorNoteDto> getVisitorNotesByOption(Map<String, Object> opt) {
+		List<VisitorNoteDto> visitorNoteDtos = new ArrayList<VisitorNoteDto>();
+
+		List<VisitorNote> visitorNotes = visitorNoteDao.getVisitorNotesByOption(opt);
+		for (VisitorNote visitorNote : visitorNotes) {
+			VisitorNoteDto visitorNoteDto = new VisitorNoteDto();
+			visitorNoteDto.setNo(visitorNote.getNo());
+			visitorNoteDto.setMiniHomeNo(visitorNote.getMiniHomeNo());
+			visitorNoteDto.setContent(visitorNote.getContent());
+			visitorNoteDto.setSecret(visitorNote.getSecret());
+			visitorNoteDto.setDeleted(visitorNoteDto.getDeleted());
+			visitorNoteDto.setCreatedDate(visitorNote.getCreatedDate());
+			visitorNoteDto.setUser(userDao.getUserByNo(visitorNote.getUserNo()));
+			
+			visitorNoteDtos.add(visitorNoteDto);
+		}
+		System.out.println("컨트롤러" + visitorNoteDtos);
+		return visitorNoteDtos;
 	}
 
 }

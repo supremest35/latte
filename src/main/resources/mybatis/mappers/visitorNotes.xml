@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.VisitorNoteDao">
-	<select id="getVisitorNoteByMiniHomeNoAndIndex" resultType="com.example.latte.vo.VisitorNote">
+	<select id="getVisitorNotesByOption" resultType="com.example.latte.vo.VisitorNote">
 		select 
 			visitor_note_no					as no,
 			minihome_no						as miniHomeNo,
@@ -18,6 +18,13 @@
 			 	minihome_visitor_notes a
 			 where
 			 	minihome_no = #{miniHomeNo})
-		where rn = #{index}
+		where 
+			<if test="begin == null">
+				rn &lt;= 2
+			
+			</if>
+			<if test="begin != null">
+				rn >= #{begin} and rn &lt;= #{end}
+			</if>
 	</select>
 </mapper>

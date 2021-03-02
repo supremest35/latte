@@ -3,57 +3,7 @@
 <div id="main-sections">
 	<div class="card-body" id="home-section">
 		<div class="row mb-3">
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
-			<div class="col-3 mb-3">
-				<a href=""><img class="card-img" src="/resources/images/1000002.jpg"></a>
-			</div>
+			<button id="test">gdgdgd</button>
 		</div>
 	</div>
 	<div class="card-body" id="profile-section">
@@ -261,7 +211,7 @@
 					<tr>
 						<th><input type="checkbox"></th>
 						<td>${status.count }</td>
-						<td><a href=""><c:out value="${board.title }"/></a><div class="badge badge-secondary"> ${board.likeCnt }</div></td>
+						<td><a href="" data-content-id="#board-detail" data-board-no="${board.no }"><c:out value="${board.title }"/></a><div class="badge badge-secondary"> ${board.likeCnt }</div></td>
 						<td>${userName }</td>
 						<td><fmt:formatDate value="${board.createdDate }" pattern="yyyy-MM-dd" /></td>
 						<td>${board.hitCnt }</td>
@@ -273,23 +223,17 @@
 			<div class="row">
 				<div class="col-12">
 					<ul class="pagination justify-content-center">
-						  <li class="page-item">
-							  <a class="page-link" href="">이전</a>
-						  </li>
-
-							  <li class="page-item">
-								  <a class="page-link" href="">1</a>
-							  </li>
-							  <li class="page-item">
-								  <a class="page-link" href="">2</a>
-							  </li>
-							  <li class="page-item">
-								  <a class="page-link" href="">3</a>
-							  </li>
-
-						  <li class="page-item">
-							  <a class="page-link" href="">다음</a>
-						  </li>
+						<li class="page-item ${pagination.pageNo gt 1 ? '' : 'disabled' }">
+							<a class="page-link" href="" data-content-id="#board-section" data-page-no="${pagination.pageNo - 1 }">이전</a>
+						</li>
+						<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+							<li class="page-item ${pagination.pageNo eq num ? 'active' : ''}" >
+								<a class="page-link" href="" data-content-id="#board-section" data-page-no="${num }">${num }</a>
+							</li>
+						</c:forEach>
+						<li class="page-item ${pagination.pageNo lt pagination.totalPages ? '' : 'disabled' }">
+							<a class="page-link" href="" data-content-id="#board-section" data-page-no="${pagination.pageNo + 1 }">다음</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -307,26 +251,114 @@
 			</div>
 		</div>
 	</div>
-	<div class="card-body" id="visitor-section">
-		<div class="card mb-5">
-			<div class="card-header"></div>
+	<div class="card-body" id="board-detail">
+		<div class="card">
+			<div class="card-header">
+				<c:out value="${board.title }"/>
+			</div>
 			<div class="row">
-				<div class="col-3">
-					<div class="card-body">
-						<img class="card-img" src="resources/images/1000004.jpg">
-					</div>
+				<div class="col-10">
+					<a href="">${userName }</a>					
 				</div>
-				<div class="col-9">
-					<div class="card-body">
-						<textarea rows="6" cols="60"></textarea>
-					</div>
+				<div class="col-2">
+					<small><fmt:formatDate value="${board.createdDate }" pattern="yyyy-MM-dd" /></small>					
 				</div>
 			</div>
-			<div class="card-footer" id="visitorNote-addButton">
-				<input type="checkbox"> 비밀로 하기
-				<button type="btn btn-primary">확인</button>
+			<div class="card-body">
+				<c:out value="${board.content }"/>
+			</div>
+			<div class="card-footer">
+				<ul>
+					<li>
+						<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
+						<a href=""><i class="fas fa-comment-dots"></i></a>
+						<a href=""><i class="fas fa-lock"></i></a>
+						<a href=""><i class="fas fa-ban"></i></a>
+					</li>
+					<li>
+						<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
+						<a href=""><i class="fas fa-comment-dots"></i></a>
+						<a href=""><i class="fas fa-lock"></i></a>
+						<a href=""><i class="fas fa-ban"></i></a>
+					</li>
+					<li>
+						<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
+						<a href=""><i class="fas fa-comment-dots"></i></a>
+						<a href=""><i class="fas fa-lock"></i></a>
+						<a href=""><i class="fas fa-ban"></i></a>
+					</li>
+				</ul>
+				<input type="text" name="comment"> <button class="badge badge-primary">등록</button>
 			</div>
 		</div>
+	</div>
+	<div class="card-body" id="visitor-section">
+		<c:if test="${not empty LOGINED_USER }">
+			<div class="card mb-5">
+				<div class="card-header"></div>
+				<div class="row">
+					<div class="col-3">
+						<div class="card-body">
+							<img class="card-img" src="resources/images/1000004.jpg">
+						</div>
+					</div>
+					<div class="col-9">
+						<div class="card-body">
+							<textarea rows="6" cols="60"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer" id="visitorNote-addButton">
+					<input type="checkbox"> 비밀로 하기
+					<button type="btn btn-primary">확인</button>
+				</div>
+			</div>
+		</c:if>
+		<c:forEach var="visitorNote" items="${visitorNotes }">
+			<div class="card mb-5">
+				<div class="card-header">
+					<div class="row">
+						<div class="col-2">
+							NO.1
+						</div>
+						<div class="col-6">
+							<a href="">${visitorNote.user.name }</a>
+							<small>(<fmt:formatDate value="${visitorNote.createdDate }" pattern="yyyy-MM-dd" />)</small>
+						</div>
+						<div class="col-4">
+							<a href="">비밀로 하기</a>|
+							<a href="">삭제</a>|
+							<a href="">신고</a>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						<div class="card-body">
+							<img class="card-img" src="resources/images/1000004.jpg">
+						</div>
+					</div>
+					<div class="col-9">
+						<div class="card-body">
+							<p class="card-text"><c:out value="${visitorNote.content }"/></p>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer">
+					<ul>
+						<li>
+							<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
+							<a href=""><i class="fas fa-comment-dots"></i></a>
+							<a href=""><i class="fas fa-lock"></i></a>
+							<a href=""><i class="fas fa-ban"></i></a>
+						</li>
+						<li>
+							<input type="text" name="comment"> <button class="badge badge-primary">등록</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</c:forEach>
 		
 	</div>
 	

@@ -3,6 +3,7 @@ package com.example.latte.service;
 import java.util.List;
 import java.util.Map;
 
+import com.example.latte.dto.VisitorNoteDto;
 import com.example.latte.vo.Diary;
 import com.example.latte.vo.Folder;
 import com.example.latte.vo.Keyword;
@@ -10,6 +11,7 @@ import com.example.latte.vo.MiniHome;
 import com.example.latte.vo.MiniHomeBoard;
 import com.example.latte.vo.Profile;
 import com.example.latte.vo.Qna;
+import com.example.latte.vo.VisitorNote;
 import com.example.latte.vo.WelcomeNote;
 
 public interface MiniHomeService {
@@ -42,5 +44,7 @@ public interface MiniHomeService {
 
 	List<Folder> getChildFoldersByParentFolderNo(int parentFolderNo);
 	
-	List<MiniHomeBoard> getBoardsByOption(Map<String, Object> opt);
+	Map<String, Object> getBoardsByOption(Map<String, Object> opt);
+	
+	List<VisitorNoteDto> getVisitorNotesByOption(Map<String, Object> opt);
 }

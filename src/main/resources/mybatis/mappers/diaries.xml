@@ -59,8 +59,8 @@
 			minihome_diaries
 		where
 			minihome_no = #{miniHomeNo}
-			and to_char(diary_created_date, 'yyyy') = #{year}
-			and to_char(diary_created_date, 'mm') = #{month}
+			and diary_created_date >= #{start}
+			and diary_created_date &lt;= #{end}
 		order by diary_no desc
 	</select>
 </mapper>
