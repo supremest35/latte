@@ -16,6 +16,7 @@ public interface UserService {
 	List<User> getAllUsers(Map<String, String> condition);
 	void removeUser(int userNo);
 	void addUser(User user);
+	void update(User user);
 	
 	User getUserWithIdOption(String name, String tel);
 	User getUserWithPwdOption(String name, String tel, String id);

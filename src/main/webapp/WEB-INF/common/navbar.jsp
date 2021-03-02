@@ -171,7 +171,21 @@
 		border: none;
 		margin: 0px;
 	}
-
+	.note-table-tr{
+		border-bottom: 2px solid lightgray;
+	}
+	.note-table-tr>th{
+		margin-bottom: 3px;
+	}
+	button.del-btn{
+		margin: 5px;
+		padding: 0px;
+		border: none;
+		background-color: white; 
+		font-weight: bolder;
+		color: gray;
+		
+	}
 	#btn-note {
 		border: none;
 		margin: 0px;
@@ -353,8 +367,10 @@
 									<img class="ml-1 mt-2 border" id="user-img" src="/resources/images/userProfilePhoto/${LOGINED_USER.photo }" alt="userPhoto" />
 								</div>
 								<div class="col-sm-7 mt-1">
-									<button class="info-btn btn-sm btn-warning mr-1" id="btn-profile">
-										<a href="/myProfile.do">프로필 수정</a>
+									<button class="info-btn btn-sm btn-warning mr-1"
+									 data-toggle="modal" data-target="#myProfile"
+									 @click="modifyProfile(${LOGINED_USER.no })" id="btn-profile">
+										프로필 수정
 									</button>
 									<button class="info-btn btn-sm btn-secondary mr-1" id="btn-logout">
 										<a href="/logout.do" >Logout</a>
@@ -415,19 +431,19 @@
 						</div>
 					</div>
 				</div>
-				</div>
-			</div>
 			</c:if>
+		</div>
 	</div>
 </div>
 
 <!-- 아이디 비밀번호 찾기 모달창 시작  -->
 <%@ include file="findIdModal.jsp" %>
-<!-- 아이디 비밀번호 찾기 모달창 끝  -->
-<!-- 사용자 정보창존 -->
+<!-- 프로필 편집 모달창 -->
+<%@ include file="myProfileModal.jsp" %>
 
 <!-- 쪽지함 모달창 -->
 <%@ include file="noteModal.jsp" %>
+
 
 <script>
 	// -------- 아이디 비번 찾기 -----------
@@ -517,4 +533,5 @@
 	function getFrirendList(){
 		
 	}
+	
 </script>

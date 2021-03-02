@@ -135,8 +135,10 @@
 			user_dept_no = #{deptNo},
 			user_position = #{position},
 			user_acorn_cnt = #{acornCnt},
-			user_friend_cnt = #{friendCnt}
+			user_friend_cnt = #{friendCnt},
 			user_photo = #{photo}
+		where
+			user_no = #{no}
 	</update>
 	
 	<delete id="deleteUserByNo" parameterType="int">

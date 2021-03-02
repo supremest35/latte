@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.latte.form.UserRegisterForm;
 import com.example.latte.service.DeptService;
 import com.example.latte.service.UserService;
+import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.User;
 
 @RestController("apiUserController")
@@ -76,7 +78,7 @@ public class UserController {
 	}
 	
 	// 회원가입시 사용자 정보 저장
-	@RequestMapping("/addUser.do")
+	@RequestMapping("/addUser.do") // 사진 전용 변수를 하나 더 받기(false) -> 값이 있을 경우에 user에 저장 없으면 기본값 저장
 	public Map<String, Object> addUser(UserRegisterForm userForm) {
 		System.out.println("###컨트롤러 addUser 실행-----");
 		Map<String, Object> result = new HashMap<>();
@@ -88,8 +90,6 @@ public class UserController {
 			if(!userForm.getPhotoFile().isEmpty()) {
 				MultipartFile upLoadFile = userForm.getPhotoFile();
 				String fileName = upLoadFile.getOriginalFilename();
-				System.out.println("### 저장될 경로"+savedDrectory);
-				System.out.println("### 저장될 경로"+fileName);
 				
 				File file = new File(savedDrectory, fileName);
 				FileOutputStream out = new FileOutputStream(file);
@@ -127,6 +127,41 @@ public class UserController {
 		condition.put("available", "Y");
 		return userService.getAllUsers(condition);
 	}
+	
+	@RequestMapping("/modifyProfile")
+	public String modify(@RequestParam(value="id") String id, @RequestParam(value="nickName") String nickName, 
+		@RequestParam(value="tel") String tel, @RequestParam(value="photoFile", required = false)MultipartFile photo) {
+		User user = userService.getUserById(id);
+		System.out.println(photo);
+		System.out.println("프로필 변경 전 유저" + user.toString());
+		if(!nickName.equals("")) {
+			user.setNickName(nickName);
+		}
+		if(!tel.equals("")) {
+			user.setTel(tel);
+		}
+		try {
+			if(photo != null) {
+				String fileName = photo.getOriginalFilename();
+				File file = new File(savedDrectory, fileName);
+				FileOutputStream out = new FileOutputStream(file);
+				FileCopyUtils.copy(photo.getInputStream(), out);
+				
+				user.setPhoto(fileName);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			return "프로필 변경에 실패하였습니다.";
+		}
+		
+		System.out.println("프로필 변경 후 유저" + user.toString());
+		userService.update(user);
+		
+		SessionUtils.setAttribute("LOGINED_USER", user);
+		
+		return "프로필이 정상적으로 변경되었습니다.";
+	}
+
 	
 	
 }

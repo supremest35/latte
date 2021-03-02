@@ -36,7 +36,7 @@
 					<!-- 쪽지함 -->
 					<div id="home" class="container tab-pane active">
 						<br>
-						<div class="card">
+						<div class="card note-card">
 							<div class="card-body" id="note-modal">
 								<table class="card-table-snd table-sm">
 									<colgroup>
@@ -47,7 +47,7 @@
 										<col width="8%">
 									</colgroup>
 									<thead>
-										<tr>
+										<tr class="note-table-tr">
 											<th></th>
 											<th>보낸이</th>
 											<th>제목</th>
@@ -57,7 +57,7 @@
 									</thead>
 									<tbody>
 										<tr v-for="oNote in otherOriginNotes" :key="oNote.no">
-											<td><input type="checkbox" name="oNote.no"></td>
+											<td><input type="checkbox" :value="oNote.no" v-model="ckOtherNoteNo"></td>
 											<td>{{oNote.senderNo}}번 유저이름</td>
 											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(oNote)">{{oNote.title}}</a></td>
 											<td>{{oNote.createdDate | moment}}</td>
@@ -67,12 +67,13 @@
 								</table>
 							</div>
 						</div>
+						<button type="button" class="del-btn btn-sm" @click="deleteNote(ckOtherNoteNo)">선택삭제</button>
 					</div>
 					<!-- 쪽지함 끝 -->
 					<!-- 일촌신청 -->
 					<div id="friend" class="container tab-pane fade">
 						<br>
-						<div class="card">
+						<div class="card note-card">
 							<div class="card-body" id="note-modal">
 								<table class="card-table-snd table-sm">
 									<colgroup>
@@ -83,7 +84,7 @@
 										<col width="8%">
 									</colgroup>
 									<thead>
-										<tr>
+										<tr class="note-table-tr">
 											<th></th>
 											<th>보낸이</th>
 											<th>제목</th>
@@ -93,7 +94,7 @@
 									</thead>
 									<tbody>
 										<tr v-for="fNote in freindOriginNotes" :key="fNote.no">
-											<td><input type="checkbox" value="fNote.no"></td>
+											<td><input type="checkbox" :value="fNote.no" v-model="ckFriendNoteNo"></td>
 											<td>${LOGINED_USER.name}</td>
 											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(fNote)">{{fNote.title}}</a></td>
 											<td>{{fNote.createdDate | moment}}</td>
@@ -103,12 +104,13 @@
 								</table>
 							</div>
 						</div>
+						<button type="button" class="del-btn btn-sm" @click="deleteNote(ckFriendNoteNo)">선택삭제</button>
 					</div>
 					<!-- 일촌신청 리스트 끝 -->
 					<!-- 보낸 쪽지함 시작 -->
 					<div id="send" class="container tab-pane fade" >
 						<br>
-						<div class="card">
+						<div class="card note-card">
 							<div class="card-body" id="note-modal">
 								<table class="card-table table-sm">
 									<colgroup>
@@ -119,7 +121,7 @@
 										<col width="8%">
 									</colgroup>
 									<thead>
-										<tr>
+										<tr class="note-table-tr">
 											<th></th>
 											<th>보낸이</th>
 											<th>제목</th>
@@ -129,7 +131,7 @@
 									</thead>
 									<tbody>
 										<tr v-for="sNote in sendNoteList" :key="sNote.no">
-											<td><input type="checkbox" value="sNote.no"></td>
+											<td><input type="checkbox" :value="sNote.no" v-model="ckSendNoteNo"></td>
 											<td>{{sNote.senderNo}}</td>
 											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(sNote.no)">{{sNote.title}}</a></td>
 											<td>{{sNote.createdDate | moment}}</td>
@@ -139,6 +141,7 @@
 								</table>
 							</div>
 						</div>
+						<button type="button" class="del-btn btn-sm" @click="deleteNote(ckSendNoteNo)" >선택삭제</button>
 					</div>
 					<!-- 보낸 쪽지함 끝 -->
 					<!-- 쪽지쓰기 -->
@@ -272,8 +275,9 @@
 	        recivedNoteList:[],
 	        freindOriginNotes:[],
 	        otherOriginNotes:[],
-			dataPerPage:5,
-			curPageNo:1,
+	        ckOtherNoteNo:[],
+	        ckFriendNoteNo:[],
+	        ckSendNoteNo:[],
 			userDept:'',
 			noteCategories:[],
 			deptList:[],
@@ -361,6 +365,14 @@
 			closeInnerModal: function () {
 				noteApp.showInnerModal = false
 				
+			},
+			deleteNote: function (arr) {
+				if(arr.length==0){
+					alert("삭제할 쪽지를 선택해주세요.");
+					return;
+				}else{
+					axios.delete()
+				}
 			}
 		}, // end methods
 		filters: {
@@ -395,15 +407,9 @@
 	                    this.otherOriginNotes.push(note);
 	                }
 	            })
-	        },
-			start() {
-				return ((this.curPageNo -1) * this.dataPerPage);
-			},
-			end() {
-				return ((this.start + this.dataPetPage));
-			}
+			}	            
 		},
-		created(){
+		created() {
 			var that = this;
 			var loginedNo = '${LOGINED_USER.no}'
 	
