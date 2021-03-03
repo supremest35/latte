@@ -59,7 +59,7 @@
 										<tr v-for="oNote in otherOriginNotes" :key="oNote.no">
 											<td><input type="checkbox" :value="oNote.no" v-model="ckOtherNoteNo"></td>
 											<td>{{oNote.senderNo}}번 유저이름</td>
-											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(oNote)">{{oNote.title}}</a></td>
+											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(oNote.no)">{{oNote.title}}</a></td>
 											<td>{{oNote.createdDate | moment}}</td>
 											<td>{{oNote.status}}</td>
 										</tr>
@@ -96,7 +96,7 @@
 										<tr v-for="fNote in freindOriginNotes" :key="fNote.no">
 											<td><input type="checkbox" :value="fNote.no" v-model="ckFriendNoteNo"></td>
 											<td>${LOGINED_USER.name}</td>
-											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(fNote)">{{fNote.title}}</a></td>
+											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(fNote.no)">{{fNote.title}}</a></td>
 											<td>{{fNote.createdDate | moment}}</td>
 											<td>{{fNote.status}}</td>
 										</tr>
@@ -371,6 +371,7 @@
 					alert("삭제할 쪽지를 선택해주세요.");
 					return;
 				}else{
+					alert("삭제할 번호 배열 : "+arr);
 					axios.delete()
 				}
 			}
@@ -398,16 +399,7 @@
 				} else {
 					return this.noteCategories;
 				}
-			},
-			sortNotes: function() {
-	            this.recivedNoteList.forEach(note => {
-	                if(note.categoryNo == 1){
-	                    this.freindOriginNotes.push(note);
-	                }else{
-	                    this.otherOriginNotes.push(note);
-	                }
-	            })
-			}	            
+			}
 		},
 		created() {
 			var that = this;
@@ -426,6 +418,13 @@
 	                    that.recivedNoteList.push(note);
 	                }
 	            }
+	            that.recivedNoteList.forEach(note => {
+	                if(note.categoryNo == 1){
+	                    that.freindOriginNotes.push(note);
+	                }else{
+	                    that.otherOriginNotes.push(note);
+	                }
+	            })
 	        })
 			
 			axios.get("http://localhost/api/users/getAllAvailableUser").then(function(response){

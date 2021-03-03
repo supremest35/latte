@@ -223,8 +223,7 @@
 	}
 	.info-table {
 		padding: 1px;
-		margin-top: opx;
-		margin-left: 5px;
+		margin-top: 1px;
 		width: 100%;
 	}
 
@@ -269,7 +268,7 @@
 		<div class="row" style="height: 237px; max-height: 237px;">
 			<!-- 로고 존 -->
 			<div class="col-2" id="nav-logo" style="height: 237px; max-height: 237px;">
-				<a href="main.do"> <img class="nav-logo-img" id="logo-img" src="/resources/images/logo.jpg"
+				<a href="http://localhost/main.do"> <img class="nav-logo-img" id="logo-img" src="/resources/images/logo.jpg"
 						alt="logo" />
 				</a>
 			</div>
@@ -277,27 +276,26 @@
 			<!-- 검색창/메뉴바 존 -->
 			<div class="col-7 p-3" id="nav-menu" style="height: 237px; max-height: 237px;">
 				<!-- 검색창 -->
-				<div class="row mb-5">
+				<div class="row mb-4">
 					<div class="col-12 mt-5 d-flex justify-content-center">
-						<form class="form-inline" action="/action_page.php">
-							<select name="검색엔진" id="" class="form-control mr-2" style="width: 100px;">
-								<option value="google">구글</option>
-								<option value="naver">네이버</option>
-								<option value="daum">다음</option>
-							</select> <input class="form-control mr-sm-2" type="text" placeholder="Search">
-							<button class="btn btn-success" type="submit">Search</button>
-						</form>
+						<select name="검색엔진" id="search-engine" class="form-control mr-2" style="width: 100px;">
+							<option value="google">구글</option>
+							<option value="naver">네이버</option>
+							<option value="daum">다음</option>
+						</select> 
+						<input type="text" class="form-control" id="search-keyword" placeholder="Search" style="width: 50%;">
+						<button class="btn btn-success ml-1" type="button" onclick="search()">검색</button>
 					</div>
 				</div>
 				<!-- 메뉴바 -->
-				<div class="row">
+				<div class="row mt-5">
 					<div class="col-12">
 						<nav class="navbar navbar-expand-sm justify-content-center bg-light navbar-light font-sixe">
 							<ul class="navbar-nav" id="nav-ul">
 								<!-- 메뉴바 반복 -->
 								<!-- 메뉴바 하나 시작 -->
 								<li class="nav-item text-size: 20px" id="nav-menu-li">
-									<a class="nav-link" href="" id="navbardrop"> 뉴스 </a>
+									<a class="nav-link" href="/news/main.do" id="navbardrop"> 뉴스 </a>
 								</li>
 								<!-- 메뉴바 하나 끝 -->
 								<li class="nav-item" id="nav-menu-li">
@@ -356,15 +354,15 @@
 
 			<!-- 사용자 정보창 -->
 			<c:if test="${not empty LOGINED_USER}">
-			<div class="col-3 border" id="nav-info">
+			<div class="col-3" id="nav-info">
 				<!-- 정보창 1열 프로필사진 정보 -->
 				<div class="row">
-					<div class="card" style="height: 237px; max-height: 237px;">
+					<div class="card" style=" max-height: 237px;">
 						<div class="card-body" id="user-info-box">
-							<div class="col-sm-12" id="info-top-line" style="height: 167px; max-height: 167px;">
+							<div class="col-sm-12" id="info-top-line" style="height: 155px; max-height: 163px;">
 							<div class="row no-gutters">
 								<div class="col-sm-5">
-									<img class="ml-1 mt-2 border" id="user-img" src="/resources/images/userProfilePhoto/${LOGINED_USER.photo }" alt="userPhoto" />
+									<img class="ml-1 mt-3 border" id="user-img" src="/resources/images/userProfilePhoto/${LOGINED_USER.photo }" alt="userPhoto" />
 								</div>
 								<div class="col-sm-7 mt-1">
 									<button class="info-btn btn-sm btn-warning mr-1"
@@ -431,6 +429,7 @@
 						</div>
 					</div>
 				</div>
+			</div>
 			</c:if>
 		</div>
 	</div>
@@ -527,9 +526,51 @@
 		}
 	}
 	
+	// ------------ 사용자 정보창 ------------------
+	/* 
+		onkeyup="search()"
+		function search(){
+     	var $ul = $("#box-search-result ul").empty()
+		var keyword = $("#search-keyword").val();
+		console.log("검색어: " + keyword);
+		axios.get("https://dapi.kakao.com/v2/search/web?query="+keyword,{
+			headers:{
+                "Authorization": "KakaoAK 3c4ab1d2bef4352eb0d6ca927f15bea7"
+          }}).then(function (response) {
+        	  console.log("검색어 api 응답: ",response.data);
+        	  $.each(response.data.documents, function(index, document) {
+        		  var item = '<li class="list-group-item">'
+        		  item += '<a href="'+document.url+'" target="_blank">'+document.title+'</a>'
+        		  item += '</li>'
+        		  $ul.append(item);
+        	  })
+			
+		})
+	}
+	*/
+	
+	function search() {
+		var selectedSearchEngine = $("#search-engine option:selected").val();
+		var keyword = $("#search-keyword").val();
+		console.log(selectedSearchEngine);
+		console.log(keyword);
+		
+		if(selectedSearchEngine=='google'){
+			window.open('https://www.google.com/search?q='+keyword+'&ie=UTF-8', '_blank');
+		}else if(selectedSearchEngine == 'naver'){
+			window.open('http://search.naver.com/search.naver?ie=UTF-8&query='+keyword, '_blank');
+		}else if(selectedSearchEngine == 'daum'){
+			window.open('https://search.daum.net/search?w=tot&DA=JU5&q='+keyword, '_blank');
+			
+		}
+		
+	}
+	
+	
 	function openMiniHome() {
 	      window.open('/minihome.do', '_blank', "width=1400, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
 	   }
+	
 	function getFrirendList(){
 		
 	}
