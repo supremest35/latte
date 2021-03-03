@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.example.latte.Exception.FailedLoginException;
 import com.example.latte.Exception.PasswordMismatchException;
 import com.example.latte.Exception.UserNotFoundException;
+import com.example.latte.dao.FolderDao;
 import com.example.latte.dao.MiniHomeBoardDao;
 import com.example.latte.dao.MiniHomeDao;
 import com.example.latte.dao.UserDao;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	MiniHomeDao miniHomeDao;
 	@Autowired
-	MiniHomeBoardDao miniHomeBoardDao;
+	FolderDao folderDao;
 	
 
 	@Override
@@ -47,9 +48,9 @@ public class UserServiceImpl implements UserService {
 		myHome.setAddress(subId[0]);
 		miniHomeDao.insertMiniHome(myHome);
 		
-		miniHomeBoardDao.insertRootFolders(myHome.getNo(), 100);
-		miniHomeBoardDao.insertRootFolders(myHome.getNo(), 200);
-		miniHomeBoardDao.insertRootFolders(myHome.getNo(), 300);
+		folderDao.insertRootFolder(myHome.getNo(), 100);
+		folderDao.insertRootFolder(myHome.getNo(), 200);
+		folderDao.insertRootFolder(myHome.getNo(), 300);
 	}
 	
 	@Override

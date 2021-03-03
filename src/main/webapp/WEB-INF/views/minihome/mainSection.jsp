@@ -3,40 +3,68 @@
 <div id="main-sections">
 	<div class="card-body" id="home-section">
 		<div class="row mb-3" id="contents">
-			<c:forEach var="board" items="${boards }">
-				<div class="col-3 mb-3">
-					<a href="" data-board-no="${board.no }" data-content-id="#visual-content-detail">
-					<c:if test="${not empty board.imgFilename }">
-						<img class="card-img" src="${board.imgFilename }">
-					</c:if>
-					<c:if test="${empty board.imgFilename }">
-						<p>${board.title }</p>
-					</c:if>
-					</a>
-				</div>
-			</c:forEach>
+			<c:choose>
+				<c:when test="${empty boards }">
+					<div class="card">
+						<div class="card-body">
+							<p class="card-text">게시글이 존재하지 않습니다.</p>
+						</div>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="board" items="${boards }">
+						<div class="col-3 mb-3">
+							<a href="" data-board-no="${board.no }" data-content-id="#visual-content-detail">
+							<c:if test="${not empty board.imgFilename }">
+								<img class="card-img" src="${board.imgFilename }">
+							</c:if>
+							<c:if test="${empty board.imgFilename }">
+								<p>${board.title }</p>
+							</c:if>
+							</a>
+						</div>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 	<div class="card-body" id="profile-section">
 		<a class="badge badge-primary" href="">edit</a>
 		<div class="card" id="profile-intro">
-			<div class="card-body">
-				<img class="card-img-top" src="${profile.photoFilename }" alt="Card image cap">
-			</div>
-			<div class="card-body">
-			  <p class="card-text">${profile.content }</p>
-			</div>
+			<div class="card-header">소개</div>
+			<c:choose>
+				<c:when test="${empty profile }">
+					<div class="card-body">
+						<p class="card-text">게시글이 존재하지 않습니다.</p>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="card-body">
+						<img class="card-img-top" src="${profile.photoFilename }" alt="Card image cap">
+					</div>
+					<div class="card-body">
+						<p class="card-text">${profile.content }</p>
+					</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div class="card" id="profile-keyword">
 			<div class="card-header">
 				키워드
 			</div>
 			<div class="card-body">
-			  <p class="card-text">
-			  	<c:forEach var="keyword" items="${keywords }">
-			  		<c:out value="${keyword.content } "/>
-			  	</c:forEach>
-			  </p>
+			  <c:choose>
+			  	<c:when test="${empty keywords }">
+			  		<p class="card-text">게시글이 존재하지 않습니다.</p>
+			  	</c:when>
+			  	<c:otherwise>
+					<p class="card-text">
+						<c:forEach var="keyword" items="${keywords }">
+							<c:out value="${keyword.content } "/>
+						</c:forEach>
+					</p>
+			  	</c:otherwise>
+			  </c:choose>
 			</div>
 		</div>
 		<div class="card" id="profile-qna">
@@ -86,51 +114,64 @@
 			<a href="">새 글 등록</a>
 			<a href="">글 삭제</a>
 		</div>
-		<div class="card">
-			<div class="card-header" id="diary-title">
-				<c:out value="${diary.title }"/>
-			</div>	
-			<div class="card-body" id="diary-content">
-				<c:out value="${diary.content }"/>
-			</div>	
-			<div class="card-body" id="diary-secret">
-				<p class="card-text">공개여부 : 
-					<c:choose>
-						<c:when test="${diary.secret == 'N' }">
-							전체공개
-						</c:when>
-						<c:otherwise>
-							비공개
-						</c:otherwise>
-					</c:choose>
-					<small>(<fmt:formatDate value="${diary.createdDate }" pattern="yyyy-MM-dd" />)</small>
-				</p>  
-			</div>	
-			<div class="card-footer">
-				<ul>
-					<li>
-						<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
-						<a href=""><i class="fas fa-comment-dots"></i></a>
-						<a href=""><i class="fas fa-lock"></i></a>
-						<a href=""><i class="fas fa-ban"></i></a>
-					</li>
-					<li>
-						<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
-						<a href=""><i class="fas fa-comment-dots"></i></a>
-						<a href=""><i class="fas fa-lock"></i></a>
-						<a href=""><i class="fas fa-ban"></i></a>
-					</li>
-					<li>
-						<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
-						<a href=""><i class="fas fa-comment-dots"></i></a>
-						<a href=""><i class="fas fa-lock"></i></a>
-						<a href=""><i class="fas fa-ban"></i></a>
-					</li>
-				</ul>
-				<input type="text" name="comment"> <button class="badge badge-primary">등록</button>
-			</div>	
-
-		</div>
+		<c:choose>
+			<c:when test="${empty diary }">
+				<div class="card">
+					<div class="card-header"></div>
+					<div class="card-body">
+						<p class="card-text">게시글이 존재하지 않습니다.</p>
+					</div>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="card">
+					<div class="card-header" id="diary-title">
+						<c:out value="${diary.title }"/>
+					</div>	
+					<div class="card-body" id="diary-content">
+						<c:out value="${diary.content }"/>
+					</div>	
+					<div class="card-body" id="diary-secret">
+						<p class="card-text">공개여부 : 
+							<c:choose>
+								<c:when test="${diary.secret == 'N' }">
+									전체공개
+								</c:when>
+								<c:otherwise>
+									비공개
+								</c:otherwise>
+							</c:choose>
+							<small>(<fmt:formatDate value="${diary.createdDate }" pattern="yyyy-MM-dd" />)</small>
+						</p>  
+					</div>	
+					<div class="card-footer">
+						<ul>
+							<li>
+								<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
+								<a href=""><i class="fas fa-comment-dots"></i></a>
+								<a href=""><i class="fas fa-lock"></i></a>
+								<a href=""><i class="fas fa-ban"></i></a>
+							</li>
+							<li>
+								<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
+								<a href=""><i class="fas fa-comment-dots"></i></a>
+								<a href=""><i class="fas fa-lock"></i></a>
+								<a href=""><i class="fas fa-ban"></i></a>
+							</li>
+							<li>
+								<a href="">김유신</a> : 프로젝트임? <span>(2021.01.29. 22:30)</span>
+								<a href=""><i class="fas fa-comment-dots"></i></a>
+								<a href=""><i class="fas fa-lock"></i></a>
+								<a href=""><i class="fas fa-ban"></i></a>
+							</li>
+						</ul>
+						<input type="text" name="comment"> <button class="badge badge-primary">등록</button>
+					</div>	
+		
+				</div>
+			
+			</c:otherwise>
+		</c:choose>
 	</div>
 	<div class="card-body" id="visualContents-section">
 		<div class="row mb-3" id="contents">

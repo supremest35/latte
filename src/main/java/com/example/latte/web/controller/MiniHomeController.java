@@ -43,9 +43,13 @@ public class MiniHomeController {
 		} else {
 			hostUser = (User) SessionUtils.getAttribute("LOGINED_USER");
 			miniHome = miniHomeService.getMiniHomeByUserNo(hostUser.getNo());
-			
 		}
 		
+		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
+		if (loginedUser != null && loginedUser.getNo() != hostUser.getNo()) {
+			miniHome.setTodayCnt(miniHome.getTodayCnt() + 1);
+			miniHome.setTotalCnt(miniHome.getTotalCnt() + 1);
+		}
 		Map<String, Object> hostUserInfo = new HashMap<String, Object>();
 		hostUserInfo.put("no", hostUser.getNo());
 		hostUserInfo.put("id", hostUser.getId());
@@ -62,8 +66,10 @@ public class MiniHomeController {
 		
 		if ("#home-section".equals(sectionId) || "#visitor-section".equals(sectionId)) {
 			WelcomeNote welcomeNote = miniHomeService.getWelcomeNoteByMiniHomeNo(miniHomeNo);
-			welcomeNote.setPhotoFilename("/resources/images/miniHome/" + welcomeNote.getPhotoFilename());
-			model.addAttribute("welcomeNote", welcomeNote);
+			if (welcomeNote != null) {
+				welcomeNote.setPhotoFilename("/resources/images/miniHome/" + welcomeNote.getPhotoFilename());
+				model.addAttribute("welcomeNote", welcomeNote);
+			}
 		} else if ("#photo-section".equals(sectionId)) {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("miniHomeNo", miniHomeNo);
@@ -104,9 +110,10 @@ public class MiniHomeController {
 			
 		} else if ("#profile-intro".equals(contentId)) {
 			Profile profile = miniHomeService.getProfileByMiniHomeNo(miniHomeNo);
-			profile.setPhotoFilename("/resources/images/miniHome/" + profile.getPhotoFilename());
-			model.addAttribute("profile", profile);
-		
+			if (profile != null) {
+				profile.setPhotoFilename("/resources/images/miniHome/" + profile.getPhotoFilename());
+				model.addAttribute("profile", profile);
+			}
 		} else if ("#profile-keyword".equals(contentId)) {
 			List<Keyword> keywords = miniHomeService.getKeywordsByProfileNo(miniHomeNo);
 			model.addAttribute("keywords", keywords);

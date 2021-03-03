@@ -3,10 +3,24 @@
 <div id="side-sections">
 	<div id="home-section-side">
 		<div class="card-body" id="welcomeNote-img-box" >
-			<img class="card-img-top" src="${welcomeNote.photoFilename }" alt="Card image cap" id="welcomeNote-img">
+			<c:choose>
+				<c:when test="${not empty welcomeNote }">
+					<img class="card-img-top" src="${welcomeNote.photoFilename }" alt="Card image cap" id="welcomeNote-img">
+				</c:when>
+				<c:otherwise>
+					<img class="card-img-top" src="/resources/images/miniHome/cat.jpg" alt="Card image cap" id="welcomeNote-img">
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div class="card-body" id="welcomeNote-content">
-		  <p class="card-text">${welcomeNote.content }</p>
+			<c:choose>
+				<c:when test="${not empty welcomeNote }">
+					<p class="card-text">${welcomeNote.content }</p>
+				</c:when>
+				<c:otherwise>
+					<p class="card-text">대문글</p>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div id="welcomeNote-button">
 			<button class="badge badge-primary badge-xs">edit</button>
@@ -84,10 +98,24 @@
 	</div>
 	<div id="visitor-section-side">
 		<div class="card-body" id="welcomeNote-img-box" >
-			<img class="card-img-top" src="${welcomeNote.photoFilename }" alt="Card image cap" id="welcomeNote-img">
+			<c:choose>
+				<c:when test="${not empty welcomeNote }">
+					<img class="card-img-top" src="${welcomeNote.photoFilename }" alt="Card image cap" id="welcomeNote-img">
+				</c:when>
+				<c:otherwise>
+					<img class="card-img-top" src="/resources/images/miniHome/cat.jpg" alt="Card image cap" id="welcomeNote-img">
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div class="card-body" id="welcomeNote-content">
-		  <p class="card-text">${welcomeNote.content }</p>
+			<c:choose>
+				<c:when test="${not empty welcomeNote }">
+					<p class="card-text">${welcomeNote.content }</p>
+				</c:when>
+				<c:otherwise>
+					<p class="card-text">대문글</p>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div id="welcomeNote-button">
 			<button class="badge badge-primary badge-xs">edit</button>
