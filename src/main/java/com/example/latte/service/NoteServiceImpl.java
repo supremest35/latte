@@ -37,9 +37,7 @@ public class NoteServiceImpl  implements NoteService{
 		
 		note.setSenderNo(((User)SessionUtils.getAttribute("LOGINED_USER")).getNo());
 		note.setRecDeptNo(recipient.getDeptNo());
-		System.out.println("########서비스 노트"+note);
 		noteDao.insertNote(note);
-		System.out.println("###########노트 dao호출됨");
 	};
 	
 	public void deleteNoteByNo(int no) {

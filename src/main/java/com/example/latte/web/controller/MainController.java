@@ -41,7 +41,7 @@ public class MainController {
 	
 	// 하루 방문자 수 로그인으로 ???
 	// 로그인시 아이디와 비밀번호 확인 후 성공하면  세션에 아이디 저장 실패하면 오류 메세지 띄우기
-	@RequestMapping("/login.do")
+	@RequestMapping("/**/login.do")
 	public String login(@RequestParam("id") String userId,
 			@RequestParam("pwd") String password,@RequestParam("pathName") String pn, RedirectAttributes rd) {
 		
