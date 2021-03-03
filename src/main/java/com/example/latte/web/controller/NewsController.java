@@ -11,8 +11,23 @@ public class NewsController {
 	public String newsMain() {
 		return "news/main";
 	}
-	@RequestMapping("/detail.do")
-	public String newsDetail() {
-		return "news/detail";
+	
+	@RequestMapping("/EntSports.do")
+	public String EntSports() {
+		
+		return "news/EntSports";
 	}
+	
+	@RequestMapping("/Economy.do")
+	public String economy() {
+		
+		return "news/Economy";
+	}
+	
+	@RequestMapping("/itScience.do")
+	public String itScience() {
+		
+		return "news/itScience";
+	}
+	
 }

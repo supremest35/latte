@@ -144,8 +144,8 @@ public class BoardController {
 		Comment comment = new Comment();
 		BeanUtils.copyProperties(commentForm, comment);
 
-		int userNo = (int) SessionUtils.getAttribute("LOGINED_USER_NO");
-		comment.setUserNo(userNo);
+		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		comment.setUserNo(user.getNo());
 		commentService.addComment(comment);
 		System.out.println(comment);
 
@@ -218,27 +218,27 @@ public class BoardController {
 
 	@RequestMapping("/like.do")
 	public String like(@RequestParam("boardNo") int boardNo, @RequestParam("catno") int categoryNo) {
-		int userNo = (int) SessionUtils.getAttribute("LOGINED_USER_NO");
-		Like savedLike = likeService.getLikeByBoardNoAndUserNo(boardNo, userNo);
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		Like savedLike = likeService.getLikeByBoardNoAndUserNo(boardNo, user.getNo());
 
 		if (savedLike == null) {
-			likeService.insertLikes(boardNo, userNo);
+			likeService.insertLikes(boardNo, user.getNo());
 
 			Board savedBoard = boardService.getBoardByNo(boardNo);
 			savedBoard.setLikeCnt(savedBoard.getLikeCnt() + 1);
 			boardService.updateBaord(savedBoard);
 		}
-
+		
 		return "redirect:detail.do?boardNo=" + boardNo + "&catno=" + categoryNo;
 	}
 
 	@RequestMapping("/dislike.do")
 	public String dislike(@RequestParam("boardNo") int boardNo, @RequestParam("catno") int categoryNo) {
-		int userNo = (int) SessionUtils.getAttribute("LOGINED_USER_NO");
-		DisLike savedDisLike = likeService.getDisLikeByBoardNoAndUserNo(boardNo, userNo);
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		DisLike savedDisLike = likeService.getDisLikeByBoardNoAndUserNo(boardNo, user.getNo());
 
 		if (savedDisLike == null) {
-			likeService.insertDisLikes(boardNo, userNo);
+			likeService.insertDisLikes(boardNo, user.getNo());
 
 			Board savedBoard = boardService.getBoardByNo(boardNo);
 			savedBoard.setDislikeCnt(savedBoard.getDislikeCnt() + 1);

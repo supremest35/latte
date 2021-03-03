@@ -10,7 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<title>${category.name} - ${dto.title }</title>
+<title>${category.name}-${dto.title }</title>
 </head>
 <body>
 <div class="container" id="app">
@@ -22,7 +22,7 @@
 		 <div class="row">
            <div class="col-12">
                <div class="card">
-                    <div class="card-header"">
+                    <div class="card-header">
                         <a href="index.do?catno=${category.no }">${category.name } 게시판입니다.</a>  <!-- 카테고리 별로 이름이 바뀌게 -> '화제/유머/고민/공포/자유/연예 게시판'-->
                     </div>
                </div>

@@ -12,7 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<title>Template</title>
+<title>라떼 판 - 커뮤니티</title>
 </head>
 <body>
 	<div class="container" id="pannboard">
@@ -61,8 +61,8 @@
 						<tbody>
 							<c:forEach var="board" items="${boards}">
 								<tr>
-									<td>${board.likeCnt }&#128077;</td>
-									<td>${board.dislikeCnt}&#128078;</td>
+									<td>${board.likeCnt } &#128077;</td>
+									<td>${board.dislikeCnt} &#128078;</td>
 									<c:if test="${category.no == 100 && empty board.imageFilename }">
 										<td><a
 											href="detail.do?boardNo=${board.no }&catno=${board.categoryNo}"
