@@ -6,6 +6,7 @@ import java.util.Map;
 import com.example.latte.dto.AcornItemCommentDto;
 import com.example.latte.vo.AcornItem;
 import com.example.latte.vo.AcornItemComment;
+import com.example.latte.vo.UserItem;
 
 public interface AcornService {
 
@@ -14,6 +15,7 @@ public interface AcornService {
 	List<AcornItem> getAllAcornList();
 	List<AcornItemCommentDto> getCommentDtosByRange(int acornNo, int userNo, int begin, int end);
 	List<AcornItemCommentDto> getCommentDtosByRangeWithoutUserNo(int acornNo, int begin, int end);
+	List<UserItem> getUserItems(int userNo);
 	
 	Map<String, Object> getAcorns(Map<String, Object> condition);
 	
@@ -24,6 +26,7 @@ public interface AcornService {
 	void addNewAcorn(AcornItem acorn);
 	void insertComment(AcornItemComment comment);
 	void insertCommentLike(int commentNo, int userNo);
+	void insertUserItem(UserItem userItem);
 	void updateAcorn(AcornItem acorn);
 	void updateComment(AcornItemComment comment);
 }

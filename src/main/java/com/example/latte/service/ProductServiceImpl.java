@@ -59,6 +59,10 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	public Product getProductByNo(int prodNo) {
+		return productDao.getProductByNo(prodNo);
+	}
+	@Override
 	public Product getProductDetail(int prodNo) {
 		return productDao.getProductByNo(prodNo);
 	}
@@ -74,5 +78,9 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void addNewProductBrand(ProductBrand brand) {
 		productDao.insertBrand(brand);
+	}
+	@Override
+	public void updateProduct(Product product) {
+		productDao.updateProduct(product);
 	}
 }

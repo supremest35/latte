@@ -109,7 +109,7 @@
 	<div class="card bg-light text-dark">
 	    <div class="card-body">
 	        <a href="product/list.do?pageno=1">
-	        	서치킹 - 고객들이 가장 많이 찾아본 상품!
+	        	<strong>서치킹</strong> - 고객들이 가장 많이 찾아본 상품!
 	        </a>
 			<div class="container-lg my-3">
 				<div id="myCarousel" class="carousel slide" data-ride="carousel">

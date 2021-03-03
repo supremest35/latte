@@ -14,6 +14,7 @@ import com.example.latte.dto.AcornItemCommentDto;
 import com.example.latte.dto.Pagination;
 import com.example.latte.vo.AcornItem;
 import com.example.latte.vo.AcornItemComment;
+import com.example.latte.vo.UserItem;
 
 @Service
 public class AcornServiceImpl implements AcornService {
@@ -41,6 +42,10 @@ public class AcornServiceImpl implements AcornService {
 	@Override
 	public List<AcornItemCommentDto> getCommentDtosByRangeWithoutUserNo(int acornNo, int begin, int end) {
 		return acornCommentDao.getCommentDtosByRangeWithoutUserNo(acornNo, begin, end);
+	}
+	@Override
+	public List<UserItem> getUserItems(int userNo) {
+		return acornDao.getUserItems(userNo);
 	}
 	
 	@Override
@@ -83,6 +88,10 @@ public class AcornServiceImpl implements AcornService {
 	@Override
 	public void insertCommentLike(int commentNo, int userNo) {
 		acornCommentDao.insertCommentLike(commentNo, userNo);
+	}
+	@Override
+	public void insertUserItem(UserItem userItem) {
+		acornDao.insertUserItem(userItem);
 	}
 	@Override
 	public void updateAcorn(AcornItem acorn) {

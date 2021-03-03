@@ -18,7 +18,7 @@ public class ProductForm {
 	private int salePrice;
 	private double discountRate;
 	private String information;
-	private char freeDelivery;
+	private String freeDelivery;
 	private String url;
 	private MultipartFile photofile;
 }

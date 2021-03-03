@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.latte.vo.AcornItem;
+import com.example.latte.vo.UserItem;
 
 @Mapper
 @Transactional
@@ -20,7 +21,9 @@ public interface AcornDao {
 	
 	List<AcornItem> getAcornsBycondition(Map<String, Object> condition);
 	List<AcornItem> getAllAcorns();
+	List<UserItem> getUserItems(int userNo);
 	
 	void insertAcorn(AcornItem acorn);
+	void insertUserItem(UserItem userItem);
 	void updateAcorn(AcornItem acorn);
 }

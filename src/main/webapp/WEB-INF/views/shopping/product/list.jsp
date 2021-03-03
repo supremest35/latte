@@ -101,6 +101,20 @@
       </div>
    </div>
 </div>
-
+<script type="text/javascript">
+	function searchBrand() {
+		var form = document.getElementById("product-search-form");
+		alert(form);
+		form.setAttribute("action", "../product/list.do");
+		form.submit();
+	}
+	
+	function searchColor() {
+		var form = document.getElementById("product-search-form");
+		alert(form);
+		form.setAttribute("action", "../product/list.do");
+		form.submit();
+	}
+</script>
 </body>
 </html>

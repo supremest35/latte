@@ -21,7 +21,10 @@
 	</select>
 
 	<select id="getOrdersByUserNo" parameterType="int" resultType="com.example.latte.vo.Order">
-		select
+		select *
+		from
+		 	(select
+		       	row_number() over (order by order_created_date desc) as rn,
 			order_no			as no,
 			user_no				as userNo,
 			order_description	as description,
@@ -34,7 +37,7 @@
 		from
 			latte_orders
 		where
-			user_no = #{userNo}
+			user_no = #{userNo})
 	</select>
 	<select id="getOrderItemsByOrderNo" parameterType="int" resultType="com.example.latte.vo.OrderItem">
 		select
@@ -69,7 +72,7 @@
 	<update id="updateOrder" parameterType="com.example.latte.vo.Order">
 		update latte_orders
 		set
-			order_status = #{order}
+			order_status = #{status}
 	</update>
 
 </mapper>

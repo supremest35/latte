@@ -22,6 +22,7 @@ import com.example.latte.vo.AcornItem;
 import com.example.latte.vo.Order;
 import com.example.latte.vo.OrderItem;
 import com.example.latte.vo.User;
+import com.example.latte.vo.UserItem;
 import com.example.latte.vo.WishItem;
 
 @Controller
@@ -38,7 +39,7 @@ public class OrderController {
 	UserService userService;
 	
 	@RequestMapping("/cancel.do")
-	public String cancelOrder(@RequestParam(name="order") int orderNo,
+	public String cancelOrder(@RequestParam(name="orderno") int orderNo,
 			Model model) {
 		
 		Order order = orderService.getOrderByNo(orderNo);
@@ -87,7 +88,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/form.do")
-	public String orderForm(@RequestParam(name="acornno", required=false, defaultValue="-1") int acornNo,
+	public String orderForm(@RequestParam(name="acornno", required=false, defaultValue="-1") List<Integer> acornNoArr,
 			@RequestParam(name="amount", required=false, defaultValue="-1") int amount,
 			@RequestParam(name="wishno", required=false) List<Integer> wishNoList,
 			Model model) {
@@ -100,18 +101,20 @@ public class OrderController {
 		
 		List<Map<String, Object>> orderItemList = new ArrayList<Map<String,Object>>();
 		
-		if (acornNo != 0) {
-			AcornItem acorn = acornService.getAcornByNo(acornNo);
-			
-			Map<String, Object> item = new HashMap<>();
-			item.put("acornNo", acornNo);
-			item.put("acornCategoryNo", acorn.getCategoryNo());
-			item.put("acornName", acorn.getName());
-			item.put("acornPrice", acorn.getPrice());
-			item.put("amount", amount);
-			item.put("orderPrice", acorn.getPrice()*amount);
-			
-			orderItemList.add(item);
+		for (int i=0; i<acornNoArr.size(); i++ ) {
+			if (acornNoArr.get(i) > -1) {
+				AcornItem acorn = acornService.getAcornByNo(acornNoArr.get(i));
+				
+				Map<String, Object> item = new HashMap<>();
+				item.put("acornNo", acornNoArr.get(i));
+				item.put("acornCategoryNo", acorn.getCategoryNo());
+				item.put("acornName", acorn.getName());
+				item.put("acornPrice", acorn.getPrice());
+				item.put("amount", amount);
+				item.put("orderPrice", acorn.getPrice()*amount);
+				
+				orderItemList.add(item);
+			}
 		}
 		
 		if (wishNoList != null) {
@@ -198,7 +201,16 @@ public class OrderController {
 			wishService.deleteWishItemByUserNoAndAcornNo(user.getNo(), acornNoList.get(i));
 		}
 		
-		return "redirect:/shopping/main.do";
+		// 유저아이템 등록
+		for (int i=0; i<loopCount; i++) {
+			UserItem item = new UserItem();
+			item.setUserNo(user.getNo());
+			item.setAcornNo(acornNoList.get(i));
+			item.setAcornName(acorns.get(i).getName());
+			acornService.insertUserItem(item);
+		}
+		
+		return "redirect:/shopping/order/list.do";
 	}
 	
 	@RequestMapping("/list.do")

@@ -10,5 +10,6 @@ public class UserItem {
 	private int no;
 	private int userNo;
 	private int acornNo;
+	private String acornName;
 	private Date createdDate;
 }

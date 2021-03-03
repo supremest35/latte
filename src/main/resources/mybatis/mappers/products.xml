@@ -2,7 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.ProductDao">
+
+	<select id="getTotalCountByCondition" parameterType="map" resultType="int">
+		select
+			count(*)
+		from
+			latte_products
+		<where>
+			<if test="categoryNo != null">
+				product_category_no = #{categoryNo}
+			</if>
+		</where>
+	</select>
 	
+	<select id="getProductByNo" resultType="com.example.latte.vo.Product">
+		select
+			product_no				as no,
+			product_category_no		as categoryNo,
+			product_mid_category_no	as categoryMidNo,
+			product_low_category_no as categoryLowNo,
+			product_color_no		as colorNo,
+			product_mall_no			as mallNo,
+			product_brand_name		as brandName,
+			product_name			as name,
+			product_price			as price,
+			product_sale_price		as salePrice,
+			product_discount_rate	as discountRate,
+			product_information		as information,
+			product_free_delivery	as freeDelivery,
+			product_url				as url,
+			product_deleted			as deleted,
+			product_hit_cnt			as hitCnt,
+			product_created_date	as createdDate,
+			product_photo_filename	as photoFilename
+		from
+			latte_products
+		where
+			product_no = #{value}
+	</select>
+
 	<select id="getAllProducts" resultType="com.example.latte.vo.Product">
 		select
 			product_no				as no,
@@ -26,39 +64,36 @@
 		from
 			latte_products
 	</select>
-	<select id="getAllBrands" resultType="com.example.latte.vo.ProductBrand">
-		select
-			product_brand_no		as no,
-			product_brand_name		as name
+	<select id="getHitProducts" resultType="com.example.latte.vo.Product">
+		select *
 		from
-			latte_product_brands
-	</select>
-	<select id="getAllColors" resultType="com.example.latte.vo.ProductColor">
-		select
-			product_color_no		as no,
-			product_color_name		as name
-		from
-			latte_product_colors
-	</select>
-	<select id="getAllMalls" resultType="com.example.latte.vo.ProductMall">
-		select
-			product_mall_no					as no,
-			product_mall_name				as name,
-			product_mall_photo_filename		as photoFilename
-		from
-			latte_product_malls
-	</select>
-
-	<select id="getTotalCountByCondition" parameterType="map" resultType="int">
-		select
-			count(*)
-		from
-			latte_products
-		<where>
-			<if test="categoryNo != null">
-				product_category_no = #{categoryNo}
-			</if>
-		</where>
+			(select
+				row_number() over (order by product_hit_cnt desc) as rn,
+				product_no				as no,
+				product_category_no		as categoryNo,
+				product_mid_category_no	as categoryMidNo,
+				product_low_category_no as categoryLowNo,
+				product_color_no		as colorNo,
+				product_mall_no			as mallNo,
+				product_brand_name		as brandName,
+				product_name			as name,
+				product_price			as price,
+				product_sale_price		as salePrice,
+				product_discount_rate	as discountRate,
+				product_information		as information,
+				product_free_delivery	as freeDelivery,
+				product_url				as url,
+				product_deleted			as deleted,
+				product_hit_cnt			as hitCnt,
+				product_created_date	as createdDate,
+				product_photo_filename	as photoFilename
+			from
+				latte_products)
+			<where>
+				<if test="begin != 0 and end != 0">
+					rn >= 1 and rn &lt;= 30
+				</if>
+			</where>
 	</select>
 	<select id="getProductsBycondition" parameterType="map" resultType="com.example.latte.vo.Product">
 		 select *
@@ -113,62 +148,27 @@
 			</if>
 		</where>
 	</select>
-	
-	<select id="getHitProducts" resultType="com.example.latte.vo.Product">
-		select *
-		from
-			(select
-				row_number() over (order by product_hit_cnt desc) as rn,
-				product_no				as no,
-				product_category_no		as categoryNo,
-				product_mid_category_no	as categoryMidNo,
-				product_low_category_no as categoryLowNo,
-				product_color_no		as colorNo,
-				product_mall_no			as mallNo,
-				product_brand_name		as brandName,
-				product_name			as name,
-				product_price			as price,
-				product_sale_price		as salePrice,
-				product_discount_rate	as discountRate,
-				product_information		as information,
-				product_free_delivery	as freeDelivery,
-				product_url				as url,
-				product_deleted			as deleted,
-				product_hit_cnt			as hitCnt,
-				product_created_date	as createdDate,
-				product_photo_filename	as photoFilename
-			from
-				latte_products)
-			<where>
-				<if test="begin != 0 and end != 0">
-					rn >= 1	and rn &lt;= 6
-				</if>
-			</where>
-	</select>
-	<select id="getProductByNo" resultType="com.example.latte.vo.Product">
+	<select id="getAllBrands" resultType="com.example.latte.vo.ProductBrand">
 		select
-			product_no				as no,
-			product_category_no		as categoryNo,
-			product_mid_category_no	as categoryMidNo,
-			product_low_category_no as categoryLowNo,
-			product_color_no		as colorNo,
-			product_mall_no			as mallNo,
-			product_brand_name		as brandName,
-			product_name			as name,
-			product_price			as price,
-			product_sale_price		as salePrice,
-			product_discount_rate	as discountRate,
-			product_information		as information,
-			product_free_delivery	as freeDelivery,
-			product_url				as url,
-			product_deleted			as deleted,
-			product_hit_cnt			as hitCnt,
-			product_created_date	as createdDate,
-			product_photo_filename	as photoFilename
+			product_brand_no		as no,
+			product_brand_name		as name
 		from
-			latte_products
-		where
-			product_no = #{value}
+			latte_product_brands
+	</select>
+	<select id="getAllColors" resultType="com.example.latte.vo.ProductColor">
+		select
+			product_color_no		as no,
+			product_color_name		as name
+		from
+			latte_product_colors
+	</select>
+	<select id="getAllMalls" resultType="com.example.latte.vo.ProductMall">
+		select
+			product_mall_no					as no,
+			product_mall_name				as name,
+			product_mall_photo_filename		as photoFilename
+		from
+			latte_product_malls
 	</select>
 	<select id="getPhotosByProductNo" resultType="com.example.latte.vo.ProductPhoto">
 		select
@@ -180,6 +180,18 @@
 			product_no = #{value}
 	</select>
 	
+	<insert id="insertBrand" parameterType="com.example.latte.vo.ProductBrand">
+		insert into latte_product_brands
+			(product_brand_no, product_brand_name)
+		values
+			(latte_product_brand_no_seq.nextval, #{name})
+	</insert>
+	<insert id="insertPhoto" parameterType="com.example.latte.vo.ProductPhoto">
+		insert into latte_product_photos
+			(product_no, product_photo_filename)
+		values
+			(#{productNo}, #{filename})
+	</insert>
 	<insert id="insertProduct" parameterType="com.example.latte.vo.Product">
 	<selectKey keyProperty="no" resultType="int" order="BEFORE">
 		select latte_product_no_seq.nextval from dual
@@ -189,17 +201,13 @@
 		values
 			(#{no}, #{categoryNo}, #{categoryMidNo}, #{categoryLowNo}, #{colorNo}, #{mallNo}, #{brandName}, #{name}, #{price}, #{salePrice}, #{discountRate}, #{information}, #{freeDelivery}, #{url}, #{photoFilename})
 	</insert>
-	<insert id="insertPhoto" parameterType="com.example.latte.vo.ProductPhoto">
-		insert into latte_product_photos
-			(product_no, product_photo_filename)
-		values
-			(#{productNo}, #{filename})
-	</insert>
-	<insert id="insertBrand" parameterType="com.example.latte.vo.ProductBrand">
-		insert into latte_product_brands
-			(product_brand_no, product_brand_name)
-		values
-			(latte_product_brand_no_seq.nextval, #{name})
-	</insert>
+	
+	<update id="updateProduct" parameterType="com.example.latte.vo.Product">
+		update latte_products
+		set
+			product_hit_cnt = #{hitCnt}
+		where
+			product_no = #{no}
+	</update>
 
 </mapper>

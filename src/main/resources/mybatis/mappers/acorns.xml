@@ -81,12 +81,33 @@
 		from
 	       	latte_acorn_items
 	</select>
+	<select id="getUserItems" parameterType="int" resultType="com.example.latte.vo.UserItem">
+		select *
+		from
+		 	(select
+		       	row_number() over (order by user_item_created_date desc) as rn,
+				user_item_no			as no,
+				user_no					as userNo,
+				acorn_item_no			as acornNo,
+				acorn_item_name			as acornName,
+				user_item_created_date	as createdDate
+			from
+				latte_user_items
+			where
+				user_no = #{userNo})
+	</select>
 
 	<insert id="insertAcorn" parameterType="com.example.latte.vo.AcornItem">
 		insert into latte_acorn_items
 			(acorn_item_no, category_mid_no, acorn_item_name, acorn_item_price, acorn_item_stock)
 		values
 			(latte_acorn_item_no_seq.nextval, #{categoryMidNo}, #{name}, #{price}, #{stock})
+	</insert>
+	<insert id="insertUserItem" parameterType="com.example.latte.vo.UserItem">
+		insert into latte_user_items
+			(user_item_no, user_no, acorn_item_no, acorn_item_name)
+		values
+			(latte_user_item_no_seq.nextval, #{userNo}, #{acornNo}, #{acornName})
 	</insert>
 	<update id="updateAcorn" parameterType="com.example.latte.vo.AcornItem">
 		update latte_acorn_items

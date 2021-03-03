@@ -41,7 +41,7 @@
 		<div>
 			<button type="button" class="btn btn-outline-secondary" onclick="addWishItems()"><i class="fas fa-plus"></i>담기</button>
 			<button type="button" class="btn btn-outline-secondary" onclick="orderItems()">구매</button>
-			<button type="button" class="btn btn-outline-secondary">선물</button>
+			<button type="button" class="btn btn-outline-secondary" onclick="orderItems()">선물</button>
 		</div>
 		<div>
 			<a href="">인기상품순</a>
