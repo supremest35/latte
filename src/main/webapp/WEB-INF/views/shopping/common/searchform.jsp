@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8"%>
 <div class="card">
+	<form id="product-search-form" method="post" action="../product/list.do">
 	<c:if test = "${resVo.catlvl == 1}">
 		<div class="card-header">
 			<a href="/shopping/main.do">홈</a> > 
@@ -37,7 +38,7 @@
 			브랜드
 			<c:forEach var="brand" items="${brands }">
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="checkbox" id="inlineCheckbox" value="brandOption">
+				<input class="form-check-input" type="checkbox" id="brandno" value="${brand.no }" onclick=searchBrand()>
 				<label class="form-check-label" for="inlineCheckbox">${brand.name }</label>
 			</div>
 			</c:forEach>
@@ -46,7 +47,7 @@
 			컬러별
 			<c:forEach var="color" items="${colors }">
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="checkbox" id="inlineCheckbox" value="colorOption">
+				<input class="form-check-input" type="checkbox" id="colorno" value="${color.no }" onclick=searchColor()>
 				<label class="form-check-label" for="inlineCheckbox">
 					<i class="fa fa-circle fa-lg" aria-hidden="true" style="color:${color.name}"></i>
 				</label>
@@ -92,7 +93,7 @@
 			브랜드
 			<c:forEach var="brand" items="${brands }">
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="checkbox" id="inlineCheckbox" value="brandOption">
+				<input class="form-check-input" type="checkbox" id="brandno" value="${brand.no }" onclick=searchBrand()>
 				<label class="form-check-label" for="inlineCheckbox">${brand.name }</label>
 			</div>
 			</c:forEach>
@@ -101,7 +102,7 @@
 			컬러별
 			<c:forEach var="color" items="${colors }">
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="checkbox" id="inlineCheckbox" value="colorOption">
+				<input class="form-check-input" type="checkbox" id="colorno" value="${color.no }" onclick=searchColor()>
 				<label class="form-check-label" for="inlineCheckbox">
 					<i class="fa fa-circle fa-lg" aria-hidden="true" style="color:${color.name}"></i>
 				</label>
@@ -147,7 +148,7 @@
 			브랜드
 			<c:forEach var="brand" items="${brands }">
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="checkbox" id="inlineCheckbox" value="brandOption">
+				<input class="form-check-input" type="checkbox" id="brandno" value="${brand.no }" onclick=searchBrand()>
 				<label class="form-check-label" for="inlineCheckbox">${brand.name }</label>
 			</div>
 			</c:forEach>
@@ -156,7 +157,7 @@
 			컬러별
 			<c:forEach var="color" items="${colors }">
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="checkbox" id="inlineCheckbox" value="colorOption">
+				<input class="form-check-input" type="checkbox" id="colorno" value="${color.no }" onclick=searchColor()>
 				<label class="form-check-label" for="inlineCheckbox">
 					<i class="fa fa-circle fa-lg" aria-hidden="true" style="color:${color.name}"></i>
 				</label>
@@ -164,4 +165,5 @@
 			</c:forEach>
 		</div>
 	</c:if>
+	</form>
 </div>

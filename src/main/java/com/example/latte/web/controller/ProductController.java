@@ -82,6 +82,13 @@ public class ProductController {
 	
 	@RequestMapping("/detail.do")
 	public String detail(@RequestParam("prodno") int prodNo, Model model) {
+		
+		// 그 상품의 상세정보 요청시 상품의 조회수가 증가한다.
+		Product p = productService.getProductByNo(prodNo);
+		p.setHitCnt(p.getHitCnt()+1);
+		
+		productService.updateProduct(p);
+		
 		Product product = productService.getProductDetail(prodNo);
 		MarketLowCategory category = marketCategoryService.getLowCategory(product.getCategoryLowNo());
 		

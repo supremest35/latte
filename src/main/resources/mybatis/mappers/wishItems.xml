@@ -30,18 +30,22 @@
 	</select>
 	
 	<select id="getWishItemDtosByUserNo" parameterType="int" resultType="com.example.latte.dto.WishItemDto">
-		select
-			A.wishitem_no			as itemNo,
-			A.acorn_item_no			as acornNo,
-			B.category_no			as categoryNo,
-			B.acorn_item_name		as acornName,
-			B.acorn_item_price		as acornPrice,
-			A.wishitem_amount		as acornAmount
+		select *
 		from
-			latte_wishitems A, latte_acorn_items B
-		where
-			A.acorn_item_no = B.acorn_item_no
-			and A.user_no = #{value}
+		 	(select
+			    row_number() over (order by wishitem_created_date desc) as rn,
+				A.wishitem_no			as itemNo,
+				A.acorn_item_no			as acornNo,
+				B.category_no			as categoryNo,
+				B.acorn_item_name		as acornName,
+				B.acorn_item_price		as acornPrice,
+				A.wishitem_amount		as acornAmount,
+				A.wishitem_created_date	as createdDate
+			from
+				latte_wishitems A, latte_acorn_items B
+			where
+				A.acorn_item_no = B.acorn_item_no
+				and A.user_no = #{value})
 	</select>
 	
 	<delete id="deleteWishItem" parameterType="int">

@@ -22,7 +22,7 @@ public class WishItemController {
 	WishService wishService;
 
 	@RequestMapping("/insertItem.do")
-	public String insertItem(@RequestParam("acornno") int acornNo,
+	public String insertItem(@RequestParam("acornno") List<Integer> acornNoArr,
 			@RequestParam("amount") int amount) {
 		
 		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
@@ -30,15 +30,17 @@ public class WishItemController {
 		if (user == null) {
 			return "redirect:/main.do";	// '로그인이 필요한 서비스입니다' 에러화면 추가.
 		}
-		WishItem wishItem = wishService.getWishItemByAcornNoAndUserNo(acornNo, user.getNo());
-		if (wishItem == null) {
-			wishItem = new WishItem();
-			wishItem.setAcornNo(acornNo);
-			wishItem.setUserNo(user.getNo());
-			wishItem.setAmount(amount);
-			wishService.insertWishItem(wishItem);
-		} else {
-			return "redirect:/shopping/wish/list.do?error=exist";
+		for (int i=0; i<acornNoArr.size(); i++) {
+			WishItem wishItem = wishService.getWishItemByAcornNoAndUserNo(acornNoArr.get(i), user.getNo());
+			if (wishItem == null) {
+				wishItem = new WishItem();
+				wishItem.setAcornNo(acornNoArr.get(i));
+				wishItem.setUserNo(user.getNo());
+				wishItem.setAmount(amount);
+				wishService.insertWishItem(wishItem);
+			} else {
+				return "redirect:/shopping/wish/list.do?error=exist";
+			}
 		}
 		
 		return "redirect:/shopping/wish/list.do";

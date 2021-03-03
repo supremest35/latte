@@ -69,7 +69,7 @@
 										<th>주문번호</th>
 										<td><strong>${order.no}</strong></td>
 										<th>주문상태</th>
-										<td><strong>${order.status }</strong><a href="cancel.do?orderno=${order.no }" class="btn btn-danger btn-xs float-right ${order.status eq '주문취소' ? 'disabled' : '' }">주문취소</a></td>
+										<td><strong>${order.status }</strong><a href="/shopping/order/cancel.do?orderno=${order.no }" class="btn btn-danger btn-xs float-right ${order.status eq '주문취소' ? 'disabled' : '' }">주문취소</a></td>
 									</tr>
 									<tr>
 										<th>주문일자</th><td><fmt:formatDate value="${order.createdDate }"/></td>

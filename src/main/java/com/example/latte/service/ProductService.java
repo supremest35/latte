@@ -18,9 +18,11 @@ public interface ProductService {
 	
 	Map<String, Object> getProducts(Map<String, Object> condition);
 	
+	Product getProductByNo(int prodNo);
 	Product getProductDetail(int prodNo);
 	
 	void addNewProduct(Product product);
 	void addNewProductPhoto(ProductPhoto photo);
 	void addNewProductBrand(ProductBrand brand);
+	void updateProduct(Product product);
 }

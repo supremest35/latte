@@ -16,20 +16,20 @@ import com.example.latte.vo.ProductPhoto;
 @Transactional
 public interface ProductDao {
 
+	int getTotalCountByCondition(Map<String, Object> condition);
+	
+	Product getProductByNo(int prodNo);
+
 	List<Product> getAllProducts();
+	List<Product> getHitProducts();
+	List<Product> getProductsBycondition(Map<String, Object> condition);
 	List<ProductBrand> getAllBrands();
 	List<ProductColor> getAllColors();
 	List<ProductMall> getAllMalls();
-	
-	int getTotalCountByCondition(Map<String, Object> condition);
-	List<Product> getProductsBycondition(Map<String, Object> condition);
-	
-	List<Product> getHitProducts();
-	Product getProductByNo(int prodNo);
 	List<ProductPhoto> getPhotosByProductNo(int prodNo);
 	
-	void insertProduct(Product product);
-	void insertPhoto(ProductPhoto photo);
 	void insertBrand(ProductBrand brand);
-
+	void insertPhoto(ProductPhoto photo);
+	void insertProduct(Product product);
+	void updateProduct(Product product);
 }

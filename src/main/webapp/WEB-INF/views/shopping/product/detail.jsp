@@ -44,7 +44,7 @@
 	  		<div class="row no-gutters">
 	    		<div class="col-md-3">
 	      			<img src="/resources/images/products/${product.photoFilename }" class="card-img" alt="...">
-	      			<h5>${product.createdDate }</h5>
+	      			<h5 class="text-center"><small>등록일 : </small><fmt:formatDate value="${product.createdDate }"/></h5>
 	    		</div>
 	    		<div class="col-md-7">
 	      			<div class="card-body">
@@ -60,7 +60,7 @@
 	        					</tr>
 	        					<tr>
 	        						<th>티몬</th>
-	        						<td>${product.salePrice} 원
+	        						<td><fmt:formatNumber value="${product.salePrice }" /> 원
 	        						<c:choose>
 			        					<c:when test="${product.freeDelivery eq 'Y' }">
 	                                       <span class="badge badge-info">무료배송</span>
@@ -92,9 +92,6 @@
 						상세정보
 					</h5>
 				</div>
-				<div class="card-body">
-					<div class="card-text text-center">내용이 없습니다.</div>
-				</div>
 				<div class="col-md-3">
 		      			<img src="/resources/images/products/${product.photoFilename }" class="card-img" alt="...">
 		    		</div>
@@ -102,7 +99,12 @@
 					<h5 class="card-title  d-flex justify-content-between">
 						<span>${product.name }</span>
 					</h5>
-					<div class="card-text">${product.information }</div>
+					<c:if test="${empty product.information }">
+						<div class="card-text text-center">내용이 없습니다.</div>
+					</c:if>
+					<c:if test="${not empty product.information }">
+						<div class="card-text">${product.information }</div>
+					</c:if>
 				</div>
 			</div>
 		</div>

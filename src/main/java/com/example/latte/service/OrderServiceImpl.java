@@ -1,5 +1,6 @@
 package com.example.latte.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,22 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public List<Map<String, Object>> getMapOrderItemsByOrderNo(int orderNo) {
-		return orderDao.getgetMapOrderItemsByOrderNo(orderNo);
+		List<Map<String, Object>> orderItems = new ArrayList<Map<String,Object>>();
+		List<OrderItem> items = orderDao.getOrderItemsByOrderNo(orderNo);
+		
+		for (OrderItem item : items) {
+			Map<String, Object> orderItem = new HashMap<>();
+			orderItem.put("itemNo", item.getNo());
+			orderItem.put("orderNo", item.getOrderNo());
+			orderItem.put("acornNo", item.getAcornNo());
+			orderItem.put("acornName", item.getAcornName());
+			orderItem.put("acornPrice", item.getPrice());
+			orderItem.put("itemAmount", item.getAmount());
+			orderItem.put("orderPrice", item.getPrice()*item.getAmount());
+			
+			orderItems.add(orderItem);
+		}
+		return orderItems;
 	}
 	@Override
 	public List<Order> getOrdersByUserNo(int userNo) {

@@ -8,8 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.latte.dao.ProductDao;
+import com.example.latte.service.AcornService;
 import com.example.latte.service.MarketCategoryService;
+import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.Product;
+import com.example.latte.vo.User;
+import com.example.latte.vo.UserItem;
 
 @Controller
 @RequestMapping("/shopping")
@@ -17,17 +21,10 @@ public class ShoppingController {
 	
 	@Autowired
 	ProductDao productDao;
-	
+	@Autowired
+	AcornService acornService;
 	@Autowired
 	MarketCategoryService marketCategoryService;
-	
-	@RequestMapping("/main.do")
-	public String main(Model model) {
-		List<Product> hitProducts = productDao.getHitProducts();
-		model.addAttribute("hitProducts", hitProducts);
-		
-		return "/shopping/main";
-	}
 	
 	@RequestMapping("/my/acornhistory.do")
 	public String acornHistory() {
@@ -35,7 +32,26 @@ public class ShoppingController {
 	}
 	
 	@RequestMapping("/my/havingitem.do")
-	public String havingItem() {
+	public String havingItem(Model model) {
+		
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		if (user == null) {
+			return "redirect:/shopping/main.do";
+		}
+		
+		List<UserItem> userItems = acornService.getUserItems(user.getNo());
+		
+		model.addAttribute("userItems", userItems);
+		
 		return "/shopping/my/havingitem";
+	}
+	
+	@RequestMapping("/main.do")
+	public String main(Model model) {
+		List<Product> hitProducts = productDao.getHitProducts();
+		model.addAttribute("hitProducts", hitProducts);
+		
+		return "/shopping/main";
 	}
 }

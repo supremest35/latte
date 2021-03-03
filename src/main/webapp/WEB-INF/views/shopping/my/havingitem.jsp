@@ -52,24 +52,24 @@
 							<tr>
 								<th><input type="checkbox" id="chk-all" checked onchange="toggleAllChecked()"/></th>
 								<th>상품명</th>
-								<th class="text-center" onclick="orderItems()">적용하기</th>
+								<th class="text-center" onclick="">적용하기</th>
 								<th class="text-right pr-5">구매날짜</th>
 							</tr>
 						</thead>
 						<tbody>
 						<c:choose>
-							<c:when test="${empty havingItems }">
+							<c:when test="${empty userItems }">
 								<tr>
 									<td class="text-center" colspan="4">보유 상품이 없습니다.</td>
 								</tr>
 							</c:when>
 							<c:otherwise>
-								<c:forEach var="item" items="${havingItems }">
+								<c:forEach var="item" items="${userItems }">
 									<tr>
-										<td><input type="checkbox" name="wishno" value="${item.no}" checked /></td>
-										<td>${item.name }</td>
-										<td class="text-center" onclick="orderItems()"><a href="">적용하기</a></td>
-										<td class="text-right pr-5">${item.createdDate }</td>
+										<td><input type="checkbox" name="itemno" value="${item.no}" checked /></td>
+										<td>${item.acornName }</td>
+										<td class="text-center" onclick=""><a href="">적용하기</a></td>
+										<td class="text-right pr-5"><fmt:formatDate value="${item.createdDate }"/></td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -81,5 +81,14 @@
  		</div>
  	</div>
 </div>
+<script type="text/javascript">
+	function toggleAllChecked() {
+		var isChecked = document.getElementById("chk-all").checked;
+		var checkboxes = document.querySelectorAll("[name='itemno']");
+		for (var i=0; i<checkboxes.length; i++) {
+			checkboxes[i].checked = isChecked;
+		}
+	}
+</script>
 </body>
 </html>
