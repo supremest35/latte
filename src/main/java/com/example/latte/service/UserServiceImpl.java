@@ -14,8 +14,12 @@ import org.springframework.stereotype.Service;
 import com.example.latte.Exception.FailedLoginException;
 import com.example.latte.Exception.PasswordMismatchException;
 import com.example.latte.Exception.UserNotFoundException;
+import com.example.latte.dao.MiniHomeBoardDao;
+import com.example.latte.dao.MiniHomeDao;
 import com.example.latte.dao.UserDao;
 import com.example.latte.util.SessionUtils;
+import com.example.latte.vo.MiniHome;
+import com.example.latte.vo.MiniHomeBoard;
 import com.example.latte.vo.User;
 
 @Service
@@ -23,6 +27,10 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	MiniHomeDao miniHomeDao;
+	@Autowired
+	MiniHomeBoardDao miniHomeBoardDao;
 	
 
 	@Override
@@ -30,9 +38,18 @@ public class UserServiceImpl implements UserService {
 		//전달받은 사용자 정보의 비밀번호를 암호화해서 데이터베이스에 저장 
 		System.out.println("회원가입 서비스 메소드 호출");
 		String codePwd = DigestUtils.sha256Hex(user.getPassword());
-		// 미니홈피 번호 생성하는 기능 추가 
 		user.setPassword(codePwd);
 		userDao.insertUser(user);
+		
+		MiniHome myHome = new MiniHome();
+		myHome.setUserNo(user.getNo());
+		String[] subId= user.getId().split("@");
+		myHome.setAddress(subId[0]);
+		miniHomeDao.insertMiniHome(myHome);
+		
+		miniHomeBoardDao.insertRootFolders(myHome.getNo(), 100);
+		miniHomeBoardDao.insertRootFolders(myHome.getNo(), 200);
+		miniHomeBoardDao.insertRootFolders(myHome.getNo(), 300);
 	}
 	
 	@Override
