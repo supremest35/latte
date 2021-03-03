@@ -60,17 +60,19 @@ public class NoteController {
 		Map<String, Object> opt = new HashMap<>();
 		opt.put("type", "rec");
 		opt.put("userNo", userNo);
-		return noteService.getNoteList(opt);
+		return noteService.getNoteListByOpt(opt);
 	}
 	
-	@RequestMapping("getAllNotes/{no}")
+	@RequestMapping("getNoteList/{no}")
 	public List<Note> getAllNoteList(@PathVariable("no") int userNo){
+		// 현재 페이지 번호 , 탭 이름, 유저넘버 -> 맵에 담아서 호출 
 		
 		System.out.println("###userNo" + userNo);
 		Map<String, Object> opt = new HashMap<>();		
 		opt.put("type", "");
 		opt.put("userNo", userNo);
-		return noteService.getNoteList(opt);
+		return noteService.getNoteListByOpt(opt);
+		// 표현할 리스트에 새로운 값 전해주기 
 	}
 	
 	@RequestMapping("getNoteDetail/{no}")

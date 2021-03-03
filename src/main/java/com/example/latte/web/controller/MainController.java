@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.latte.Exception.FailedLoginException;
@@ -43,7 +44,7 @@ public class MainController {
 	// 로그인시 아이디와 비밀번호 확인 후 성공하면  세션에 아이디 저장 실패하면 오류 메세지 띄우기
 	@RequestMapping("/**/login.do")
 	public String login(@RequestParam("id") String userId,
-			@RequestParam("pwd") String password,@RequestParam("pathName") String pn, RedirectAttributes rd) {
+			@RequestParam("pwd") String password,@RequestParam("pathName") String pathName, RedirectAttributes rd) {
 		
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("id", userId);
@@ -61,20 +62,33 @@ public class MainController {
 			rd.addFlashAttribute("message", e.getMessage());
 		} 
 		
-		if(pn.contains("board")) {
+		if(pathName.contains("board")) {
 			return "redirect:/board/index.do";
-		}else if(pn.contains("shopping")) {
+		}else if(pathName.contains("shopping")) {
 			return "redirect:/shopping/main.do";
+		}else if(pathName.contains("news")) {
+			return "redirect:/news/main.do";
 		}else {
 			return "redirect:/main.do";
 		}
 	}
 
 	// 로그아웃시 세션에 저장된 정보 삭제
-	@RequestMapping("/logout.do")
-	public String logout() {
+	@RequestMapping(path="/logout.do", produces = "text/plain")
+	public @ResponseBody String logout(@RequestParam("pathName") String pathName) {
+		System.out.println("로그아웃 맵핑 메서드 호출");
+		System.out.println("전달된 pathName : " + pathName);
 		SessionUtils.removeAttribute("LOGINED_USER");
-		return "redirect:/main.do";
+		
+		if(pathName.contains("board")) {
+			return "/board/index.do";
+		}else if(pathName.contains("shopping")) {
+			return "/shopping/main.do";
+		}else if(pathName.contains("news")) {
+			return "/news/main.do";
+		}else {
+			return "/main.do";
+		}
 	}
 	
 	@RequestMapping("/myProfile.do")
