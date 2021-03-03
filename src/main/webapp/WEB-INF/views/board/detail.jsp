@@ -10,7 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<title>Template</title>
+<title>${category.name} - ${dto.title }</title>
 </head>
 <body>
 <div class="container" id="app">
@@ -22,7 +22,7 @@
 		 <div class="row">
            <div class="col-12">
                <div class="card">
-                    <div class="card-header">
+                    <div class="card-header"">
                         <a href="index.do?catno=${category.no }">${category.name } 게시판입니다.</a>  <!-- 카테고리 별로 이름이 바뀌게 -> '화제/유머/고민/공포/자유/연예 게시판'-->
                     </div>
                </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="card-body" style="border-top: 2px solid lightgray;">
                     <div class="row" >
-                    	<c:if test="${dto.userNo == LOGINED_USER_NO }">
+                    	<c:if test="${dto.userNo == LOGINED_USER.no }">
 	                    	<div class="col-12" align="right">
 	                    	<%-- <a href="modifyform.do?boardNo=${dto.no }&catno=${dto.categoryNo}"><button>수정</button></a>  보류--%> 
 	                    	<a href="delete.do?boardNo=${dto.no }&catno=${dto.categoryNo}"><button>삭제</button></a>
@@ -77,7 +77,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12" style="text-align: center; margin-bottom: 20px;">
-                        	<c:if test="${not empty LOGINED_USER_NO && dto.userNo != LOGINED_USER_NO }">
+                        	<c:if test="${not empty LOGINED_USER.no && dto.userNo != LOGINED_USER.no}">
                             <button><a href="like.do?boardNo=${dto.no }&catno=${category.no}">좋아요 &#128077;</a></button> <button><a href="dislike.do?boardNo=${dto.no }&catno=${category.no}">싫어요 &#128078;</a></button>
                         	</c:if>
                         </div>

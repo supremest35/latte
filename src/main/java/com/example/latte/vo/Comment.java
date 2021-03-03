@@ -14,4 +14,5 @@ public class Comment {
 	private int commentlikeCnt;
 	private Date createdDate;
 	
+	
 }

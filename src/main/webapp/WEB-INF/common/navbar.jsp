@@ -297,7 +297,7 @@
 								<!-- 메뉴바 반복 -->
 								<!-- 메뉴바 하나 시작 -->
 								<li class="nav-item text-size: 20px" id="nav-menu-li">
-									<a class="nav-link" href="" id="navbardrop"> 뉴스 </a>
+									<a class="nav-link" href="/news/main.do" id="navbardrop"> 뉴스 </a>
 								</li>
 								<!-- 메뉴바 하나 끝 -->
 								<li class="nav-item" id="nav-menu-li">
@@ -431,6 +431,7 @@
 						</div>
 					</div>
 				</div>
+			</div>
 			</c:if>
 		</div>
 	</div>
