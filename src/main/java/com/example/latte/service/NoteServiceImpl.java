@@ -33,7 +33,6 @@ public class NoteServiceImpl  implements NoteService{
 	
 	public void insertNote(Note note) {
 		User recipient = userDao.getUserByNo(note.getRecipientNo());
-		System.out.println("###########노트 service호출됨");
 		
 		note.setSenderNo(((User)SessionUtils.getAttribute("LOGINED_USER")).getNo());
 		note.setRecDeptNo(recipient.getDeptNo());
@@ -49,8 +48,9 @@ public class NoteServiceImpl  implements NoteService{
 	};
 
 	@Override
-	public List<Note> getNoteList(Map<String, Object> opt) {
+	public List<Note> getNoteListByOpt(Map<String, Object> opt) {
 		return noteDao.getNoteList(opt);
+		// 전체 컬럼 수 구하기 , 페이지네이션 객체 받아오기 ,
 	}
 	
 	@Override

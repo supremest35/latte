@@ -120,8 +120,7 @@
 	}
 	
 	#user-img {
-		width: 100%;
-		height: 90%;
+		width: 115px;
 		float: inherit;
 	}
 	.info-table{margin-left: 0px; margin-right: 1px}
@@ -370,8 +369,8 @@
 									 @click="modifyProfile(${LOGINED_USER.no })" id="btn-profile">
 										프로필 수정
 									</button>
-									<button class="info-btn btn-sm btn-secondary mr-1" id="btn-logout">
-										<a href="/logout.do" >Logout</a>
+									<button class="info-btn btn-sm btn-secondary mr-1" id="btn-logout" type="button" onclick="logout()">
+										Logout
 									</button>
 									<table class="info-table table-borderless" id="info-t">
 										
@@ -524,6 +523,14 @@
 			$('#pathName').val(curPathName);
 			$("#login-form").submit();
 		}
+	}
+	
+	function logout() {
+		console.log("로그아웃 실행");
+		$.get('http://localhost/logout.do',{pathName: curPathName}, function(result){
+			console.log("응답URL", result)
+			location.href = result;
+		})
 	}
 	
 	// ------------ 사용자 정보창 ------------------

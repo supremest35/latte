@@ -25,4 +25,7 @@ public interface NoteDao {
 	void deleteNoteByNo(int no);
 	// 읽으면 상태 update (클릭시 상태 확인 -> 안읽음일 때 메서드 실행)
 	void updateNote(int no);
+	
+	int getNoteListCnt(Map<String, Object> opt);
+	List getNoteListByOpt(Map<String, Object> opt);
 }

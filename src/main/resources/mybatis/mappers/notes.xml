@@ -42,27 +42,55 @@
 	</insert>
 	
 	<select id="getNoteList" parameterType="map" resultType="com.example.latte.vo.Note">
+		select *
+		from(
+			select 
+				row_number() over (order by note_no desc) rn,
+				note_no as no,
+				category_no as categoryNo,
+				sender_no as senderNo,
+				rec_dept_no as recDeptNo,
+				recipient_no as recipientNo,
+				note_title as title,
+				note_content as content,
+				note_status as status,
+				note_created_date as createdDate
+			from 
+				latte_notes
+			<where>
+				<if test='type.equals("nomal")'>
+					recipient_no = #{userNo} and category_no != 1
+				</if>
+				<if test='type.equals("friend")'>
+					recipient_no = #{userNo} and category_no = 1
+				</if>
+				<if test='type.equals("send")'>
+					sender_no = #{userNo}
+				</if>
+				
+			</where> 
+		)
+		<where>
+			<if test="begin != 0 and end != 0">
+				 rn >= #{begin} and rn &lt;= #{end}
+			</if>
+		</where>
+	</select>
+
+	<select id="getNoteListCnt" parameterType="map" resultType="int">
 		select 
-			note_no as no,
-			category_no as categoryNo,
-			sender_no as senderNo,
-			rec_dept_no as recDeptNo,
-			recipient_no as recipientNo,
-			note_title as title,
-			note_content as content,
-			note_status as status,
-			note_created_date as createdDate
+			count(*)
 		from 
 			latte_notes
 		<where>
-			<if test='type.equals("rec")'>
-				recipient_no = #{userNo}
+			<if test='type.equals("nomal")'>
+				recipient_no = #{userNo} and category_no != 1
+			</if>
+			<if test='type.equals("friend")'>
+				recipient_no = #{userNo} and category_no = 1
 			</if>
 			<if test='type.equals("send")'>
 				sender_no = #{userNo}
-			</if>
-			<if test='type.equals("")'>
-				sender_no = #{userNo} or recipient_no = #{userNo} 
 			</if>
 		</where> 
 	</select>

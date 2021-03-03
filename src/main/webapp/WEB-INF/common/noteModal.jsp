@@ -18,10 +18,10 @@
 					<!-- Nav tabs -->
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
-							<a class="nav-link active" data-toggle="tab" href="#home">쪽지함</a>
+							<a class="nav-link" data-toggle="tab" href="#friend">일촌신청</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#friend">일촌신청</a>
+							<a class="nav-link active" data-toggle="tab" href="#home">쪽지함</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" data-toggle="tab" href="#send" >보낸 쪽지함</a>
@@ -272,7 +272,7 @@
 		data:{
 			showInnerModal:false,
 			sendNoteList:[],
-	        recivedNoteList:[],
+	        receivedNoteList:[],
 	        freindOriginNotes:[],
 	        otherOriginNotes:[],
 	        ckOtherNoteNo:[],
@@ -415,7 +415,7 @@
 	                if(note.senderNo == loginedNo){
 	                    that.sendNoteList.push(note);
 	                }else{
-	                    that.recivedNoteList.push(note);
+	                    that.receivedNoteList.push(note);
 	                }
 	            }
 	            that.recivedNoteList.forEach(note => {
