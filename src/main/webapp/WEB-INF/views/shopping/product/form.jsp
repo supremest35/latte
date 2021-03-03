@@ -163,13 +163,19 @@
 	            <div class="form-row">
 	               <div class="form-group col-12">
 	                  <label>브랜드명</label>
-	                  <input type="text" class="form-control" name="brandName" id="product-brand" />
+	                  <input type="text" class="form-control" name="productBrandName" id="product-brand" />
+	               </div>
+	            </div>
+	            <div class="form-row">
+	               <div class="form-group col-12">
+	                  <label>상품코드</label>
+	                  <input type="text" class="form-control" name="productCd" id="product-cd" />
 	               </div>
 	            </div>
 	            <div class="form-row">
 	               <div class="form-group col-12">
 	                  <label>상품명</label>
-	                  <input type="text" class="form-control" name="name" id="product-name" />
+	                  <input type="text" class="form-control" name="productName" id="product-name" />
 	               </div>
 	            </div>
 	            <div class="form-row">
@@ -180,20 +186,8 @@
 	            </div>
 	            <div class="form-row">
 	               <div class="form-group col-12">
-	                  <label>할인율(예: 0.1 = 10%)</label>
-	                  <input type="number" step="0.01" class="form-control" name="discountRate" id="product-discount-rate"/>
-	               </div>
-	            </div>
-	            <div class="form-row">
-	               <div class="form-group col-12">
-	                  <label>판매가격</label>
-	                  <input type="number" class="form-control" name="salePrice" id="product-sale-price"/>
-	               </div>
-	            </div>
-	            <div class="form-row">
-	               <div class="form-group col-12">
 	                  <label>상품정보</label>
-	                  <input type="text" class="form-control" name="information" id="product-information" />
+	                  <input type="text" class="form-control" name="info" id="product-information" />
 	               </div>
 	            </div>
 	            <div class="form-row">
@@ -214,7 +208,7 @@
 	            <div class="form-row">
 	               <div class="form-group col-6">
 	                  <label>상품 사진</label>
-	                  <input type="file" class="form-control" name="photofile" id="product-photo-file" />
+	                  <input type="file" class="form-control" name=photoFile id="product-photo-file" />
 	               </div>
 	            </div>
 	            <div class="form-row">

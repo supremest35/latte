@@ -12,9 +12,7 @@
 	      		<c:if test="${category.no != 600 }">
 	        		<a class="dropdown-item" href="/shopping/product/list.do?catno=${category.no }&catlvl=1">${category.name }</a>
 	        	</c:if>
-	      		<c:if test="${category.no == 600 }">
-	        		<a class="dropdown-item" href="/shopping/acorn/list.do?catno=${category.no }&catlvl=1">${category.name }</a>
-	        	</c:if>
+	      		
 	        </c:forEach>
 	      </div>
 	    </li>

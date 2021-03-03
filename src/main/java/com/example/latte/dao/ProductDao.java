@@ -31,5 +31,6 @@ public interface ProductDao {
 	void insertBrand(ProductBrand brand);
 	void insertPhoto(ProductPhoto photo);
 	void insertProduct(Product product);
+	void insertProductDetail(Product product);
 	void updateProduct(Product product);
 }

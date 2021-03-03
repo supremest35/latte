@@ -39,6 +39,10 @@ public class MarketCategoryServiceImpl implements MarketCategoryService {
 	}
 	
 	@Override
+	public MarketCategory getCategoryByNo(int categoryNo) {
+		return marketCategoryDao.getCategoryByNo(categoryNo);
+	}
+	@Override
 	public MarketMidCategory getMidCategory(int categoryNo) {
 		return marketCategoryDao.getMidCategory(categoryNo);
 	}

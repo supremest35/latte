@@ -48,7 +48,7 @@
 	    		</div>
 	    		<div class="col-md-7">
 	      			<div class="card-body">
-	        			<h5 class="card-title">${product.name }</h5>
+	        			<h5 class="card-title">${product.detailName }</h5>
 	        			<h5 class="card-title"><strong>25000 ~ ${product.salePrice } </strong>원</h5>
     						<a href="${product.url }" class="btn btn-primary">구매URL</a>
     						<button type="button" class="btn btn-info" >가격비교</button>
@@ -97,7 +97,7 @@
 		    		</div>
 				<div class="card-body border border-left-0 border-top-0 border-right-0">
 					<h5 class="card-title  d-flex justify-content-between">
-						<span>${product.name }</span>
+						<span>${product.detailName }</span>
 					</h5>
 					<c:if test="${empty product.information }">
 						<div class="card-text text-center">내용이 없습니다.</div>
@@ -141,14 +141,14 @@
 	       				<tbody>
 					    <tr>
 					      <td><img src="/resources/images/malls/gmarket.png" class="card-img" alt="..."></td>
-					      <td><a href="">${product.name }</a></td>
+					      <td><a href="">${product.detailName }</a></td>
 					      <td>25000 원</td>
 					      <td><span class="badge badge-secondary">유료배송</span></td>
 					      <td><a href="" class="btn btn-outline-primary">구매하기</a></td>
 					    </tr>
 					    <tr>
 					      <td><img src="/resources/images/malls/tmon.png" class="card-img" alt="..."></td>
-					      <td><a href="">${product.name }</a></td>
+					      <td><a href="">${product.detailName }</a></td>
 					      <td>${product.salePrice } 원</td>
 					      <td><span class="badge badge-info">무료배송</span></td>
 					      <td><a href="" class="btn btn-outline-primary">구매하기</a></td>

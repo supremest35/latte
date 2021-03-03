@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.latte.dao.MarketCategoryDao;
 import com.example.latte.dao.ProductDao;
@@ -67,9 +68,11 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.getProductByNo(prodNo);
 	}
 	
+	@Transactional
 	@Override
 	public void addNewProduct(Product product) {
 		productDao.insertProduct(product);
+		productDao.insertProductDetail(product);
 	}
 	@Override
 	public void addNewProductPhoto(ProductPhoto photo) {

@@ -62,40 +62,16 @@
                              <a href="detail.do?prodno=${product.no }&pageno=${page.pageNo }&catno=${product.categoryNo }">
                                 <img class="img-thumbnail" src="/resources/images/products/${product.photoFilename }" alt="Card image">
                              </a>
-                              <strong class="mb-2 product-brand-name">${product.brandName }</strong>
-                              <strong class="mb-2 product-name">${product.name }</strong>
+                              <strong class="mb-2 product-brand-name">${product.productBrandName }</strong>
+                              <strong class="mb-2 product-name">${product.productName }</strong>
                               <div class="d-flex justify-content">
-                                 <strong class="text-danger"><fmt:formatNumber value="${product.salePrice }" /></strong> 원 (<fmt:formatNumber value="${product.discountRate*100}" pattern="###"/>% 할인)
-                              </div>
-                              <div class="mt-3">
-                                 <c:if test="${product.freeDelivery eq 'Y' }">
-                                       <span class="badge badge-primary">무료배송</span>
-                                 </c:if>
+                                 <strong class="text-danger"><value="DETAIL_PRICE" /></strong> 원
                               </div>
 						  </div>
                       </div>      
                   </div>
                </c:forEach>
                </div>
-
-               <div class="row">
-                  <div class="col-12">
-                     <ul class="pagination justify-content-center">
-                          <li class="page-item ${page.pageNo gt 1 ? '' : 'disabled' }">
-                             <a class="page-link" href="/shopping/product/list.do?pageno=${page.pageNo - 1 }&catno=${param.catno }">이전</a>
-                          </li>
-                          <c:forEach var="num" begin="${page.beginPage }" end="${page.endPage }">
-                             <li class="page-item ${num eq page.pageNo ? 'active' : '' }">
-                                <a class="page-link" href="/shopping/product/list.do?pageno=${num }&catno=${param.catno }">${num }</a>
-                             </li>
-                          </c:forEach>
-                          <li class="page-item ${page.pageNo lt page.totalPages ? '' : 'disabled' }">
-                             <a class="page-link" href="/shopping/product/list.do?pageno=${page.pageNo + 1 }&catno=${param.catno }">다음</a>
-                          </li>
-                     </ul>
-                  </div>
-               </div>
-               
             </div>   
          </div>
       </div>

@@ -13,10 +13,9 @@ public class ProductForm {
 	private int colorNo;
 	private int mallNo;
 	private String brandName;
+	private String productCd;
 	private String name;
 	private int price;
-	private int salePrice;
-	private double discountRate;
 	private String information;
 	private String freeDelivery;
 	private String url;

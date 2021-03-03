@@ -2,27 +2,35 @@ package com.example.latte.vo;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
 public class Product {
 
+	//Product
 	private int no;
 	private int categoryNo;
 	private int categoryMidNo;
 	private int categoryLowNo;
 	private int colorNo;
-	private int mallNo;
-	private String brandName;
-	private String name;
-	private int price;
-	private int salePrice;
-	private double discountRate;
-	private String information;
-	private String freeDelivery;
-	private String url;
+	private String productBrandName;
+	private String productCd;
+	private String productName;
+	private String info;
 	private String deleted;
 	private int hitCnt;
 	private Date createdDate;
+	private MultipartFile photoFile;
 	private String photoFilename;
+	
+	//ProductDetail
+	private String detailBrandName;
+	private String detailCd;
+	private String detailName;
+	private String mallNo;
+	private String price;
+	private String freeDelivery;
+	private String url;
 }

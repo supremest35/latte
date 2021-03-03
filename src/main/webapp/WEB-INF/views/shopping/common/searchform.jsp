@@ -68,21 +68,21 @@
 					<tr class="col-4">
 					<c:forEach var="lowCategory" items="${lowCategories }" begin="0" end="3">
 						<td>
-							<a href="/shopping/product/list.do?catno=${lowCategory.no }&catlvl=3">${lowCategory.name }</a><br>
+							<a href="/shopping/product/list.do?catno=${lowCategory.no }&catlvl=2">${lowCategory.name }</a><br>
 						</td>
 					</c:forEach>
 					</tr>
 					<tr class="col-4">
 					<c:forEach var="lowCategory" items="${lowCategories }" begin="4" end="7">
 						<td>
-							<a href="/shopping/product/list.do?catno=${lowCategory.no }&catlvl=3">${lowCategory.name }</a><br>
+							<a href="/shopping/product/list.do?catno=${lowCategory.no }&catlvl=2">${lowCategory.name }</a><br>
 						</td>
 					</c:forEach>
 					</tr>
 					<tr class="col-4">
 					<c:forEach var="lowCategory" items="${lowCategories }" begin="8" end="11">
 						<td>
-							<a href="/shopping/product/list.do?catno=${lowCategory.no }&catlvl=3">${lowCategory.name }</a><br>
+							<a href="/shopping/product/list.do?catno=${lowCategory.no }&catlvl=2">${lowCategory.name }</a><br>
 						</td>
 					</c:forEach>
 					</tr>
