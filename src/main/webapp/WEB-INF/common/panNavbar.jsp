@@ -21,7 +21,7 @@
 		            <!-- Links -->
 		            <ul class="navbar-nav"> 
 		              <li class="nav-item active">
-		                <a class="nav-link"  href="../board/index.do?catno=100" style="font-size:20px;">베스트 이슈<span style="font-size:12px; color: red;"> 공감 top10</span><span style='font-size:20px; padding-right: 15px;'></span> </a>
+		                <a class="nav-link"  href="../board/index.do?catno=100" style="font-size:20px;">베스트 이슈<span style="font-size:12px; color: red;"> 좋아요 top10</span><span style='font-size:20px; padding-right: 15px;'></span> </a>
 		                <!-- <p><span style="font-size:10px; color: red;">실시간 공감 top10</span></p> -->
 		              </li>
 		              <li class="nav-item">
