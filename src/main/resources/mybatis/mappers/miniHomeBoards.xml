@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.MiniHomeBoardDao">
+	<insert id="insertRootFolders">
+		insert into
+			minihome_board_folders(folder_no, minihome_no, folder_name, folder_category_no)
+		values
+			(minihome_board_folder_no_seq.nextval, #{miniHimeNo}, '전체보기', #{categoryNo})
+	</insert>
 	<select id="getTotalBoardsByOption" parameterType="map" resultType="int">
 		select 
 			count(*)
@@ -24,7 +30,7 @@
 		select 
 			board_no					as no,
 			board_folder_no				as folderNo,
-			user_no						as userNo,
+			minihome_no					as miniHomeNo,
 			board_title					as title,
 			board_content				as content,
 			board_image_filename		as imgFilename,
@@ -34,19 +40,27 @@
 			board_comment_cnt			as commentCnt,
 			board_created_date			as createdDate
 		from
-			(select 
-				row_number() over(order by a.board_no desc) rn, a.*			
-			 from
-				minihome_boards a, (select 
-										folder_no
-									from
-										minihome_board_folders
-									start with
-										folder_no = #{folderNo}
-									connect by 
-										prior folder_no = folder_parent_no) b
-			 where 
-				a.board_folder_no = b.folder_no)
+			<if test="miniHomeNo == null">
+				(select 
+					row_number() over(order by a.board_no desc) rn, a.*			
+				 from
+					minihome_boards a, (select 
+											folder_no
+										from
+											minihome_board_folders
+										start with
+											folder_no = #{folderNo}
+										connect by 
+											prior folder_no = folder_parent_no) b
+				 where 
+					a.board_folder_no = b.folder_no)
+			</if>
+			<if test="miniHomeNo != null">
+				(select 
+					row_number() over(order by a.board_no desc) rn, a.*			
+				 from
+					minihome_boards a)
+			</if>
 		where
 			<if test="begin == null">
 				rn >= 1 and rn &lt;= 16			
@@ -54,12 +68,15 @@
 			<if test="begin != null">
 				rn >= #{begin} and rn &lt;= #{end}			
 			</if>
+			<if test="miniHomeNo != null">
+				and minihome_no = #{miniHomeNo}
+			</if>
 	</select>
 	<select id="getBoardByNo" parameterType="int" resultType="com.example.latte.vo.MiniHomeBoard">
 		select 
 			board_no					as no,
 			board_folder_no				as folderNo,
-			user_no						as userNo,
+			minihome_no					as miniHomeNo,
 			board_title					as title,
 			board_content				as content,
 			board_image_filename		as imgFilename,

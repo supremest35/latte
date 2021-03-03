@@ -2,29 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.VisitorNoteDao">
-	<select id="getVisitorNotesByOption" resultType="com.example.latte.vo.VisitorNote">
+	<select id="getTotalVisitorNotesByMiniHomeNo" parameterType="int" resultType="int">
 		select 
-			visitor_note_no					as no,
-			minihome_no						as miniHomeNo,
-			user_no							as userNo,
-			visitor_note_content			as content,
-			visitor_note_secret				as secret,
-			visitor_note_deleted			as deleted,
-			visitor_note_created_date		as createdDate
+			count(*)
+		from
+			minihome_visitor_notes a
+		where
+			minihome_no = #{value}
+	</select>
+	<select id="getVisitorNotesByOption" resultType="com.example.latte.dto.VisitorNoteDto">
+		select 
+			b.visitor_note_no					as no,
+			b.minihome_no						as miniHomeNo,
+			b.user_no							as userNo,
+			c.user_name							as userName,
+			c.user_photo						as userPhoto,
+			b.visitor_note_content				as content,
+			b.visitor_note_secret				as secret,
+			b.visitor_note_deleted				as deleted,
+			b.visitor_note_created_date			as createdDate
 		from 
 			(select 
 				row_number() over(order by a.visitor_note_created_date desc) rn, a.*
 			 from 
 			 	minihome_visitor_notes a
 			 where
-			 	minihome_no = #{miniHomeNo})
-		where 
-			<if test="begin == null">
-				rn &lt;= 2
-			
-			</if>
+			 	minihome_no = #{miniHomeNo}) b, latte_users c
+		where
+			b.user_no = c.user_no
 			<if test="begin != null">
-				rn >= #{begin} and rn &lt;= #{end}
+				and rn >= #{begin} and rn &lt;= #{end}
 			</if>
 	</select>
 </mapper>

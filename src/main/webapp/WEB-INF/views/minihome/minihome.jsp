@@ -93,14 +93,18 @@
 			text-align: center;
 			
 		}
-		
+		audio {
+			width: 100%;
+		}
+		#main-menu {
+			padding-right: 0;
+		}
 </style>
 </head>
 
 <body>
 	<div class="container-fluid" id="mini-home">
 		<div class="row mt-3">
-			
 			<div class="col-2" id="side-frame">
 				<div class="card" >
 					<div class="card-header">
@@ -154,61 +158,50 @@
 					</div>
 				</div>
 			</div>
-			
-			<div class="col-1" id="main-menu">
-				<div class="row mb-5 mt-5">
-					<div class="col-12"></div>
+			<div class="col-3">
+				<div class="row mt-5 mb-5">
+					<audio src="" controls autoplay loop preload="metadata"></audio>
 				</div>
-				<div class="row mb-2">
-					<button id="btn-home" class="badge badge-primary" data-section-id="#home-section">홈</button>
-				</div>
-				<div class="row mb-2">
-					<button id="btn-profile" class="badge badge-primary" data-section-id="#profile-section">프로필</button>
-				</div>
-				<div class="row mb-2">
-					<button id="btn-diary" class="badge badge-primary" data-section-id="#diary-section">다이어리</button>
-				</div>
-				<div class="row mb-2">
-					<button id="btn-photo" class="badge badge-primary" data-section-id="#photo-section">사진첩</button>
-				</div>
-				<div class="row mb-2">
-					<button id="btn-video" class="badge badge-primary" data-section-id="#video-section">동영상</button>
-				</div>
-				<div class="row mb-2">
-					<button id="btn-board" class="badge badge-primary" data-section-id="#board-section">게시판</button>
-				</div>
-				<div class="row mb-2">
-					<button id="btn-visitor" class="badge badge-primary" data-section-id="#visitor-section">방명록</button>
-				</div>
-				<div class="row mb-2">
-					<button id="btn-setting" class="badge badge-primary" data-section-id="#setting-section">관리</button>
-				</div>
-			</div>
-			<div class="col-2">
-				<div class="row mt-5">
-					<div class="card">
-						<div class="card-header">
-							음악 플레이
+				<div class="row mt-5" id="main-menu">
+					<div class="col-12">
+						<div class="row mb-2">
+							<button id="btn-home" class="badge badge-primary" data-section-id="#home-section">홈</button>
 						</div>
-						<div class="card-body">
-							<audio src="" controls autoplay loop muted preload="metadata"></audio>
+						<div class="row mb-2">
+							<button id="btn-profile" class="badge badge-primary" data-section-id="#profile-section">프로필</button>
+						</div>
+						<div class="row mb-2">
+							<button id="btn-diary" class="badge badge-primary" data-section-id="#diary-section">다이어리</button>
+						</div>
+						<div class="row mb-2">
+							<button id="btn-photo" class="badge badge-primary" data-section-id="#photo-section">사진첩</button>
+						</div>
+						<div class="row mb-2">
+							<button id="btn-video" class="badge badge-primary" data-section-id="#video-section">동영상</button>
+						</div>
+						<div class="row mb-2">
+							<button id="btn-board" class="badge badge-primary" data-section-id="#board-section">게시판</button>
+						</div>
+						<div class="row mb-2">
+							<button id="btn-visitor" class="badge badge-primary" data-section-id="#visitor-section">방명록</button>
 						</div>
 					</div>
+					
 				</div>
-				<div class="row mt-5 mb-5"></div>
 				<div class="row mt-5">
-					<div class="card">
-						<div class="card-header">
-							광고
-						</div>
-						<div class="card-body">
-							광고
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header">
+								광고
+							</div>
+							<div class="card-body">
+								광고
+							</div>
 						</div>
 					</div>
-				</div>
+				</div>			
 			</div>
-		
-	</div>
+		</div>
 	</div>
 <script type="text/javascript">
 	var sectionId;
@@ -237,8 +230,9 @@
 				// 메인컨텐츠가져오기
 				$("#main-content").load("mainSection.do " + sectionId, {contentId:sectionId, miniHomeNo:${miniHome.no}});		
 			} else if (sectionId == "#home-section") {
-				$("#main-content").load("mainSection.do " + sectionId, {contentId:sectionId, miniHomeNo:${miniHome.no}});		
-				
+				isInfiniteScroll=true;
+				$("#main-content").load("mainSection.do " + sectionId, {contentId:sectionId, miniHomeNo:${miniHome.no}}, function() {
+				});		
 			} else {
 				// sideSection의 li:first a에 해당하는 태그가 클릭되는 콜백함수
 				$("#side-content li:first a").trigger("click");
@@ -302,17 +296,15 @@
 			if (contentHeight <= scrollTop + frameHeight + 50) {
 				pageNo++;
 				if (sectionId == "#home-section") {
-					
-				} else if (sectionId == "#visitor-section") {
-					axios.get("http://localhost/minihome/api/boards/" + folderNo + "&" + pageNo).then(function(response) {
+					axios.get("http://localhost/minihome/api/home/" + ${miniHome.no} + "&" + pageNo).then(function(response) {
 						var boards = response.data;
+						var imgs = "";
 						for (var index = 0; index < boards.length; index++) {
 							imgs += "<div class='col-3 mb-3'><a href='' data-board-no='" + boards[index].no + "' data-content-id='#visual-content-detail'><img class='card-img' src='/resources/images/" + boards[index].imgFilename + "'></a></div>";
 							
 						}
 						
 						$("#contents").append(imgs);
-			
 					})
 				} else {
 					axios.get("http://localhost/minihome/api/boards/" + folderNo + "&" + pageNo).then(function(response) {
@@ -393,6 +385,7 @@
 		return false;
 	})
 	
+	// 게시판 페이지네이션 버튼 클릭했을때
 	$("#main-content").on("click", "li a", function() {
 		isInfiniteScroll = false;
 		var contentId = $(this).data("content-id");

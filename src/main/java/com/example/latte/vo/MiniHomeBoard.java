@@ -9,7 +9,7 @@ public class MiniHomeBoard {
 
 	private int no;
 	private int folderNo;
-	private int userNo;
+	private int miniHomeNo;
 	private String title;
 	private String content;
 	private String imgFilename;

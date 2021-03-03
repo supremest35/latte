@@ -1,6 +1,5 @@
 package com.example.latte.web.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.latte.service.MiniHomeService;
 import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
-import com.example.latte.vo.Board;
 import com.example.latte.vo.Folder;
 import com.example.latte.vo.Keyword;
 import com.example.latte.vo.MiniHome;
@@ -90,8 +88,21 @@ public class MiniHomeController {
 	public String mainSection(@RequestParam(name="contentId", required=false) String contentId, @RequestParam("miniHomeNo") int miniHomeNo, 
 			@RequestParam(name="folderNo", required=false, defaultValue="-1") int folderNo, @RequestParam(name="boardNo", required=false, defaultValue="-1") int boardNo, 
 			@RequestParam(name="pageNo", required=false, defaultValue="1") int pageNo, @RequestParam(name="rows", required=false, defaultValue="5") int rows, Model model) {
-		if ("#profile-intro".equals(contentId)) {
-			System.out.println(1);
+		
+		if ("#home-section".equals(contentId)) {
+			Map<String, Object> opt = new HashMap<String, Object>();
+			opt.put("miniHomeNo", miniHomeNo);
+			Map<String, Object> resultMap = miniHomeService.getBoardsByOption(opt);
+			List<MiniHomeBoard> boards = (List) resultMap.get("boards");
+			int boardsSize = boards.size();
+			for (int i = 0; i < boardsSize; i++) {
+				boards.get(i).setImgFilename("/resources/images/" + boards.get(i).getImgFilename());
+			}
+			
+			
+			model.addAttribute("boards", boards);
+			
+		} else if ("#profile-intro".equals(contentId)) {
 			Profile profile = miniHomeService.getProfileByMiniHomeNo(miniHomeNo);
 			profile.setPhotoFilename("/resources/images/miniHome/" + profile.getPhotoFilename());
 			model.addAttribute("profile", profile);
@@ -150,7 +161,8 @@ public class MiniHomeController {
 		
 		} else if ("#visual-content-detail".equals(contentId)) {
 			MiniHomeBoard board = miniHomeService.getBoardByNo(boardNo);
-			User user = userService.getUserByNo(board.getUserNo());
+			MiniHome miniHome = miniHomeService.getMiniHomeByNo(board.getMiniHomeNo());
+			User user = userService.getUserByNo(miniHome.getUserNo());
 			Folder folder = miniHomeService.getFolderByNo(board.getFolderNo());
 			board.setImgFilename("/resources/images/" + board.getImgFilename());
 			
@@ -162,14 +174,23 @@ public class MiniHomeController {
 			model.addAttribute("userName", user.getName());
 		} else if ("#board-detail".equals(contentId)) {
 			MiniHomeBoard board = miniHomeService.getBoardByNo(boardNo);
-			User user = userService.getUserByNo(board.getUserNo());
+			MiniHome miniHome = miniHomeService.getMiniHomeByNo(board.getMiniHomeNo());
+			User user = userService.getUserByNo(miniHome.getUserNo());
 			
 			model.addAttribute("board", board);
 			model.addAttribute("userName", user.getName());
 		} else if ("#visitor-section".equals(contentId)) {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("miniHomeNo", miniHomeNo);
-			model.addAttribute("visitorNotes", miniHomeService.getVisitorNotesByOption(opt));
+			opt.put("rows", rows);
+			opt.put("pageNo", pageNo);
+			opt.put("begin", (pageNo - 1)*rows + 1);
+			opt.put("end", pageNo*rows);
+			
+			Map<String, Object> resultMap = miniHomeService.getVisitorNotesByOption(opt);
+			
+			model.addAttribute("visitorNotes", resultMap.get("visitorNotes"));
+			model.addAttribute("pagination", resultMap.get("pagination"));
 		}
 		return "minihome/mainSection";
 	}

@@ -10,7 +10,7 @@ import com.example.latte.vo.MiniHome;
 @Mapper
 @Transactional
 public interface MiniHomeDao {
-
+	void insertMiniHome(int userNo);
 	MiniHome getMiniHomeByNo(int miniHomeNo);
 	MiniHome getMiniHomeByUserNo(int userNo);
 	MiniHome getMiniHomeByOption(Map<String, Object> opt);

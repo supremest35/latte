@@ -162,8 +162,8 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 			int totalRows = miniHomeBoardDao.getTotalBoardsByOption(opt);
 			MiniHomePagination pagination = new MiniHomePagination((Integer) opt.get("pageNo"), totalRows);
 			resultMap.put("pagination", pagination);
-
-			User user = userDao.getUserByNo(boards.get(1).getUserNo());
+			MiniHome miniHome = miniHomeDao.getMiniHomeByNo(boards.get(1).getMiniHomeNo());
+			User user = userDao.getUserByNo(miniHome.getUserNo());
 			resultMap.put("userName", user.getName());
 		}
 		
@@ -183,24 +183,23 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	}
 
 	@Override
-	public List<VisitorNoteDto> getVisitorNotesByOption(Map<String, Object> opt) {
-		List<VisitorNoteDto> visitorNoteDtos = new ArrayList<VisitorNoteDto>();
+	public Map<String, Object> getVisitorNotesByOption(Map<String, Object> opt) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<VisitorNoteDto> visitorNotes = new ArrayList<VisitorNoteDto>();
+				
+		visitorNotes = visitorNoteDao.getVisitorNotesByOption(opt);
+		
+		int totalRows = visitorNoteDao.getTotalVisitorNotesByMiniHomeNo((Integer) opt.get("miniHomeNo"));
+		MiniHomePagination pagination = new MiniHomePagination((Integer) opt.get("pageNo"), totalRows);
+		resultMap.put("pagination", pagination);
+		resultMap.put("visitorNotes", visitorNotes);
+		
+		return resultMap;
+	}
 
-		List<VisitorNote> visitorNotes = visitorNoteDao.getVisitorNotesByOption(opt);
-		for (VisitorNote visitorNote : visitorNotes) {
-			VisitorNoteDto visitorNoteDto = new VisitorNoteDto();
-			visitorNoteDto.setNo(visitorNote.getNo());
-			visitorNoteDto.setMiniHomeNo(visitorNote.getMiniHomeNo());
-			visitorNoteDto.setContent(visitorNote.getContent());
-			visitorNoteDto.setSecret(visitorNote.getSecret());
-			visitorNoteDto.setDeleted(visitorNoteDto.getDeleted());
-			visitorNoteDto.setCreatedDate(visitorNote.getCreatedDate());
-			visitorNoteDto.setUser(userDao.getUserByNo(visitorNote.getUserNo()));
-			
-			visitorNoteDtos.add(visitorNoteDto);
-		}
-		System.out.println("컨트롤러" + visitorNoteDtos);
-		return visitorNoteDtos;
+	@Override
+	public List<MiniHomeBoard> getAllBoardsByOption(Map<String, Object> opt) {
+		return miniHomeBoardDao.getBoardsByOption(opt);
 	}
 
 }

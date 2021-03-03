@@ -32,6 +32,8 @@ public interface MiniHomeService {
 
 	MiniHomeBoard getBoardByNo(int boardNo);
 	
+	List<MiniHomeBoard> getAllBoardsByOption(Map<String, Object> opt);
+	
 	List<Diary> getDiariesByOption(Map<String, Object> opt);
 
 	List<Keyword> getKeywordsByProfileNo(int profileNo);
@@ -46,5 +48,5 @@ public interface MiniHomeService {
 	
 	Map<String, Object> getBoardsByOption(Map<String, Object> opt);
 	
-	List<VisitorNoteDto> getVisitorNotesByOption(Map<String, Object> opt);
+	Map<String, Object> getVisitorNotesByOption(Map<String, Object> opt);
 }

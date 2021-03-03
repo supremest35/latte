@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.MiniHomeDao">
+	<insert id="insertMiniHome" parameterType="com.example.latte.vo.MiniHome">
+		<selectKey keyProperty="no" resultType="int">
+			select latte_minihome_no_seq.nextval
+			from dual
+		</selectKey>
+		insert into 
+			latte_minihomes(minihome_no, user_no, minihome_address)
+		values
+			(#{no}, #{userNo}, #{address})
+	</insert>
 	<select id="getMiniHomeByNo" parameterType="int" resultType="com.example.latte.vo.MiniHome">
 		select 
 			minihome_no					as no,
