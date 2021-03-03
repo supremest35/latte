@@ -42,6 +42,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public BoardDto getBoardDtoByNo(int boardNo) {
+		Board savedBoard = boardDao.getBoardByNo(boardNo);
+		savedBoard.setHitCnt(savedBoard.getHitCnt() +1 );
+		boardDao.updateBoard(savedBoard);
 		return boardDao.getBoardDtoByNo(boardNo);
 	}
 	

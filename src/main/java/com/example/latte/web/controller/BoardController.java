@@ -158,38 +158,33 @@ public class BoardController {
 		return "board/loginform";
 	}
 
-	@RequestMapping("/login.do")
-	public String login(@RequestParam("id") String userId, @RequestParam("password") String password) {
-		if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(password)) {
-			return "redirect:loginform.do?error=empty";
-		}
+	/* 로그인
+	 * @RequestMapping("/login.do") public String login(@RequestParam("id") String
+	 * userId, @RequestParam("password") String password) { if
+	 * (StringUtils.isEmpty(userId) || StringUtils.isEmpty(password)) { return
+	 * "redirect:loginform.do?error=empty"; }
+	 * 
+	 * try { User user = userService.getLoginedUserInfo(userId, password);
+	 * 
+	 * SessionUtils.setAttribute("LOGINED_USER", user);
+	 * SessionUtils.setAttribute("LOGINED_USER_NO", user.getNo());
+	 * SessionUtils.setAttribute("LOGINED_USER_NAME", user.getName());
+	 * SessionUtils.setAttribute("LOGINED_USER_NICKNAME", user.getNickName()); }
+	 * catch (UserNotFoundException e) { e.printStackTrace(); return
+	 * "redirect:loginform.do?error=notfount"; } catch (PasswordMismatchException e)
+	 * { e.printStackTrace(); return "redirect:loginform.do?error=mismatch"; }
+	 * 
+	 * return "redirect:index.do"; }
+	 */
 
-		try {
-			User user = userService.getLoginedUserInfo(userId, password);
-
-			SessionUtils.setAttribute("LOGINED_USER", user);
-			SessionUtils.setAttribute("LOGINED_USER_NO", user.getNo());
-			SessionUtils.setAttribute("LOGINED_USER_NAME", user.getName());
-			SessionUtils.setAttribute("LOGINED_USER_NICKNAME", user.getNickName());
-		} catch (UserNotFoundException e) {
-			e.printStackTrace();
-			return "redirect:loginform.do?error=notfount";
-		} catch (PasswordMismatchException e) {
-			e.printStackTrace();
-			return "redirect:loginform.do?error=mismatch";
-		}
-
-		return "redirect:index.do";
-	}
-
-	@RequestMapping("/logout.do")
-	public String logout() {
-		SessionUtils.removeAttribute("LOGINED_USER_NO");
-		SessionUtils.removeAttribute("LOGINED_USER_NAME");
-		SessionUtils.removeAttribute("LOGINED_USER_NICKNAME");
-
-		return "redirect:index.do";
-	}
+	/* 로그아웃
+	 * @RequestMapping("/logout.do") public String logout() {
+	 * SessionUtils.removeAttribute("LOGINED_USER_NO");
+	 * SessionUtils.removeAttribute("LOGINED_USER_NAME");
+	 * SessionUtils.removeAttribute("LOGINED_USER_NICKNAME");
+	 * 
+	 * return "redirect:index.do"; }
+	 */
 
 	@RequestMapping("/register.do")
 	public String registerForm(BoardForm boardForm, Model model) throws IOException {
@@ -216,7 +211,7 @@ public class BoardController {
 		int savedCatno = savedBoard.getCategoryNo();
 		System.out.println(savedCatno);
 
-		SessionUtils.getAttribute("LOGINED_USER_NO");
+		/* SessionUtils.getAttribute("LOGINED_USER_NO"); */
 
 		return "redirect:index.do?catno=" + savedCatno;
 	}
@@ -283,5 +278,5 @@ public class BoardController {
 	 * 
 	 * return "redirect:detail.do?boardNo="+boardNo+"&catno="+categoryNo; }
 	 */
-
+	
 }
