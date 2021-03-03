@@ -2,8 +2,19 @@
 	pageEncoding="UTF-8"%>
 <div id="main-sections">
 	<div class="card-body" id="home-section">
-		<div class="row mb-3">
-			<button id="test">gdgdgd</button>
+		<div class="row mb-3" id="contents">
+			<c:forEach var="board" items="${boards }">
+				<div class="col-3 mb-3">
+					<a href="" data-board-no="${board.no }" data-content-id="#visual-content-detail">
+					<c:if test="${not empty board.imgFilename }">
+						<img class="card-img" src="${board.imgFilename }">
+					</c:if>
+					<c:if test="${empty board.imgFilename }">
+						<p>${board.title }</p>
+					</c:if>
+					</a>
+				</div>
+			</c:forEach>
 		</div>
 	</div>
 	<div class="card-body" id="profile-section">
@@ -299,7 +310,7 @@
 				<div class="row">
 					<div class="col-3">
 						<div class="card-body">
-							<img class="card-img" src="resources/images/1000004.jpg">
+							<img class="card-img" src="/resources/images/userProfilePhoto/${LOGINED_USER.photo }">
 						</div>
 					</div>
 					<div class="col-9">
@@ -322,7 +333,7 @@
 							NO.1
 						</div>
 						<div class="col-6">
-							<a href="">${visitorNote.user.name }</a>
+							<a href="">${visitorNote.userName }</a>
 							<small>(<fmt:formatDate value="${visitorNote.createdDate }" pattern="yyyy-MM-dd" />)</small>
 						</div>
 						<div class="col-4">
@@ -335,7 +346,7 @@
 				<div class="row">
 					<div class="col-3">
 						<div class="card-body">
-							<img class="card-img" src="resources/images/1000004.jpg">
+							<img class="card-img" src="/resources/images/userProfilePhoto/${visitorNote.userPhoto }">
 						</div>
 					</div>
 					<div class="col-9">
@@ -358,11 +369,40 @@
 					</ul>
 				</div>
 			</div>
+			
 		</c:forEach>
+		<div class="card-footer">
+			<div class="row">
+				<div class="col-12">
+					<ul class="pagination justify-content-center">
+						<li class="page-item ${pagination.pageNo gt 1 ? '' : 'disabled' }">
+							<a class="page-link" href="" data-content-id="#board-section" data-page-no="${pagination.pageNo - 1 }">이전</a>
+						</li>
+						<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+							<li class="page-item ${pagination.pageNo eq num ? 'active' : ''}" >
+								<a class="page-link" href="" data-content-id="#board-section" data-page-no="${num }">${num }</a>
+							</li>
+						</c:forEach>
+						<li class="page-item ${pagination.pageNo lt pagination.totalPages ? '' : 'disabled' }">
+							<a class="page-link" href="" data-content-id="#board-section" data-page-no="${pagination.pageNo + 1 }">다음</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="search-board" >
+				<form id="search-form" method="get" action="">
+				<input type="hidden" name="catno" value="">
+					<select name="opt">
+						<option value="title">제목</option>
+						<option value="writer">저자</option>
+						<option value="publisher">출판사</option>
+					</select>
+					<input type="text" name="keyword">
+					<button type="button">조회</button>
+				</form>
+			</div>
+		</div>
 		
-	</div>
-	
-	<div class="card-body" id="setting-section">
 	</div>
 </div>
 

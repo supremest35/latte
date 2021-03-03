@@ -11,7 +11,9 @@ public class VisitorNoteDto {
 
 	private int no;
 	private int miniHomeNo;
-	private User user;
+	private int userNo;
+	private String userName;
+	private String userPhoto;
 	private String content;
 	private String secret;
 	private String deleted;
