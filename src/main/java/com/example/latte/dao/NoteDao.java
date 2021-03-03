@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.latte.dto.NoteDto;
 import com.example.latte.vo.Note;
 import com.example.latte.vo.NoteCategory;
 
@@ -27,5 +28,5 @@ public interface NoteDao {
 	void updateNote(int no);
 	
 	int getNoteListCnt(Map<String, Object> opt);
-	List getNoteListByOpt(Map<String, Object> opt);
+	List<NoteDto> getNoteListByOpt(Map<String, Object> opt);
 }

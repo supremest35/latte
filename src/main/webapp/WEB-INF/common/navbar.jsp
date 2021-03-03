@@ -378,7 +378,7 @@
 											<tr id="info-tr">
 												<th>${LOGINED_USER.name }(${LOGINED_USER.nickName})님</th>
 												<td>
-													<button class="btn btn-outline-info" id="btn-note" 
+													<button class="btn btn-outline-info" id="btn-noteModal" 
 														data-toggle="modal" data-target="#modal-note">
 														쪽지함</button>
 												</td>
@@ -449,6 +449,10 @@
 	var isLogined = false;
 	var curPathName = window.location.pathname;
 	
+	//쪽지함 클릭시 첫 리스트 반환
+	$("#btn-noteModal").on("show.bs.modal", function() {
+	      $("#btn-noteModal #note-nomal").trigger('click');
+	   })
 	
 	function findMyId() {
 		// 입력한 이름과 연락처를 받아온다.

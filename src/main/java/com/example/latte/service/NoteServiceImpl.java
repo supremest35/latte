@@ -1,5 +1,7 @@
 package com.example.latte.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.latte.dao.NoteDao;
 import com.example.latte.dao.UserDao;
+import com.example.latte.dto.NoteDto;
+import com.example.latte.dto.NotePagination;
 import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.Note;
 import com.example.latte.vo.NoteCategory;
@@ -48,14 +52,25 @@ public class NoteServiceImpl  implements NoteService{
 	};
 
 	@Override
-	public List<Note> getNoteListByOpt(Map<String, Object> opt) {
-		return noteDao.getNoteList(opt);
-		// 전체 컬럼 수 구하기 , 페이지네이션 객체 받아오기 ,
+	public Note getNoteByNo(int noteNo) {
+		return noteDao.getNoteByNo(noteNo);
 	}
 	
 	@Override
-	public Note getNoteByNo(int noteNo) {
-		return noteDao.getNoteByNo(noteNo);
+	public Map<String, Object> getNoteListByOpt(Map<String, Object> opt){
+		Map<String, Object> result = new HashMap<>();
+		
+		// 전체 데이터수 구하기
+		int totalRows = noteDao.getNoteListCnt(opt);
+		// 페이지네이션 객체 생성 ->페이징에 필요한 데이터
+		NotePagination pagination = new NotePagination((Integer)opt.get("pageNo"), totalRows);
+		// 옵션에 맞는 데이터 조회
+		List<NoteDto> noteDtoList = noteDao.getNoteListByOpt(opt);
+		// 얻은 값 반환
+		result.put("noteDtos", noteDtoList);
+		result.put("pagination", pagination);
+		
+		return result;
 	}
 	
 }
