@@ -141,6 +141,7 @@
 					<form method="post" action="commentInsert.do">
 						<input type="hidden" name="boardNo" value="${dto.no }" />
 						<input type="hidden" name="catno" value="${category.no }" />
+							<c:if test="${not empty LOGINED_USER.no }">
 							<div class="form-group row">
 							<div class="col-11">
 							댓글쓰기
@@ -150,6 +151,7 @@
 								<input type="submit" class="btn btn-outline-primary" value="댓글등록">
 							</div>
 						</div>
+							</c:if>
 					</form>
 				</div>
 				<%-- <%
