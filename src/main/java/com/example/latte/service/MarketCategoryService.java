@@ -15,7 +15,7 @@ public interface MarketCategoryService {
 	List<MarketMidCategory> getMidCategories(int uppNo);
 	List<MarketLowCategory> getLowCategories(int midCategoryNo);
 	
+	MarketCategory getCategoryByNo(int categoryNo);
 	MarketMidCategory getMidCategory(int categoryNo);
 	MarketLowCategory getLowCategory(int categoryNo);
-	
 }

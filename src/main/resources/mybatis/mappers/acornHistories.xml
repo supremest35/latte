@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.latte.dao.AcornHistoryDao">
+
+<select id="getAcornHistoriesByUserNo" parameterType="int" resultType="com.example.latte.vo.AcornHistory">
+	select
+		history_no				as no,
+		user_no					as userNo,
+		history_content			as content,
+		order_no				as orderNo,
+		acorn_amount			as acornAmount,
+		history_created_date	as createdDate
+	from
+		latte_acorn_histories
+	where
+		user_no = #{userNo}
+	order by history_no desc
+</select>
+
+<insert id="insertAcornHistory" parameterType="com.example.latte.vo.AcornHistory">
+	insert into latte_acorn_histories
+		(history_no, user_no, history_content, order_no, acorn_amount)
+	values
+		(latte_acorn_history_no_seq.nextval, #{userNo}, #{content}, #{orderNo}, #{acornAmount})
+</insert>
+
+</mapper>

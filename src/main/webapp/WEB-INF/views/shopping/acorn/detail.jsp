@@ -129,8 +129,8 @@
 								<span>${comment.userId }</span>
 								<span class="col-6">${comment.content }</span>
 								<small>
-									<a href="likeComment.do?acornno=${acorn.no }&pageno=${pageNo }&commentno=${comment.no }&commentpageno=${commentPageNo}" class="ml-3 btn btn-outline-secondary btn-xs ${comment.commentLiked eq 'Y' ? 'disabled' : '' }">
-									<i class="fa ${comment.commentLiked eq 'Y' ? 'fa-heart text-danger' : 'fa-heart-o' }"></i> ${comment.likeCnt } </a>
+									<a href="likeComment.do?acornno=${acorn.no }&commentno=${comment.no }" class="ml-3 btn btn-outline-secondary btn-xs ${comment.liked eq 'Y' ? 'disabled' : '' }">
+									<i class="far fa-heart"></i> ${comment.likeCnt } </a>
 								</small>
 							</h5>
 						</div>
@@ -155,7 +155,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- Modal -->
 	<div class="modal fade" id="modal-comment-form" tabindex="-1" aria-hidden="true">
   		<div class="modal-dialog">
   			<form method="post" action="insertComment.do" onsubmit="submitComment(event)">

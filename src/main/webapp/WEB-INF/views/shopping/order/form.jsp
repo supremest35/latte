@@ -111,12 +111,11 @@
 							</div>
 							<div class="form-group col-3">
 								<label>사용후 도토리</label>
-      							<input type="text" class="form-control" name="" id="used-acorn" value="0" readonly>
+      							<input type="text" class="form-control" name="" id="used-acorn" value="${user.acornCnt }" readonly>
 							</div>
 							<div class="form-group col-3">
 								<label>총 결재 도토리</label>
       							<input type="text" class="form-control" name="" id="total-pay-price" value="${totalOrderPrice }" readonly>
-      							<input type="hidden" name="totalSavedAcorn" value="${totalSaveAcorn }" />
 							</div>
 						</div>
 						<div class="text-right">

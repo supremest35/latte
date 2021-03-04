@@ -116,11 +116,13 @@ public class AcornController {
 	
 	@RequestMapping("/likeComment.do")
 	public String likeComment(@RequestParam("commentno") int commentNo,
-			@RequestParam(name="pageno", defaultValue="1") int pageNo,
-			@RequestParam(name="reviewpageno") int commentPageNo,
 			@RequestParam("acornno") int acornNo) {
 		
 		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		if (user == null) {
+			return "redirect:/shopping/main.do";
+		}
 		
 		acornService.insertCommentLike(commentNo, user.getNo());
 		
@@ -128,7 +130,7 @@ public class AcornController {
 		comment.setLikeCnt(comment.getLikeCnt() + 1);
 		acornService.updateComment(comment);;
 		
-		return "redirect:/shopping/acorn/detail.do?acornno="+acornNo+"&pageno="+pageNo+"&commentno="+commentNo+"&commentpageno="+commentPageNo;
+		return "redirect:/shopping/acorn/detail.do?acornno="+acornNo+"&commentno="+commentNo;
 	}
 
 	@RequestMapping("/form.do")
