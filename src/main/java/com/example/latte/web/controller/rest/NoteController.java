@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,15 +33,11 @@ import com.example.latte.vo.User;
 
 @CrossOrigin("*")
 @RestController("apiNoteController")
-@RequestMapping("/api/note/")
+@RequestMapping("/api/notes/")
 public class NoteController {
 
 	@Autowired
 	NoteService noteService;
-	@Autowired
-	UserService userService;
-	@Autowired
-	DeptService deptService;
 	
 	@RequestMapping("getCategories")
 	public List<NoteCategory> getCategories(){
@@ -77,24 +74,22 @@ public class NoteController {
 	}
 	
 	@RequestMapping("getNoteDetail/{no}")
-	public Map<String,Object> getNoteDetail(@PathVariable("no") int noteNo){
-		Map<String, Object> result = new HashMap<>();
-		
+	public NoteDto getNoteDetail(@PathVariable("no") int noteNo){
 		Note note = noteService.getNoteByNo(noteNo);
-		NoteCategory category = noteService.getNoteCategoryByNo(note.getCategoryNo());
-		System.out.println(category.getName());
-		User sender = userService.getUserByNo(note.getSenderNo());
-		User recipient = userService.getUserByNo(note.getRecipientNo());
-		Dept senderDept = deptService.getDeptByNo(sender.getDeptNo());
-		Dept recipientDept = deptService.getDeptByNo(recipient.getDeptNo());
-		result.put("note", note);
-		result.put("noteCategory", category);
-		result.put("sender", sender);
-		result.put("senderDept", senderDept);
-		result.put("recipient", recipient);
-		result.put("recipientDept", recipientDept);
+		if("STANDBY".equals(note.getStatus())) {
+			note.setStatus("READ");
+			noteService.updateNote(note);
+		}
+		return noteService.getNoteDtoByNo(noteNo);
+	}
+	
+	@PostMapping("deleteNote")
+	public int deleteNote(@RequestBody List<Integer> noteNoArr) {
+		for(int no : noteNoArr) {
+			noteService.deleteNoteByNo(no);
+		}
 		
-		return result;
+		return noteNoArr.size();
 	}
 		
 }

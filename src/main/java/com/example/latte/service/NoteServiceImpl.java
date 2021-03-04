@@ -47,13 +47,18 @@ public class NoteServiceImpl  implements NoteService{
 		noteDao.deleteNoteByNo(no);
 	};
 	
-	public void updateNoteByNo(int no) {
-		noteDao.updateNote(no);
+	public void updateNote(Note note) {
+		noteDao.updateNote(note);
 	};
 
 	@Override
 	public Note getNoteByNo(int noteNo) {
 		return noteDao.getNoteByNo(noteNo);
+	}
+	
+	@Override
+	public NoteDto getNoteDtoByNo(int noteNo) {
+		return noteDao.getNoteDtoByNo(noteNo);
 	}
 	
 	@Override
