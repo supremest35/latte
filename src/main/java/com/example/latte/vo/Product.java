@@ -26,6 +26,7 @@ public class Product {
 	private String photoFilename;
 	
 	//ProductDetail
+	private int detailProductNo;
 	private String detailBrandName;
 	private String detailCd;
 	private String detailName;

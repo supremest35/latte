@@ -54,7 +54,7 @@
 		from
 			latte_products
 	</select>
-	<select id="getAllProductDetails" resultType="com.example.latte.vo.Product">
+	<select id="getAllProductDetails" parameterType="int" resultType="com.example.latte.vo.Product">
 		select
 			  product_cd			as detailCd
 		    , product_name			as detailName
@@ -65,6 +65,8 @@
 		    , product_url			as url
 		from
 			latte_product_details
+		where
+			product_cd = #{prodNo}
 		order by price
 	</select>	
 	<select id="getHitProducts" resultType="com.example.latte.vo.Product">
@@ -231,7 +233,8 @@
 	<insert id="insertProductDetail" parameterType="com.example.latte.vo.Product">
 		INSERT INTO LATTE_PRODUCT_DETAILS
 			(
-			  PRODUCT_CD
+			  PRODUCT_NO
+			, PRODUCT_CD
 		    , PRODUCT_NAME
 		    , PRODUCT_BRAND_NAME
 		    , PRODUCT_MALL_NO
@@ -241,7 +244,8 @@
 			)
 		VALUES
 			(
-			  #{detailCd}
+			  #{detailProductNo}
+			, #{detailCd}
 			, #{detailName}
 			, #{detailBrandName}
 			, #{mallNo}

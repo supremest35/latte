@@ -27,7 +27,6 @@ import com.example.latte.vo.ProductBrand;
 import com.example.latte.vo.ProductColor;
 import com.example.latte.vo.ProductMall;
 import com.example.latte.vo.ProductPhoto;
-import com.example.latte.form.ProductForm;
 
 @Controller
 @RequestMapping("/shopping/product")
@@ -95,7 +94,6 @@ public class ProductController {
 	@RequestMapping("/detail.do")
 	public String detail(@RequestParam("prodno") int prodNo, Model model) {
 
-		// 그 상품의 상세정보 요청시 상품의 조회수가 증가한다.
 		Product p = productService.getProductByNo(prodNo);
 		p.setHitCnt(p.getHitCnt() + 1);
 
@@ -148,6 +146,12 @@ public class ProductController {
 			product.setPhotoFilename("nopic");
 		}
 		productService.addNewProduct(product);
+		
+		/*
+		Product p = productService.getProductByNo(product.getNo());
+		p.setDetailProductNo(product.getNo());
+		productService.updateProduct(p);
+		*/
 
 		ProductPhoto photo = new ProductPhoto();
 		photo.setProductNo(product.getNo());
