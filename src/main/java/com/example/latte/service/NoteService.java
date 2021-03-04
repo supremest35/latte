@@ -12,10 +12,11 @@ public interface NoteService {
 	List<NoteCategory> getAllCategories();
 	NoteCategory getNoteCategoryByNo(int categoryNo);
 	
-	Note getNoteByNo(int noteNo);
 	void insertNote(Note note);
 	void deleteNoteByNo(int no);
-	void updateNoteByNo(int no);
+	void updateNote(Note note);
+	Note getNoteByNo(int noteNo);
+	NoteDto getNoteDtoByNo(int noteNo);
 	
 	Map<String, Object> getNoteListByOpt(Map<String, Object> opt);
 }

@@ -59,7 +59,7 @@
 										<tr v-for="normal in noteDtoList" :key="normal.noteNo">
 											<td><input type="checkbox" :value="normal.noteNo" v-model="ckNormalNoteNo"></td>
 											<td>{{normal.senderName}}</td>
-											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(normal.no)">{{normal.title}}</a></td>
+											<td><a data-toggle="inner-modal" href="#detail" @click="shownoteDetail(normal.noteNo)">{{normal.title}}</a></td>
 											<td>{{normal.createdDate | moment}}</td>
 											<td>{{normal.status}}</td>
 										</tr>
@@ -96,7 +96,7 @@
 										<tr v-for="friend in noteDtoList" :key="friend.noteNo">
 											<td><input type="checkbox" :value="friend.noteNo" v-model="ckFriendNoteNo"></td>
 											<td>{{friend.senderName}}</td>
-											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(friend.no)">{{friend.title}}</a></td>
+											<td><a data-toggle="inner-modal" href="#detail" @click="shownoteDetail(friend.noteNo)">{{friend.title}}</a></td>
 											<td>{{friend.createdDate | moment}}</td>
 											<td>{{friend.status}}</td>
 										</tr>
@@ -123,7 +123,6 @@
 									<thead>
 										<tr class="note-table-tr">
 											<th></th>
-											<th>번호</th>
 											<th>보낸이</th>
 											<th>제목</th>
 											<th>날짜</th>
@@ -133,9 +132,8 @@
 									<tbody>
 										<tr v-for="send in noteDtoList" :key="send.noteNo">
 											<td><input type="checkbox" :value="send.noteNo" v-model="ckSendNoteNo"></td>
-											<td>{{send.noteNo}}</td>
 											<td>{{send.senderName}}</td>
-											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(send.no)">{{send.title}}</a></td>
+											<td><a data-toggle="inner-modal" href="#detail" @click="shownoteDetail(send.noteNo)">{{send.title}}</a></td>
 											<td>{{send.createdDate | moment}}</td>
 											<td>{{send.status}}</td>
 										</tr>
@@ -222,7 +220,7 @@
 									</div>
 									<div class="col-6">
 										<label class="font-weight-bold">날짜</label>
-										<p>{{detailNote.date | moment}}</p>
+										<p>{{detailNote.createdDate | moment}}</p>
 									</div>
 								</div>
 								<div class="form-group row" v-show="detailNote.categoryNo == 5">
@@ -232,17 +230,17 @@
 									</div>
 									<div class="col-6">
 										<label class="font-weight-bold">수신 부서</label> 
-										<input type="text"class="form-control" name="recDept" :value="detailNote.recipientDept" readonly/>
+										<input type="text"class="form-control" name="recDept" :value="detailNote.recDept" readonly/>
 									</div>
 								</div>
 								<div class="form-group row">
 									<div class="col-6">
 										<label class="font-weight-bold">보내는 이</label>
-										<input type="text" class="form-control" name="user" :value="detailNote.senderName" readonly />
+										<input type="text" class="form-control" name="user" :value='detailNote.senderTotalName' readonly />
 									</div>
 									<div class="col-6">
 										<label class="font-weight-bold">받는 사람</label> 
-										<input type="text"class="form-control" name="recipient" :value="detailNote.recipientName" readonly/>
+										<input type="text"class="form-control" name="recipient" :value='detailNote.recTotalName' readonly/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -288,17 +286,7 @@
 				title:'',
 				content:''
 			},
-			detailNote:{
-				categoryNo:'',
-				categoryName:'',
-				senderName:'',
-				senderDept:'',
-				recipientName:'',
-				recipientDept:'',
-				title:'',
-				content:'',
-				date:''
-			},
+			detailNote:{},
 			// 선택 삭제 노트번호 배열
 			ckNormalNoteNo:[],
 			ckFriendNoteNo:[],
@@ -312,9 +300,8 @@
 			changeTab: function (tabName) {
 				var that = this;
 				var userNo = that.loginedNo;
-				axios.get("http://localhost/api/note/getDtoList",{ params: {pageNo:1,sort:tabName,userNo:userNo}})
+				axios.get("http://localhost/api/notes/getDtoList",{ params: {pageNo:1,sort:tabName,userNo:userNo}})
 						.then(function(response){
-							console.log(response.data);
 							that.noteDtoList = response.data.noteDtos;
 							that.pagination = response.data.pagination;
 						})
@@ -353,9 +340,8 @@
 					alert("<요약> 항목을 선택해주세요.");
 					return;
 				}
-				console.log("##categoryNo " + noteApp.newNote.categoryNo);
 				
-				axios.post("http://localhost/api/note/sendNote", noteApp.newNote).then(function (response) {
+				axios.post("http://localhost/api/notes/sendNote", noteApp.newNote).then(function (response) {
 					alert('쪽지 전송이 완료되었습니다.');
 					noteApp.newNote.title = '';
 					noteApp.newNote.content = '';
@@ -364,18 +350,9 @@
 			shownoteDetail: function (no) {
 				noteApp.showInnerModal = true;
 				
-				console.log("디테일 번호===>" + no)
-				axios.get("http://localhost/api/note/getNoteDetail/"+no).then(function(response){
-					var detail = response.data;
-					noteApp.detailNote.categoryNo = detail.noteCategory.no;
-					noteApp.detailNote.categoryName = detail.noteCategory.name;
-					noteApp.detailNote.senderName = detail.sender.name+"("+detail.sender.nickName+")";
-					noteApp.detailNote.senderDept = detail.senderDept.name;
-					noteApp.detailNote.recipientName = detail.recipient.name+"("+detail.recipient.nickName+")";
-					noteApp.detailNote.recipientDept = detail.senderDept.name;
-					noteApp.detailNote.title = detail.note.title;
-					noteApp.detailNote.content = detail.note.content;
-					noteApp.detailNote.date = detail.note.createdDate;
+				axios.get("http://localhost/api/notes/getNoteDetail/"+no).then(function(response){
+					console.log(response.data);
+					noteApp.detailNote = response.data;
 				})
 			},
 			closeInnerModal: function () {
@@ -383,14 +360,15 @@
 				
 			},
 			deleteNote: function (arr) {
-				console.log(arr);
 				if(arr.length==0){
 					alert("삭제할 쪽지를 선택해주세요.");
 					return;
 				}else{
 					alert("삭제할 번호 배열 : "+arr);
-					return;
-					//axios.delete()
+					axios.post("http://localhost/api/notes/deleteNote",arr).then(function (response) {
+						alert(response.data+"개의 쪽지가 삭제되었습니다.");
+						noteApp.changeTab('friend');
+					})
 				}
 			}
 		}, // end methods
@@ -423,7 +401,7 @@
 			var that = this;
 			that.loginedNo = '${LOGINED_USER.no}'
 	
-			axios.get("http://localhost/api/note/getCategories").then(function(response){
+			axios.get("http://localhost/api/notes/getCategories").then(function(response){
 				that.noteCategories = response.data;
 			})
 			

@@ -8,6 +8,7 @@ import lombok.Data;
 public class NoteDto {
 
 	private int noteNo;
+	private int categoryNo;
 	private String categoryName;
 	private int senderNo;
 	private String senderName;
@@ -21,4 +22,16 @@ public class NoteDto {
 	private String content;
 	private String status;
 	private Date createdDate;
+	
+	public String getSenderTotalName() {
+		return this.senderName + " (" + this.senderNickNmae +")";
+	}
+	
+	public String getRecTotalName() {
+		return this.recName + " (" + this.recNickName +")";
+	}
+	
+	
+	
+	
 }
