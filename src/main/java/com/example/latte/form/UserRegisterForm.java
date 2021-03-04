@@ -13,7 +13,6 @@ public class UserRegisterForm {
 	private String name;
 	private String password;
 	private String id;
-	private MultipartFile photoFile;
 	private String nickName;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;

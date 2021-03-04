@@ -76,8 +76,6 @@ public class MainController {
 	// 로그아웃시 세션에 저장된 정보 삭제
 	@RequestMapping(path="/logout.do", produces = "text/plain")
 	public @ResponseBody String logout(@RequestParam("pathName") String pathName) {
-		System.out.println("로그아웃 맵핑 메서드 호출");
-		System.out.println("전달된 pathName : " + pathName);
 		SessionUtils.removeAttribute("LOGINED_USER");
 		
 		if(pathName.contains("board")) {

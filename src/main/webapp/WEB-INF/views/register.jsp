@@ -118,7 +118,10 @@
 
 							<div class="form-group col-6">
 								<label>프로필 사진</label>
-								<input type="file" class="form-control" @change="selectFiles" ref="file" />
+								<button type="button" class="btn-sm" style="float: right;" data-toggle="collapse" data-target="#select-photo">등록하기</button>
+								<div class="collapse" id="select-photo">
+									<input type="file" class="form-control" @change="selectPhoto" ref="file" />
+								</div>
 							</div>
 						</div>
 						<!--사용자가 아닐 경우만 직급창 표시되도록  -->
@@ -164,7 +167,7 @@
     var telRegExp = /^\d{3}-\d{3,4}-\d{4}$/;
     var idCheck = false;
     var pwdCheck = false;
-   var checkFd = false;
+    var checkFd = false;
     var addr = ''; // 주소 변수
     var extraAddr = ''; // 참고항목 변수
     
@@ -240,12 +243,11 @@
                 password: '',
                 tel: '',
                 birthday: '',
-                address: '',
-                addressDetail: '',
                 postCode: '',
                 deptNo: '100',
                 position: '사용자'
             },
+            uploadPhoto: false,
             selectedFiles: undefined,
             currentFile: undefined
         },
@@ -291,10 +293,12 @@
                 }).open();
            },
            
-			selectFiles: function () {
-           		this.selectedFiles = this.$refs.file.files;
+			selectPhoto: function () {
+				this.selectedFiles = this.$refs.file.files;
 				this.currentFile = this.selectedFiles[0];
+				this.uploadPhoto = true;
 			},
+           
 			addUser: function () {
 			    var v = app.user
 				if(!(v.tel == '' || v.brd == '' || v.name == '' || v.nickName == '')){
@@ -316,17 +320,20 @@
 	                formData.append('birthday', this.user.birthday);
 	                formData.append('address', addr);
 	                formData.append('addressDetail', extraAddr);
-	                formData.append('postCord', this.user.postCord);
-	                formData.append('photoFile', this.currentFile);
+	                formData.append('postCode', this.user.postCode);
 	                formData.append('deptNo', this.user.deptNo);
 	                formData.append('position', this.user.position);
+					
+	                if(this.uploadPhoto){
+		                formData.append('photoFile', this.currentFile);
+	                }
 	                
 					axios.post('http://localhost/api/users/addUser.do', formData,{
 						headers:{
 	                          'Content-Type':'multipart/form-data'
 	                    }})
 					.then(function (response) {
-	                      console.log("### 응답: " + response);
+	                      console.log(response.data.messege);
 	                      location.href = "http://localhost/main.do"
 	                })
 	                

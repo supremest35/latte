@@ -56,8 +56,8 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="normal in noteDtoList" :key="normal.no">
-											<td><input type="checkbox" :value="normal.no" v-model="ckNormalNoteNo"></td>
+										<tr v-for="normal in noteDtoList" :key="normal.noteNo">
+											<td><input type="checkbox" :value="normal.noteNo" v-model="ckNormalNoteNo"></td>
 											<td>{{normal.senderName}}</td>
 											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(normal.no)">{{normal.title}}</a></td>
 											<td>{{normal.createdDate | moment}}</td>
@@ -93,9 +93,9 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="friend in noteDtoList" :key="friend.no">
-											<td><input type="checkbox" :value="friend.no" v-model="ckFriendNoteNo"></td>
-											<td>${friend.senderName}</td>
+										<tr v-for="friend in noteDtoList" :key="friend.noteNo">
+											<td><input type="checkbox" :value="friend.noteNo" v-model="ckFriendNoteNo"></td>
+											<td>{{friend.senderName}}</td>
 											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(friend.no)">{{friend.title}}</a></td>
 											<td>{{friend.createdDate | moment}}</td>
 											<td>{{friend.status}}</td>
@@ -123,6 +123,7 @@
 									<thead>
 										<tr class="note-table-tr">
 											<th></th>
+											<th>번호</th>
 											<th>보낸이</th>
 											<th>제목</th>
 											<th>날짜</th>
@@ -130,8 +131,9 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="send in noteDtoList" :key="send.no">
-											<td><input type="checkbox" :value="send.no" v-model="ckSendNoteNo"></td>
+										<tr v-for="send in noteDtoList" :key="send.noteNo">
+											<td><input type="checkbox" :value="send.noteNo" v-model="ckSendNoteNo"></td>
+											<td>{{send.noteNo}}</td>
 											<td>{{send.senderName}}</td>
 											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(send.no)">{{send.title}}</a></td>
 											<td>{{send.createdDate | moment}}</td>
@@ -270,13 +272,16 @@
 	var noteApp = new Vue({
 		el:'#modal-note',
 		data:{
+			// 노트 상세보기
 			showInnerModal:false,
-			loginedNo: '',
+			// 노트리스트
 			noteDtoList:[],
 			pagination:{},
+			deptList:[],
+			// 노트쓰기 초기 설정값
+			loginedNo: '',
 			userDept:'',
 			noteCategories:[],
-			deptList:[],
 			newNote:{
 				categoryNo:'',
 				recipientNo:'',
@@ -294,9 +299,11 @@
 				content:'',
 				date:''
 			},
-			cknormalNoteNo:[],
+			// 선택 삭제 노트번호 배열
+			ckNormalNoteNo:[],
 			ckFriendNoteNo:[],
-			cksendNoteNo:[],
+			ckSendNoteNo:[],
+			// 수신자 자동완성
 			showSearchedUserList:false,
 			userList:[],
 			searchedUserList: []
@@ -305,8 +312,6 @@
 			changeTab: function (tabName) {
 				var that = this;
 				var userNo = that.loginedNo;
-				console.log("유저번호"+userNo);
-				console.log("sort"+tabName);
 				axios.get("http://localhost/api/note/getDtoList",{ params: {pageNo:1,sort:tabName,userNo:userNo}})
 						.then(function(response){
 							console.log(response.data);
@@ -378,12 +383,14 @@
 				
 			},
 			deleteNote: function (arr) {
+				console.log(arr);
 				if(arr.length==0){
 					alert("삭제할 쪽지를 선택해주세요.");
 					return;
 				}else{
 					alert("삭제할 번호 배열 : "+arr);
-					axios.delete()
+					return;
+					//axios.delete()
 				}
 			}
 		}, // end methods
