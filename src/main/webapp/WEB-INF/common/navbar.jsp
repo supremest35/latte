@@ -158,7 +158,10 @@
 	.card-body#note-modal{
 		padding: 10px;
 	}
-	
+	#btn-noteModal{
+		font-size: 10px;
+		padding: 2px;
+	}
 	.info-btn {
 		margin-top: 2px 0px 0px 0px;
 		padding: 0px;
@@ -378,7 +381,7 @@
 											<tr id="info-tr">
 												<th>${LOGINED_USER.name }(${LOGINED_USER.nickName})님</th>
 												<td>
-													<button class="btn btn-outline-info" id="btn-noteModal" 
+													<button class="btn btn-outline-info" id="btn-noteModal" onclick="openNoteModal()"
 														data-toggle="modal" data-target="#modal-note">
 														쪽지함</button>
 												</td>
@@ -450,9 +453,12 @@
 	var curPathName = window.location.pathname;
 	
 	//쪽지함 클릭시 첫 리스트 반환
-	$("#btn-noteModal").on("show.bs.modal", function() {
-	      $("#btn-noteModal #note-nomal").trigger('click');
-	   })
+	function openNoteModal(){
+		$("#btn-noteModal").on("show.bs.modal", function() {
+			console.log("버튼함 클릭 이벤트")
+		      $("#modal-note #note-friend").trigger('click');
+		   })
+	}
 	
 	function findMyId() {
 		// 입력한 이름과 연락처를 받아온다.
@@ -499,15 +505,18 @@
 				$('#findPwd-fail').hide();
 				$('#findPwd-success').show();
 				$('.found-id-sp').text(result.id);
-				$('.user-name-sp').text(result.userName); // 임시비번 전송시 임시번호 출력
+				$('.user-name-sp').text(result.userName); 
+				$('#tmp-Pwd').text(result.tmpPwd);
 			}
 		})
 	}
+	
+	
+	
 	function loginWithId() {
 		// 로그인 폼으로 보낼 때 아이디 입력란에 입력되어 있도록 함
 		$("#loginbox-id").val(foundId);
 		$("#modal-findId").modal('hide');
-
 	}
 
 	function loginCheck() {

@@ -45,8 +45,8 @@
 								<label>전화번호</label> 
 								<input type="text" class="form-control mb-4"  placeholder="${LOGINED_USER.tel }" v-model="my.tel" />
 								<label>프로필 사진</label>
-								<button type="button" class="btn-sm" style="float: right;" data-toggle="collapse" data-target="#demo">변경하기</button>
-								<div  class="collapse" id="demo">
+								<button type="button" class="btn-sm" style="float: right;" data-toggle="collapse" data-target="#select-photo">변경하기</button>
+								<div  class="collapse" id="select-photo">
 									<input type="file" ref="file" @change="getPhoto"/>
 								</div>
 							</div>

@@ -73,7 +73,7 @@
 									<div class="card-footer" id="findPwd-success" style="display: none;">
 										<h5 style="text-align: center;">조회 결과</h5>
 										<p>
-											<span class="user-name-sp"></span>(님)의 비밀번호가
+											<span class="user-name-sp"></span>(님)의 임시 비밀번호<span id="tmp-Pwd"></span>가
 										</p>
 										<br>
 										<p style="text-align: center;">

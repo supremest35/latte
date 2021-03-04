@@ -25,6 +25,7 @@ import com.example.latte.form.UserRegisterForm;
 import com.example.latte.service.DeptService;
 import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
+import com.example.latte.util.TempPwdUtils;
 import com.example.latte.vo.User;
 
 @RestController("apiUserController")
@@ -61,6 +62,7 @@ public class UserController {
 			return result; 
 		}
 		result.put("status", "success");
+		result.put("tmpPwd", TempPwdUtils.generatePassword());
 		result.put("id", user.getId());
 		result.put("userName", user.getName());
 		return result;
@@ -78,17 +80,20 @@ public class UserController {
 	}
 	
 	// 회원가입시 사용자 정보 저장
-	@RequestMapping("/addUser.do") // 사진 전용 변수를 하나 더 받기(false) -> 값이 있을 경우에 user에 저장 없으면 기본값 저장
-	public Map<String, Object> addUser(UserRegisterForm userForm) {
+	@RequestMapping("/addUser.do") 
+	public Map<String, Object> addUser(UserRegisterForm userForm, 
+					@RequestParam(value="photoFile", required = false) MultipartFile photoFile) {
 		System.out.println("###컨트롤러 addUser 실행-----");
 		Map<String, Object> result = new HashMap<>();
 		
 		User user = new User();
 		BeanUtils.copyProperties(userForm, user);
-		System.out.println("### 유저폼 사진" + userForm.getPhotoFile());
+		System.out.println("### 유저폼 이름" + userForm.getName());
+		System.out.println("### 유저폼 우편번호" + userForm.getPostCode());
+		System.out.println("### 사진 파일 "+ photoFile);
 		try {
-			if(!userForm.getPhotoFile().isEmpty()) {
-				MultipartFile upLoadFile = userForm.getPhotoFile();
+			if(photoFile != null) {
+				MultipartFile upLoadFile = photoFile;
 				String fileName = upLoadFile.getOriginalFilename();
 				
 				File file = new File(savedDrectory, fileName);
@@ -96,15 +101,15 @@ public class UserController {
 				FileCopyUtils.copy(upLoadFile.getInputStream(), out);
 				
 				user.setPhoto(fileName);
-				result.put("message", "프로필 사진 등록이 완료되었습니다.");
 			}else {
+				user.setPhoto("user.jpg");
 			}
 		} catch (Exception e) {
-			user.setPhoto("user.jpg");
-			result.put("message", "프로필 사진을 기본 이미지로 설정합니다.");
+			result.put("message", "회원가입에 실패하였습니다.");
 		}
 		
 		userService.addUser(user);
+		result.put("message", "회원가입이 정상적으로 완료되었습니다.");
 		return result;
 	}
 	
