@@ -7,5 +7,4 @@ public class AcornItemCommentLike {
 
 	private int commentNo;
 	private int userNo;
-	private String commentLiked;
 }

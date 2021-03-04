@@ -39,8 +39,7 @@
   	<div class="row mb-3">
   		<div class="col-12">
 			<div class="alert alert-info text-center" style="font-size: 27px;">
-				<span><strong>${user.name }</strong>님의 도토리 변경 내역입니다..</span><br />
-				<span class="mt-2 small">현재 도토리 갯수 : ${user.availableacorn } 개</span>
+				<span><strong>${LOGINED_USER.name }</strong>님의 도토리 변경 내역입니다.</span><br />
 			</div>
 		</div>
   	</div>
@@ -61,7 +60,7 @@
 							<tr>
 								<th>일자</th>
 								<th>내용</th>
-								<th class="text-center">+충전 / -사용</th>
+								<th class="text-center">주문번호 조회</th>
 								<th class="text-right pr-5">잔여 도토리</th>
 							</tr>
 						</thead>
@@ -77,8 +76,8 @@
 									<tr>
 										<td><fmt:formatDate value="${history.createdDate }" /></td>
 										<td>${history.content }</td>
-										<td class="text-center"><a href="detail.hta?orderno=${history.orderNo }">${history.orderNo }</a></td>
-										<td class="text-right pr-5"><strong class="${history.acornAmount gt 0 ? 'text-success' : 'text-danger' }"><fmt:formatNumber value="${history.acornAmount }" /></strong> 개</td>
+										<td class="text-center"><a href="../order/detail.do?orderno=${history.orderNo }">${history.orderNo }</a> 번</td>
+										<td class="text-right pr-5"><strong class="${history.acornAmount gt 0 ? 'text-success' : 'text-danger' }"><fmt:formatNumber value="${history.acornAmount }" /></strong></td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>

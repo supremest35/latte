@@ -5,13 +5,12 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class AcornItemComment {
+public class AcornHistory {
 
 	private int no;
-	private int itemNo;
 	private int userNo;
 	private String content;
-	private int likeCnt;
-	private String liked;
+	private Integer orderNo;
+	private int acornAmount;
 	private Date createdDate;
 }

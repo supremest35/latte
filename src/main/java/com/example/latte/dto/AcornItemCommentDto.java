@@ -13,6 +13,6 @@ public class AcornItemCommentDto {
 	private String userPhoto;
 	private String content;
 	private int likeCnt;
-	private String commentLiked;
+	private String liked;
 	private Date createdDate;
 }

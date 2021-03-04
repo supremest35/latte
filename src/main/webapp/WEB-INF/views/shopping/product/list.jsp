@@ -62,7 +62,6 @@
                              <a href="detail.do?prodno=${product.no }&pageno=${page.pageNo }&catno=${product.categoryNo }">
                                 <img class="img-thumbnail" src="/resources/images/products/${product.photoFilename }" alt="Card image">
                              </a>
-                              <strong class="mb-2 product-brand-name">${product.productBrandName }</strong>
                               <strong class="mb-2 product-name">${product.productName }</strong>
                               <div class="d-flex justify-content">
                                  <strong class="text-danger"><value="DETAIL_PRICE" /></strong> 원

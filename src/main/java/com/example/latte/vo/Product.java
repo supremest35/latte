@@ -29,8 +29,8 @@ public class Product {
 	private String detailBrandName;
 	private String detailCd;
 	private String detailName;
-	private String mallNo;
-	private String price;
+	private int mallNo;
+	private int price;
 	private String freeDelivery;
 	private String url;
 }

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.latte.dao.ProductDao;
+import com.example.latte.service.AcornHistoryService;
 import com.example.latte.service.AcornService;
 import com.example.latte.service.MarketCategoryService;
 import com.example.latte.util.SessionUtils;
@@ -22,12 +23,23 @@ public class ShoppingController {
 	@Autowired
 	ProductDao productDao;
 	@Autowired
+	AcornHistoryService acornHistoryService;
+	@Autowired
 	AcornService acornService;
 	@Autowired
 	MarketCategoryService marketCategoryService;
 	
 	@RequestMapping("/my/acornhistory.do")
-	public String acornHistory() {
+	public String acornHistory(Model model) {
+		
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		if (user == null) {
+			return "redirect:/shopping/main.do";
+		}
+		
+		model.addAttribute("acornHistories", acornHistoryService.getAcornHistoriesByUserNo(user.getNo()));
+		
 		return "/shopping/my/acornhistory";
 	}
 	
@@ -51,7 +63,7 @@ public class ShoppingController {
 	public String main(Model model) {
 		List<Product> hitProducts = productDao.getHitProducts();
 		model.addAttribute("hitProducts", hitProducts);
-		
+
 		return "/shopping/main";
 	}
 }

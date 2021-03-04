@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.latte.form.OrderForm;
+import com.example.latte.service.AcornHistoryService;
 import com.example.latte.service.AcornService;
 import com.example.latte.service.OrderService;
 import com.example.latte.service.UserService;
 import com.example.latte.service.WishService;
 import com.example.latte.util.SessionUtils;
 import com.example.latte.util.StringUtils;
+import com.example.latte.vo.AcornHistory;
 import com.example.latte.vo.AcornItem;
 import com.example.latte.vo.Order;
 import com.example.latte.vo.OrderItem;
@@ -30,11 +32,13 @@ import com.example.latte.vo.WishItem;
 public class OrderController {
 
 	@Autowired
+	AcornService acornService;
+	@Autowired
+	AcornHistoryService acornHistoryService;
+	@Autowired
 	OrderService orderService;
 	@Autowired
 	WishService wishService;
-	@Autowired
-	AcornService acornService;
 	@Autowired
 	UserService userService;
 	
@@ -56,6 +60,17 @@ public class OrderController {
 		
 		order.setStatus("주문취소");
 		orderService.updateOrder(order);
+		
+		user.setAcornCnt(user.getAcornCnt());
+		userService.update(user);
+		
+		AcornHistory acornHistory = new AcornHistory();
+		acornHistory.setUserNo(user.getNo());
+		acornHistory.setContent(order.getNo()+" 번 주문취소로 인한 도토리 "+order.getTotalPrice()+" 개 반환");
+		acornHistory.setOrderNo(orderNo);
+		acornHistory.setAcornAmount(user.getAcornCnt());
+		
+		acornHistoryService.insertAcornHistory(acornHistory);
 		
 		List<Map<String, Object>> items = orderService.getMapOrderItemsByOrderNo(orderNo);
 		for (Map<String, Object> item : items) {
@@ -200,6 +215,18 @@ public class OrderController {
 			
 			wishService.deleteWishItemByUserNoAndAcornNo(user.getNo(), acornNoList.get(i));
 		}
+		
+		User loginUser = userService.getUserByNo(user.getNo());
+		loginUser.setAcornCnt(loginUser.getAcornCnt() - order.getTotalPrice());
+		userService.update(loginUser);
+		
+		AcornHistory acornHistory = new AcornHistory();
+		acornHistory.setUserNo(user.getNo());
+		acornHistory.setContent(order.getNo()+"번 주문으로 인한 도토리 "+order.getTotalPrice()+" 개 차감");
+		acornHistory.setOrderNo(order.getNo());
+		acornHistory.setAcornAmount(loginUser.getAcornCnt());
+		
+		acornHistoryService.insertAcornHistory(acornHistory);
 		
 		// 유저아이템 등록
 		for (int i=0; i<loopCount; i++) {
