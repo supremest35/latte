@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.latte.dao.DeptDao;
+import com.example.latte.dao.NoteDao;
+import com.example.latte.dto.NoteDto;
 import com.example.latte.form.NoteForm;
 import com.example.latte.service.DeptService;
 import com.example.latte.service.NoteService;
@@ -50,27 +52,26 @@ public class NoteController {
 		Note note = new Note();
 		BeanUtils.copyProperties(noteForm, note);
 		noteService.insertNote(note);
-		
 	}
 	
-	@RequestMapping("getRecivedNotes/{no}")
-	public List<Note> getNoteList(@PathVariable("no") int userNo){
-		
-		System.out.println("###userNo" + userNo);
-		Map<String, Object> opt = new HashMap<>();
-		opt.put("type", "rec");
-		opt.put("userNo", userNo);
-		return noteService.getNoteListByOpt(opt);
-	}
-	
-	@RequestMapping("getNoteList/{no}")
-	public List<Note> getAllNoteList(@PathVariable("no") int userNo){
+	@RequestMapping("getDtoList")
+	public Map<String, Object> getAllNoteList(@RequestParam("userNo") int userNo, 
+					@RequestParam("sort") String sort, @RequestParam(name="pageNo", defaultValue="1") int pageNo){
 		// 현재 페이지 번호 , 탭 이름, 유저넘버 -> 맵에 담아서 호출 
 		
-		System.out.println("###userNo" + userNo);
+		System.out.println("###기준 사용자 번호: " + userNo);
+		System.out.println("### 분류  : " + sort);
+		// 쪽지를 조회할 옵션 설정
 		Map<String, Object> opt = new HashMap<>();		
-		opt.put("type", "");
 		opt.put("userNo", userNo);
+		opt.put("sort", sort);
+		// 페이징 처리에 필요한 값 설정
+		int rows = 5; // 한 페이지에 표시할 데이터 수
+		opt.put("pageNo", pageNo);
+		opt.put("rows", rows);
+		opt.put("startRn", (pageNo -1)*rows +1);
+		opt.put("endRn", pageNo*rows);
+		
 		return noteService.getNoteListByOpt(opt);
 		// 표현할 리스트에 새로운 값 전해주기 
 	}

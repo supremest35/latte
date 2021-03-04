@@ -18,13 +18,13 @@
 					<!-- Nav tabs -->
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#friend">일촌신청</a>
+							<a class="nav-link" id="note-friend" data-toggle="tab" href="#friend" @click="changeTab('friend')">일촌신청</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link active" data-toggle="tab" href="#home">쪽지함</a>
+							<a class="nav-link" data-toggle="tab" href="#normal" @click="changeTab('normal')">쪽지함</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#send" >보낸 쪽지함</a>
+							<a class="nav-link" data-toggle="tab" href="#send" @click="changeTab('send')">보낸 쪽지함</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" data-toggle="tab" href="#write" >쪽지쓰기</a>
@@ -34,7 +34,7 @@
 				<!-- Tab panes -->
 				<div class="tab-content">
 					<!-- 쪽지함 -->
-					<div id="home" class="container tab-pane active">
+					<div id="normal" class="container tab-pane active">
 						<br>
 						<div class="card note-card">
 							<div class="card-body" id="note-modal">
@@ -56,18 +56,18 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="oNote in otherOriginNotes" :key="oNote.no">
-											<td><input type="checkbox" :value="oNote.no" v-model="ckOtherNoteNo"></td>
-											<td>{{oNote.senderNo}}번 유저이름</td>
-											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(oNote.no)">{{oNote.title}}</a></td>
-											<td>{{oNote.createdDate | moment}}</td>
-											<td>{{oNote.status}}</td>
+										<tr v-for="normal in noteDtoList" :key="normal.no">
+											<td><input type="checkbox" :value="normal.no" v-model="ckNormalNoteNo"></td>
+											<td>{{normal.senderName}}</td>
+											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(normal.no)">{{normal.title}}</a></td>
+											<td>{{normal.createdDate | moment}}</td>
+											<td>{{normal.status}}</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
-						<button type="button" class="del-btn btn-sm" @click="deleteNote(ckOtherNoteNo)">선택삭제</button>
+						<button type="button" class="del-btn btn-sm" @click="deleteNote(ckNormalNoteNo)">선택삭제</button>
 					</div>
 					<!-- 쪽지함 끝 -->
 					<!-- 일촌신청 -->
@@ -93,12 +93,12 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="fNote in freindOriginNotes" :key="fNote.no">
-											<td><input type="checkbox" :value="fNote.no" v-model="ckFriendNoteNo"></td>
-											<td>${LOGINED_USER.name}</td>
-											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(fNote.no)">{{fNote.title}}</a></td>
-											<td>{{fNote.createdDate | moment}}</td>
-											<td>{{fNote.status}}</td>
+										<tr v-for="friend in noteDtoList" :key="friend.no">
+											<td><input type="checkbox" :value="friend.no" v-model="ckFriendNoteNo"></td>
+											<td>${friend.senderName}</td>
+											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(friend.no)">{{friend.title}}</a></td>
+											<td>{{friend.createdDate | moment}}</td>
+											<td>{{friend.status}}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -130,12 +130,12 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="sNote in sendNoteList" :key="sNote.no">
-											<td><input type="checkbox" :value="sNote.no" v-model="ckSendNoteNo"></td>
-											<td>{{sNote.senderNo}}</td>
-											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(sNote.no)">{{sNote.title}}</a></td>
-											<td>{{sNote.createdDate | moment}}</td>
-											<td>{{sNote.status}}</td>
+										<tr v-for="send in noteDtoList" :key="send.no">
+											<td><input type="checkbox" :value="send.no" v-model="ckSendNoteNo"></td>
+											<td>{{send.senderName}}</td>
+											<td><a data-toggle="inner-modal" data-target="#detail" @click="shownoteDetail(send.no)">{{send.title}}</a></td>
+											<td>{{send.createdDate | moment}}</td>
+											<td>{{send.status}}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -271,13 +271,9 @@
 		el:'#modal-note',
 		data:{
 			showInnerModal:false,
-			sendNoteList:[],
-	        receivedNoteList:[],
-	        freindOriginNotes:[],
-	        otherOriginNotes:[],
-	        ckOtherNoteNo:[],
-	        ckFriendNoteNo:[],
-	        ckSendNoteNo:[],
+			loginedNo: '',
+			noteDtoList:[],
+			pagination:{},
 			userDept:'',
 			noteCategories:[],
 			deptList:[],
@@ -298,11 +294,26 @@
 				content:'',
 				date:''
 			},
+			cknormalNoteNo:[],
+			ckFriendNoteNo:[],
+			cksendNoteNo:[],
 			showSearchedUserList:false,
 			userList:[],
 			searchedUserList: []
 		}, // end data
 		methods: {
+			changeTab: function (tabName) {
+				var that = this;
+				var userNo = that.loginedNo;
+				console.log("유저번호"+userNo);
+				console.log("sort"+tabName);
+				axios.get("http://localhost/api/note/getDtoList",{ params: {pageNo:1,sort:tabName,userNo:userNo}})
+						.then(function(response){
+							console.log(response.data);
+							that.noteDtoList = response.data.noteDtos;
+							that.pagination = response.data.pagination;
+						})
+			},
 			typing: function(e) {
 				this.noteSearchName = e.target.value;
 				this.searchedUserList = [];
@@ -403,29 +414,11 @@
 		},
 		created() {
 			var that = this;
-			var loginedNo = '${LOGINED_USER.no}'
+			that.loginedNo = '${LOGINED_USER.no}'
 	
 			axios.get("http://localhost/api/note/getCategories").then(function(response){
 				that.noteCategories = response.data;
 			})
-			
-			axios.get("http://localhost/api/note/getAllNotes/"+loginedNo).then(function(response){
-	            for(var i = 0; i < response.data.length; i++){
-	                var note = response.data[i];
-	                if(note.senderNo == loginedNo){
-	                    that.sendNoteList.push(note);
-	                }else{
-	                    that.receivedNoteList.push(note);
-	                }
-	            }
-	            that.recivedNoteList.forEach(note => {
-	                if(note.categoryNo == 1){
-	                    that.freindOriginNotes.push(note);
-	                }else{
-	                    that.otherOriginNotes.push(note);
-	                }
-	            })
-	        })
 			
 			axios.get("http://localhost/api/users/getAllAvailableUser").then(function(response){
 				that.userList = response.data;

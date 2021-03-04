@@ -41,38 +41,47 @@
 			(#{no}, #{categoryNo}, #{senderNo}, #{recDeptNo}, #{recipientNo}, #{title}, #{content})
 	</insert>
 	
-	<select id="getNoteList" parameterType="map" resultType="com.example.latte.vo.Note">
+	<select id="getNoteListByOpt" parameterType="map" resultType="com.example.latte.dto.NoteDto">
 		select *
 		from(
 			select 
 				row_number() over (order by note_no desc) rn,
-				note_no as no,
-				category_no as categoryNo,
-				sender_no as senderNo,
-				rec_dept_no as recDeptNo,
-				recipient_no as recipientNo,
-				note_title as title,
-				note_content as content,
-				note_status as status,
-				note_created_date as createdDate
+				n.note_no as noteNo, 
+				c.note_category_name as categoryName, 
+				n.sender_no as senderNo, 
+				s.user_name as senderName, 
+				s.user_nickname as senderNickNmae, 
+				sd.dept_name as senderDept,
+	        	n.recipient_no as recNo, 
+	        	r.user_name recName, 
+	        	r.user_nickname recNickName, 
+	        	rd.dept_name as recDept, 
+	        	n.note_title as title, 
+	        	n.note_content as content, 
+	        	n.note_status as status, 
+	        	n.note_created_date as createdDate
 			from 
-				latte_notes
-			<where>
-				<if test='type.equals("nomal")'>
-					recipient_no = #{userNo} and category_no != 1
-				</if>
-				<if test='type.equals("friend")'>
-					recipient_no = #{userNo} and category_no = 1
-				</if>
-				<if test='type.equals("send")'>
-					sender_no = #{userNo}
-				</if>
-				
-			</where> 
+				latte_note_categories C, latte_notes N, latte_users R, latte_users S, latte_depts RD, latte_depts SD
+			where 
+				n.category_no = c.note_category_no
+			and n.sender_no = s.user_no
+			and s.user_dept_no = sd.dept_no 
+			and n.recipient_no = r.user_no
+			and r.user_dept_no = rd.dept_no
+			<if test='sort.equals("normal")'>
+				and n.recipient_no = #{userNo} and n.category_no != 1
+			</if>
+			<if test='sort.equals("friend")'>
+				and n.recipient_no = #{userNo} and n.category_no = 1
+			</if>
+			<if test='sort.equals("send")'>
+				and n.sender_no = #{userNo}
+			</if>
+			order by note_created_date desc
 		)
 		<where>
-			<if test="begin != 0 and end != 0">
-				 rn >= #{begin} and rn &lt;= #{end}
+			<if test="startRn != 0 and endRn != 0">
+				 rn >= #{startRn} and rn &lt;= #{endRn}
 			</if>
 		</where>
 	</select>
@@ -83,13 +92,13 @@
 		from 
 			latte_notes
 		<where>
-			<if test='type.equals("nomal")'>
+			<if test='sort.equals("nomal")'>
 				recipient_no = #{userNo} and category_no != 1
 			</if>
-			<if test='type.equals("friend")'>
+			<if test='sort.equals("friend")'>
 				recipient_no = #{userNo} and category_no = 1
 			</if>
-			<if test='type.equals("send")'>
+			<if test='sort.equals("send")'>
 				sender_no = #{userNo}
 			</if>
 		</where> 
