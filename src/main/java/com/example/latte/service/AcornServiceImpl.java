@@ -14,6 +14,7 @@ import com.example.latte.dto.AcornItemCommentDto;
 import com.example.latte.dto.Pagination;
 import com.example.latte.vo.AcornItem;
 import com.example.latte.vo.AcornItemComment;
+import com.example.latte.vo.AcornItemLike;
 import com.example.latte.vo.UserItem;
 
 @Service
@@ -76,10 +77,18 @@ public class AcornServiceImpl implements AcornService {
 	public AcornItemComment getCommentByNo(int commentNo) {
 		return acornCommentDao.getCommentByNo(commentNo);
 	}
+	@Override
+	public AcornItemLike getAcornItemLike(int acornNo, int userNo) {
+		return acornDao.getAcornItemLike(acornNo, userNo);
+	}
 	
 	@Override
 	public void addNewAcorn(AcornItem acorn) {
 		acornDao.insertAcorn(acorn);
+	}
+	@Override
+	public void insertAcornItemLike(AcornItemLike itemLike) {
+		acornDao.insertAcornItemLike(itemLike);
 	}
 	@Override
 	public void insertComment(AcornItemComment comment) {

@@ -38,6 +38,7 @@
 				</thead>
 			</table>
 		</div>
+		<!-- 
 		<div class="card-body" style="border-top: 1px solid lightgray;">
 			<span>브랜드</span>
 			<c:forEach var="brand" items="${brands }">
@@ -47,6 +48,7 @@
 			</div>
 			</c:forEach>
 		</div>
+		 -->
 		<div class="card-body" style="border-top: 1px solid lightgray;">
 			<span>컬러별</span>
 			<c:forEach var="color" items="${colors }">
@@ -94,8 +96,9 @@
 				</thead>
 			</table>
 		</div>
+		<!-- 
 		<div class="card-body" style="border-top: 1px solid lightgray;">
-			브랜드
+			<span>브랜드</span>
 			<c:forEach var="brand" items="${brands }">
 			<div class="form-check form-check-inline">
 				<input class="form-check-input" type="checkbox" id="brandno" value="${brand.no }" onclick="searchBrand(${brand.no})">
@@ -103,8 +106,9 @@
 			</div>
 			</c:forEach>
 		</div>
+		 -->
 		<div class="card-body" style="border-top: 1px solid lightgray;">
-			컬러별
+			<span>컬러별</span>
 			<c:forEach var="color" items="${colors }">
 			<div class="form-check form-check-inline">
 				<input class="form-check-input" type="checkbox" id="colorno" value="${color.no }" onclick="searchColor(${color.no })">
@@ -150,8 +154,9 @@
 				</thead>
 			</table>
 		</div>
+		<!-- 
 		<div class="card-body" style="border-top: 1px solid lightgray;">
-			브랜드
+			<span>브랜드</span>
 			<c:forEach var="brand" items="${brands }">
 			<div class="form-check form-check-inline">
 				<input class="form-check-input" type="checkbox" id="brandno" value="${brand.no }" onclick="searchBrand(${brand.no})">
@@ -159,8 +164,9 @@
 			</div>
 			</c:forEach>
 		</div>
+		 -->
 		<div class="card-body" style="border-top: 1px solid lightgray;">
-			컬러별
+			<span>컬러별</span>
 			<c:forEach var="color" items="${colors }">
 			<div class="form-check form-check-inline">
 				<input class="form-check-input" type="checkbox" id="colorno" value="${color.no }" onclick="searchColor(${color.no })">

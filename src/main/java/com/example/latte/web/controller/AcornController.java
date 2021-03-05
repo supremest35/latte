@@ -18,6 +18,7 @@ import com.example.latte.service.MarketCategoryService;
 import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.AcornItem;
 import com.example.latte.vo.AcornItemComment;
+import com.example.latte.vo.AcornItemLike;
 import com.example.latte.vo.MarketMidCategory;
 import com.example.latte.vo.User;
 
@@ -95,6 +96,36 @@ public class AcornController {
 		model.addAttribute("totalpages", totalPages);
 		
 		return "/shopping/acorn/detail";
+	}
+	
+	@RequestMapping("/insertLikeCnt.do")
+	public String insertLikeCnt(@RequestParam("acornno") int acornNo,
+			@RequestParam("catno") int categoryNo,
+			Model model){
+		
+		System.out.println("도토리번호:"+acornNo);
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		if (user == null) {
+			return "redirect:../acorn/list.do?catno="+categoryNo;
+		}
+		
+		AcornItemLike likeUser = acornService.getAcornItemLike(acornNo, user.getNo());
+		
+		if (likeUser == null) {
+			AcornItemLike itemLike = new AcornItemLike();
+			itemLike.setAcornItemNo(acornNo);
+			itemLike.setUserNo(user.getNo());
+			acornService.insertAcornItemLike(itemLike);
+			
+			AcornItem acorn = acornService.getAcornByNo(acornNo);
+			System.out.println("도토리상품:"+acorn);
+			acorn.setLikeCnt(acorn.getLikeCnt()+1);
+			acornService.updateAcorn(acorn);
+		} 
+		
+		return "redirect:../acorn/list.do?catno="+categoryNo;
+		
 	}
 	
 	@RequestMapping("/insertComment.do")

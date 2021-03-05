@@ -28,6 +28,12 @@
 		height: 80px;
 	}
 	</style>
+	<script>
+    function fnMove(seq){
+        var offset = $("#div" + seq).offset();
+        $('html, body').animate({scrollTop : offset.top}, 400);
+    }
+	</script>
 </head>
 <body>
 
@@ -54,7 +60,7 @@
 	      			<div class="card-body">
 	        			<h5 class="card-title">${product.productBrandName } ${product.productName } [${product.productCd }]</h5>
 	        			<h5 class="card-title"><strong>${minAndMaxPrice.minPrice } ~ ${minAndMaxPrice.maxPrice } </strong>원</h5>
-    						<button type="button" class="btn btn-info" >가격비교</button>
+    						<button type="button" class="btn btn-info" onclick="fnMove('1')">가격비교</button>
     						<a href="list.do?catno=${product.categoryNo }&catlvl=1" class="btn btn-primary">쇼핑계속</a>
 	        			<table class="table">
 	        				<tbody>
@@ -117,7 +123,7 @@
 				</div>
 				</c:if>
 				<c:if test="${not empty details }">
-				<div class="card-body border border-left-0 border-top-0 border-right-0">
+				<div id="div1" class="card-body border border-left-0 border-top-0 border-right-0" id="divId">
 					<table class="table">
 	       				<colgroup>
 	       					<col width="15%">
@@ -176,5 +182,15 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+      $(document).ready(function(){
+        $("#moveBtn").on("click",function(event){
+ 
+          var offset = $("#divId").offset();
+ 
+          $("html body").animate({scrollTop:offset.top},2000);
+        });
+      });
+</script>
 </body>
 </html>
