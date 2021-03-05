@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.latte.dao.MarketCategoryDao;
 import com.example.latte.dao.ProductDao;
 import com.example.latte.dto.Pagination;
+import com.example.latte.dto.ProductDto;
 import com.example.latte.vo.Product;
 import com.example.latte.vo.ProductBrand;
 import com.example.latte.vo.ProductColor;
@@ -31,12 +32,27 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.getAllProducts();
 	}
 	@Override
+	public List<Product> getProductDetailsByProdNo(int prodNo) {
+		return productDao.getProductDetailsByProdNo(prodNo);
+	}
+	@Override
 	public List<ProductBrand> getAllBrands() {
 		return productDao.getAllBrands();
 	}
 	@Override
 	public List<ProductColor> getAllColors() {
 		return productDao.getAllColors();
+	}
+	@Override
+	public List<ProductDto> getHitProducts() {
+		List<ProductDto> dtos = productDao.getHitProducts();
+		
+		for (ProductDto dto : dtos) {
+			 ProductDto productPrice = productDao.getProductMinAndMaxPrice(dto.getNo());
+			 dto.setMinPrice(productPrice.getMinPrice());
+			 dto.setMaxPrice(productPrice.getMaxPrice());
+		}
+		return dtos;
 	}
 	@Override
 	public List<ProductMall> getAllMalls() {
@@ -51,7 +67,13 @@ public class ProductServiceImpl implements ProductService {
 		
 		Pagination pagination = new Pagination((Integer) condition.get("pageNo"), totalRows);
 		
-		List<Product> products = productDao.getProductsBycondition(condition);
+		List<ProductDto> products = productDao.getProductsBycondition(condition);
+		
+		for (ProductDto dto : products) {
+			 ProductDto productPrice = productDao.getProductMinAndMaxPrice(dto.getNo());
+			 dto.setMinPrice(productPrice.getMinPrice());
+			 dto.setMaxPrice(productPrice.getMaxPrice());
+		}
 		
 		result.put("products", products);
 		result.put("pagination", pagination);
@@ -66,6 +88,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product getProductDetail(int prodNo) {
 		return productDao.getProductByNo(prodNo);
+	}
+	@Override
+	public ProductDto getProductMinAndMaxPrice(int prodNo) {
+		return productDao.getProductMinAndMaxPrice(prodNo);
 	}
 	
 	@Transactional

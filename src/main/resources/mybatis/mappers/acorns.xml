@@ -29,7 +29,7 @@
 			latte_acorn_items
 		<where>
 			<if test="categoryNo != null">
-				category_no = #{categoryNo}
+				category_mid_no = #{categoryNo}
 			</if>
 		</where>
 	</select>
@@ -113,6 +113,7 @@
 		update latte_acorn_items
 		set
 			acorn_item_stock = #{stock}
+			acorn_item_comment_cnt = #{commentCnt}
 	</update>
 
 </mapper>

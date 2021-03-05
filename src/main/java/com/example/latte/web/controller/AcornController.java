@@ -36,7 +36,7 @@ public class AcornController {
 	@RequestMapping("/list.do")
 	public String list(@RequestParam(name="catno", required=false, defaultValue="-1") int categoryNo,
 			@RequestParam(name="pageno", required=false, defaultValue="1") int pageNo,
-			@RequestParam(name="rows", required=false, defaultValue="6") int rows,
+			@RequestParam(name="rows", required=false, defaultValue="10") int rows,
 			Model model) {
 		
 		Map<String, Object> condition = new HashMap<String, Object>();
@@ -63,6 +63,7 @@ public class AcornController {
 	public String detail(@RequestParam("acornno") int acornNo,
 			@RequestParam(name="catno", required=false, defaultValue="-1") int categoryNo,
 			@RequestParam(name="pageno", defaultValue="1") int pageNo,
+			@RequestParam(name="reviewpageno", required=false, defaultValue="1") int commentPageNo,
 			Model model) {
 		
 		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
@@ -71,7 +72,6 @@ public class AcornController {
 		MarketMidCategory category = marketCategoryService.getMidCategory(acorn.getCategoryMidNo());
 		
 		final int ROWS_PER_PAGE = 5;
-		int commentPageNo = pageNo;
 		int begin = (commentPageNo-1)*ROWS_PER_PAGE+1;
 		int end = commentPageNo*ROWS_PER_PAGE;
 		
@@ -104,14 +104,21 @@ public class AcornController {
 		
 		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
 		
+		if (user == null) {
+			return "redirect:/shopping/main.do";
+		}
+		
 		AcornItemComment comment = new AcornItemComment();
 		comment.setUserNo(user.getNo());
 		comment.setItemNo(acornNo);
 		comment.setContent(content);
-		
 		acornService.insertComment(comment);
 		
-		return "redirect:/shopping/acorn/detail.do?acornno="+acornNo+"&pageno="+pageNo;
+		AcornItem acorn = acornService.getAcornByNo(acornNo);
+		acorn.setCommentCnt(acorn.getCommentCnt()+1);
+		acornService.updateAcorn(acorn);
+		
+		return "redirect:/shopping/acorn/detail.do?acornno="+acornNo;
 	}
 	
 	@RequestMapping("/likeComment.do")

@@ -23,6 +23,10 @@
 	a {
 		color: rgb(34, 34, 34);
 	}
+	.card-img-mall {
+		width: 100x;
+		height: 80px;
+	}
 	</style>
 </head>
 <body>
@@ -38,7 +42,7 @@
 <div class="container">
 	<div class="card">
 		<div class="card-header">
-			<a href="">홈</a> > <a href="">중분류</a> > 소분류
+			<a href="/shopping/main.do">홈</a> > <a href="list.do?catno=${product.categoryMidNo }&catlvl=2">${product.categoryMidNo }</a> > ${product.categoryLowNo }
 		</div>
 		<div class="card-body">
 	  		<div class="row no-gutters">
@@ -48,21 +52,21 @@
 	    		</div>
 	    		<div class="col-md-7">
 	      			<div class="card-body">
-	        			<h5 class="card-title">${product.detailName }</h5>
-	        			<h5 class="card-title"><strong>25000 ~ 최대가격 </strong>원</h5>
-    						<a href="${product.url }" class="btn btn-primary">구매URL</a>
+	        			<h5 class="card-title">${product.productBrandName } ${product.productName } [${product.productCd }]</h5>
+	        			<h5 class="card-title"><strong>${minAndMaxPrice.minPrice } ~ ${minAndMaxPrice.maxPrice } </strong>원</h5>
     						<button type="button" class="btn btn-info" >가격비교</button>
-    						<a href="list.do?pageno=1" class="btn btn-outline-primary">쇼핑계속</a>
+    						<a href="list.do?catno=${product.categoryNo }&catlvl=1" class="btn btn-primary">쇼핑계속</a>
 	        			<table class="table">
 	        				<tbody>
 	        					<tr>
 	        						<th>판매쇼핑몰</th>
 	        					</tr>
+	        					<c:forEach var="detail" items="${details }" end="3">
 	        					<tr>
-	        						<th>티몬</th>
-	        						<td><fmt:formatNumber value="" /> 원
+	        						<th>${detail.detailName }</th>
+	        						<td><fmt:formatNumber value="${detail.price }" /> 원
 	        						<c:choose>
-			        					<c:when test="">
+			        					<c:when test="${detail.freeDelivery eq 'Y' }">
 	                                       <span class="badge badge-info">무료배송</span>
 	                                 	</c:when>
 	                                 	<c:otherwise>
@@ -71,12 +75,7 @@
                                  	</c:choose>
 	        						</td>
 	        					</tr>
-	        					<tr>
-	        						<th>G마켓</th>
-	        						<td> 원
-	        							<span class="badge badge-secondary">유료배송</span>
-	        						</td>
-	        					</tr>
+	        					</c:forEach>
 	        				</tbody>
 	        			</table>
 	      			</div>
@@ -99,12 +98,7 @@
 					<h5 class="card-title  d-flex justify-content-between">
 						<span>${product.detailName }</span>
 					</h5>
-					<c:if test="${empty product.info }">
-						<div class="card-text text-center">내용이 없습니다.</div>
-					</c:if>
-					<c:if test="${not empty product.info }">
-						<div class="card-text">${product.info }</div>
-					</c:if>
+					<div class="card-text">${product.info }</div>
 				</div>
 			</div>
 		</div>
@@ -117,9 +111,12 @@
 						쇼핑몰 리스트
 					</h5>
 				</div>
+				<c:if test="${empty details }">
 				<div class="card-body">
 					<div class="card-text text-center">등록된 쇼핑몰이 없습니다.</div>
 				</div>
+				</c:if>
+				<c:if test="${not empty details }">
 				<div class="card-body border border-left-0 border-top-0 border-right-0">
 					<table class="table">
 	       				<colgroup>
@@ -139,40 +136,42 @@
 						    </tr>
 						  </thead>
 	       				<tbody>
-					    <tr>
-					      <td><img src="/resources/images/malls/gmarket.png" class="card-img" alt="..."></td>
-					      <td><a href="">${product.detailName }</a></td>
-					      <td> 원</td>
-					      <td><span class="badge badge-secondary">유료배송</span></td>
-					      <td><a href="" class="btn btn-outline-primary">구매하기</a></td>
-					    </tr>
-					    <tr>
-					      <td><img src="/resources/images/malls/tmon.png" class="card-img" alt="..."></td>
-					      <td><a href="">${product.detailName }</a></td>
-					      <td> 원</td>
-					      <td><span class="badge badge-info">무료배송</span></td>
-					      <td><a href="" class="btn btn-outline-primary">구매하기</a></td>
-					    </tr>
+	       				<c:forEach var="detail" items="${details }" end="0">
+						    <tr>
+						      <td><img src="/resources/images/malls/${detail.mallNo }.png" class="card-img-mall" alt="..."></td>
+						      <td style="font-size:16px;"><a href="${detail.url }">${detail.detailName }</a></td>
+						      <td style="font-size:16px;"><span style="color:red">최저가</br><fmt:formatNumber value="${detail.price }" /> 원</span></td>
+						      <c:choose>
+						      	<c:when test="${detail.freeDelivery eq 'N'}">
+						      		<td><span class="badge badge-secondary">유료배송</span></td>
+						      	</c:when>
+						      	<c:otherwise>
+						      		<td><span class="badge badge-info">무료배송</span></td>
+						      	</c:otherwise>
+						      </c:choose>
+						      <td><a href="${detail.url }" class="btn btn-outline-primary">구매하기</a></td>
+						    </tr>
+	       				</c:forEach>
+	       				<c:forEach var="detail" items="${details }" begin="1">
+						    <tr>
+						      <td><img src="/resources/images/malls/${detail.mallNo }.png" class="card-img-mall" alt="..."></td>
+						      <td style="font-size:16px;"><a href="${detail.url }">${detail.detailName }</a></td>
+						      <td style="font-size:16px;"><fmt:formatNumber value="${detail.price }" /> 원</td>
+						      <c:choose>
+						      	<c:when test="${detail.freeDelivery eq 'N'}">
+						      		<td><span class="badge badge-secondary">유료배송</span></td>
+						      	</c:when>
+						      	<c:otherwise>
+						      		<td><span class="badge badge-info">무료배송</span></td>
+						      	</c:otherwise>
+						      </c:choose>
+						      <td><a href="${detail.url }" class="btn btn-outline-primary">구매하기</a></td>
+						    </tr>
+	       				</c:forEach>
 					  </tbody>
 	       			</table>
 				</div>
-			</div>
-			<div class="card-body border border-left-0 border-top-0 border-right-0">
-				<div class="p-3">
-					<ul class="pagination justify-content-center">
-				  		<li class="page-item ">
-				  			<a class="page-link  " href="detail.hta?bookno=1&cartno=100&pageno=1&reviewpageno=1">이전</a>
-				  		</li>
-					  		<li class="page-item "><a class="page-link" href="detail.jsp?bookno=1&cartno=100&pageno=1&reviewpageno=1">1</a></li>
-					  		<li class="page-item "><a class="page-link" href="detail.jsp?bookno=1&cartno=100&pageno=1&reviewpageno=1">2</a></li>
-					  		<li class="page-item "><a class="page-link" href="detail.jsp?bookno=1&cartno=100&pageno=1&reviewpageno=1">3</a></li>
-					  		<li class="page-item "><a class="page-link" href="detail.jsp?bookno=1&cartno=100&pageno=1&reviewpageno=1">4</a></li>
-					  		<li class="page-item "><a class="page-link" href="detail.jsp?bookno=1&cartno=100&pageno=1&reviewpageno=1">5</a></li>
-				  		<li class="page-item ">
-				  			<a class="page-link  " href="detail.hta?bookno=1&cartno=100&pageno=1&reviewpageno=1">다음</a>
-				  		</li>
-					</ul>
-				</div>
+				</c:if>
 			</div>
 		</div>
 	</div>

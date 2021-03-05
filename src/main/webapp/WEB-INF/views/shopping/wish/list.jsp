@@ -82,7 +82,7 @@
 						<c:choose>
 							<c:when test="${empty wishItems }">
 								<tr>
-									<td colspan="7" class="text-center">장바구니가 비어 있습니다.</td>
+									<td colspan="7" class="text-center">소원리스트가 비어 있습니다.</td>
 								</tr>
 							</c:when>
 							<c:otherwise>

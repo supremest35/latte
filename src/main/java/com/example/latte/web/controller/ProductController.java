@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.latte.dto.ProductDto;
 import com.example.latte.service.MarketCategoryService;
 import com.example.latte.service.ProductService;
 import com.example.latte.vo.MarketCategory;
@@ -27,7 +28,6 @@ import com.example.latte.vo.ProductBrand;
 import com.example.latte.vo.ProductColor;
 import com.example.latte.vo.ProductMall;
 import com.example.latte.vo.ProductPhoto;
-import com.example.latte.form.ProductForm;
 
 @Controller
 @RequestMapping("/shopping/product")
@@ -44,7 +44,7 @@ public class ProductController {
 
 	@RequestMapping("/list.do")
 	public String list(@RequestParam(name = "catno", required = false, defaultValue = "-1") int categoryNo,
-			@RequestParam(name = "catlvl", required = false) String catlvl,
+			@RequestParam(name = "catlvl", required = false, defaultValue = "1") String catlvl,
 			@RequestParam(name = "pageno", required = false, defaultValue = "1") int pageNo,
 			@RequestParam(name = "rows", required = false, defaultValue = "6") int rows, Model model) {
 
@@ -95,7 +95,6 @@ public class ProductController {
 	@RequestMapping("/detail.do")
 	public String detail(@RequestParam("prodno") int prodNo, Model model) {
 
-		// 그 상품의 상세정보 요청시 상품의 조회수가 증가한다.
 		Product p = productService.getProductByNo(prodNo);
 		p.setHitCnt(p.getHitCnt() + 1);
 
@@ -103,8 +102,13 @@ public class ProductController {
 
 		Product product = productService.getProductDetail(prodNo);
 		MarketLowCategory category = marketCategoryService.getLowCategory(product.getCategoryLowNo());
+		
+		List<Product> details = productService.getProductDetailsByProdNo(prodNo);
+		ProductDto minAndMaxPrice = productService.getProductMinAndMaxPrice(prodNo);
 
 		model.addAttribute("product", product);
+		model.addAttribute("minAndMaxPrice", minAndMaxPrice);
+		model.addAttribute("details", details);
 		model.addAttribute("category", category);
 
 		return "/shopping/product/detail";
@@ -148,6 +152,12 @@ public class ProductController {
 			product.setPhotoFilename("nopic");
 		}
 		productService.addNewProduct(product);
+		
+		/*
+		Product p = productService.getProductByNo(product.getNo());
+		p.setDetailProductNo(product.getNo());
+		productService.updateProduct(p);
+		*/
 
 		ProductPhoto photo = new ProductPhoto();
 		photo.setProductNo(product.getNo());

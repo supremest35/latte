@@ -229,7 +229,40 @@
 		
 		var value = document.querySelector("#product-category").value
 	}
-
+	function checkUserForm(event) {
+		var form = document.querySelector("#product-form");
+		
+		if (!document.querySelector("#product-low-category").value) {
+			alert("카테고리 소분류까지 필수입력값입니다.");
+			event.preventDefault();
+			return;
+		}
+		if (!document.querySelector("#product-color").value) {
+			alert("상품색은 필수입력값입니다.");
+			event.preventDefault();
+			return;
+		}
+		if (!document.querySelector("#product-mall").value) {
+			alert("쇼핑몰 입력은 필수입력값입니다.");
+			event.preventDefault();
+			return;
+		}
+		if (!document.querySelector("#product-brand").value) {
+			alert("브랜드명은 필수입력값입니다.");
+			event.preventDefault();
+			return;
+		}
+		if (!document.querySelector("#product-price").value) {
+			alert("가격은 필수입력값입니다.");
+			event.preventDefault();
+			return;
+		}
+		if (!document.querySelector("#product-url").value) {
+			alert("url은 필수입력값입니다.");
+			event.preventDefault();
+			return;
+		}
+	}
 </script>
 </body>
 </html>

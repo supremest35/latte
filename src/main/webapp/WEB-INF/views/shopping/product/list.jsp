@@ -58,38 +58,23 @@
                <c:forEach var="product" items="${products }">
                   <div class="col-3 mb-3">
                      <div class="card">
-                         <div class="card-body" style="height: 400.61px;">
+                         <div class="card-body" style="height: 380px;">
                              <a href="detail.do?prodno=${product.no }&pageno=${page.pageNo }&catno=${product.categoryNo }">
                                 <img class="img-thumbnail" src="/resources/images/products/${product.photoFilename }" alt="Card image">
                              </a>
-                              <strong class="mb-2 product-name">${product.productName }</strong>
+                              <strong class="mb-2 product-name">${product.productBrandName}&nbsp;${product.productName } [${product.productCd }]</strong>
                               <div class="d-flex justify-content">
-                                 <strong class="text-danger"><value="DETAIL_PRICE" /></strong> 원
+                                 <strong class="text-danger"><fmt:formatNumber value="${product.minPrice }" /> ~ <fmt:formatNumber value="${product.maxPrice }" /></strong> 원
                               </div>
 						  </div>
                       </div>      
                   </div>
                </c:forEach>
                </div>
-            </div>   
+            </div> 
          </div>
       </div>
    </div>
 </div>
-<script type="text/javascript">
-	function searchBrand() {
-		var form = document.getElementById("product-search-form");
-		alert(form);
-		form.setAttribute("action", "../product/list.do");
-		form.submit();
-	}
-	
-	function searchColor() {
-		var form = document.getElementById("product-search-form");
-		alert(form);
-		form.setAttribute("action", "../product/list.do");
-		form.submit();
-	}
-</script>
 </body>
 </html>
