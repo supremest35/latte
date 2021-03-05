@@ -72,7 +72,7 @@
 	      </a>
 	      <div class="dropdown-menu">
 	      	<c:forEach var="category" items="${acornCategories }">
-	        	<a class="dropdown-item" href="/shopping/acorn/list.do?catno=${category.no }&catlvl=2">${category.name }</a>
+	        	<a class="dropdown-item" href="/shopping/acorn/list.do?catno=${category.no }">${category.name }</a>
 	        </c:forEach>
 	      </div>
 	    </li>

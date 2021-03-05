@@ -130,8 +130,8 @@
 										</div>
 										<div class="thumb-content">
 											<strong>${product.productBrandName } </strong>
-											<h4><a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}">${product.productName }</a></h4>
-											<p class="item-price"> <span>DETAIL_PRICE</span>원</p>
+											<h4><a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}">${product.productName } [${product.productCd }]</a></h4>
+											<p class="item-price"> <span><fmt:formatNumber value="${product.minPrice }" /> ~ <fmt:formatNumber value="${product.maxPrice }" /></span> 원</p>
 										</div>						
 									</div>
 								</div>
@@ -150,8 +150,8 @@
 										</div>
 										<div class="thumb-content">
 											<strong>${product.productBrandName } </strong>
-											<h4><a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}">${product.productName }</a></h4>
-											<p class="item-price"> <span>DETAIL_PRICE</span>원</p>
+											<h4><a href="product/detail.do?prodno=${product.no }&catno=${product.categoryNo}">${product.productName } [${product.productCd }]</a></h4>
+											<p class="item-price"> <span><fmt:formatNumber value="${product.minPrice }" /> ~ <fmt:formatNumber value="${product.maxPrice }" /></span> 원</p>
 										</div>						
 									</div>
 								</div>

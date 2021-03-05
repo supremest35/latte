@@ -35,6 +35,15 @@
 		where
 			product_no = #{value}
 	</select>
+	<select id="getProductMinAndMaxPrice" resultType="com.example.latte.dto.ProductDto">
+		select
+			  MIN(product_price)		as minPrice
+			, MAX(product_price)		as maxPrice
+		from
+			latte_product_details
+		where
+			product_no = #{value}
+	</select>
 
 	<select id="getAllProducts" resultType="com.example.latte.vo.Product">
 		select
@@ -56,7 +65,8 @@
 	</select>
 	<select id="getAllProductDetails" parameterType="int" resultType="com.example.latte.vo.Product">
 		select
-			  product_cd			as detailCd
+			  product_no			as detailProductNo
+			, product_cd			as detailCd
 		    , product_name			as detailName
 		    , product_brand_name	as detailBrandName
 		    , product_mall_no		as mallNo
@@ -69,7 +79,23 @@
 			product_cd = #{prodNo}
 		order by price
 	</select>	
-	<select id="getHitProducts" resultType="com.example.latte.vo.Product">
+	<select id="getProductDetailsByProdNo" parameterType="int" resultType="com.example.latte.vo.Product">
+		select
+			  product_no			as detailProductNo
+			, product_cd			as detailCd
+		    , product_name			as detailName
+		    , product_brand_name	as detailBrandName
+		    , product_mall_no		as mallNo
+		    , product_price			as price
+		    , product_free_delivery	as freeDelivery
+		    , product_url			as url
+		from
+			latte_product_details
+		where
+			product_no = #{prodNo}
+		order by price
+	</select>	
+	<select id="getHitProducts" resultType="com.example.latte.dto.ProductDto">
 		select *
 		from
 			(select
@@ -82,20 +108,17 @@
 				product_brand_name		as productBrandName,
 				product_cd				as productCd,
 				product_name			as productName,
-				product_info		    as info,
-				product_deleted			as deleted,
 				product_hit_cnt			as hitCnt,
-				product_created_date	as createdDate,
 				product_photo_filename	as photoFilename
 			from
 				latte_products)
 			<where>
 				<if test="begin != 0 and end != 0">
-					rn >= 1 and rn &lt;= 30
+					rn >= 1 and rn &lt;= 18
 				</if>
 			</where>
 	</select>
-	<select id="getProductsBycondition" parameterType="map" resultType="com.example.latte.vo.Product">
+	<select id="getProductsBycondition" parameterType="map" resultType="com.example.latte.dto.ProductDto">
 		 select *
 		 from
 		 	(
@@ -109,10 +132,7 @@
 				product_brand_name		as productBrandName,
 				product_cd				as productCd,
 				product_name			as productName,
-				product_info		    as info,
-				product_deleted			as deleted,
 				product_hit_cnt			as hitCnt,
-				product_created_date	as createdDate,
 				product_photo_filename	as photoFilename
 			from
 		       	latte_products
@@ -156,16 +176,6 @@
 			product_color_name		as name
 		from
 			latte_product_colors
-	</select>
-	<select id="getMinAndMaxPriceByCd" parameterType="String" resultType="com.example.latte.dto.ProductDto">
-		/*
-		select
-			max		as maxPrice,
-			min		as minPrice,
-		from(
-		    select *
-		    from latte_product_details
-		    where product_cd = #{productCd})
 	</select>
 	<select id="getAllMalls" resultType="com.example.latte.vo.ProductMall">
 		select

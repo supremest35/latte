@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Pagination {
 
-	private int rowsPerPage = 6;
+	private int rowsPerPage = 12;
 	private int pagesPerBlock = 5;
 	private int pageNo;
 	private int blockNo;

@@ -14,11 +14,14 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style type="text/css">
-	body, button {
+	body, button  {
 		font-size: 18px;
 	    line-height: 1.5;
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
+	}
+	th, td {
+		font-size: 16px;
 	}
 	a {
 		color: rgb(34, 34, 34);
@@ -42,7 +45,7 @@
 <div class="container">
 	<div class="card">
 		<div class="card-header">
-			<a href="">홈</a> > <a href="">중분류</a> > 소분류
+			<a href="">홈</a> > <a href="">${category.name }</a>
 		</div>
 		<div class="row mb-3">
 			<div class="col-12 mb-3">
@@ -83,7 +86,7 @@
 				        						<th>판매</th>
 				        						<td>${acorn.sellCnt } 개</td>
 				        						<th>등록일</th>
-				        						<td>${acorn.createdDate }</td>
+				        						<td><fmt:formatDate value="${acorn.createdDate }"/></td>
 				        					</tr>
 				        					<tr>
 				        						<th>구매수량</th>
@@ -138,21 +141,23 @@
 					</c:otherwise>
 				</c:choose>	
 			</div>
+			<c:if test="${not empty comments}">
 			<div class="card-body border border-left-0 border-top-0 border-right-0">
 				<div class="p-3">
 					<ul class="pagination justify-content-center">
-				  		<li class="page-item ${commentPageNo eq 1 ? 'disabled' : '' }">
-				  			<a class="page-link " href="detail.do?acornno=${acorn.no }&pageno=${pageNo }&reviewpageno=${commentPageNo-1 }">이전</a>
+				  		<li class="page-item ${commentpageno eq 1 ? 'disabled' : '' }">
+				  			<a class="page-link " href="detail.do?acornno=${acorn.no }&reviewpageno=${commentpageno-1 }">이전</a>
 				  		</li>
-				  		<c:forEach var="num" begin="1" end="${totalPages }">
-					  		<li class="page-item ${commentPageNo eq num ? 'active' : '' }"><a class="page-link" href="detail.do?acornno=${acorn.no }&pageno=${pageNo }&commentpageno=${num }">${num }</a></li>
+				  		<c:forEach var="num" begin="1" end="${totalpages }">
+					  		<li class="page-item ${commentpageno eq num ? 'active' : '' }"><a class="page-link" href="detail.do?acornno=${acorn.no }&commentpageno=${num }">${num }</a></li>
 					  	</c:forEach>
-				  		<li class="page-item ${commentPageNo eq totalPages ? 'disabled' : '' }">
-				  			<a class="page-link " href="detail.do?acornno=${acorn.no }&pageno=${pageNo }&reviewpageno=${commentPageNo+1 }">다음</a>
+				  		<li class="page-item ${commentpageno eq totalpages ? 'disabled' : '' }">
+				  			<a class="page-link " href="detail.do?acornno=${acorn.no }&reviewpageno=${commentpageno+1 }">다음</a>
 				  		</li>
 					</ul>
 				</div>
 			</div>
+			</c:if>
 		</div>
 	</div>
 	<div class="modal fade" id="modal-comment-form" tabindex="-1" aria-hidden="true">

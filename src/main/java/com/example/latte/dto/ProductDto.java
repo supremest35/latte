@@ -1,7 +1,5 @@
 package com.example.latte.dto;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
@@ -12,12 +10,11 @@ public class ProductDto {
 	private int categoryMidNo;
 	private int categoryLowNo;
 	private int colorNo;
-	private String mallNo;
 	private String productBrandName;
 	private String productCd;
 	private String productName;
-	private String minPrice;
-	private String maxPrice;
+	private int minPrice;
+	private int maxPrice;
 	private int hitCnt;
-	private Date createdDate;
+	private String photoFilename;
 }

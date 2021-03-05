@@ -28,7 +28,7 @@ public class WishItemController {
 		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
 		
 		if (user == null) {
-			return "redirect:/main.do";	// '로그인이 필요한 서비스입니다' 에러화면 추가.
+			return "redirect:/shopping/main.do";
 		}
 		for (int i=0; i<acornNoArr.size(); i++) {
 			WishItem wishItem = wishService.getWishItemByAcornNoAndUserNo(acornNoArr.get(i), user.getNo());

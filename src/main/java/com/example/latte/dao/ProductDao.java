@@ -20,14 +20,15 @@ public interface ProductDao {
 	int getTotalCountByCondition(Map<String, Object> condition);
 	
 	Product getProductByNo(int prodNo);
+	ProductDto getProductMinAndMaxPrice(int prodNo);
 
 	List<Product> getAllProducts();
 	List<Product> getAllProductDetails();
-	List<Product> getHitProducts();
-	List<Product> getProductsBycondition(Map<String, Object> condition);
+	List<Product> getProductDetailsByProdNo(int prodNo);
 	List<ProductBrand> getAllBrands();
 	List<ProductColor> getAllColors();
-	List<ProductDto> getMinAndMaxPriceByCd(String productCd);
+	List<ProductDto> getHitProducts();
+	List<ProductDto> getProductsBycondition(Map<String, Object> condition);
 	List<ProductMall> getAllMalls();
 	List<ProductPhoto> getPhotosByProductNo(int prodNo);
 	

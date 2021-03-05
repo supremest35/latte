@@ -54,9 +54,9 @@ public class AcornServiceImpl implements AcornService {
 		
 		int totalRows = acornDao.getTotalCountByCondition(condition);
 		
-		Pagination pagination = new Pagination((Integer) condition.get("pageno"), totalRows);
-		
 		List<AcornItem> acorns = acornDao.getAcornsBycondition(condition);
+
+		Pagination pagination = new Pagination((Integer) condition.get("pageno"), totalRows);
 		
 		result.put("acorns", acorns);
 		result.put("pagination", pagination);
