@@ -120,7 +120,7 @@
 								<label>프로필 사진</label>
 								<button type="button" class="btn-sm" style="float: right;" data-toggle="collapse" data-target="#select-photo">등록하기</button>
 								<div class="collapse" id="select-photo">
-									<input type="file" class="form-control" @change="selectPhoto" ref="file" />
+									<input type="file" class="form-control mt-3" @change="selectPhoto" ref="file" />
 								</div>
 							</div>
 						</div>

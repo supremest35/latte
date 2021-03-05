@@ -24,9 +24,11 @@ import com.example.latte.form.NoteForm;
 import com.example.latte.service.DeptService;
 import com.example.latte.service.NoteService;
 import com.example.latte.service.UserService;
+import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.Dept;
 import com.example.latte.vo.Note;
 import com.example.latte.vo.NoteCategory;
+import com.example.latte.vo.Relationship;
 import com.example.latte.vo.User;
 
 
@@ -38,6 +40,8 @@ public class NoteController {
 
 	@Autowired
 	NoteService noteService;
+	@Autowired
+	UserService userService;
 	
 	@RequestMapping("getCategories")
 	public List<NoteCategory> getCategories(){
@@ -45,10 +49,11 @@ public class NoteController {
 	}
 	
 	@RequestMapping("sendNote")
-	public void addNote(@RequestBody NoteForm noteForm) {
+	public String addNote(@RequestBody NoteForm noteForm) {
 		Note note = new Note();
 		BeanUtils.copyProperties(noteForm, note);
-		noteService.insertNote(note);
+		
+		return noteService.insertNote(note);
 	}
 	
 	@RequestMapping("getDtoList")
@@ -56,8 +61,6 @@ public class NoteController {
 					@RequestParam("sort") String sort, @RequestParam(name="pageNo", defaultValue="1") int pageNo){
 		// 현재 페이지 번호 , 탭 이름, 유저넘버 -> 맵에 담아서 호출 
 		
-		System.out.println("###기준 사용자 번호: " + userNo);
-		System.out.println("### 분류  : " + sort);
 		// 쪽지를 조회할 옵션 설정
 		Map<String, Object> opt = new HashMap<>();		
 		opt.put("userNo", userNo);
@@ -76,7 +79,7 @@ public class NoteController {
 	@RequestMapping("getNoteDetail/{no}")
 	public NoteDto getNoteDetail(@PathVariable("no") int noteNo){
 		Note note = noteService.getNoteByNo(noteNo);
-		if("STANDBY".equals(note.getStatus())) {
+		if("STANDBY".equals(note.getStatus()) && note.getSenderNo() != ((User)SessionUtils.getAttribute("LOGINED_USER")).getNo()) {
 			note.setStatus("READ");
 			noteService.updateNote(note);
 		}
@@ -91,7 +94,29 @@ public class NoteController {
 		
 		return noteNoArr.size();
 	}
+	
+	@RequestMapping("setRelationship")
+	public String setRelationship(@RequestParam("userNo") int userNo, 
+						@RequestParam("status") String status, @RequestParam("friendNo") int friendNo) {
 		
+		System.out.println("@@@@@@@@@@@  일촌 신청 수락/거절 메서드 실행됨 @@@@@@@@@@@@@@@");
+		Map<String, Integer> nums = new HashMap<>();
+		nums.put("userNo", userNo);
+		nums.put("friendNo", friendNo);
+		Relationship re =  noteService.findRelationship(nums);
+		
+		if(re != null) {
+			re.setStatus(status);
+			noteService.updateRelationship(re);
+		}
+		
+		if("accept".equals(status)) {
+			return re.getFriendNickName()+"님의 일촌 신청이 수락되었습니다.";
+		}else {
+			return re.getFriendNickName()+"님의 일촌 신청이 거절되었습니다.";
+		}
+	}
+	
 }
 
 

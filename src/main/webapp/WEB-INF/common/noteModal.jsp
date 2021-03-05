@@ -18,13 +18,13 @@
 					<!-- Nav tabs -->
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
-							<a class="nav-link" id="note-friend" data-toggle="tab" href="#friend" @click="changeTab('friend')">일촌신청</a>
+							<a class="nav-link" :class="{active: tab == 'normal'}" data-toggle="tab" href="#normal" @click="changeTab('normal',1)">쪽지함</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#normal" @click="changeTab('normal')">쪽지함</a>
+							<a class="nav-link" :class="{active: tab == 'friend'}" id="note-friend" data-toggle="tab" href="#friend" @click="changeTab('friend',1)">일촌신청</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#send" @click="changeTab('send')">보낸 쪽지함</a>
+							<a class="nav-link" :class="{active: tab == 'send'}" data-toggle="tab" href="#send" @click="changeTab('send',1)">보낸 쪽지함</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" data-toggle="tab" href="#write" >쪽지쓰기</a>
@@ -58,7 +58,7 @@
 									<tbody>
 										<tr v-for="normal in noteDtoList" :key="normal.noteNo">
 											<td><input type="checkbox" :value="normal.noteNo" v-model="ckNormalNoteNo"></td>
-											<td>{{normal.senderName}}</td>
+											<td>{{normal.senderTotalName}}</td>
 											<td><a data-toggle="inner-modal" href="#detail" @click="shownoteDetail(normal.noteNo)">{{normal.title}}</a></td>
 											<td>{{normal.createdDate | moment}}</td>
 											<td>{{normal.status}}</td>
@@ -68,6 +68,24 @@
 							</div>
 						</div>
 						<button type="button" class="del-btn btn-sm" @click="deleteNote(ckNormalNoteNo)">선택삭제</button>
+						<!-- Block Pagination -->
+						<ul class="pagination pagination-sm justify-content-center mb-1" >
+						
+							<li class="page-item" :class="{disabled:pagination.pageNo == 1}">
+								<a class="page-link" @click="pagnation('normal')">Previous</a>
+							</li>
+							
+							<li v-for="i in paginationRange" class="page-item">
+								<a class="page-link" @click="pagnation('normal',i)">{{i}}</a>
+							</li>
+							
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							
+							<li class="page-item" :class="{disabled:pagination.pageNo == pagination.totalPageNo}">
+								<a class="page-link" @click="pagnation('normal')">Next</a>
+							</li>
+						</ul>
 					</div>
 					<!-- 쪽지함 끝 -->
 					<!-- 일촌신청 -->
@@ -95,7 +113,7 @@
 									<tbody>
 										<tr v-for="friend in noteDtoList" :key="friend.noteNo">
 											<td><input type="checkbox" :value="friend.noteNo" v-model="ckFriendNoteNo"></td>
-											<td>{{friend.senderName}}</td>
+											<td>{{friend.senderTotalName}}</td>
 											<td><a data-toggle="inner-modal" href="#detail" @click="shownoteDetail(friend.noteNo)">{{friend.title}}</a></td>
 											<td>{{friend.createdDate | moment}}</td>
 											<td>{{friend.status}}</td>
@@ -105,6 +123,13 @@
 							</div>
 						</div>
 						<button type="button" class="del-btn btn-sm" @click="deleteNote(ckFriendNoteNo)">선택삭제</button>
+						<ul class="pagination pagination-sm justify-content-center" >
+						  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+						  <li class="page-item"><a class="page-link" href="#">1</a></li>
+						  <li class="page-item"><a class="page-link" href="#">2</a></li>
+						  <li class="page-item"><a class="page-link" href="#">3</a></li>
+						  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+						</ul>
 					</div>
 					<!-- 일촌신청 리스트 끝 -->
 					<!-- 보낸 쪽지함 시작 -->
@@ -132,7 +157,7 @@
 									<tbody>
 										<tr v-for="send in noteDtoList" :key="send.noteNo">
 											<td><input type="checkbox" :value="send.noteNo" v-model="ckSendNoteNo"></td>
-											<td>{{send.senderName}}</td>
+											<td>{{send.senderTotalName}}</td>
 											<td><a data-toggle="inner-modal" href="#detail" @click="shownoteDetail(send.noteNo)">{{send.title}}</a></td>
 											<td>{{send.createdDate | moment}}</td>
 											<td>{{send.status}}</td>
@@ -142,6 +167,13 @@
 							</div>
 						</div>
 						<button type="button" class="del-btn btn-sm" @click="deleteNote(ckSendNoteNo)" >선택삭제</button>
+						<ul class="pagination pagination-sm justify-content-center" >
+						  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+						  <li class="page-item"><a class="page-link" href="#">1</a></li>
+						  <li class="page-item"><a class="page-link" href="#">2</a></li>
+						  <li class="page-item"><a class="page-link" href="#">3</a></li>
+						  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+						</ul>
 					</div>
 					<!-- 보낸 쪽지함 끝 -->
 					<!-- 쪽지쓰기 -->
@@ -251,6 +283,15 @@
 									<label class="font-weight-bold">내용</label>
 									<textarea rows="5" class="form-control" name="content" :value="detailNote.content" readonly></textarea>
 								</div>
+ 							    <div v-show="detailNote.categoryNo==1" class="btn-group btn-group-sm" id="friend-btn">
+								    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+								       		친구 하기
+								    </button>
+							    <div class="dropdown-menu" id="friend-downMenu">
+								    <button type="button" class="dropdown-item" id="accept-btn" @click="relationship('ACCEPT',detailNote.senderNo)">수락하기</button>
+								    <button type="button" class="dropdown-item" id="deny-btn" @click="relationship('DENY',detailNote.senderNo)">거절하기</button>
+							    </div>
+							  </div>
 							</div>
 						</div>
 					</div>
@@ -270,41 +311,47 @@
 	var noteApp = new Vue({
 		el:'#modal-note',
 		data:{
-			// 노트 상세보기
-			showInnerModal:false,
+			tab:'',
 			// 노트리스트
 			noteDtoList:[],
 			pagination:{},
-			deptList:[],
+			paginationRange:[],
+			// 노트 상세보기
+			showInnerModal:false,
+			detailNote:{},
 			// 노트쓰기 초기 설정값
-			loginedNo: '',
-			userDept:'',
+			deptList:[],
 			noteCategories:[],
+			loginedNo:'',
+			userDept:'',
 			newNote:{
 				categoryNo:'',
 				recipientNo:'',
 				title:'',
 				content:''
 			},
-			detailNote:{},
-			// 선택 삭제 노트번호 배열
-			ckNormalNoteNo:[],
-			ckFriendNoteNo:[],
-			ckSendNoteNo:[],
 			// 수신자 자동완성
 			showSearchedUserList:false,
 			userList:[],
-			searchedUserList: []
+			searchedUserList: [],
+			// 선택 삭제 노트번호 배열
+			ckNormalNoteNo:[],
+			ckFriendNoteNo:[],
+			ckSendNoteNo:[]
 		}, // end data
 		methods: {
-			changeTab: function (tabName) {
+			changeTab: function (tabName,pageNo) {
 				var that = this;
+				that.tab = tabName;
 				var userNo = that.loginedNo;
-				axios.get("http://localhost/api/notes/getDtoList",{ params: {pageNo:1,sort:tabName,userNo:userNo}})
+				axios.get("http://localhost/api/notes/getDtoList",{ params: {pageNo:pageNo,sort:tabName,userNo:userNo}})
 						.then(function(response){
 							that.noteDtoList = response.data.noteDtos;
 							that.pagination = response.data.pagination;
 						})
+			},
+			pagnation: function() {
+				
 			},
 			typing: function(e) {
 				this.noteSearchName = e.target.value;
@@ -340,36 +387,43 @@
 					alert("<요약> 항목을 선택해주세요.");
 					return;
 				}
-				
 				axios.post("http://localhost/api/notes/sendNote", noteApp.newNote).then(function (response) {
-					alert('쪽지 전송이 완료되었습니다.');
+					alert(response.data);
+					$("#selectedRec-name").text();
+					noteApp.newNote.recipientNo = '';
 					noteApp.newNote.title = '';
 					noteApp.newNote.content = '';
 				})
 			},
 			shownoteDetail: function (no) {
 				noteApp.showInnerModal = true;
-				
 				axios.get("http://localhost/api/notes/getNoteDetail/"+no).then(function(response){
-					console.log(response.data);
 					noteApp.detailNote = response.data;
 				})
 			},
 			closeInnerModal: function () {
 				noteApp.showInnerModal = false
-				
 			},
 			deleteNote: function (arr) {
 				if(arr.length==0){
 					alert("삭제할 쪽지를 선택해주세요.");
 					return;
 				}else{
-					alert("삭제할 번호 배열 : "+arr);
 					axios.post("http://localhost/api/notes/deleteNote",arr).then(function (response) {
 						alert(response.data+"개의 쪽지가 삭제되었습니다.");
 						noteApp.changeTab('friend');
 					})
 				}
+			},
+			relationship: function (status, friendNo) {
+				var that = this;
+				var userNo = that.loginedNo;
+				
+				axios.get("http://localhost/api/notes/setRelationship/",{ params: 
+									{userNo: userNo, status: status, friendNo:friendNo}})
+					.then(function (response) {
+						console.log(response.data);
+					})
 			}
 		}, // end methods
 		filters: {
