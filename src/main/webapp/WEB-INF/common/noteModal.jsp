@@ -72,18 +72,15 @@
 						<ul class="pagination pagination-sm justify-content-center mb-1" >
 						
 							<li class="page-item" :class="{disabled:pagination.pageNo == 1}">
-								<a class="page-link" @click="pagnation('normal')">Previous</a>
+								<a class="page-link" @click="changeTab('normal',pagination.pageNo-1)">Previous</a>
 							</li>
 							
-							<li v-for="i in paginationRange" class="page-item">
-								<a class="page-link" @click="pagnation('normal',i)">{{i}}</a>
+							<li v-for="i in paginationRange" class="page-item" :class="{active:pagination.pageNo == i}">
+								<a class="page-link" @click="changeTab('normal',i)">{{i}}</a>
 							</li>
 							
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							
-							<li class="page-item" :class="{disabled:pagination.pageNo == pagination.totalPageNo}">
-								<a class="page-link" @click="pagnation('normal')">Next</a>
+							<li class="page-item" :class="{disabled:pagination.pageNo == pagination.totalPages}">
+								<a class="page-link" @click="changeTab('normal',pagination.pageNo+1)">Next</a>
 							</li>
 						</ul>
 					</div>
@@ -348,9 +345,14 @@
 						.then(function(response){
 							that.noteDtoList = response.data.noteDtos;
 							that.pagination = response.data.pagination;
+							that.pagnationRange(response.data.pagination.beginPage, response.data.pagination.endPage);
 						})
 			},
-			pagnation: function() {
+			pagnationRange: function(begin,end) {
+				console.log("페이지범위 메소드 실행");
+				this.paginationRange = new Array(end-begin+1).fill(begin).map((n,i)=>n+i);
+	
+				//new Array(end-begin+1).fill(begin).map((n,i)=>n+i).forEach((n) => self.paginationRange.push(n));
 				
 			},
 			typing: function(e) {
