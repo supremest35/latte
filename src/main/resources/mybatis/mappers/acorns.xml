@@ -131,6 +131,7 @@
 			acorn_item_stock = #{stock},
 			acorn_item_comment_cnt = #{commentCnt},
 			acorn_item_like_cnt = #{likeCnt}
+		where acorn_item_no = #{no}
 	</update>
 
 </mapper>

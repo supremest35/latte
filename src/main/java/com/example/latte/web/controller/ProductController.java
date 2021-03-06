@@ -45,7 +45,6 @@ public class ProductController {
 	@RequestMapping("/list.do")
 	public String list(@RequestParam(name = "catno", required = false, defaultValue = "-1") int categoryNo,
 			@RequestParam(name = "catlvl", required = false, defaultValue = "1") String catlvl,
-			@RequestParam(name = "pageno", required = false, defaultValue = "1") int pageNo,
 			@RequestParam(name = "rows", required = false, defaultValue = "6") int rows, Model model) {
 
 		Map<String, Object> condition = new HashMap<String, Object>();
@@ -65,7 +64,6 @@ public class ProductController {
 				model.addAttribute("category", lowCategory);
 				break;
 			}
-
 		}
 		List<MarketLowCategory> lowCategories = marketCategoryService.getLowCategories(categoryNo);
 		List<MarketMidCategory> midCategories = marketCategoryService.getMidCategories(categoryNo);
@@ -77,10 +75,7 @@ public class ProductController {
 		model.addAttribute("brands", brands);
 		model.addAttribute("colors", colors);
 
-		condition.put("pageNo", pageNo);
 		condition.put("rows", rows);
-		condition.put("begin", (pageNo - 1) * rows + 1);
-		condition.put("end", pageNo * rows);
 		condition.put("catlvl", catlvl);
 
 		Map<String, Object> resultMap = productService.getProducts(condition);

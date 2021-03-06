@@ -1,94 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.example.latte.dao.MarketCategoryDao">
+<mapper namespace="com.example.latte.dao.ShoppingManageDao">
+	
+	<select id="retrieveUpperCategory" parameterType="Map" resultType="Map">
+		SELECT  MARKET_CATEGORY_NO			as no
+		      , MARKET_CATEGORY_NAME		as name
+			  , MARKET_CATEGORY_UPPER_NO	as uppNo
+		FROM LATTE_MARKET_CATEGORIES
+		WHERE MARKET_CATEGORY_NO = #{NO}
+	</select>
+	
+	<select id="retrieveMidCategory" parameterType="Map" resultType="Map">
+		SELECT   MARKET_CATEGORY_NO
+				,MARKET_CATEGORY_NAME
+				,MARKET_CATEGORY_UPPER_NO
+		FROM LATTE_MARKET_MID_CATEGORIES
+		WHERE MARKET_CATEGORY_UPPER_NO = #{UPP_NO}
+	</select>
+	
+	<select id="retrieveLowCategory" parameterType="Map" resultType="Map">
+		SELECT   MARKET_CATEGORY_NO
+				,MARKET_CATEGORY_NAME
+				,MARKET_CATEGORY_UPPER_NO
+		FROM LATTE_MARKET_LOW_CATEGORIES
+		WHERE MARKET_CATEGORY_UPPER_NO = #{UPP_NO}
+	</select>
+	
+	<select id="retrieveProductByColor" parameterType="Map" resultType="Map">
+		 SELECT *
+		 FROM
+		 	(
+		    SELECT
+		       	 A.PRODUCT_NO				
+				, A.PRODUCT_CATEGORY_NO		
+				, A.PRODUCT_MID_CATEGORY_NO	
+				, A.PRODUCT_LOW_CATEGORY_NO 
+				, A.PRODUCT_COLOR_NO		
+				, A.PRODUCT_BRAND_NAME		
+				, A.PRODUCT_CD				
+				, A.PRODUCT_NAME			
+				, A.PRODUCT_HIT_CNT			
+				, A.PRODUCT_PHOTO_FILENAME
+                , DECODE(MIN(B.PRODUCT_PRICE),MAX(B.PRODUCT_PRICE),TO_CHAR(MAX(B.PRODUCT_PRICE)),TO_CHAR(MIN(B.PRODUCT_PRICE),'FM999,999,999') || ' ~ ' || TO_CHAR(MAX(B.PRODUCT_PRICE),'FM999,999,999')) AS PRODUCT_PRICE	
+			FROM   LATTE_PRODUCTS A 
+			     , LATTE_PRODUCT_DETAILS B
+			WHERE A.PRODUCT_CD = B.PRODUCT_CD
+			<if test='CAT_NO != -1'>
+				<choose>
+					<when test='CAT_LVL == "1"'>
+						AND A.PRODUCT_CATEGORY_NO = #{CAT_NO}
+					</when>
+					<when test='CAT_LVL == "2"'>
+						AND A.PRODUCT_MID_CATEGORY_NO = #{CAT_NO}
+					</when>
+					<when test='CAT_LVL == "3"'>
+						AND A.PRODUCT_LOW_CATEGORY_NO = #{CAT_NO}
+					</when>
+					<otherwise>
+						AND A.PRODUCT_CATEGORY_NO = #{CAT_NO}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="PD_COLOR != null"> 
+				AND A.PRODUCT_COLOR_NO IN (${PD_COLOR}) 
+			</if>
+			GROUP BY A.PRODUCT_NO				
+                    , A.PRODUCT_CATEGORY_NO		
+                    , A.PRODUCT_MID_CATEGORY_NO	
+                    , A.PRODUCT_LOW_CATEGORY_NO 
+                    , A.PRODUCT_COLOR_NO		
+                    , A.PRODUCT_BRAND_NAME		
+                    , A.PRODUCT_CD				
+                    , A.PRODUCT_NAME			
+                    , A.PRODUCT_HIT_CNT			
+                    , A.PRODUCT_PHOTO_FILENAME
+			)
+	</select>
 
-	<select id="getAllCategories" resultType="com.example.latte.vo.MarketCategory">
-		select
-			market_category_no			as no,
-			market_category_name		as name,
-			market_category_upper_no	as uppNo
-		from
-			latte_market_categories
-	</select>
-	<select id="getAllMidCategories" resultType="com.example.latte.vo.MarketMidCategory">
-		select
-			market_category_no			as no,
-			market_category_name		as name,
-			market_category_upper_no	as uppNo
-		from
-			latte_market_mid_categories
-	</select>
-	<select id="getAllLowCategories" resultType="com.example.latte.vo.MarketLowCategory">
-		select
-			market_category_no			as no,
-			market_category_name		as name,
-			market_category_upper_no	as uppNo
-		from
-			latte_market_low_categories
-	</select>
-	
-	<select id="getMidCategories" parameterType="int" resultType="com.example.latte.vo.MarketMidCategory">
-		select
-			market_category_no			as no,
-			market_category_name		as name,
-			market_category_upper_no	as uppNo
-		from
-			latte_market_mid_categories
-		where
-			market_category_upper_no = #{value}
-	</select>
-	<select id="getLowCategories" parameterType="int" resultType="com.example.latte.vo.MarketLowCategory">
-		select
-			market_category_no			as no,
-			market_category_name		as name,
-			market_category_upper_no	as uppNo
-		from
-			latte_market_low_categories
-		where
-			market_category_upper_no = #{value}
-	</select>
-
-	<select id="getMidCategory" parameterType="int" resultType="com.example.latte.vo.MarketMidCategory">
-		select
-			market_category_no			as no,
-			market_category_name		as name,
-			market_category_upper_no	as uppNo
-		from
-			latte_market_mid_categories
-		where
-			market_category_no = #{value}
-	</select>
-	<select id="getLowCategory" parameterType="int" resultType="com.example.latte.vo.MarketLowCategory">
-		select
-			market_category_no			as no,
-			market_category_name		as name,
-			market_category_upper_no	as uppNo
-		from
-			latte_market_low_categories
-		where
-			market_category_no = #{value}
-	</select>
-	
-	<select id="getCategoryByNo" parameterType="int" resultType="com.example.latte.vo.MarketCategory">
-		select
-			market_category_no			as no,
-			market_category_name		as name,
-			market_category_upper_no	as uppNo
-		from
-			latte_market_categories
-		where
-			market_category_no = #{value}
-	</select>
-	<select id="getCategoriesByUppCatNo" parameterType="int" resultType="com.example.latte.vo.MarketCategory">
-		select
-			market_category_no			as no,
-			market_category_name		as name,
-			market_category_upper_no	as uppNo
-		from
-			latte_market_categories
-		where
-			market_category_upper_no = #{value}
-	</select>
-	
 </mapper>
