@@ -21,6 +21,16 @@
 		where
 			acorn_item_no = #{value}
 	</select>
+	<select id="getAcornItemLike" parameterType="int" resultType="com.example.latte.vo.AcornItemLike">
+		select
+			acorn_item_no	as acornItemNo,
+			user_no			as userNo
+		from
+			acorn_item_likes
+		where
+			acorn_item_no = #{acornNo}
+		and user_no = #{userNo}
+	</select>
 	
 	<select id="getTotalCountByCondition" parameterType="map" resultType="int">
 		select
@@ -103,6 +113,12 @@
 		values
 			(latte_acorn_item_no_seq.nextval, #{categoryMidNo}, #{name}, #{price}, #{stock})
 	</insert>
+	<insert id="insertAcornItemLike" parameterType="com.example.latte.vo.AcornItemLike">
+		insert into acorn_item_likes
+			(acorn_item_no, user_no)
+		values
+			(#{acornItemNo}, #{userNo})
+	</insert>
 	<insert id="insertUserItem" parameterType="com.example.latte.vo.UserItem">
 		insert into latte_user_items
 			(user_item_no, user_no, acorn_item_no, acorn_item_name)
@@ -112,8 +128,10 @@
 	<update id="updateAcorn" parameterType="com.example.latte.vo.AcornItem">
 		update latte_acorn_items
 		set
-			acorn_item_stock = #{stock}
-			acorn_item_comment_cnt = #{commentCnt}
+			acorn_item_stock = #{stock},
+			acorn_item_comment_cnt = #{commentCnt},
+			acorn_item_like_cnt = #{likeCnt}
+		where acorn_item_no = #{no}
 	</update>
 
 </mapper>

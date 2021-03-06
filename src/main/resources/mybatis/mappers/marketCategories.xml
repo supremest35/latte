@@ -1,30 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.example.latte.dao.ShoppingManageDao">
-	
-	<select id="retireveUpperCategory" parameterType="Map" resultType="Map">
-		SELECT  MARKET_CATEGORY_NO			as no
-		      , MARKET_CATEGORY_NAME		as name
-			  , MARKET_CATEGORY_UPPER_NO	as uppNo
-		FROM LATTE_MARKET_CATEGORIES
-		WHERE MARKET_CATEGORY_NO = #{NO}
+<mapper namespace="com.example.latte.dao.MarketCategoryDao">
+
+	<select id="getAllCategories" resultType="com.example.latte.vo.MarketCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_categories
+	</select>
+	<select id="getAllMidCategories" resultType="com.example.latte.vo.MarketMidCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_mid_categories
+	</select>
+	<select id="getAllLowCategories" resultType="com.example.latte.vo.MarketLowCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_low_categories
 	</select>
 	
-	<select id="retireveMidCategory" parameterType="Map" resultType="Map">
-		SELECT   MARKET_CATEGORY_NO
-				,MARKET_CATEGORY_NAME
-				,MARKET_CATEGORY_UPPER_NO
-		FROM LATTE_MARKET_MID_CATEGORIES
-		WHERE MARKET_CATEGORY_UPPER_NO = #{UPP_NO}
+	<select id="getMidCategories" parameterType="int" resultType="com.example.latte.vo.MarketMidCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_mid_categories
+		where
+			market_category_upper_no = #{value}
 	</select>
-	
-	<select id="retireveLowCategory" parameterType="Map" resultType="Map">
-		SELECT   MARKET_CATEGORY_NO
-				,MARKET_CATEGORY_NAME
-				,MARKET_CATEGORY_UPPER_NO
-		FROM LATTE_MARKET_LOW_CATEGORIES
-		WHERE MARKET_CATEGORY_UPPER_NO = #{UPP_NO}
+	<select id="getLowCategories" parameterType="int" resultType="com.example.latte.vo.MarketLowCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_low_categories
+		where
+			market_category_upper_no = #{value}
 	</select>
 
+	<select id="getMidCategory" parameterType="int" resultType="com.example.latte.vo.MarketMidCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_mid_categories
+		where
+			market_category_no = #{value}
+	</select>
+	<select id="getLowCategory" parameterType="int" resultType="com.example.latte.vo.MarketLowCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_low_categories
+		where
+			market_category_no = #{value}
+	</select>
+	
+	<select id="getCategoryByNo" parameterType="int" resultType="com.example.latte.vo.MarketCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_categories
+		where
+			market_category_no = #{value}
+	</select>
+	<select id="getCategoriesByUppCatNo" parameterType="int" resultType="com.example.latte.vo.MarketCategory">
+		select
+			market_category_no			as no,
+			market_category_name		as name,
+			market_category_upper_no	as uppNo
+		from
+			latte_market_categories
+		where
+			market_category_upper_no = #{value}
+	</select>
+	
 </mapper>

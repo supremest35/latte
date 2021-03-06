@@ -155,13 +155,6 @@
 				</if>
 			</where>
 			)
-		<where>
-			<if test="begin != 0 and end != 0">
-			<![CDATA[
-				rn >= #{begin}	and rn <= #{end}
-			]]>
-			</if>
-		</where>
 	</select>
 	<select id="getAllBrands" resultType="com.example.latte.vo.ProductBrand">
 		select

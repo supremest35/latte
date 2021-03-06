@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface ShoppingManageDao {
 	
-	List<Object> retireveUpperCategory(Map<String, Object> param);
-	List<Object> retireveMidCategory(Map<String, Object> param);
-	List<Object> retireveLowCategory(Map<String, Object> param);
+	List<Object> retrieveUpperCategory(Map<String, Object> param);
+	List<Object> retrieveMidCategory(Map<String, Object> param);
+	List<Object> retrieveLowCategory(Map<String, Object> param);
+	
+	List<Object> retrieveProductByColor(Map<String, Object> param);
 }

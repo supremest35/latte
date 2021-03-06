@@ -33,7 +33,7 @@
 			$.ajax({
 				contentType : 'application/json',
 				dataType : 'json',
-				url : "/ShoppingManage/retireveMidCategory.do",
+				url : "/ShoppingManage/retrieveMidCategory.do",
 				type : 'post',
 				data : JSON.stringify(data), // json -> string <-> parse
 				contentType : 'application/json; charset=utf-8',
@@ -68,7 +68,7 @@
 			$.ajax({
 				contentType : 'application/json',
 				dataType : 'json',
-				url : "/ShoppingManage/retireveLowCategory.do",
+				url : "/ShoppingManage/retrieveLowCategory.do",
 				type : 'post',
 				data : JSON.stringify(data), // json -> string <-> parse
 				contentType : 'application/json; charset=utf-8',

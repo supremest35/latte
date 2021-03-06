@@ -85,7 +85,7 @@
 			      </c:if>
 			      <c:if test="${not empty LOGINED_USER }">
 				      <td>
-				      	<a href="../acorn/insertLikeCnt.do"><i class="far fa-heart"></i> ${acorn.likeCnt }</a>
+				      	<a href="../acorn/insertLikeCnt.do?catno=${category.no }&acornno=${acorn.no }"><i class="far fa-heart"></i> ${acorn.likeCnt }</a>
 				      </td>
 			      </c:if>
 			      <td><a href="/shopping/wish/insertItem.do?acornno=${acorn.no }&amount=1"><i class="fas fa-plus"></i></a></td>

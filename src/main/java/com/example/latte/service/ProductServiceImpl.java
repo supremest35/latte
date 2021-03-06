@@ -63,9 +63,9 @@ public class ProductServiceImpl implements ProductService {
 	public Map<String, Object> getProducts(Map<String, Object> condition) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		int totalRows = productDao.getTotalCountByCondition(condition);
-		
-		Pagination pagination = new Pagination((Integer) condition.get("pageNo"), totalRows);
+//		int totalRows = productDao.getTotalCountByCondition(condition);
+//		
+//		Pagination pagination = new Pagination((Integer) condition.get("pageNo"), totalRows);
 		
 		List<ProductDto> products = productDao.getProductsBycondition(condition);
 		
@@ -76,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		result.put("products", products);
-		result.put("pagination", pagination);
+//		result.put("pagination", pagination);
 		
 		return result;
 	}
