@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class Keyword {
 	private int no;
-	private int profileNo;
+	private int miniHomeNo;
 	private String content;
 	private Date createdDate;
 }

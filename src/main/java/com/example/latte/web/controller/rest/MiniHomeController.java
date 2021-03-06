@@ -2,6 +2,10 @@ package com.example.latte.web.controller.rest;
 
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,24 +13,37 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.latte.dao.MiniHomeDao;
 import com.example.latte.form.DiaryEventForm;
 import com.example.latte.service.MiniHomeService;
 import com.example.latte.service.UserService;
 import com.example.latte.vo.Diary;
 import com.example.latte.vo.Folder;
 import com.example.latte.vo.MiniHomeBoard;
+import com.example.latte.vo.Profile;
+import com.example.latte.vo.Qna;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 
 @CrossOrigin("*")
 @RestController("apiMiniHomeController")
 @RequestMapping("/minihome/api")
 public class MiniHomeController {
 
+	@Value("${directory.miniHome.photofile}")
+	String photoDirectory;
+	
 	@Autowired
 	MiniHomeService miniHomeService;
 	
@@ -89,4 +106,79 @@ public class MiniHomeController {
 		return miniHomeService.getAllBoardsByOption(opt);
 	}
 	
+	@PostMapping("/insertIntro.do")
+	public void insertIntro(@RequestParam("photoFile") MultipartFile photoFile, @RequestParam("content") String content, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		Profile profile = new Profile(); 
+		profile.setMiniHomeNo(miniHomeNo);
+		profile.setContent(content); 
+		
+		if (!photoFile.isEmpty()) { 
+			String filename = System.currentTimeMillis() + photoFile.getOriginalFilename();
+			FileCopyUtils.copy(photoFile.getInputStream(), new FileOutputStream(new File(photoDirectory, filename))); profile.setPhotoFilename(filename); 
+		}
+		 
+		miniHomeService.insertProfile(profile);
+		
+	}
+
+	@PostMapping("/modifyIntro.do")
+	public void modifyIntro(@RequestParam("content") String content, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		Profile profile = miniHomeService.getProfileByMiniHomeNo(miniHomeNo);
+		profile.setContent(content);
+		
+		miniHomeService.modifyProfile(profile);
+	}
+	
+	@PostMapping("/deleteIntro.do")
+	public void deleteIntro(@RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		Profile profile = miniHomeService.getProfileByMiniHomeNo(miniHomeNo);
+		miniHomeService.deleteProfile(profile.getNo());
+	}
+	
+	@PostMapping("/insertKeyword.do")
+	public void insertKeyword(@RequestParam("content") String content, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		String[] keywords = content.substring(1).split("#");
+		
+		miniHomeService.insertKeywords(miniHomeNo, keywords);
+		
+	}
+
+	@PostMapping("/deleteKeyword.do")
+	public void deleteKeyword(@RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		miniHomeService.deleteKeywordsByMiniHomeNo(miniHomeNo);
+	}
+
+	@PostMapping("/insertQna.do")
+	public void insertQna(@RequestParam String[] questions, @RequestParam String[] answers, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		int qnaLength = questions.length;
+		List<Qna> qnas = new ArrayList<Qna>();
+		for (int index = 0; index < qnaLength; index++) {
+			Qna qna = new Qna();
+			qna.setMiniHomeNo(miniHomeNo);
+			qna.setQuestion(questions[index]);
+			qna.setAnswer(answers[index]);
+			qnas.add(qna);
+		}
+		miniHomeService.insertQnas(qnas);
+	}
+	@PostMapping("/deleteQna.do")
+	public void deleteQna(@RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		miniHomeService.deleteQnaByMiniHomeNo(miniHomeNo);
+	}
+
+	@PostMapping("/insertDiary.do")
+	public void insertDiary(@RequestParam String title, @RequestParam String content, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		Diary diary = new Diary();
+		diary.setMiniHomeNo(miniHomeNo);
+		diary.setTitle(title);
+		diary.setContent(content);
+		
+		miniHomeService.insertDiary(diary);
+		
+	}
+
+	@GetMapping("/deleteDiary/{diaryNo}")
+	public void deleteDiary(@PathVariable("diaryNo") int diaryNo) throws FileNotFoundException, IOException {
+		miniHomeService.deleteDiary(diaryNo);
+	}
 }

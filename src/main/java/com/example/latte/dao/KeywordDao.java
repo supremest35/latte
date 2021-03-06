@@ -11,5 +11,7 @@ import com.example.latte.vo.Keyword;
 @Transactional
 public interface KeywordDao {
 
-	List<Keyword> getKeywordsByProfileNo(int profileNo);
+	void insertKeyword(Keyword keyword);
+	void deleteKeyword(int miniHomeNo);
+	List<Keyword> getKeywordsByProfileNo(int miniHomeNo);
 }

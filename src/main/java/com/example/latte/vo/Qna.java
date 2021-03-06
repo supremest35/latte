@@ -6,7 +6,7 @@ import lombok.Data;
 public class Qna {
 
 	private int no;
-	private int profileNo;
+	private int miniHomeNo;
 	private String question;
 	private String answer;
 	private String createdDate;

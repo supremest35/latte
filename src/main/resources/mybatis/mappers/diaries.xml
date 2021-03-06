@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.DiaryDao">
+	<insert id="insertDiary" parameterType="com.example.latte.vo.Diary">
+		insert into
+			minihome_diaries(diary_no, minihome_no, diary_title, diary_content)
+		values
+			(minihome_diary_no_seq.nextval, #{miniHomeNo}, #{title}, #{content})
+	</insert>
 	<select id="getDiaryByNo" parameterType="int" resultType="com.example.latte.vo.Diary">
 		select
 			diary_no					as no,
@@ -61,6 +67,21 @@
 			minihome_no = #{miniHomeNo}
 			and diary_created_date >= #{start}
 			and diary_created_date &lt;= #{end}
+			and diary_deleted = 'N'
 		order by diary_no desc
 	</select>
+	<update id="updateDiary" parameterType="com.example.latte.vo.Diary">
+		update
+			minihome_diaries
+		set
+			diary_title = #{title},
+			diary_content = #{content},
+			diary_secret = #{secret},
+			diary_hit_cnt = #{hitCnt},
+			diary_comment_cnt = #{commentCnt},
+			diary_like_cnt = #{likeCnt},
+			diary_deleted = #{deleted}
+		where
+			diary_no = #{no}
+	</update>
 </mapper>

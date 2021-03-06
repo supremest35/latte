@@ -142,11 +142,8 @@
 				<div class="card" id="main-section">
 					<div class="card-header">
 						<div class="row">
-							<div class="col-7">
+							<div class="col-8">
 								<h3 style="display: inline;"><a href="">${hostUser.nickName }님의 미니홈피</a></h3>
-							</div>
-							<div class="col-1">
-								<button class="badge badge-primary badge-xs">수정</button>
 							</div>
 							<div class="col-4">
 								<small>http://www.latteworld.com/${miniHome.address }</small>
@@ -205,6 +202,7 @@
 	</div>
 <script type="text/javascript">
 	var sectionId;
+	var contentId;
 	var folderNo;
 	var pageNo;
 	var isInfiniteScroll=true;
@@ -222,6 +220,7 @@
 			isInfiniteScroll=false;
 			// 다이어리 버튼을 눌렀을 때, 사이드컨텐츠에 달력 출력 
 			if (sectionId == "#diary-section") {
+				boardFormId="diary";
 				initCalendar();
 				// 메인컨텐츠가져오기
 				$("#main-content").load("mainSection.do " + sectionId, {contentId:sectionId, miniHomeNo:${miniHome.no}});		
@@ -248,8 +247,8 @@
 	// sideSection의 a 태그가 클릭될 때 이벤트(프로필 폴더, 게시판 폴더들)
 	$("#side-content").on("click", "li a", function() {
 		
-		var contentId = $(this).data("content-id");
-		
+		contentId = $(this).data("content-id");
+		boardFormId = contentId;
 		// 게시판인 경우 실행
 		folderNo = $(this).data("folder-no");
 		if(folderNo > 0) {
@@ -395,6 +394,155 @@
 		$("#main-content").load("mainSection.do " + contentId, {contentId:contentId, miniHomeNo:${miniHome.no}, folderNo:folderNo, pageNo:$(this).data("page-no"), rows:5});
 		return false;
 	})	
+	
+	// 프로필 소개쪽 버튼
+	$("#main-content").on("click", "#profile-intro a", function() {
+		var formId = $(this).data("form-id");
+		if ("#intro-delete" == formId) {
+			var formData = new FormData();
+			formData.append("miniHomeNo", ${miniHome.no});
+			axios.post('http://localhost/minihome/api/deleteIntro.do', formData).then(function() {
+					$("#btn-profile").trigger("click");
+				})
+		} else {
+			$("#main-content").load("form.do " + formId, {miniHomeNo:${miniHome.no}, formId:formId});
+		}
+		
+		return false;
+	})
+	
+	// 글 등록 버튼(submit역할)
+	$("#main-content").on("click", "#intro-insert a", function() {
+		var formData = new FormData();
+		formData.append("photoFile", $("#photoFile")[0].files[0]);
+		formData.append("content", $("#intro-content").val()),
+		formData.append("miniHomeNo", ${miniHome.no})
+		axios.post('http://localhost/minihome/api/insertIntro.do', formData, {
+			  headers: {
+			    'Content-Type': 'multipart/form-data'
+			  }
+			}).then(function() {
+				$("#btn-profile").trigger("click");
+			})
+			
+		return false;
+	})
+
+	// 글 수정 버튼(submit역할)
+	$("#main-content").on("click", "#intro-modify a", function() {
+		var formData = new FormData();
+		formData.append("content", $("#intro-content").val()),
+		formData.append("miniHomeNo", ${miniHome.no})
+		axios.post('http://localhost/minihome/api/modifyIntro.do', formData).then(function() {
+				$("#btn-profile").trigger("click");
+			})
+			
+		return false;
+	})
+
+	// 프로필 키워드쪽 버튼
+	$("#main-content").on("click", "#profile-keyword a", function() {
+		var formId = $(this).data("form-id");
+		if ("#keyword-delete" == formId) {
+			var formData = new FormData();
+			formData.append("miniHomeNo", ${miniHome.no});
+			axios.post('http://localhost/minihome/api/deleteKeyword.do', formData).then(function() {
+					$("#keyword").trigger("click");
+				})
+		} else {
+			$("#main-content").load("form.do " + formId, {miniHomeNo:${miniHome.no}, formId:formId});
+		}
+		
+		return false;
+	})
+	
+	// 키워드 등록 버튼(submit역할)
+	$("#main-content").on("click", "#keyword-insert a", function() {
+		var formData = new FormData();
+		formData.append("content", $("#keyword-content").val());
+		formData.append("miniHomeNo", ${miniHome.no});
+		axios.post('http://localhost/minihome/api/insertKeyword.do', formData).then(function() {
+			$("#keyword").trigger("click");
+		})
+			
+		return false;
+	})
+	
+	// 프로필 qna쪽 버튼
+	$("#main-content").on("click", "#profile-qna a", function() {
+		var formId = $(this).data("form-id");
+		if ("#qna-delete" == formId) {
+			var formData = new FormData();
+			formData.append("miniHomeNo", ${miniHome.no});
+			axios.post('http://localhost/minihome/api/deleteQna.do', formData).then(function() {
+					$("#qna").trigger("click");
+				})
+		} else {
+			$("#main-content").load("form.do " + formId, {miniHomeNo:${miniHome.no}, formId:formId});
+		}
+		
+		return false;
+	})
+	
+	// 프로필 qna 질문 추가 또는 제출
+	$("#main-content").on("click", "#qna-insert a", function() {
+		
+		var btnId = $(this).data("btn-id");
+		if ("add-qna" == btnId) {
+			var qnaBox = "<div class='card mt-3'><div class='card-header'></div><div class='card-body'><div class='input-group mb-3'><div class='input-group-prepend'><span class='input-group-text'>질문</span></div><input type='text' class='form-control' name='question'></div>";
+			qnaBox += "<div class='input-group mb-3'><div class='input-group-prepend'><span class='input-group-text'>대답</span></div><input type='text' class='form-control' name='answer'></div></div></div>";
+			$("#qna-content").append(qnaBox);
+		} else if ("delete-qna" == btnId) {
+			$("#qna-content > div:nth-child(2)").remove();
+		} else if ("submit-qna" == btnId) {
+			var qnaLength = $("input[name=question]").length;
+			var questions = [];
+			var answers = [];
+			for (var index = 0; index < qnaLength; index++) {
+				questions.push($("input[name=question]").eq(index).val());
+				answers.push($("input[name=answer]").eq(index).val());
+			}
+			var data = new FormData;
+			data.append("questions", questions);
+			data.append("answers", answers);
+			data.append("miniHomeNo", ${miniHome.no});
+			axios.post('http://localhost/minihome/api/insertQna.do', data).then(function() {
+				$("#qna").trigger("click");
+			})
+			
+		}		
+		return false;
+	})
+
+	// 다이어리쪽 버튼
+	$("#main-content").on("click", "#diary-section a", function() {
+		var formId = $(this).data("form-id");
+		if ("#diary-delete" == formId) {
+			axios.get('http://localhost/minihome/api/deleteDiary/' + $(this).data("diary-no")).then(function() {
+			$("#btn-diary").trigger("click");
+			})
+		} else {
+			$("#main-content").load("form.do " + formId, {miniHomeNo:${miniHome.no}, formId:formId, diaryNo:$(this).data("diary-no")});
+		}
+		return false;
+	})
+	
+	// 다이어리 submit버튼
+	$("#main-content").on("click", "#diary-forms a", function() {
+		var data = new FormData;
+		data.append("title", $("input[name=title]").val());
+		data.append("content", $("textarea[name=content]").val());
+		data.append("miniHomeNo", ${miniHome.no});
+		axios.post('http://localhost/minihome/api/insertDiary.do', data).then(function() {
+			$("#btn-diary").trigger("click");
+		})
+		return false;
+	})
+	
+	$("#btn-modify-diary").on("click", function() {
+		console.log("jojojojojojo");
+		return false;
+	})
 	
 </script>
 </body>

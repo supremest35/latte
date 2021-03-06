@@ -2,16 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.QnaDao">
-	<select id="getQnasByProfileNo" parameterType="int" resultType="com.example.latte.vo.Qna">
+	<insert id="insertQna" parameterType="com.example.latte.vo.Qna">
+		insert into
+			minihome_profile_qnas(qna_no, minihome_no, qna_question, qna_answer)
+		values
+			(minihome_profile_qna_no_seq.nextval, #{miniHomeNo}, #{question}, #{answer})
+	</insert>
+	<select id="getQnasByMiniHomeNo" parameterType="int" resultType="com.example.latte.vo.Qna">
 		select 
 			qna_no					as no,
-			profile_no				as profileNo,
+			minihome_no				as miniHomeNo,
 			qna_question			as question,
 			qna_answer				as answer,
 			qna_created_date		as createdDate
 		from 
 			minihome_profile_qnas
 		where 
-			profile_no = #{value}
+			minihome_no = #{value}
 	</select>
+	<delete id="deleteQna" parameterType="int">
+		delete from
+			minihome_profile_qnas
+		where
+			minihome_no = #{value}
+	</delete>
 </mapper>

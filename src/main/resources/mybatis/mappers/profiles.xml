@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.ProfileDao">
+	<insert id="insertProfile" parameterType="com.example.latte.vo.Profile">
+		insert into
+			minihome_profiles (profile_no, minihome_no, profile_content, profile_photo_filename)
+		values
+			(minihome_profile_no_seq.nextval, #{miniHomeNo}, #{content}, #{photoFilename})
+	</insert>
 	<select id="getProfileByMiniHomeNo" parameterType="int" resultType="com.example.latte.vo.Profile">
 		select 
 			profile_no					as no,
@@ -14,4 +20,18 @@
 		where 
 			minihome_no = #{value}
 	</select>
+	<update id="modifyProfile" parameterType="com.example.latte.vo.Profile">
+		update 
+			minihome_profiles
+		set
+			profile_content = #{content}
+		where
+			profile_no = #{no}
+	</update>
+	<delete id="deleteProfile" parameterType="int">
+		delete from
+			minihome_profiles
+		where
+			profile_no = #{value}
+	</delete>
 </mapper>

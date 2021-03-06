@@ -9,5 +9,8 @@ import com.example.latte.vo.Profile;
 @Transactional
 public interface ProfileDao {
 
+	void insertProfile(Profile profile);
+	void modifyProfile(Profile profile);
+	void deleteProfile(int no);
 	Profile getProfileByMiniHomeNo(int miniHomeNo);
 }

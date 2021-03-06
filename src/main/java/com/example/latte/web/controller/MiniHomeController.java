@@ -1,5 +1,9 @@
 package com.example.latte.web.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +29,8 @@ import com.example.latte.vo.WelcomeNote;
 @Controller
 public class MiniHomeController {
 
+	
+	
 	@Autowired
 	MiniHomeService miniHomeService;
 	
@@ -74,17 +80,20 @@ public class MiniHomeController {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("miniHomeNo", miniHomeNo);
 			opt.put("categoryNo", 100);
+			System.out.println("여기1" + miniHomeService.getParentFoldersByOption(opt));
 			model.addAttribute("folders", miniHomeService.getParentFoldersByOption(opt));
 		} else if ("#video-section".equals(sectionId)) {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("miniHomeNo", miniHomeNo);
 			opt.put("categoryNo", 200);
+			System.out.println("여기2" + miniHomeService.getParentFoldersByOption(opt));
 			model.addAttribute("folders", miniHomeService.getParentFoldersByOption(opt));
 		} else if ("#board-section".equals(sectionId)) {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("miniHomeNo", miniHomeNo);
 			opt.put("categoryNo", 300);
-			model.addAttribute("folders", miniHomeService.getParentFoldersByOption(opt));
+			System.out.println(miniHomeService.getParentFoldersByOption(opt));
+			model.addAttribute("여기3" + "folders", miniHomeService.getParentFoldersByOption(opt));
 		}
 		
 		return "minihome/sideSection";
@@ -94,7 +103,6 @@ public class MiniHomeController {
 	public String mainSection(@RequestParam(name="contentId", required=false) String contentId, @RequestParam("miniHomeNo") int miniHomeNo, 
 			@RequestParam(name="folderNo", required=false, defaultValue="-1") int folderNo, @RequestParam(name="boardNo", required=false, defaultValue="-1") int boardNo, 
 			@RequestParam(name="pageNo", required=false, defaultValue="1") int pageNo, @RequestParam(name="rows", required=false, defaultValue="5") int rows, Model model) {
-		
 		if ("#home-section".equals(contentId)) {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("miniHomeNo", miniHomeNo);
@@ -115,11 +123,12 @@ public class MiniHomeController {
 				model.addAttribute("profile", profile);
 			}
 		} else if ("#profile-keyword".equals(contentId)) {
-			List<Keyword> keywords = miniHomeService.getKeywordsByProfileNo(miniHomeNo);
+			List<Keyword> keywords = miniHomeService.getKeywordsByMiniHomeNo(miniHomeNo);
+			
 			model.addAttribute("keywords", keywords);
 
 		} else if ("#profile-qna".equals(contentId)) {
-			List<Qna> qnas = miniHomeService.getQnasByProfileNo(miniHomeNo);
+			List<Qna> qnas = miniHomeService.getQnasByMiniHomeNo(miniHomeNo);
 			model.addAttribute("qnas", qnas);
 
 		} else if ("#profile-basicInfo".equals(contentId)) {
@@ -161,7 +170,7 @@ public class MiniHomeController {
 			opt.put("end", pageNo*rows);
 			
 			Map<String, Object> resultMap = miniHomeService.getBoardsByOption(opt);
-			
+			System.out.println(opt);
 			model.addAttribute("boards", resultMap.get("boards"));
 			model.addAttribute("userName", resultMap.get("userName"));
 			model.addAttribute("pagination", resultMap.get("pagination"));
@@ -201,4 +210,18 @@ public class MiniHomeController {
 		}
 		return "minihome/mainSection";
 	}
+	
+	@RequestMapping("/form.do")
+	public String form (@RequestParam("miniHomeNo") int miniHomeNo, @RequestParam("formId") String formId, @RequestParam(name = "diaryNo", required = false, defaultValue = "-1") int diaryNo, Model model) {
+		
+		if ("#intro-modify".equals(formId)) {
+			model.addAttribute("profile", miniHomeService.getProfileByMiniHomeNo(miniHomeNo));
+		} else if ("#diary-modify".equals(formId)) {
+			model.addAttribute("diary", miniHomeService.getDiaryByNo(diaryNo));
+		}
+		model.addAttribute("miniHomeNo", miniHomeNo);
+		return "minihome/form";
+	}
+
+	
 }
