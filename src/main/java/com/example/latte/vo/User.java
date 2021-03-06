@@ -26,4 +26,8 @@ public class User {
 	private int acornCnt;
 	private int friendCnt;
 	private Date createdDate;
+	
+	public String getTotalName() {
+		return this.name +" ("+this.nickName+")";
+	}
 }

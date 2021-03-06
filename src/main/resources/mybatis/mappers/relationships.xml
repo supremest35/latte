@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.latte.dao.RelationshipDao">
+
+	<insert id="insertRelationship" parameterType="com.example.latte.vo.Relationship">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select LATTE_RELATION_NO_SEQ.nextval from dual
+		</selectKey>
+		insert into latte_relationships
+			(relation_no, user_no, friend_no, user_rel_nickname, friend_rel_nickname, relation_status)
+		values
+			(#{no}, #{userNo}, #{friendNo}, #{userNickName}, #{friendNickName}, #{status})
+	</insert>
+	
+	<update id="updateRelationship" parameterType="com.example.latte.vo.Relationship">
+		update 
+			latte_relationships
+		set 
+			user_rel_nickname = #{userNickName}, 
+			friend_rel_nickname = #{friendNickName}, 
+			relation_status = #{status},
+		where 
+			relation_no = #{no}
+	</update>
+	
+	
+	<select id="getRelationshipByNums" parameterType="map" resultType="com.example.latte.vo.Relationship">
+		select 
+			relation_no as no, 
+			user_no as userNo, 
+			friend_no as friendNo, 
+			user_rel_nickname as userNickName, 
+			friend_rel_nickname as friendNickName, 
+			relation_status as status,
+			relation_created_date as createdDate
+		from 
+			latte_relationships
+		<if test="option==null">
+			where 
+				user_no = #{userNo}
+			and friend_no = #{friendNo}
+		</if>
+		<if test="option==-1">
+			where 
+				(user_no = #{userNo} or friend_no = #{userNo})
+			and (friend_no = #{friendNo} or user_no = #{friendNo})
+		</if>
+	</select>
+	
+	<select id="getMyFriendList" parameterType="int" resultType="com.example.latte.vo.Relationship">
+		select 
+			relation_no as no, 
+			user_no as userNo, 
+			friend_no as friendNo, 
+			user_rel_nickname as userNickName, 
+			friend_rel_nickname as friendNickName, 
+			relation_status as status,
+			relation_created_date as createdDate
+		from 
+			latte_relationships
+		where 
+			(user_no = #{value} or friend_no = #{value})
+		and 
+			relation_status ='CONNECTED'
+	</select>
+</mapper>

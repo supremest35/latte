@@ -188,6 +188,26 @@
 		color: gray;
 		
 	}
+	.btn-group#friend-btn{
+		float: right;
+	}
+	.dropdown-menu#friend-downMenu{
+		width: 80px;
+	}
+	#accept-btn{
+		color: green;
+		width: 40px;
+		font-size: 15px;
+		padding: 5px;
+		margin: 5px;
+	}
+	#deny-btn{
+		color: red;
+		width: 40px;
+		font-size: 15px;
+		padding: 5px;
+		margin: 5px;
+	}
 	#btn-note {
 		border: none;
 		margin: 0px;
