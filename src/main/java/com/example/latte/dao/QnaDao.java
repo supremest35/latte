@@ -11,5 +11,7 @@ import com.example.latte.vo.Qna;
 @Transactional
 public interface QnaDao {
 
-	List<Qna> getQnasByProfileNo(int profileNo);
+	void insertQna(Qna qna);
+	void deleteQna(int miniHomeNo);
+	List<Qna> getQnasByMiniHomeNo(int miniHomeNo);
 }

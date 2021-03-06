@@ -34,9 +34,9 @@
 		<div class="card-body">
 			<h6>내 소개</h6>
 			<ul id="profile-folder-list">
-				<li><a href="" data-content-id="#profile-intro">소개</a></li>
-				<li><a href="" data-content-id="#profile-keyword">키워드</a></li>
-				<li><a href="" data-content-id="#profile-qna">42문답</a></li>
+				<li><a href="" id="intro" data-content-id="#profile-intro">소개</a></li>
+				<li><a href="" id="keyword" data-content-id="#profile-keyword">키워드</a></li>
+				<li><a href="" id="qna" data-content-id="#profile-qna">42문답</a></li>
 				<li><a href="" data-content-id="#profile-basicInfo">기본정보</a></li>
 			</ul>
 		</div>

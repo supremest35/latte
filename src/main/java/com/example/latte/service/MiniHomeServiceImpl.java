@@ -97,13 +97,13 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	}
 
 	@Override
-	public List<Keyword> getKeywordsByProfileNo(int profileNo) {
-		return keywordDao.getKeywordsByProfileNo(profileNo);
+	public List<Keyword> getKeywordsByMiniHomeNo(int miniHomeNo) {
+		return keywordDao.getKeywordsByProfileNo(miniHomeNo);
 	}
 
 	@Override
-	public List<Qna> getQnasByProfileNo(int profileNo) {
-		return qnaDao.getQnasByProfileNo(profileNo);
+	public List<Qna> getQnasByMiniHomeNo(int miniHomeNo) {
+		return qnaDao.getQnasByMiniHomeNo(miniHomeNo);
 	}
 
 	@Override
@@ -160,6 +160,9 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 		
 		if (opt.get("pageNo") != null) {
 			int totalRows = miniHomeBoardDao.getTotalBoardsByOption(opt);
+			if (totalRows == 0) {
+				return resultMap;
+			}
 			MiniHomePagination pagination = new MiniHomePagination((Integer) opt.get("pageNo"), totalRows);
 			resultMap.put("pagination", pagination);
 			MiniHome miniHome = miniHomeDao.getMiniHomeByNo(boards.get(1).getMiniHomeNo());
@@ -200,6 +203,63 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	@Override
 	public List<MiniHomeBoard> getAllBoardsByOption(Map<String, Object> opt) {
 		return miniHomeBoardDao.getBoardsByOption(opt);
+	}
+
+	@Override
+	public void insertProfile(Profile profile) {
+		profileDao.insertProfile(profile);
+	}
+
+	@Override
+	public void modifyProfile(Profile profile) {
+		profileDao.modifyProfile(profile);
+	}
+
+	@Override
+	public void deleteProfile(int no) {
+		profileDao.deleteProfile(no);
+	}
+
+	@Override
+	public void insertKeywords(int miniHomeNo, String[] keywords) {
+		Keyword keyword = new Keyword();
+		keyword.setMiniHomeNo(miniHomeNo);
+
+		for (String content : keywords) {
+			keyword.setContent(content);
+			keywordDao.insertKeyword(keyword);
+		}
+		
+	}
+
+	@Override
+	public void deleteKeywordsByMiniHomeNo(int miniHomeNo) {
+		keywordDao.deleteKeyword(miniHomeNo);
+	}
+
+	@Override
+	public void insertQnas(List<Qna> qnas) {
+		for (Qna qna : qnas) {
+			qnaDao.insertQna(qna);
+		}
+	}
+
+	@Override
+	public void deleteQnaByMiniHomeNo(int miniHomeNo) {
+		qnaDao.deleteQna(miniHomeNo);
+	}
+
+	@Override
+	public void insertDiary(Diary diary) {
+		diaryDao.insertDiary(diary);
+	}
+
+	@Override
+	public void deleteDiary(int no) {
+		Diary diary = diaryDao.getDiaryByNo(no);
+		System.out.println(diary);
+		diary.setDeleted("Y");
+		diaryDao.updateDiary(diary);
 	}
 
 }

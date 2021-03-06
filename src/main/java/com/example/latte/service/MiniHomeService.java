@@ -16,6 +16,24 @@ import com.example.latte.vo.WelcomeNote;
 
 public interface MiniHomeService {
 	
+	void insertProfile(Profile profile);
+
+	void modifyProfile(Profile profile);
+	
+	void deleteProfile(int no);
+	
+	void insertKeywords(int miniHomeNo, String[] keywords);
+	
+	void deleteKeywordsByMiniHomeNo(int miniHomeNo);
+	
+	void insertQnas(List<Qna> qnas);
+	
+	void deleteQnaByMiniHomeNo(int miniHomeNo);
+	
+	void insertDiary(Diary diary);
+	
+	void deleteDiary(int no);
+	
 	MiniHome getMiniHomeByNo(int miniHomeNo);
 
 	MiniHome getMiniHomeByUserNo(int userNo);
@@ -36,9 +54,9 @@ public interface MiniHomeService {
 	
 	List<Diary> getDiariesByOption(Map<String, Object> opt);
 
-	List<Keyword> getKeywordsByProfileNo(int profileNo);
+	List<Keyword> getKeywordsByMiniHomeNo(int miniHomeNo);
 
-	List<Qna> getQnasByProfileNo(int profileNo);
+	List<Qna> getQnasByMiniHomeNo(int miniHomeNo);
 
 	Map<String, Object> getMiniHomeInfoByOption(Map<String, Object> opt);
 	

@@ -12,9 +12,13 @@ import com.example.latte.vo.Diary;
 @Transactional
 public interface DiaryDao {
 	
+	void insertDiary(Diary diary);
+	
 	Diary getDiaryByNo(int diaryNo);
 	
 	Diary getLatestDiaryByMiniHomeNo(int miniHomeNo);
+	
+	void updateDiary(Diary diary);
 	
 	List<Diary> getDiariesByOption(Map<String, Object> opt);
 }
