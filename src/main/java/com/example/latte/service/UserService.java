@@ -21,6 +21,5 @@ public interface UserService {
 	User getUserWithIdOption(String name, String tel);
 	User getUserWithPwdOption(String name, String tel, String id);
 	
-	List<Relation> getMyFriendListByOpt(Map<String, Object> opt);
-	Relation getFriendByNo(int userNo, int friendNo);
+	List<Map<String, Object>> getMyFriendList(int userNo);
 }

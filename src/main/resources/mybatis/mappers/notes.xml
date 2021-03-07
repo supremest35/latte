@@ -140,7 +140,7 @@
 		from 
 			latte_notes
 		<where>
-			<if test='sort.equals("nomal")'>
+			<if test='sort.equals("normal")'>
 				recipient_no = #{userNo} and category_no != 1
 			</if>
 			<if test='sort.equals("friend")'>
@@ -152,4 +152,29 @@
 		</where> 
 	</select>
 	
+	<select id="getUnreadNormalNote" parameterType="int" resultType="int">
+		select 
+			count(*)
+		from 
+			latte_notes
+		where 
+			recipient_no = #{value}
+		and 
+			category_no != 1
+		and 
+			note_status = 'STANDBY'			
+	</select>
+	
+	<select id="getUnreadFriendNote" parameterType="int" resultType="int">
+		select 
+			count(*)
+		from 
+			latte_notes
+		where 
+			recipient_no = #{value}
+		and 
+			category_no = 1
+		and 
+			note_status = 'STANDBY'			
+	</select>	
 </mapper>

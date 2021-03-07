@@ -26,29 +26,7 @@
 			<div class="col-8">
 				<div class="row">
 					<div class="col-sm-1"></div>
-					<div class="col-sm-5">
-						<div class="card">
-							<div class="card-header">뉴스</div>
-						</div>
-						<div class="card-body border">
-							<h6 class="card-title">오늘의 뉴스</h6>
-							<div class="card-text">
-								<p>스포츠</p>
-								<ul>
-									<li><a href="">손흥민의 역전골</a></li>
-									<li><a href="">손흥민의 역전골</a></li>
-									<li><a href="">손흥민의 역전골</a></li>
-								</ul>
-								<p>스포츠</p>
-								<ul>
-									<li><a href="">손흥민의 역전골</a></li>
-									<li><a href="">손흥민의 역전골</a></li>
-									<li><a href="">손흥민의 역전골</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-5 ml-3">
+					<div class="col-sm-10">
 						<div class="card">
 							<div class="card-header">뉴스</div>
 						</div>
@@ -73,7 +51,7 @@
 				</div>
 				<div class="row mt-4">
 					<div class="col-sm-1"></div>
-					<div class="col-sm-5">
+					<div class="col-sm-10">
 						<div class="card">
 							<div class="card-header">뉴스</div>
 						</div>
@@ -96,31 +74,8 @@
 						</div>
 					</div>
 
-					<div class="col-sm-5 ml-3">
-						<div class="card">
-							<div class="card-header">뉴스</div>
-						</div>
-						<div class="card-body border">
-							<h6 class="card-title">오늘의 뉴스</h6>
-							<div class="card-text">
-								<p>스포츠</p>
-								<ul>
-									<li><a href="">손흥민의 역전골</a></li>
-									<li><a href="">손흥민의 역전골</a></li>
-									<li><a href="">손흥민의 역전골</a></li>
-								</ul>
-								<p>스포츠</p>
-								<ul>
-									<li><a href="">손흥민의 역전골</a></li>
-									<li><a href="">손흥민의 역전골</a></li>
-									<li><a href="">손흥민의 역전골</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
-			<div class="col-2">챗봇</div>
 		</div>
 	</div>
 </body>

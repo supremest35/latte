@@ -8,7 +8,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h6>${LOGINED_USER.name}(님)의 쪽지함</h6>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="updateUnreadCnt()">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
@@ -70,15 +70,12 @@
 						<button type="button" class="del-btn btn-sm" @click="deleteNote(ckNormalNoteNo)">선택삭제</button>
 						<!-- Block Pagination -->
 						<ul class="pagination pagination-sm justify-content-center mb-1" >
-						
 							<li class="page-item" :class="{disabled:pagination.pageNo == 1}">
 								<a class="page-link" @click="changeTab('normal',pagination.pageNo-1)">Previous</a>
 							</li>
-							
 							<li v-for="i in paginationRange" class="page-item" :class="{active:pagination.pageNo == i}">
 								<a class="page-link" @click="changeTab('normal',i)">{{i}}</a>
 							</li>
-							
 							<li class="page-item" :class="{disabled:pagination.pageNo == pagination.totalPages}">
 								<a class="page-link" @click="changeTab('normal',pagination.pageNo+1)">Next</a>
 							</li>
@@ -120,12 +117,16 @@
 							</div>
 						</div>
 						<button type="button" class="del-btn btn-sm" @click="deleteNote(ckFriendNoteNo)">선택삭제</button>
-						<ul class="pagination pagination-sm justify-content-center" >
-						  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-						  <li class="page-item"><a class="page-link" href="#">1</a></li>
-						  <li class="page-item"><a class="page-link" href="#">2</a></li>
-						  <li class="page-item"><a class="page-link" href="#">3</a></li>
-						  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+						<ul class="pagination pagination-sm justify-content-center mb-1" >
+							<li class="page-item" :class="{disabled:pagination.pageNo == 1}">
+								<a class="page-link" @click="changeTab('friend',pagination.pageNo-1)">Previous</a>
+							</li>
+							<li v-for="i in paginationRange" class="page-item" :class="{active:pagination.pageNo == i}">
+								<a class="page-link" @click="changeTab('friend',i)">{{i}}</a>
+							</li>
+							<li class="page-item" :class="{disabled:pagination.pageNo == pagination.totalPages}">
+								<a class="page-link" @click="changeTab('friend',pagination.pageNo+1)">Next</a>
+							</li>
 						</ul>
 					</div>
 					<!-- 일촌신청 리스트 끝 -->
@@ -145,7 +146,7 @@
 									<thead>
 										<tr class="note-table-tr">
 											<th></th>
-											<th>보낸이</th>
+											<th>받는이</th>
 											<th>제목</th>
 											<th>날짜</th>
 											<th>상태</th>
@@ -154,7 +155,7 @@
 									<tbody>
 										<tr v-for="send in noteDtoList" :key="send.noteNo">
 											<td><input type="checkbox" :value="send.noteNo" v-model="ckSendNoteNo"></td>
-											<td>{{send.senderTotalName}}</td>
+											<td>{{send.recTotalName}}</td>
 											<td><a data-toggle="inner-modal" href="#detail" @click="shownoteDetail(send.noteNo)">{{send.title}}</a></td>
 											<td>{{send.createdDate | moment}}</td>
 											<td>{{send.status}}</td>
@@ -164,12 +165,16 @@
 							</div>
 						</div>
 						<button type="button" class="del-btn btn-sm" @click="deleteNote(ckSendNoteNo)" >선택삭제</button>
-						<ul class="pagination pagination-sm justify-content-center" >
-						  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-						  <li class="page-item"><a class="page-link" href="#">1</a></li>
-						  <li class="page-item"><a class="page-link" href="#">2</a></li>
-						  <li class="page-item"><a class="page-link" href="#">3</a></li>
-						  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+						<ul class="pagination pagination-sm justify-content-center mb-1" >
+							<li class="page-item" :class="{disabled:pagination.pageNo == 1}">
+								<a class="page-link" @click="changeTab('send',pagination.pageNo-1)">Previous</a>
+							</li>
+							<li v-for="i in paginationRange" class="page-item" :class="{active:pagination.pageNo == i}">
+								<a class="page-link" @click="changeTab('send',i)">{{i}}</a>
+							</li>
+							<li class="page-item" :class="{disabled:pagination.pageNo == pagination.totalPages}">
+								<a class="page-link" @click="changeTab('send',pagination.pageNo+1)">Next</a>
+							</li>
 						</ul>
 					</div>
 					<!-- 보낸 쪽지함 끝 -->
@@ -285,8 +290,8 @@
 								       		친구 하기
 								    </button>
 							    <div class="dropdown-menu" id="friend-downMenu">
-								    <button type="button" class="dropdown-item" id="accept-btn" @click="relationship('ACCEPT',detailNote.senderNo)">수락하기</button>
-								    <button type="button" class="dropdown-item" id="deny-btn" @click="relationship('DENY',detailNote.senderNo)">거절하기</button>
+								    <button type="button" class="dropdown-item" id="accept-btn" @click="relationship('CONNECTED',detailNote.senderNo)">수락하기</button>
+								    <button type="button" class="dropdown-item" id="deny-btn" @click="relationship('DISCONNECTED',detailNote.senderNo)">거절하기</button>
 							    </div>
 							  </div>
 							</div>
@@ -294,7 +299,7 @@
 					</div>
 					<!-- 노트 상세보기 끝 -->
 					<div class="modal-footer">
-						<button type="button" class="btn btn-warning" data-dismiss="modal">쪽지함 닫기</button>
+						<button type="button" class="btn btn-warning" data-dismiss="modal" @click="updateUnreadCnt()">쪽지함 닫기</button>
 					</div>
 				</div>
 				<!-- end tab -->
@@ -389,6 +394,14 @@
 					alert("<요약> 항목을 선택해주세요.");
 					return;
 				}
+				if(noteApp.newNote.recipientNo == ''){
+					alert("<수신자>를 선택해주세요.");
+					return;
+				}
+				if(noteApp.newNote.title == ''){
+					alert("<제목>을 입력해주세요.");
+					return;
+				}
 				axios.post("http://localhost/api/notes/sendNote", noteApp.newNote).then(function (response) {
 					alert(response.data);
 					$("#selectedRec-name").text();
@@ -401,6 +414,11 @@
 				noteApp.showInnerModal = true;
 				axios.get("http://localhost/api/notes/getNoteDetail/"+no).then(function(response){
 					noteApp.detailNote = response.data;
+				})
+			},
+			updateUnreadCnt: function name() {
+				axios.get("http://localhost/api/notes/getUnreadNote").then(function (response) {
+					location.href="http://localhost/main.do";
 				})
 			},
 			closeInnerModal: function () {
@@ -424,7 +442,7 @@
 				axios.get("http://localhost/api/notes/setRelationship/",{ params: 
 									{userNo: userNo, status: status, friendNo:friendNo}})
 					.then(function (response) {
-						console.log(response.data);
+						alert(response.data);
 					})
 			}
 		}, // end methods

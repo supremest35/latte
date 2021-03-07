@@ -20,6 +20,8 @@ public interface NoteService {
 	NoteDto getNoteDtoByNo(int noteNo);
 	
 	Map<String, Object> getNoteListByOpt(Map<String, Object> opt);
+	int getUnreadNormalNote(int userNo);
+	int getUnreadFriendNote(int userNo);
 	
 	Relationship findRelationship(Map<String, Integer> nums);
 	void setRelationship(Relationship re);

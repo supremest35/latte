@@ -21,6 +21,4 @@ public interface UserDao {
 	User getUserById(String userId);
 	void updateUser(User user);
 	void deleteUserByNo(int userNo);
-	List<Relation> getMyFriendListByOpt(Map<String, Object> opt);
-	Relation getFriendByNo(int userNo, int friendNo);
 }

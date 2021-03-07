@@ -121,6 +121,7 @@
 	
 	#user-img {
 		width: 115px;
+		height: 120px;
 		float: inherit;
 	}
 	.info-table{margin-left: 0px; margin-right: 1px}
@@ -319,22 +320,11 @@
 								<li class="nav-item text-size: 20px" id="nav-menu-li">
 									<a class="nav-link" href="/news/main.do" id="navbardrop"> 뉴스 </a>
 								</li>
-								<!-- 메뉴바 하나 끝 -->
-								<li class="nav-item" id="nav-menu-li">
-									<a class="nav-link" href="#" id="navbardrop" data-toggle="dropdown"> 메일 </a>
-								</li>
 								<li class="nav-item" id="nav-menu-li">
 									<a class="nav-link" href="/board/index.do" id="navbardrop"> 라떼판 </a>
 								</li>
 								<li class="nav-item dropdown" id="nav-menu-li">
 									<a class="nav-link" href="/shopping/main.do" id="navbardrop"> 쇼핑 </a>
-								</li>
-								<li class="nav-item dropdown" id="nav-menu-li"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> LatteWork </a>
-									<div class="dropdown-menu">
-										<a class="dropdown-item" href="#">일정목록</a> 
-										<a class="dropdown-item" href="#">캘린더</a> 
-										<a class="dropdown-item" href="#">그래프</a>
-									</div>
 								</li>
 							</ul>
 						</nav>
@@ -401,7 +391,7 @@
 											<tr id="info-tr">
 												<th>${LOGINED_USER.name }(${LOGINED_USER.nickName})님</th>
 												<td>
-													<button class="btn btn-outline-info" id="btn-noteModal" onclick="openNoteModal()"
+													<button class="btn btn-outline-info" id="btn-noteModal" 
 														data-toggle="modal" data-target="#modal-note">
 														쪽지함</button>
 												</td>
@@ -414,11 +404,11 @@
 											</tr>
 											<tr>
 												<th>받은 쪽지</th>
-												<td>00개</td>
+												<td>${UNREADNOTE_NORMAL_CNT}개</td>
 											</tr>
 											<tr>
 												<th>일촌신청</th>
-												<td>00개</td>
+												<td>${UNREADNOTE_FRIEND_CNT}개</td>
 											</tr>
 											<tr>
 												<th>오늘 방문자수</th>
@@ -440,11 +430,9 @@
 								<div class="fr-row row no-gutters">
 									<select name="selectFriend" id="friend-box">
 										<option value="-1" selected>---일촌파도타기---</option>
-										<option value="1111"> 강감찬(닉네임)</option>
-										<option value="2222">안중근</option>
-										<option value="3333">김구</option>
-										<option value="4444">김유신</option>
-										<option value="5555">이순신</option>
+										<c:forEach items="${friendList }" var="friend">
+											<option value="${friend.friendMiniHomeNo }">${friend.friendTotalName}</option>
+										</c:forEach>
 									</select>
 								</div>
 							</div>
@@ -473,13 +461,12 @@
 	var curPathName = window.location.pathname;
 	
 	//쪽지함 클릭시 첫 리스트 반환
-	function openNoteModal(){
-		$("#btn-noteModal").on("show.bs.modal", function() {
-			console.log("버튼함 클릭 이벤트")
-		      $("#modal-note #note-friend").trigger('click');
-		   })
-	}
+	$("#btn-noteModal").on("show.bs.modal", function() {
+		console.log("버튼함 클릭 이벤트")
+	      $("#modal-note #note-friend").trigger('click');
+	   })
 	
+	   
 	function findMyId() {
 		// 입력한 이름과 연락처를 받아온다.
 		var nameField = $('#i-name').val();

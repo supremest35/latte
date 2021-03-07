@@ -1,6 +1,7 @@
 package com.example.latte.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.latte.Exception.FailedLoginException;
+import com.example.latte.service.BoardService;
+import com.example.latte.service.CategoryService;
 import com.example.latte.service.DeptService;
+import com.example.latte.service.NoteService;
 import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
+import com.example.latte.vo.BoardDto;
+import com.example.latte.vo.Category;
 import com.example.latte.vo.Dept;
 import com.example.latte.vo.User;
+
+import jdk.jfr.BooleanFlag;
 
 @CrossOrigin("*")
 @Controller
@@ -27,9 +35,22 @@ public class MainController {
 	UserService userService;
 	@Autowired
 	DeptService deptService;
+	@Autowired
+	NoteService noteService;
+	@Autowired
+	BoardService boardService;
+	@Autowired
+	CategoryService categoryService;
 
 	@RequestMapping("/main.do")
 	public String main(Model model) {
+		// 게시판 탑10, 뉴스 불러오기
+		Category category = categoryService.getCategoryByNo(100); 
+		model.addAttribute("boardCategory",category);
+				  
+		List<BoardDto> boards = boardService.getBestByLikeCnt();
+		model.addAttribute("boards", boards);
+		
 		return "main";
 	}
 	
@@ -52,11 +73,13 @@ public class MainController {
 		try {
 			userService.getLoginUser(param);
 			
-			// 일촌리스트 저장할 경우 사용할 코드
-			//Map<String, Object> opt = new HashMap<>();
-			//opt.put("userNo", ((User)SessionUtils.getAttribute("LOGINED_USER")).getNo());
-			//opt.put("status", "connected");
-			//SessionUtils.setAttribute("freindList", userService.getMyFriendListByOpt(opt));
+			// 일촌리스트 불러오기
+			int userNo = ((User)SessionUtils.getAttribute("LOGINED_USER")).getNo();
+			SessionUtils.setAttribute("FRIEND_LIST", userService.getMyFriendList(userNo));
+			System.out.println("#$%^&*(*&^%$#@#$%^&*(*&^%$#@"+SessionUtils.getAttribute("freindList"));
+			// 안읽은 쪽지 불러오기
+			SessionUtils.setAttribute("UNREADNOTE_NORMAL_CNT", noteService.getUnreadNormalNote(userNo));
+			SessionUtils.setAttribute("UNREADNOTE_FRIEND_CNT", noteService.getUnreadFriendNote(userNo));
 			
 		} catch (FailedLoginException e) {
 			rd.addFlashAttribute("message", e.getMessage());
