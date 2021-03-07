@@ -110,6 +110,15 @@ public class NoteServiceImpl  implements NoteService{
 	}
 	
 	@Override
+	public int getUnreadNormalNote(int userNo) {
+		return noteDao.getUnreadNormalNote(userNo);
+	}
+	@Override
+	public int getUnreadFriendNote(int userNo) {
+		return noteDao.getUnreadFriendNote(userNo);
+	}
+	
+	@Override
 	public Relationship findRelationship(Map<String, Integer> nums) {
 		return relationshipDao.getRelationshipByNums(nums);
 	}

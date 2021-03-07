@@ -1,6 +1,7 @@
 package com.example.latte.service;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,12 @@ import com.example.latte.Exception.UserNotFoundException;
 import com.example.latte.dao.FolderDao;
 import com.example.latte.dao.MiniHomeBoardDao;
 import com.example.latte.dao.MiniHomeDao;
+import com.example.latte.dao.RelationshipDao;
 import com.example.latte.dao.UserDao;
 import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.MiniHome;
 import com.example.latte.vo.MiniHomeBoard;
+import com.example.latte.vo.Relationship;
 import com.example.latte.vo.User;
 
 @Service
@@ -32,6 +35,8 @@ public class UserServiceImpl implements UserService {
 	MiniHomeDao miniHomeDao;
 	@Autowired
 	FolderDao folderDao;
+	@Autowired 
+	RelationshipDao relationshipDao;
 	
 
 	@Override
@@ -128,14 +133,31 @@ public class UserServiceImpl implements UserService {
 		userDao.updateUser(user);
 	}
 	
-	public List<Relation> getMyFriendListByOpt(Map<String, Object> opt){
-		return userDao.getMyFriendListByOpt(opt);
+	public List<Map<String, Object>> getMyFriendList(int userNo){
+		
+		List<Map<String, Object>> friendList = new ArrayList<>();
+		
+		for(Relationship re : relationshipDao.getMyFriendList(userNo)) {
+			User user1 = userDao.getUserByNo(re.getUserNo());
+			User user2 = userDao.getUserByNo(re.getFriendNo());
+			if(user1.getNo()==userNo) {
+				Map<String, Object> friend = new HashMap<>();
+				friend.put("friendNo", user2.getNo());
+				friend.put("friendTotalName", user2.getName()+" ("+user2.getNickName()+")");
+				friend.put("friendMiniHomeNo", miniHomeDao.getMiniHomeByUserNo(user2.getNo()).getNo());
+				friendList.add(friend);
+			}else {
+				Map<String, Object> friend = new HashMap<>();
+				friend.put("friendNo", user1.getNo());
+				friend.put("friendTotalName", user1.getName()+" ("+user1.getNickName()+")");
+				friend.put("friendMiniHomeNo", miniHomeDao.getMiniHomeByUserNo(user1.getNo()).getNo());
+				friendList.add(friend);
+			}
+		}
+		
+		return friendList;
 	};
 	
-	@Override
-	public Relation getFriendByNo(int userNo, int friendNo) {
-		return userDao.getFriendByNo(userNo, friendNo);
-	}
 	
 	
 }

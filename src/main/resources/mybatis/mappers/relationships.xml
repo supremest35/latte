@@ -18,7 +18,7 @@
 		set 
 			user_rel_nickname = #{userNickName}, 
 			friend_rel_nickname = #{friendNickName}, 
-			relation_status = #{status},
+			relation_status = #{status}
 		where 
 			relation_no = #{no}
 	</update>

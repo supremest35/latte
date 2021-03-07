@@ -86,6 +86,16 @@ public class NoteController {
 		return noteService.getNoteDtoByNo(noteNo);
 	}
 	
+	@RequestMapping("getUnreadNote")
+	public void getUnreadNote() {
+		int userNo = ((User)SessionUtils.getAttribute("LOGINED_USER")).getNo();
+		System.out.println("업데이트 전==============>>>>> "+SessionUtils.getAttribute("UNREADNOTE_NORMAL_CNT"));
+		SessionUtils.setAttribute("UNREADNOTE_NORMAL_CNT", noteService.getUnreadNormalNote(userNo));
+		SessionUtils.setAttribute("UNREADNOTE_FRIEND_CNT", noteService.getUnreadFriendNote(userNo));
+		System.out.println("업데이트 후 =============>>>>>> "+SessionUtils.getAttribute("UNREADNOTE_NORMAL_CNT"));
+		
+	}
+	
 	@PostMapping("deleteNote")
 	public int deleteNote(@RequestBody List<Integer> noteNoArr) {
 		for(int no : noteNoArr) {
@@ -94,26 +104,27 @@ public class NoteController {
 		
 		return noteNoArr.size();
 	}
-	
-	@RequestMapping("setRelationship")
-	public String setRelationship(@RequestParam("userNo") int userNo, 
-						@RequestParam("status") String status, @RequestParam("friendNo") int friendNo) {
 		
-		System.out.println("@@@@@@@@@@@  일촌 신청 수락/거절 메서드 실행됨 @@@@@@@@@@@@@@@");
+	@RequestMapping("setRelationship")
+	public String setRelationship(@RequestParam("userNo") int recipientNo, 
+						@RequestParam("status") String status, @RequestParam("friendNo") int senderNo) {
+		
 		Map<String, Integer> nums = new HashMap<>();
-		nums.put("userNo", userNo);
-		nums.put("friendNo", friendNo);
+		nums.put("userNo", senderNo);
+		nums.put("friendNo", recipientNo);
 		Relationship re =  noteService.findRelationship(nums);
 		
 		if(re != null) {
 			re.setStatus(status);
 			noteService.updateRelationship(re);
+		}else {
+			return "일촌 신청 오류 발생. 일촌 신청을 다시 한 번 보내주세요.";
 		}
 		
-		if("accept".equals(status)) {
-			return re.getFriendNickName()+"님의 일촌 신청이 수락되었습니다.";
+		if("CONNECTED".equals(status)) {
+			return re.getUserNickName()+"님의 일촌 신청이 수락되었습니다.";
 		}else {
-			return re.getFriendNickName()+"님의 일촌 신청이 거절되었습니다.";
+			return re.getUserNickName()+"님의 일촌 신청이 거절되었습니다.";
 		}
 	}
 	

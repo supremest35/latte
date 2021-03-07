@@ -23,4 +23,6 @@ public interface NoteDao {
 	
 	int getNoteListCnt(Map<String, Object> opt);
 	List<NoteDto> getNoteListByOpt(Map<String, Object> opt);
+	int getUnreadNormalNote(int userNo);
+	int getUnreadFriendNote(int userNo);
 }
