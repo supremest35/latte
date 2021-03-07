@@ -15,7 +15,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style type="text/css">
 	body, button {
-		font-size: 18px;
+		font-size: 16px;
 	    line-height: 1.5;
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
@@ -66,6 +66,7 @@
 	        				<tbody>
 	        					<tr>
 	        						<th>판매쇼핑몰</th>
+	        						<td>가격</td>
 	        					</tr>
 	        					<c:forEach var="detail" items="${details }" end="3">
 	        					<tr>
@@ -145,8 +146,8 @@
 	       				<c:forEach var="detail" items="${details }" end="0">
 						    <tr>
 						      <td><img src="/resources/images/malls/${detail.mallNo }.png" class="card-img-mall" alt="..."></td>
-						      <td style="font-size:16px;"><a href="${detail.url }">${detail.detailName }</a></td>
-						      <td style="font-size:16px;"><span style="color:red">최저가</br><fmt:formatNumber value="${detail.price }" /> 원</span></td>
+						      <td><a href="${detail.url }">${detail.detailName }</a></td>
+						      <td><span style="color:red">최저가</br><fmt:formatNumber value="${detail.price }" /> 원</span></td>
 						      <c:choose>
 						      	<c:when test="${detail.freeDelivery eq 'N'}">
 						      		<td><span class="badge badge-secondary">유료배송</span></td>
@@ -161,8 +162,8 @@
 	       				<c:forEach var="detail" items="${details }" begin="1">
 						    <tr>
 						      <td><img src="/resources/images/malls/${detail.mallNo }.png" class="card-img-mall" alt="..."></td>
-						      <td style="font-size:16px;"><a href="${detail.url }">${detail.detailName }</a></td>
-						      <td style="font-size:16px;"><fmt:formatNumber value="${detail.price }" /> 원</td>
+						      <td><a href="${detail.url }">${detail.detailName }</a></td>
+						      <td><fmt:formatNumber value="${detail.price }" /> 원</td>
 						      <c:choose>
 						      	<c:when test="${detail.freeDelivery eq 'N'}">
 						      		<td><span class="badge badge-secondary">유료배송</span></td>

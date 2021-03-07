@@ -20,6 +20,14 @@
 	a {
 		color: rgb(34, 34, 34);
 	}
+	.col-6 {
+	  position: absolute;
+	  width: 400px;
+	  height: 600px;
+	  top: 70%;
+	  left: 50%;
+	  margin: -300px 0 0 -200px;
+	}
 	</style>
 </head>
 <body>
@@ -34,43 +42,21 @@
 
 <div class="container">
 	<div class="row">
-	   <div class="col-12">
-	      <div class="card">
-	         <form id="product-form" method="post" action="register.do" enctype="multipart/form-data" onsubmit="checkAcornForm(event)">
-	         <div class="card-header"><h4>도토리상품 등록폼</h4></div>
+	   <div class="col-6">
+	      <div class="card" style="float:center">
+	         <form id="charge-form" method="post" action="acornRegister.do" enctype="multipart/form-data" onsubmit="checkAcornForm(event)">
+	         <div class="card-header"><h4>도토리 충전폼</h4></div>
 	         <div class="card-body">
 	            <div class="form-row">
 	               <div class="form-group col-12">
-	                  <label>카테고리</label>
-	                  <select class="form-control" name="categoryMidNo" id="acorn-category">
-	                  <c:forEach var="category" items="${acornCategories }">
-		                 <option value="${category.no }"> ${category.name }</option>
-		              </c:forEach>
-					  </select>
-	               </div>
-	            </div>
-	            <div class="form-row">
-	               <div class="form-group col-12">
-	                  <label>상품명</label>
-	                  <input type="text" class="form-control" name="name" id="acorn-name" />
-	               </div>
-	            </div>
-	            <div class="form-row">
-	               <div class="form-group col-12">
 	                  <label>도토리 (1개 = 100원)</label>
-	                  <input type="number" class="form-control" name="price" id="acorn-price"/>
-	               </div>
-	            </div>
-	            <div class="form-row">
-	               <div class="form-group col-12">
-	                  <label>수량</label>
-	                  <input type="number" class="form-control" name="stock" id="acorn-price"/>
+	                  <input type="number" class="form-control" name="acornCnt" id="acorn-cnt"/>
 	               </div>
 	            </div>
 	            <div class="form-row">
 	               <div class="text-right">
 	                  <a href="/shopping/main.do" class="btn btn-secondary">취소</a>
-	                  <input type="submit" class="btn btn-primary" value="상품등록" />
+	                  <input type="submit" class="btn btn-primary" value="충전" />
 	               </div>
 	            </div>
 	         </div>

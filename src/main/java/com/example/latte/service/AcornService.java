@@ -6,6 +6,7 @@ import java.util.Map;
 import com.example.latte.dto.AcornItemCommentDto;
 import com.example.latte.vo.AcornItem;
 import com.example.latte.vo.AcornItemComment;
+import com.example.latte.vo.AcornItemCommentLike;
 import com.example.latte.vo.AcornItemLike;
 import com.example.latte.vo.UserItem;
 
@@ -23,9 +24,11 @@ public interface AcornService {
 	AcornItem getAcornDetail(int acornNo);
 	AcornItem getAcornByNo(int acornNo);
 	AcornItemComment getCommentByNo(int commentNo);
+	AcornItemCommentLike getCommentLike(int commentNo, int userNo);
 	AcornItemLike getAcornItemLike(int acornNo, int userNo);
 	
 	void addNewAcorn(AcornItem acorn);
+	void deleteUserItem(int userNo, int acornNo);
 	void insertAcornItemLike(AcornItemLike itemLike);
 	void insertComment(AcornItemComment comment);
 	void insertCommentLike(int commentNo, int userNo);

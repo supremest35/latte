@@ -12,7 +12,6 @@
 		              B.user_photo					as userPhoto,
 		              A.acorn_item_comment_content	as content,
 		              A.acorn_item_comment_like_cnt	as likeCnt,
-		              A.acorn_item_comment_liked	as liked,
 		              A.item_comment_created_date	as createdDate
 		      from
 		      	latte_acorn_item_comments A, latte_users B 
@@ -30,7 +29,6 @@
 		              B.user_photo					as userPhoto,
 		              A.acorn_item_comment_content	as content,
 		              A.acorn_item_comment_like_cnt	as likeCnt,
-		              A.acorn_item_comment_liked	as liked,
 		              A.item_comment_created_date	as createdDate,
 		              nvl2 ((select X.user_no
 		              		from acorn_item_comment_likes X
@@ -52,12 +50,22 @@
 			user_no						as userNo,
 			acorn_item_comment_content	as content,
 			acorn_item_comment_like_cnt	as likeCnt,
-			acorn_item_comment_liked	as liked,
 			item_comment_created_date	as createdDate
 		from
 			latte_acorn_item_comments
 		where
 			acorn_item_comment_no = #{commentNo}
+	</select>
+	<select id="getCommentLike" parameterType="int" resultType="com.example.latte.vo.AcornItemCommentLike">
+		select
+			comment_no		as commentNo,
+			user_no			as userNo
+		from
+			acorn_item_comment_likes
+		where
+			comment_no = #{commentNo}
+		and
+			user_no = #{userNo}
 	</select>
 
 	<select id="getCommentsCountByAcornNo" parameterType="int" resultType="int">

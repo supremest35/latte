@@ -12,6 +12,5 @@ public class AcornItemComment {
 	private int userNo;
 	private String content;
 	private int likeCnt;
-	private String liked;
 	private Date createdDate;
 }

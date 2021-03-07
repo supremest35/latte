@@ -25,6 +25,7 @@ public interface AcornDao {
 	List<AcornItem> getAllAcorns();
 	List<UserItem> getUserItems(int userNo);
 	
+	void deleteUserItem(int userNo, int acornNo);
 	void insertAcorn(AcornItem acorn);
 	void insertAcornItemLike(AcornItemLike itemLike);
 	void insertUserItem(UserItem userItem);

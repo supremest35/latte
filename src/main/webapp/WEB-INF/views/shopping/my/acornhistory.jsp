@@ -15,7 +15,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style type="text/css">
 	body, button {
-		font-size: 18px;
+		font-size: 16px;
 	    line-height: 1.5;
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
@@ -60,7 +60,7 @@
 							<tr>
 								<th>일자</th>
 								<th>내용</th>
-								<th class="text-center">주문번호 조회</th>
+								<th class="text-center">주문번호/충전</th>
 								<th class="text-right pr-5">잔여 도토리</th>
 							</tr>
 						</thead>
@@ -76,7 +76,12 @@
 									<tr>
 										<td><fmt:formatDate value="${history.createdDate }" /></td>
 										<td>${history.content }</td>
-										<td class="text-center"><a href="../order/detail.do?orderno=${history.orderNo }">${history.orderNo }</a> 번</td>
+										<c:if test="${empty history.orderNo }">
+											<td class="text-center">충전</td>
+										</c:if>
+										<c:if test="${not empty history.orderNo }">
+											<td class="text-center"><a href="../order/detail.do?orderno=${history.orderNo }">${history.orderNo }</a> 번</td>
+										</c:if>
 										<td class="text-right pr-5"><strong class="${history.acornAmount gt 0 ? 'text-success' : 'text-danger' }"><fmt:formatNumber value="${history.acornAmount }" /></strong></td>
 									</tr>
 								</c:forEach>

@@ -13,16 +13,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.latte.service.AcornHistoryService;
 import com.example.latte.service.AcornService;
 import com.example.latte.service.MarketCategoryService;
+import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
+import com.example.latte.vo.AcornHistory;
 import com.example.latte.vo.AcornItem;
 import com.example.latte.vo.AcornItemComment;
+import com.example.latte.vo.AcornItemCommentLike;
 import com.example.latte.vo.AcornItemLike;
 import com.example.latte.vo.MarketMidCategory;
 import com.example.latte.vo.User;
-
 import com.example.latte.dto.AcornItemCommentDto;
+import com.example.latte.form.AcornCntForm;
 import com.example.latte.form.AcornForm;
 
 @Controller
@@ -30,10 +34,38 @@ import com.example.latte.form.AcornForm;
 public class AcornController {
 	
 	@Autowired
+	AcornHistoryService acornHistoryService;
+	@Autowired
 	AcornService acornService;
 	@Autowired
 	MarketCategoryService marketCategoryService;
+	@Autowired
+	UserService userService;
 
+	@RequestMapping("/acornRegister.do")
+	public String acornRegister(AcornCntForm form) throws IOException {
+		
+		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		if (loginedUser == null) {
+			return "redirect:/shopping/main.do";
+		}
+		
+		User user = userService.getUserByNo(loginedUser.getNo());
+		user.setAcornCnt(user.getAcornCnt()+form.getAcornCnt());
+		
+		userService.update(user);
+		
+		AcornHistory acornHistory = new AcornHistory();
+		acornHistory.setUserNo(user.getNo());
+		acornHistory.setContent("도토리 "+form.getAcornCnt()+" 개 충전!");
+		acornHistory.setAcornAmount(user.getAcornCnt());
+		
+		acornHistoryService.insertAcornHistory(acornHistory);
+		
+		return "redirect:/shopping/main.do";
+	}
+	
 	@RequestMapping("/list.do")
 	public String list(@RequestParam(name="catno", required=false, defaultValue="-1") int categoryNo,
 			@RequestParam(name="pageno", required=false, defaultValue="1") int pageNo,
@@ -58,6 +90,18 @@ public class AcornController {
 		model.addAttribute("acorns", resultMap.get("acorns"));
 		
 		return "/shopping/acorn/list";
+	}
+	
+	@RequestMapping("/chargeForm.do")
+	public String chargeAcorn(Model model) {
+		
+		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		if (user == null) {
+			return "redirect:/shopping/main.do";
+		}
+		
+		return "/shopping/acorn/chargeform";
 	}
 	
 	@RequestMapping("/detail.do")
@@ -85,7 +129,6 @@ public class AcornController {
 		} else {
 			commentDtoList = acornService.getCommentDtosByRange(acornNo, user.getNo(), begin, end);
 		}
-		System.out.println("댓글리스트: "+commentDtoList);
 		
 		model.addAttribute("acorn", acorn);
 		model.addAttribute("category", category);
@@ -103,7 +146,6 @@ public class AcornController {
 			@RequestParam("catno") int categoryNo,
 			Model model){
 		
-		System.out.println("도토리번호:"+acornNo);
 		User user = (User) SessionUtils.getAttribute("LOGINED_USER");
 		
 		if (user == null) {
@@ -119,7 +161,6 @@ public class AcornController {
 			acornService.insertAcornItemLike(itemLike);
 			
 			AcornItem acorn = acornService.getAcornByNo(acornNo);
-			System.out.println("도토리상품:"+acorn);
 			acorn.setLikeCnt(acorn.getLikeCnt()+1);
 			acornService.updateAcorn(acorn);
 		} 
@@ -162,11 +203,15 @@ public class AcornController {
 			return "redirect:/shopping/main.do";
 		}
 		
-		acornService.insertCommentLike(commentNo, user.getNo());
+		AcornItemCommentLike commentLike = acornService.getCommentLike(commentNo, user.getNo());
 		
-		AcornItemComment comment = acornService.getCommentByNo(commentNo);
-		comment.setLikeCnt(comment.getLikeCnt() + 1);
-		acornService.updateComment(comment);;
+		if (commentLike == null) {
+			acornService.insertCommentLike(commentNo, user.getNo());
+			
+			AcornItemComment comment = acornService.getCommentByNo(commentNo);
+			comment.setLikeCnt(comment.getLikeCnt() + 1);
+			acornService.updateComment(comment);
+		}
 		
 		return "redirect:/shopping/acorn/detail.do?acornno="+acornNo+"&commentno="+commentNo;
 	}
@@ -183,7 +228,6 @@ public class AcornController {
 	@RequestMapping("/register.do")
 	public String register(AcornForm acornForm) throws IOException {
 		
-		System.out.println(acornForm);
 		AcornItem acorn = new AcornItem();
 		BeanUtils.copyProperties(acornForm, acorn);
 				

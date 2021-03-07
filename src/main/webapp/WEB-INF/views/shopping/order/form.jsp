@@ -14,7 +14,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style type="text/css">
 	body, button {
-		font-size: 18px;
+		font-size: 16px;
 	    line-height: 1.5;
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
@@ -81,7 +81,7 @@
 					</div>	
 				</div>
 				<div class="card">
-					<div class="card-header font-weight-bold">받는 분 성함</div>
+					<div class="card-header font-weight-bold">받는 분</div>
 					<div class="card-body">
 						<div class="form-row">
 							<div class="form-group col-3">
@@ -102,7 +102,10 @@
 					<div class="card-body">
 						<div class="form-row">
 							<div class="form-group col-3">
-								<label>사용가능 도토리 <button type="button" class="btn btn-primary btn-xs" id="btn-use-acorn" onclick="useAcorn()" ${LOGINED_USER.acornCnt eq 0 ? 'disabled' : '' }>사용하기</button></label>
+								<label>사용가능
+									<button type="button" class="btn btn-primary btn-xs" id="btn-use-acorn" onclick="useAcorn()" ${LOGINED_USER.acornCnt eq 0 ? 'disabled' : '' }>사용하기</button>
+									<a href="/shopping/acorn/chargeForm.do" class="btn btn-info btn-xs">충전하기</a>
+								</label>
       							<input type="text" class="form-control" name="" id="usable-acorn" value="${user.acornCnt }" readonly>
 							</div>
 							<div class="form-group col-3">

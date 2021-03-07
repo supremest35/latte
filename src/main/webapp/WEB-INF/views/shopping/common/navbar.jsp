@@ -1,4 +1,13 @@
 <%@ page pageEncoding="UTF-8"%>
+<style>
+	.table th {
+		font-size: 16px;
+	}
+	.table td {
+		font-size: 16px;
+	}
+</style>
+
 <link rel='stylesheet' href='/resources/css/navbar.css'/>
 
 <nav class="navbar navbar-expand-sm bg-white navbar-info">
@@ -76,12 +85,14 @@
 	        </c:forEach>
 	      </div>
 	    </li>
+	    <c:if test="${not empty LOGINED_USER }">
 	    <li class="nav-item">
 	    	<a href="/shopping/product/form.do" class="nav-link">상품등록</a>
 	    </li>
 		<li class="nav-item">
 			<a href="/shopping/acorn/form.do" class="nav-link">도토리상품등록</a>
 		</li>
+	    </c:if>
 	</ul>
 </nav>
 

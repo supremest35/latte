@@ -16,7 +16,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style type="text/css">
 	body, button {
-		font-size: 18px;
+		font-size: 16px;
 	    line-height: 1.5;
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
@@ -108,9 +108,7 @@
 <div class="container">
 	<div class="card bg-light text-dark">
 	    <div class="card-body">
-	        <a href="product/list.do?pageno=1">
-	        	<strong>서치킹</strong> - 고객들이 가장 많이 찾아본 상품!
-	        </a>
+	        <strong>서치킹</strong> - 고객들이 가장 많이 찾아본 상품!
 			<div class="container-lg my-3">
 				<div id="myCarousel" class="carousel slide" data-ride="carousel">
 					<ol class="carousel-indicators">
@@ -120,7 +118,7 @@
 					<div class="carousel-inner">
 						<div class="carousel-item active">
 							<div class="row">
-							<c:forEach var="product" items="${hitProducts }">
+							<c:forEach var="product" items="${hitProducts }" end="5">
 								<div class="col-sm-4">
 									<div class="thumb-wrcater">
 										<div class="img-box">
@@ -140,7 +138,7 @@
 						</div>
 						<div class="carousel-item">
 							<div class="row">
-							<c:forEach var="product" items="${hitProducts }">
+							<c:forEach var="product" items="${hitProducts }" begin="6">
 								<div class="col-sm-4">
 									<div class="thumb-wrcater">
 										<div class="img-box">

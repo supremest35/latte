@@ -80,7 +80,9 @@ public class OrderController {
 			AcornItem acorn = acornService.getAcornByNo(acornNo);
 			acorn.setStock(acorn.getStock() + itemAmount);
 			acornService.updateAcorn(acorn);
+			acornService.deleteUserItem(user.getNo(), acorn.getNo());
 		}
+		
 		
 		return "redirect:/shopping/order/list.do";
 	}
@@ -211,6 +213,7 @@ public class OrderController {
 			
 			AcornItem acorn = acornService.getAcornByNo(acornNoList.get(i));
 			acorn.setStock(acorn.getStock() - amountList.get(i));
+			acorn.setSellCnt(acorn.getSellCnt()+1);
 			acornService.updateAcorn(acorn);
 			
 			wishService.deleteWishItemByUserNoAndAcornNo(user.getNo(), acornNoList.get(i));

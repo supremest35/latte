@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.latte.dto.AcornItemCommentDto;
 import com.example.latte.vo.AcornItemComment;
+import com.example.latte.vo.AcornItemCommentLike;
 
 @Mapper
 @Transactional
@@ -16,6 +17,7 @@ public interface AcornCommentDao {
 	List<AcornItemCommentDto> getCommentDtosByRange(int acornNo, int userNo, int begin, int end);
 	
 	AcornItemComment getCommentByNo(int commentNo);
+	AcornItemCommentLike getCommentLike(int commentNo, int userNo);
 	
 	int getCommentsCountByAcornNo(int acornNo);
 	
