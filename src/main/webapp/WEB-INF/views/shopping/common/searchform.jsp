@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8"%>
 <style>
 	td {
-		font-size: 18px;
+		font-size: 16px;
 	}
 </style>
 

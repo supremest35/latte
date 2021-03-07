@@ -15,7 +15,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style type="text/css">
 	body, button {
-		font-size: 18px;
+		font-size: 16px;
 	    line-height: 1.5;
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
@@ -47,9 +47,11 @@
 			<button type="button" class="btn btn-outline-secondary" onclick="orderItems()">선물</button>
 		</div>
 		<div>
+		<!-- 
 			<a href="">인기상품순</a>
 				&nbsp;|&nbsp;
 			<a href="">최신순</a>
+		 -->
 		</div>
 		<form id="acorn-list-form" method="post" action="../order/form.do">
 		<table class="table">

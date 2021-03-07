@@ -15,13 +15,10 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style type="text/css">
 	body, button  {
-		font-size: 18px;
+		font-size: 16px;
 	    line-height: 1.5;
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
-	}
-	th, td {
-		font-size: 16px;
 	}
 	a {
 		color: rgb(34, 34, 34);
@@ -94,7 +91,7 @@
 				        						<td colspan="2" class="text-right">
 				        							<button type="button" class="btn btn-primary" ${acorn.stock eq 0 ? 'disabled' : '' } onclick="buy()">바로구매</button>
 				        							<button type="button" class="btn btn-info" ${acorn.stock eq 0 ? 'disabled' : '' } onclick="addWishItem()">장바구니</button>
-				        							<a href="list.do?pageno=1" class="btn btn-outline-primary">쇼핑계속</a>
+				        							<a href="list.do?catno=${acorn.categoryMidNo }&pageno=1" class="btn btn-outline-primary">쇼핑계속</a>
 				        						</td>
 				        					</tr>
 				        				</tbody>
@@ -132,7 +129,7 @@
 								<span>${comment.userId }</span>
 								<span class="col-6">${comment.content }</span>
 								<small>
-									<a href="likeComment.do?acornno=${acorn.no }&commentno=${comment.no }" class="ml-3 btn btn-outline-secondary btn-xs ${comment.liked eq 'Y' ? 'disabled' : '' }">
+									<a href="likeComment.do?acornno=${acorn.no }&commentno=${comment.no }" class="ml-3 btn btn-outline-secondary btn-xs ${empty LOGINED_USER ? 'disabled' : '' }">
 									<i class="far fa-heart"></i> ${comment.likeCnt } </a>
 								</small>
 							</h5>

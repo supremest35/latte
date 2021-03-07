@@ -107,6 +107,11 @@
 				user_no = #{userNo})
 	</select>
 
+	<delete id="deleteUserItem" parameterType="int">
+		delete from latte_user_items
+		where user_no = #{userNo}
+		and acorn_item_no = #{acornNo}
+	</delete>
 	<insert id="insertAcorn" parameterType="com.example.latte.vo.AcornItem">
 		insert into latte_acorn_items
 			(acorn_item_no, category_mid_no, acorn_item_name, acorn_item_price, acorn_item_stock)
@@ -130,7 +135,8 @@
 		set
 			acorn_item_stock = #{stock},
 			acorn_item_comment_cnt = #{commentCnt},
-			acorn_item_like_cnt = #{likeCnt}
+			acorn_item_like_cnt = #{likeCnt},
+			acorn_item_sell_cnt = #{sellCnt}
 		where acorn_item_no = #{no}
 	</update>
 

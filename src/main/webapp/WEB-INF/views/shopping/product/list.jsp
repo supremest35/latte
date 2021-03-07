@@ -15,7 +15,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style type="text/css">
 	body, button {
-		font-size: 18px;
+		font-size: 16px;
 	    line-height: 1.5;
 	    color: rgb(34, 34, 34);
 	    letter-spacing: -1px;
@@ -74,7 +74,7 @@
 							var html = '';
 								html += '<div class="col-3 mb-3 ">';
 								html += '<div class="card">';
-								html += '<div class="card-body" style="height: 380px;">';
+								html += '<div class="card-body" style="height: 360px;">';
 
 								html += '<a href="detail.do?prodno='+data[i].PRODUCT_NO+'&catno='+data[i].PRODUCT_CATEGORY_NO+'">';
 								html += '<img class="img-thumbnail" src="/resources/images/products/'+data[i].PRODUCT_PHOTO_FILENAME+'" alt="Card image">';
@@ -130,7 +130,7 @@
                <c:forEach var="product" items="${products }">
                   <div class="col-3 mb-3 ">
                      <div class="card">
-                         <div class="card-body" style="height: 380px;">
+                         <div class="card-body" style="height: 340px;">
                              <a href="detail.do?prodno=${product.no }&catno=${product.categoryNo }">
                                 <img class="img-thumbnail" src="/resources/images/products/${product.photoFilename }" alt="Card image">
                              </a>
