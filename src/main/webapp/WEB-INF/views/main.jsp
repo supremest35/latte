@@ -37,7 +37,7 @@
 						</div>
 						<div class="card-body border">
 							<h6 class="card-title">실시간 좋아요 Top 5</h6>
-							<a id="moreContent" href="/board/index.do?catno=100">더보기 >></a>
+							<a id="moreContent" href="/board/index.do?catno=100">더보기 ></a>
 							<table class="table" id="board-table">
 								<thead>
 									<colgroup>
@@ -86,21 +86,22 @@
 					</div>
 					<div class="col-5">
 						<div class="card">
-							<div class="card-header">뉴스</div>
+							<div class="card-header">뉴스
+							<a id="moreContent" href="/news/main.do">뉴스 홈으로 ></a>
+							</div>
 						</div>
 						<div class="card-body border">
-							<h6 class="card-title">오늘의 뉴스</h6>
-							<a id="moreContent" href="/news/main.do">더보기 >></a>
+							<!-- <h6 class="card-title">오늘의 뉴스</h6> -->
 							<div class="card-text">
-								<p>연예/스포츠</p>
+								<p>연예/스포츠<a id="moreContent" href="/news/EntSports.do">연예/스포츠 뉴스 더보기 ></a></p>
 								<ul id="contents-1">
 									
 								</ul>
-								<p>사회/경제</p>
+								<p>사회/경제<a id="moreContent" href="/news/Economy.do">사회/경제 뉴스 더보기 ></a></p>
 								<ul id="contents-2">
 									
 								</ul>
-								<p>IT과학</p>
+								<p>IT과학<a id="moreContent" href="/news/itScience.do">it/과학 뉴스 더보기 ></a></p>
 								<ul id="contents-3">
 									
 								</ul>
@@ -117,7 +118,7 @@
 		axios.get("http://localhost/board/api/news/" + +"연예"+"스포츠").then(function(response) {
 			var sports = response.data;
 			
-			for (var index = 0; index <= 1; index++) {
+			for (var index = 0; index <= 2; index++) {
 				/* var title = "<p>" + sports.items[index].title + "</p>" */
 	 			var content = "<li> <a href='" + sports.items[index].link + "'>" + sports.items[index].title + "</a></li>" 
 				$("#contents-1").append(content);
@@ -128,7 +129,7 @@
 		axios.get("http://localhost/board/api/news/" + "경제").then(function(response) {
 			var economy = response.data;
 			/* var url = "http://localhost/news/detail.do"; */
-			for (var index = 0; index <= 1; index++) {
+			for (var index = 0; index <= 2; index++) {
 				var title = "<li> <a href='" + economy.items[index].link + "'>" + economy.items[index].title + "</a></li>" 
 				$("#contents-2").append(title);
 			}	
@@ -137,7 +138,7 @@
 		// it 
 		axios.get("http://localhost/board/api/news/" + "it"+"과학").then(function(response) {
 			var it = response.data;
-			for (var index = 0; index <= 1; index++) {
+			for (var index = 0; index <= 2; index++) {
 				var title = "<li> <a href='" + it.items[index].link + "'>" + it.items[index].title + "</a></li>" 
 				$("#contents-3").append(title);
 			}	
