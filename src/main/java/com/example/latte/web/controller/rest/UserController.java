@@ -113,17 +113,6 @@ public class UserController {
 		return result;
 	}
 	
-	// 일촌 불러오기
-	@RequestMapping("getFriends.do")
-	public List<Relation> getMyFriendList(@RequestParam(value = "userNo") int userNo, 
-					@RequestParam(value="stauts") String status){
-		
-		Map<String, Object> opt = new HashMap<>();
-		opt.put("userNo", userNo);
-		opt.put("status", "connected");
-		
-		return userService.getMyFriendListByOpt(opt);
-	}
 	
 	// 가입된 모든 사용자 (탍퇴회원 제외)
 	@RequestMapping("getAllAvailableUser")
