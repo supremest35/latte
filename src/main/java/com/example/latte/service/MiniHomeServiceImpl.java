@@ -298,6 +298,14 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 		miniHomeBoardDao.updateMiniHomeBoard(miniHomeBoard);
 	}
 
+	@Override
+	public void increaseHitCnt(MiniHome miniHome) {
+		miniHome.setTodayCnt(miniHome.getTodayCnt() + 1);
+		miniHome.setTotalCnt(miniHome.getTotalCnt() + 1);
+		miniHomeDao.updateMiniHome(miniHome);
+	}
+
+
 	
 
 }

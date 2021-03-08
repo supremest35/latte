@@ -52,9 +52,8 @@ public class MiniHomeController {
 		}
 		
 		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
-		if (loginedUser != null && loginedUser.getNo() != hostUser.getNo()) {
-			miniHome.setTodayCnt(miniHome.getTodayCnt() + 1);
-			miniHome.setTotalCnt(miniHome.getTotalCnt() + 1);
+		if (loginedUser.getNo() != hostUser.getNo()) {
+			miniHomeService.increaseHitCnt(miniHome);
 		}
 		Map<String, Object> hostUserInfo = new HashMap<String, Object>();
 		hostUserInfo.put("no", hostUser.getNo());
@@ -64,6 +63,7 @@ public class MiniHomeController {
 		
 		model.addAttribute("miniHome", miniHome);
 		model.addAttribute("hostUser", hostUserInfo);
+		model.addAttribute("friendList", userService.getMyFriendList(hostUser.getNo()));
 		return "minihome/minihome";
 	}
 
@@ -186,7 +186,7 @@ public class MiniHomeController {
 			board.setImgFilename("/resources/images/miniHome/" + board.getImgFilename());
 			
 			if (folder.getCategoryNo() == 200) {
-				board.setExtraFilename("/resources/videos/miniHome/" + board.getExtraFilename());
+				board.setExtraFilename("/resources/extraFiles/miniHome/" + board.getExtraFilename());
 			}
 			model.addAttribute("board", board);
 			model.addAttribute("folderCategoryNo", folder.getCategoryNo());

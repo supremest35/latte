@@ -128,11 +128,11 @@
 						</p>
 					</div>
 					<div class="card-footer">
-						<select class="form-control">
-							<option value="">일촌1</option>
-							<option value="">일촌2</option>
-							<option value="">일촌3</option>
-							<option value="">일촌4</option>
+						<select name="selectFriend" id="friend-box" class="form-control">
+							<option value="-1" selected>---일촌파도타기---</option>
+							<c:forEach var="friend" items="${friendList }">
+							<option value="${friend.friendMiniHomeNo }">${friend.friendTotalName }</option>
+						</c:forEach>
 						</select>
 					</div>
 				  </div>
@@ -206,6 +206,11 @@
 	var folderNo;
 	var pageNo;
 	var isInfiniteScroll=true;
+	
+	// 일촌파도타기
+	$("#friend-box").change(function(){
+		location.href="minihome.do?miniHomeNo=" + $(this).val();	
+	})
 	
 	// 메인메뉴 버튼이 클릭될 때 이벤트
 	$("#main-menu button").click(function() {
@@ -576,8 +581,12 @@
 			  headers: {
 			    'Content-Type': 'multipart/form-data'
 			  }
-			}).then(function() {
-				$("#btn-photo").trigger("click");
+			}).then(function(response) {
+				if (response.data == 100) {
+					$("#btn-photo").trigger("click");
+				} else if (response.data == 200) {
+					$("#btn-video").trigger("click");
+				}
 			})
 		return false;
 	})
@@ -592,6 +601,21 @@
 		axios.post('http://localhost/minihome/api/modifyVisualContent.do', formData).then(function() {
 			$("#btn-photo").trigger("click");
 		})
+		return false;
+	})
+	
+	// 게시판쪽 버튼
+	$("#main-content").on("click", "#board-section a", function() {
+
+		var formId = $(this).data("form-id");
+		console.log(formId);
+		/*if ("#diary-delete" == formId) {
+			axios.get('http://localhost/minihome/api/deleteDiary/' + $(this).data("diary-no")).then(function() {
+			$("#btn-diary").trigger("click");
+			})
+		} else {
+			$("#main-content").load("form.do " + formId, {miniHomeNo:${miniHome.no}, formId:formId, diaryNo:$(this).data("diary-no")});
+		} */
 		return false;
 	})
 	
