@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.management.relation.Relation;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,8 +62,14 @@ public class UserController {
 			result.put("status", "fail");
 			return result; 
 		}
+		System.out.println("######임시비번 전" + user.toString());
 		result.put("status", "success");
-		result.put("tmpPwd", TempPwdUtils.generatePassword());
+		String tmpPwd = TempPwdUtils.generatePassword();
+		String secretTmpPwd = DigestUtils.sha256Hex(tmpPwd);
+		user.setPassword(secretTmpPwd);
+		userService.update(user);
+		System.out.println("######임시비번 후" + user.toString());
+		result.put("tmpPwd", tmpPwd);
 		result.put("id", user.getId());
 		result.put("userName", user.getName());
 		return result;
@@ -124,7 +131,8 @@ public class UserController {
 	
 	@RequestMapping("/modifyProfile")
 	public String modify(@RequestParam(value="id") String id, @RequestParam(value="nickName") String nickName, 
-		@RequestParam(value="tel") String tel, @RequestParam(value="photoFile", required = false)MultipartFile photo) {
+		@RequestParam(value="tel") String tel, @RequestParam(value="photoFile", required = false)MultipartFile photo,
+		@RequestParam(value = "pwd", required = false) String pwd) {
 		User user = userService.getUserById(id);
 		System.out.println(photo);
 		System.out.println("프로필 변경 전 유저" + user.toString());
@@ -133,6 +141,10 @@ public class UserController {
 		}
 		if(!tel.equals("")) {
 			user.setTel(tel);
+		}
+		if(!pwd.equals("")) {
+			String codePwd = DigestUtils.sha256Hex(pwd);
+			user.setPassword(codePwd);
 		}
 		try {
 			if(photo != null) {

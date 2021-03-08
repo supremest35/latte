@@ -73,11 +73,14 @@
 									<div class="card-footer" id="findPwd-success" style="display: none;">
 										<h5 style="text-align: center;">조회 결과</h5>
 										<p>
-											<span class="user-name-sp"></span>(님)의 임시 비밀번호<span id="tmp-Pwd"></span>가
+											<span class="user-name-sp"></span>(님)의 임시 비밀번호는
 										</p>
 										<br>
 										<p style="text-align: center;">
-											등록된 이메일(아이디): <span class="found-id-sp"></span>으로 전송되었습니다.
+											: <span class="tmp-Pwd-sp"></span>입니다.
+										</p>
+										<p style="text-align: center; color: red; font-size: 15px;">	
+											* 반드시 비밀번호를 재설정해주세요.
 										</p>
 										<br>
 									</div>

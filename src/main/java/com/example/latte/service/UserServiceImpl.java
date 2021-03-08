@@ -80,26 +80,7 @@ public class UserServiceImpl implements UserService {
 		}
 		SessionUtils.setAttribute("LOGINED_USER", savedUser);
 	}                         
-	
-	@Override
-	public User getLoginedUserInfo(String userId, String password) {
-		User savedUser = userDao.getUserById(userId);
 		
-		if(savedUser == null) {
-			throw new UserNotFoundException("아이디: ["+userId+"]");
-		}
-		
-		String secretPassword = DigestUtils.sha256Hex(password);
-		if(!secretPassword.equals(savedUser.getPassword())) {
-			throw new PasswordMismatchException("");
-		}
-		SessionUtils.setAttribute("LOGINED_USER", savedUser);
-		SessionUtils.setAttribute("LOGINED_USER_NO", savedUser.getNo());
-		
-		return savedUser;
-	}
-	
-	
 	@Override
 	public User getUserWithIdOption(String name, String tel) {
 		Map<String, Object> option = new HashMap<String, Object>();
