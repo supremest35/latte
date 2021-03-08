@@ -2,6 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.MiniHomeBoardDao">
+	<insert id="insertMiniHomeBoard" parameterType="com.example.latte.vo.MiniHomeBoard">
+		insert into
+			minihome_boards(board_no, board_folder_no, minihome_no, board_title, board_content, board_image_filename, board_extra_filename)
+		values
+			(minihome_board_no_seq.nextval, #{folderNo}, #{miniHomeNo}, #{title}, #{content}, #{imgFilename}, #{extraFilename})
+	</insert>
+	<update id="updateMiniHomeBoard" parameterType="com.example.latte.vo.MiniHomeBoard">
+		update
+			minihome_boards
+		set
+			board_folder_no = #{folderNo},
+			board_title = #{title},
+			board_content = #{content},
+			board_hit_cnt = #{hitCnt},
+			board_like_cnt = #{likeCnt},
+			board_comment_cnt = #{commentCnt},
+			board_deleted = #{deleted}
+		where
+			board_no = #{no}
+	</update>
 	<select id="getTotalBoardsByOption" parameterType="map" resultType="int">
 		select 
 			count(*)
@@ -18,7 +38,8 @@
 									connect by 
 										prior folder_no = folder_parent_no) b
 			 where 
-				a.board_folder_no = b.folder_no)
+				a.board_folder_no = b.folder_no
+				and a.board_deleted = 'N')
 	</select>
 	<select id="getBoardsByOption" parameterType="map" resultType="com.example.latte.vo.MiniHomeBoard">
 		select 
@@ -32,6 +53,7 @@
 			board_hit_cnt				as hitCnt,
 			board_like_cnt				as likeCnt,
 			board_comment_cnt			as commentCnt,
+			board_deleted				as deleted,
 			board_created_date			as createdDate
 		from
 			<if test="miniHomeNo == null">
@@ -47,13 +69,16 @@
 										connect by 
 											prior folder_no = folder_parent_no) b
 				 where 
-					a.board_folder_no = b.folder_no)
+					a.board_folder_no = b.folder_no
+					and a.board_deleted = 'N')
 			</if>
 			<if test="miniHomeNo != null">
 				(select 
 					row_number() over(order by a.board_no desc) rn, a.*			
 				 from
-					minihome_boards a)
+					minihome_boards a
+				 where
+				 	a.board_deleted = 'N')
 			</if>
 		where
 			<if test="begin == null">
@@ -78,10 +103,13 @@
 			board_hit_cnt				as hitCnt,
 			board_like_cnt				as likeCnt,
 			board_comment_cnt			as commentCnt,
+			board_deleted				as deleted,
 			board_created_date			as createdDate
 		from
 			minihome_boards
 		where
 			board_no = #{value}
+			and board_deleted = 'N'
+			
 	</select>
 </mapper>

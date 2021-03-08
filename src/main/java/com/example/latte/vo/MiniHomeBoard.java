@@ -17,5 +17,6 @@ public class MiniHomeBoard {
 	private int hitCnt;
 	private int likeCnt;
 	private int commentCnt;
+	private String deleted;
 	private Date createdDate;
 }

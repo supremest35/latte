@@ -12,6 +12,10 @@ import com.example.latte.vo.MiniHomeBoard;
 @Transactional
 public interface MiniHomeBoardDao {
 	
+	void insertMiniHomeBoard(MiniHomeBoard miniHomeBoard);
+	
+	void updateMiniHomeBoard(MiniHomeBoard miniHomeBoard);
+	
 	int getTotalBoardsByOption(Map<String, Object> opt);
 	
 	MiniHomeBoard getBoardByNo(int boardNo);

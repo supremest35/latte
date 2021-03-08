@@ -69,7 +69,6 @@ public class MiniHomeController {
 
 	@RequestMapping("/sideSection.do")
 	public String sideSection(@RequestParam("sectionId") String sectionId, @RequestParam("miniHomeNo") int miniHomeNo, Model model) {
-		
 		if ("#home-section".equals(sectionId) || "#visitor-section".equals(sectionId)) {
 			WelcomeNote welcomeNote = miniHomeService.getWelcomeNoteByMiniHomeNo(miniHomeNo);
 			if (welcomeNote != null) {
@@ -80,20 +79,24 @@ public class MiniHomeController {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("miniHomeNo", miniHomeNo);
 			opt.put("categoryNo", 100);
-			System.out.println("여기1" + miniHomeService.getParentFoldersByOption(opt));
+			
 			model.addAttribute("folders", miniHomeService.getParentFoldersByOption(opt));
+			model.addAttribute("rootFolder", miniHomeService.getRootFolderByOption(opt));
+			
 		} else if ("#video-section".equals(sectionId)) {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("miniHomeNo", miniHomeNo);
 			opt.put("categoryNo", 200);
-			System.out.println("여기2" + miniHomeService.getParentFoldersByOption(opt));
+			
 			model.addAttribute("folders", miniHomeService.getParentFoldersByOption(opt));
+			model.addAttribute("rootFolder", miniHomeService.getRootFolderByOption(opt));
 		} else if ("#board-section".equals(sectionId)) {
 			Map<String, Object> opt = new HashMap<String, Object>();
 			opt.put("miniHomeNo", miniHomeNo);
 			opt.put("categoryNo", 300);
-			System.out.println(miniHomeService.getParentFoldersByOption(opt));
-			model.addAttribute("여기3" + "folders", miniHomeService.getParentFoldersByOption(opt));
+			
+			model.addAttribute("folders", miniHomeService.getParentFoldersByOption(opt));
+			model.addAttribute("rootFolder", miniHomeService.getRootFolderByOption(opt));
 		}
 		
 		return "minihome/sideSection";
@@ -110,9 +113,8 @@ public class MiniHomeController {
 			List<MiniHomeBoard> boards = (List) resultMap.get("boards");
 			int boardsSize = boards.size();
 			for (int i = 0; i < boardsSize; i++) {
-				boards.get(i).setImgFilename("/resources/images/" + boards.get(i).getImgFilename());
+				boards.get(i).setImgFilename("/resources/images/miniHome/" + boards.get(i).getImgFilename());
 			}
-			
 			
 			model.addAttribute("boards", boards);
 			
@@ -154,9 +156,10 @@ public class MiniHomeController {
 			
 			Map<String, Object> resultMap = miniHomeService.getBoardsByOption(opt);
 			List<MiniHomeBoard> boards = (List) resultMap.get("boards");
+			
 			int boardsSize = boards.size();
 			for (int i = 0; i < boardsSize; i++) {
-				boards.get(i).setImgFilename("/resources/images/" + boards.get(i).getImgFilename());
+				boards.get(i).setImgFilename("/resources/images/miniHome/" + boards.get(i).getImgFilename());
 			}
 			
 			model.addAttribute("boards", boards);
@@ -180,7 +183,7 @@ public class MiniHomeController {
 			MiniHome miniHome = miniHomeService.getMiniHomeByNo(board.getMiniHomeNo());
 			User user = userService.getUserByNo(miniHome.getUserNo());
 			Folder folder = miniHomeService.getFolderByNo(board.getFolderNo());
-			board.setImgFilename("/resources/images/" + board.getImgFilename());
+			board.setImgFilename("/resources/images/miniHome/" + board.getImgFilename());
 			
 			if (folder.getCategoryNo() == 200) {
 				board.setExtraFilename("/resources/videos/miniHome/" + board.getExtraFilename());
@@ -212,12 +215,20 @@ public class MiniHomeController {
 	}
 	
 	@RequestMapping("/form.do")
-	public String form (@RequestParam("miniHomeNo") int miniHomeNo, @RequestParam("formId") String formId, @RequestParam(name = "diaryNo", required = false, defaultValue = "-1") int diaryNo, Model model) {
+	public String form (@RequestParam("miniHomeNo") int miniHomeNo, @RequestParam("formId") String formId, 
+			@RequestParam(name = "diaryNo", required = false, defaultValue = "-1") int diaryNo, 
+			@RequestParam(name = "folderNo", required = false, defaultValue = "-1") int folderNo, 
+			@RequestParam(name = "boardNo", required = false, defaultValue = "-1") int boardNo, Model model) {
 		
 		if ("#intro-modify".equals(formId)) {
 			model.addAttribute("profile", miniHomeService.getProfileByMiniHomeNo(miniHomeNo));
 		} else if ("#diary-modify".equals(formId)) {
 			model.addAttribute("diary", miniHomeService.getDiaryByNo(diaryNo));
+		} else if (folderNo > 0) {
+			model.addAttribute("folder", miniHomeService.getFolderByNo(folderNo));
+			if ("#visualContent-modify".equals(formId)) {
+				model.addAttribute("board", miniHomeService.getBoardByNo(boardNo));
+			}
 		}
 		model.addAttribute("miniHomeNo", miniHomeNo);
 		return "minihome/form";

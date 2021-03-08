@@ -411,7 +411,7 @@
 		return false;
 	})
 	
-	// 글 등록 버튼(submit역할)
+	// 프로필 소개글 등록 버튼(submit역할)
 	$("#main-content").on("click", "#intro-insert a", function() {
 		var formData = new FormData();
 		formData.append("photoFile", $("#photoFile")[0].files[0]);
@@ -529,18 +529,69 @@
 	
 	// 다이어리 submit버튼
 	$("#main-content").on("click", "#diary-forms a", function() {
-		var data = new FormData;
-		data.append("title", $("input[name=title]").val());
-		data.append("content", $("textarea[name=content]").val());
-		data.append("miniHomeNo", ${miniHome.no});
-		axios.post('http://localhost/minihome/api/insertDiary.do', data).then(function() {
-			$("#btn-diary").trigger("click");
-		})
+		console.log($(this).data("btn-id"));
+		if ("btn-modify-diary" == $(this).data("btn-id")) {
+			var data = new FormData;
+			data.append("title", $("input[name=title]").val());
+			data.append("content", $("textarea[name=content]").val());
+			data.append("diaryNo", $(this).data("diary-no"));
+			data.append("miniHomeNo", ${miniHome.no});
+			axios.post('http://localhost/minihome/api/modifyDiary.do', data).then(function() {
+				$("#btn-diary").trigger("click");
+			})
+		} else {
+			var data = new FormData;
+			data.append("title", $("input[name=title]").val());
+			data.append("content", $("textarea[name=content]").val());
+			data.append("miniHomeNo", ${miniHome.no});
+			axios.post('http://localhost/minihome/api/insertDiary.do', data).then(function() {
+				$("#btn-diary").trigger("click");
+			})
+		}
 		return false;
 	})
 	
-	$("#btn-modify-diary").on("click", function() {
-		console.log("jojojojojojo");
+	// 사진첩쪽 버튼
+	$("#main-content").on("click", "#visualContent-btn a", function() {
+		var formId = $(this).data("form-id");
+		if ("#visualContent-delete" == formId) {
+			axios.get('http://localhost/minihome/api/deleteVisualContent/' + $(this).data("board-no")).then(function() {
+				$("#btn-photo").trigger("click");
+			})
+		} else {
+			$("#main-content").load("form.do " + formId, {miniHomeNo:${miniHome.no}, formId:formId, folderNo:folderNo, boardNo:$(this).data("board-no")});
+		}
+		return false;
+	})
+	
+	// 사진첩 글 등록 버튼(submit역할)
+	$("#main-content").on("click", "#visualContent-insert a", function() {
+		var formData = new FormData();
+		formData.append("photoFile", $("#photoFile")[0].files[0]);
+		formData.append("title", $("input[name=title]").val());
+		formData.append("content", $("textarea[name=content]").val());
+		formData.append("folderNo", folderNo);		
+		formData.append("miniHomeNo", ${miniHome.no});
+		axios.post('http://localhost/minihome/api/insertVisualContent.do', formData, {
+			  headers: {
+			    'Content-Type': 'multipart/form-data'
+			  }
+			}).then(function() {
+				$("#btn-photo").trigger("click");
+			})
+		return false;
+	})
+
+	// 사진첩 글 수정 버튼(submit역할)
+	$("#main-content").on("click", "#visualContent-modify a", function() {
+		var formData = new FormData;
+		formData.append("title", $("input[name=title]").val());
+		formData.append("content", $("textarea[name=content]").val());
+		formData.append("boardNo", $(this).data("board-no"));
+		formData.append("miniHomeNo", ${miniHome.no});
+		axios.post('http://localhost/minihome/api/modifyVisualContent.do', formData).then(function() {
+			$("#btn-photo").trigger("click");
+		})
 		return false;
 	})
 	

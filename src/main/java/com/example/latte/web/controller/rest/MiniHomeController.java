@@ -29,6 +29,7 @@ import com.example.latte.dao.MiniHomeDao;
 import com.example.latte.form.DiaryEventForm;
 import com.example.latte.service.MiniHomeService;
 import com.example.latte.service.UserService;
+import com.example.latte.vo.Board;
 import com.example.latte.vo.Diary;
 import com.example.latte.vo.Folder;
 import com.example.latte.vo.MiniHomeBoard;
@@ -114,7 +115,8 @@ public class MiniHomeController {
 		
 		if (!photoFile.isEmpty()) { 
 			String filename = System.currentTimeMillis() + photoFile.getOriginalFilename();
-			FileCopyUtils.copy(photoFile.getInputStream(), new FileOutputStream(new File(photoDirectory, filename))); profile.setPhotoFilename(filename); 
+			FileCopyUtils.copy(photoFile.getInputStream(), new FileOutputStream(new File(photoDirectory, filename))); 
+			profile.setPhotoFilename(filename); 
 		}
 		 
 		miniHomeService.insertProfile(profile);
@@ -123,7 +125,8 @@ public class MiniHomeController {
 
 	@PostMapping("/modifyIntro.do")
 	public void modifyIntro(@RequestParam("content") String content, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
-		Profile profile = miniHomeService.getProfileByMiniHomeNo(miniHomeNo);
+		Profile profile = new Profile();
+		profile.setMiniHomeNo(miniHomeNo);
 		profile.setContent(content);
 		
 		miniHomeService.modifyProfile(profile);
@@ -177,8 +180,53 @@ public class MiniHomeController {
 		
 	}
 
+	@PostMapping("/modifyDiary.do")
+	public void modifyDiary(@RequestParam String title, @RequestParam String content, @RequestParam("diaryNo") Integer diaryNo, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		Diary diary = new Diary();
+		diary.setNo(diaryNo);
+		diary.setMiniHomeNo(miniHomeNo);
+		diary.setTitle(title);
+		diary.setContent(content);
+		
+		miniHomeService.modifyDiary(diary);
+		
+	}
+
 	@GetMapping("/deleteDiary/{diaryNo}")
 	public void deleteDiary(@PathVariable("diaryNo") int diaryNo) throws FileNotFoundException, IOException {
 		miniHomeService.deleteDiary(diaryNo);
+	}
+	
+	@PostMapping("/insertVisualContent.do")
+	public void insertVisualContent(@RequestParam("photoFile") MultipartFile photoFile, @RequestParam("content") String content, @RequestParam("title") String title, @RequestParam("folderNo") int folderNo, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		MiniHomeBoard miniHomeBoard = new MiniHomeBoard();
+		System.out.println("폴더넘버" + folderNo);
+		miniHomeBoard.setFolderNo(folderNo);
+		miniHomeBoard.setMiniHomeNo(miniHomeNo);
+		miniHomeBoard.setTitle(title);
+		miniHomeBoard.setContent(content);
+
+		if (!photoFile.isEmpty()) { 
+			String filename = System.currentTimeMillis() + photoFile.getOriginalFilename();
+			FileCopyUtils.copy(photoFile.getInputStream(), new FileOutputStream(new File(photoDirectory, filename))); 
+			miniHomeBoard.setImgFilename(filename); 
+		}
+		
+		miniHomeService.insertMinihomeBoard(miniHomeBoard);
+	}
+	
+	@PostMapping("/modifyVisualContent.do")
+	public void modifyVisualContent(@RequestParam String title, @RequestParam String content, @RequestParam("boardNo") Integer boardNo, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		MiniHomeBoard miniHomeBoard = new MiniHomeBoard();
+		miniHomeBoard.setNo(boardNo);
+		miniHomeBoard.setTitle(title);
+		miniHomeBoard.setContent(content);
+		
+		miniHomeService.modifyMiniHomeBoard(miniHomeBoard);
+	}
+	
+	@GetMapping("/deleteVisualContent/{boardNo}")
+	public void deleteVisualContent(@PathVariable("boardNo") int boardNo) throws FileNotFoundException, IOException {
+		miniHomeService.deleteMiniHomeBoard(boardNo);
 	}
 }
