@@ -39,6 +39,14 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="form-group col-6" >
+								<label>비밀번호 변경</label> 
+								<input type="password" class="form-control mb-2" v-model="pwd"/>
+							</div>
+							<div class="form-group col-6" >
+								<label>비밀번호 확인</label> 
+								<input type="password" class="form-control mb-2" v-model="pwdck"/>
+							</div>
 							<div class="form-group col-12" >
 								<label>닉네임</label> 
 								<input type="text" class="form-control mb-2" placeholder="${LOGINED_USER.nickName }" v-model="my.nickName"/>
@@ -68,10 +76,11 @@
 </div>
 <script>
 	var userId = $('#pro-userId').val()
-	console.log(userId)
 	new Vue({
 		el:"#myProfile",
 		data:{
+			pwd:'',
+			pwdck:'',
 			my:{
 				id: userId,
 				nickName:'',
@@ -89,7 +98,16 @@
 			},
 			modifyProfile: function () {
 				// 사진 변경 여부에 따라 메서드 두개로 나누기 ...
+				if(this.pwd != this.pwdck){
+					alert("비밀번호를 확인해주세요.")
+					return;
+				}
+				
 				var formData = new FormData();
+
+				if(this.pwd !=''){
+					formData.append('pwd',this.pwd);
+				}
 				
 				formData.append('id', this.my.id);
 				formData.append('nickName', this.my.nickName);

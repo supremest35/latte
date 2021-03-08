@@ -30,7 +30,7 @@
 		border-style: none;
 		padding: 0px 10px 0px 0px;
 		margin: 10px 1px 0px 1px;
-		width: 50%;
+		width: 110PX;
 		height: 25px;
 		text-align: right;
 		font-size: 7px;
@@ -100,7 +100,11 @@
 		font-size: 20px;
 		color: rgb(250, 122, 2);
 	}
-
+	.tmp-Pwd-sp{
+		font-size: 20px;
+		color: rgb(250, 122, 2);
+		
+	}
 	/* 로그인 사용자 정보창 */
 	.card-body#user-info-box,
 	.card-body#login-box{
@@ -462,10 +466,10 @@
 	var curPathName = window.location.pathname;
 	
 	//쪽지함 클릭시 첫 리스트 반환
-	$("#btn-noteModal").on("show.bs.modal", function() {
-		console.log("버튼함 클릭 이벤트")
-	      $("#modal-note #note-friend").trigger('click');
-	   })
+	$("#modal-note").on("show.bs.modal", function() {
+	    $("a[href='#normal']").trigger('click');
+		noteApp.changeTab('normal', 1)
+	})
 	
 	   
 	function findMyId() {
@@ -514,7 +518,7 @@
 				$('#findPwd-success').show();
 				$('.found-id-sp').text(result.id);
 				$('.user-name-sp').text(result.userName); 
-				$('#tmp-Pwd').text(result.tmpPwd);
+				$('.tmp-Pwd-sp').text(result.tmpPwd);
 			}
 		})
 	}

@@ -125,6 +125,7 @@
 	<update id="updateUser" parameterType="com.example.latte.vo.User">
 		update latte_users
 		set 
+			user_password = #{password},
 			user_nickname = #{nickName},
 			user_birthday = #{birthday},
 			user_tel = #{tel},

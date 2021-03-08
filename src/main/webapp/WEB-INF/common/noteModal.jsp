@@ -210,7 +210,7 @@
 									</div>
 									<div class="col-6">
 										<label class="font-weight-bold">받는 사람</label> 
-										<input type="text"class="form-control" name="recipient" @input="typing" id="selectedRec-name"/>
+										<input type="text"class="form-control" name="recipient" @input="typing" id="selectedRec-name" autocomplete="off"/>
 									</div>
 									<div class="col-6 offset-6 mt-2">
 										<ul v-show="showSearchedUserList" class="list-group">
