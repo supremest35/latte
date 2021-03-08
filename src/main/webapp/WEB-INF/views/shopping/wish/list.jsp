@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.15/vue.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style type="text/css">
 		body, button {
@@ -44,8 +45,14 @@
 <div class="container">
 	<div class="row mb-3">
 		<div class="col-12">
+			<div>
+				<a class="btn btn-outline-dark btn-xs" href="/shopping/order/list.do">주문내역</a>
+				<a class="btn btn-outline-dark btn-xs" href="/shopping/my/havingitem.do">보유상품</a>
+				<a class="btn btn-outline-dark btn-xs" href="/shopping/my/acornhistory.do">도토리 사용내역</a>
+			</div>
 			<div class="card">
-				<div class="card-header font-weight-bold">소원 리스트</div>
+				<div class="card-header font-weight-bold">소원 리스트
+				</div>
 				<div class="card-body">
 				<c:if test="${not empty param.error and param.error eq 'exist' }">
 					<div class="row">
@@ -112,7 +119,10 @@
 				</form>
 				</div>
 				<div class="card-footer d-flex justify-content-between">
-					<span>선택한 도토리상품 <button class="btn btn-primary btn-xs" onclick="orderItems()">주문하기</button> <button class="btn btn-secondary btn-xs" onclick="deleteItems()">삭제하기</button></span>
+					<span>선택한 도토리상품 
+						<button class="btn btn-primary btn-xs" onclick="orderItems()">주문하기</button> 
+						<button class="btn btn-secondary btn-xs" onclick="deleteItems()">삭제하기</button> 
+						<a class="btn btn-info btn-xs text-right" href="/shopping/acorn/chargeForm.do">충전하기</a></span>
 					<span>필요한 총 도토리 갯수 : <strong class="mr-5">${totalPrice } 개</strong></span>
 				</div>	
 			</div>
