@@ -22,10 +22,8 @@ import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.BoardDto;
 import com.example.latte.vo.Category;
-import com.example.latte.vo.Dept;
 import com.example.latte.vo.User;
 
-import jdk.jfr.BooleanFlag;
 
 @CrossOrigin("*")
 @Controller
@@ -76,7 +74,7 @@ public class MainController {
 			// 일촌리스트 불러오기
 			int userNo = ((User)SessionUtils.getAttribute("LOGINED_USER")).getNo();
 			SessionUtils.setAttribute("FRIEND_LIST", userService.getMyFriendList(userNo));
-			System.out.println("#$%^&*(*&^%$#@#$%^&*(*&^%$#@"+SessionUtils.getAttribute("freindList"));
+			System.out.println("#$%^&*(*&^%$#@#$%^&*(*&^%$#@"+SessionUtils.getAttribute("FRIEND_LIST"));
 			// 안읽은 쪽지 불러오기
 			SessionUtils.setAttribute("UNREADNOTE_NORMAL_CNT", noteService.getUnreadNormalNote(userNo));
 			SessionUtils.setAttribute("UNREADNOTE_FRIEND_CNT", noteService.getUnreadFriendNote(userNo));

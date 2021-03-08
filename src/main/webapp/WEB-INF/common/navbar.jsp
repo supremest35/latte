@@ -400,7 +400,7 @@
 										<tbody>
 											<tr>
 												<th>도토리수</th>
-												<td><a href="도토리마켓 링크">${LOGINED_USER.acornCnt}개</a></td>
+												<td><a href="/shopping/my/acornhistory.do">${LOGINED_USER.acornCnt}개</a></td>
 											</tr>
 											<tr>
 												<th>받은 쪽지</th>
@@ -428,9 +428,9 @@
 								</div>
 									<!-- 정보창 3열 일촌 파도타기 셀렉트박스 -->
 								<div class="fr-row row no-gutters">
-									<select name="selectFriend" id="friend-box">
+									<select name="selectFriend" id="friend-box" onchange="openFriendMiniHome()">
 										<option value="-1" selected>---일촌파도타기---</option>
-										<c:forEach items="${friendList }" var="friend">
+										<c:forEach items="${FRIEND_LIST }" var="friend">
 											<option value="${friend.friendMiniHomeNo }">${friend.friendTotalName}</option>
 										</c:forEach>
 									</select>
@@ -441,9 +441,10 @@
 				</div>
 			</div>
 			</c:if>
-		</div>
-	</div>
-</div>
+			
+					</div>
+				</div>
+			</div>
 
 <!-- 아이디 비밀번호 찾기 모달창 시작  -->
 <%@ include file="findIdModal.jsp" %>
@@ -597,9 +598,10 @@
 	function openMiniHome() {
 	      window.open('/minihome.do', '_blank', "width=1400, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
 	   }
-	
-	function getFrirendList(){
+	function openFriendMiniHome() {
+		var friendMinihomeNo = $("#friend-box option:selected").val()
+		console.log("친구 미니홈피 번호: " + friendMinihomeNo);
+	      window.open('/minihome.do?miniHomeNo='+friendMinihomeNo, '_blank', "width=1400, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
+	   }
 		
-	}
-	
 </script>
