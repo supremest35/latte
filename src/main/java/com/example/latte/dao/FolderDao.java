@@ -12,6 +12,8 @@ import com.example.latte.vo.Folder;
 @Transactional
 public interface FolderDao {
 	void insertRootFolder(int miniHomeNo, int categoryNo);
+	void insertFolder(Folder folder);
+	void updateFolder(Folder folder);
 	Folder getFolderByNo(int folderNo);
 	Folder getRootFolderByOpt(Map<String, Object> opt);
 	List<Folder> getChildFoldersByParentFoderNo(int parentFolderNo);

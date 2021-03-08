@@ -4,9 +4,9 @@
 <mapper namespace="com.example.latte.dao.MiniHomeBoardDao">
 	<insert id="insertMiniHomeBoard" parameterType="com.example.latte.vo.MiniHomeBoard">
 		insert into
-			minihome_boards(board_no, board_folder_no, minihome_no, board_title, board_content, board_image_filename, board_extra_filename)
+			minihome_boards(board_no, board_folder_no, minihome_no, board_category_no, board_title, board_content, board_image_filename, board_extra_filename)
 		values
-			(minihome_board_no_seq.nextval, #{folderNo}, #{miniHomeNo}, #{title}, #{content}, #{imgFilename}, #{extraFilename})
+			(minihome_board_no_seq.nextval, #{folderNo}, #{miniHomeNo}, #{categoryNo}, #{title}, #{content}, #{imgFilename}, #{extraFilename})
 	</insert>
 	<update id="updateMiniHomeBoard" parameterType="com.example.latte.vo.MiniHomeBoard">
 		update
@@ -46,6 +46,7 @@
 			board_no					as no,
 			board_folder_no				as folderNo,
 			minihome_no					as miniHomeNo,
+			board_category_no			as categoryNo,
 			board_title					as title,
 			board_content				as content,
 			board_image_filename		as imgFilename,
@@ -96,6 +97,7 @@
 			board_no					as no,
 			board_folder_no				as folderNo,
 			minihome_no					as miniHomeNo,
+			board_category_no			as categoryNo,
 			board_title					as title,
 			board_content				as content,
 			board_image_filename		as imgFilename,

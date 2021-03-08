@@ -171,13 +171,13 @@
 							<button id="btn-diary" class="badge badge-primary" data-section-id="#diary-section">다이어리</button>
 						</div>
 						<div class="row mb-2">
-							<button id="btn-photo" class="badge badge-primary" data-section-id="#photo-section">사진첩</button>
+							<button id="btn-photo" class="badge badge-primary" data-main-menu="#btn-photo" data-section-id="#photo-section">사진첩</button>
 						</div>
 						<div class="row mb-2">
-							<button id="btn-video" class="badge badge-primary" data-section-id="#video-section">동영상</button>
+							<button id="btn-video" class="badge badge-primary" data-main-menu="#btn-video" data-section-id="#video-section">동영상</button>
 						</div>
 						<div class="row mb-2">
-							<button id="btn-board" class="badge badge-primary" data-section-id="#board-section">게시판</button>
+							<button id="btn-board" class="badge badge-primary" data-main-menu="#btn-board" data-section-id="#board-section">게시판</button>
 						</div>
 						<div class="row mb-2">
 							<button id="btn-visitor" class="badge badge-primary" data-section-id="#visitor-section">방명록</button>
@@ -203,6 +203,7 @@
 <script type="text/javascript">
 	var sectionId;
 	var contentId;
+	var mainMenu;
 	var folderNo;
 	var pageNo;
 	var isInfiniteScroll=true;
@@ -214,6 +215,8 @@
 	
 	// 메인메뉴 버튼이 클릭될 때 이벤트
 	$("#main-menu button").click(function() {
+		mainMenu = $(this).data("main-menu");
+		
 		// 무한스크롤 위한 페이지 번호
 		pageNo = 1;
 		// 메인컨텐츠 안의 내용 지우기
@@ -662,7 +665,6 @@
 	
 	// 게시판 글 수정 버튼(submit역할)
 	$("#main-content").on("click", "#board-modify a", function() {
-		console.log("값~~~~~~~~~~~~~~~" + $(this).data("board-no"));
 		var formData = new FormData;
 		formData.append("title", $("input[name=title]").val());
 		formData.append("content", $("textarea[name=content]").val());
@@ -703,6 +705,49 @@
 		
 		return false;
 	})
+	
+	// 대문글 버튼
+	$("#side-content").on("click", "#welcomeNote-button button", function() {
+		var formId = $(this).data("form-id");
+		if ("#welcomeNote-edit" == formId) {
+			window.open('/editWelcomeNote.do?miniHomeNo=' + ${miniHome.no}, '_blank', "width=350, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );
+		} else {
+			window.open('/historyWelcomeNote.do?miniHomeNo=' + ${miniHome.no}, '_blank', "width=350, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );
+		}
+	})
+	
+	$("#side-content").on("click", "#folder-button button", function() {
+		var formId = $(this).data("form-id");
+		console.log(sectionId);
+		if ("#folder-add" == formId) {
+			$("#main-content").load("folder.do " + formId, {miniHomeNo:${miniHome.no}, formId:formId, folderNo:folderNo});
+		} else {
+			$("#main-content").load("folder.do " + formId, {miniHomeNo:${miniHome.no}, formId:formId, folderNo:folderNo});
+		}
+	})
+	
+	$("#main-content").on("click", "#folder-add-forms a", function() {
+		var formData = new FormData();
+		formData.append("parentFolderNo", $("#parentFolder").val());
+		formData.append("folderName", $("input[name=folderName]").val());
+		axios.post('http://localhost/minihome/api/insertFolder.do', formData).then(function(response) {
+			$(mainMenu).trigger("click");
+		})
+		
+		
+		return false;
+	})
+
+	$("#main-content").on("click", "#folder-delete-forms a", function() {
+		console.log("ddfdfdfdfdfdfdddddddddddddddd");		
+		axios.get('http://localhost/minihome/api/deleteFolder/' + $("#allFolders").val()).then(function(response) {
+			$(mainMenu).trigger("click");
+		})
+		
+		
+		return false;
+	})
+
 	
 	
 </script>

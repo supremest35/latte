@@ -8,17 +8,25 @@
 		values
 			(minihome_board_folder_no_seq.nextval, #{miniHomeNo}, '전체보기', #{categoryNo})
 	</insert>
+	<insert id="insertFolder" parameterType="com.example.latte.vo.Folder">
+		insert into
+			minihome_board_folders(folder_no, minihome_no, folder_name, folder_category_no, folder_parent_no)
+		values
+			(minihome_board_folder_no_seq.nextval, #{miniHomeNo}, #{name}, #{categoryNo}, #{parentNo})
+	</insert>
 	<select id="getFolderByNo" resultType="com.example.latte.vo.Folder">
 		select 
 			folder_no					as no,
 			minihome_no					as miniHomeNo,
 			folder_name					as name,
 			folder_parent_no			as parentNo,
-			folder_category_no			as categoryNo
+			folder_category_no			as categoryNo,
+			folder_deleted				as deleted
 		from 
 			minihome_board_folders
 		where
 			folder_no = #{value}
+			and folder_deleted = 'N'
 	</select>
 	<select id="getRootFolderByOpt" resultType="com.example.latte.vo.Folder">
 		select 
@@ -26,13 +34,15 @@
 			minihome_no					as miniHomeNo,
 			folder_name					as name,
 			folder_parent_no			as parentNo,
-			folder_category_no			as categoryNo
+			folder_category_no			as categoryNo,
+			folder_deleted				as deleted
 		from 
 			minihome_board_folders
 		where
 			minihome_no = #{miniHomeNo}
 			and folder_category_no = #{categoryNo}
 			and folder_parent_no is null
+			and folder_deleted = 'N'
 	</select>
 	<select id="getChildFoldersByParentFoderNo" parameterType="int" resultType="com.example.latte.vo.Folder">
 		select 
@@ -40,11 +50,13 @@
 			minihome_no					as miniHomeNo,
 			folder_name					as name,
 			folder_parent_no			as parentNo,
-			folder_category_no			as categoryNo
+			folder_category_no			as categoryNo,
+			folder_deleted				as deleted
 		from 
 			minihome_board_folders
 		where
 			folder_parent_no = #{value}
+			and folder_deleted = 'N'
 	</select>
 	<select id="getFoldersByOpt" resultType="com.example.latte.vo.Folder">
 		select 
@@ -52,13 +64,26 @@
 			minihome_no					as miniHomeNo,
 			folder_name					as name,
 			folder_parent_no			as parentNo,
-			folder_category_no			as categoryNo
+			folder_category_no			as categoryNo,
+			folder_deleted				as deleted
 		from 
 			minihome_board_folders
 		where
 			minihome_no = #{miniHomeNo}
 			and folder_category_no = #{categoryNo}
-			and folder_parent_no = #{parentFolderNo}			
+			and folder_deleted = 'N'
+			<if test="parentFolderNo != null">
+				and folder_parent_no = #{parentFolderNo}			
+			</if>
 		order by folder_no asc
 	</select>
+	<update id="updateFolder" parameterType="com.example.latte.vo.Folder">
+		update
+			minihome_board_folders
+		set
+			folder_name = #{name},
+			folder_deleted = #{deleted}
+		where
+			folder_no = #{no}
+	</update>
 </mapper>

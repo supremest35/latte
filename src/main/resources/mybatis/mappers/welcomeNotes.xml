@@ -2,6 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.WelcomeNoteDao">
+	<select id="getTotalRecordsByMiniHomeNo" parameterType="int" resultType="int">
+		select 
+			count(*)
+		from
+			minihome_welcome_notes
+		where
+			minihome_no = #{value}
+			and welcome_note_deleted = 'N'
+			and welcome_note_display = 'N'
+	</select>
+	<insert id="insertWelcomeNote" parameterType="com.example.latte.vo.WelcomeNote">
+		insert into
+			minihome_welcome_notes(welcome_note_no, minihome_no, welcome_note_emotion, welcome_note_content, welcome_note_photo_filename)
+		values
+			(minihome_welcome_note_no_seq.nextval, #{miniHomeNo}, #{emotion}, #{content}, #{photoFilename})
+	</insert>
+	<select id="getWelcomeNoteByNo" parameterType="int" resultType="com.example.latte.vo.WelcomeNote">
+		select 
+			welcome_note_no						as no,
+			minihome_no							as miniHomeNo,
+			welcome_note_emotion				as emotion,
+			welcome_note_photo_filename			as photoFilename,
+			welcome_note_content				as content,
+			welcome_note_display				as display,
+			welcome_note_deleted				as deleted,
+			welcome_note_created_date			as createdDate
+		from 
+			minihome_welcome_notes
+		where 
+			welcome_note_no = #{value}
+			and welcome_note_display = 'N'
+			and welcome_note_deleted = 'N'
+	</select>
 	<select id="getWelcomeNoteByMiniHomeNo" parameterType="int" resultType="com.example.latte.vo.WelcomeNote">
 		select 
 			welcome_note_no						as no,
@@ -19,4 +52,36 @@
 			and welcome_note_display = 'Y'
 			and welcome_note_deleted = 'N'
 	</select>
+	<select id="getWelcomeNotesByOption" parameterType="map" resultType="com.example.latte.vo.WelcomeNote">
+		select
+			welcome_note_no						as no,
+			minihome_no							as miniHomeNo,
+			welcome_note_emotion				as emotion,
+			welcome_note_photo_filename			as photoFilename,
+			welcome_note_content				as content,
+			welcome_note_display				as display,
+			welcome_note_deleted				as deleted,
+			welcome_note_created_date			as createdDate
+		from
+			(select
+				row_number() over(order by welcome_note_created_date desc) rn, a.*
+			from
+				minihome_welcome_notes a
+			where
+				minihome_no = #{miniHomeNo}
+				and welcome_note_display = 'N'
+				and welcome_note_deleted = 'N')
+		where
+			rn >= #{begin} and rn &lt;= #{end}
+	</select>
+	<update id="updateWelcomeNote" parameterType="com.example.latte.vo.WelcomeNote">
+		update
+			minihome_welcome_notes
+		set
+			welcome_note_emotion = #{emotion},
+			welcome_note_display = #{display},
+			welcome_note_deleted = #{deleted}
+		where
+			welcome_note_no = #{no}
+	</update>
 </mapper>

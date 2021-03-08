@@ -12,6 +12,7 @@ import com.example.latte.vo.MiniHome;
 public interface MiniHomeDao {
 	void insertMiniHome(MiniHome miniHome);
 	void updateMiniHome(MiniHome miniHome);
+	void resetMiniHomeTodayCnt();
 	MiniHome getMiniHomeByNo(int miniHomeNo);
 	MiniHome getMiniHomeByUserNo(int userNo);
 	MiniHome getMiniHomeByOption(Map<String, Object> opt);

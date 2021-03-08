@@ -70,4 +70,10 @@
 		where
 			minihome_no = #{no}
 	</update>
+	<update id="resetMiniHomeTodayCnt">
+		update
+			latte_minihomes
+		set
+			minihome_today_cnt = 0
+	</update>
 </mapper>

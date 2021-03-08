@@ -38,6 +38,7 @@ import com.example.latte.vo.Profile;
 import com.example.latte.vo.Qna;
 import com.example.latte.vo.User;
 import com.example.latte.vo.VisitorNote;
+import com.example.latte.vo.WelcomeNote;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 
 @CrossOrigin("*")
@@ -110,6 +111,7 @@ public class MiniHomeController {
 		opt.put("miniHomeNo", miniHomeNo);
 		opt.put("begin", begin);
 		opt.put("end", end);
+		
 		return miniHomeService.getAllBoardsByOption(opt);
 	}
 	
@@ -294,6 +296,43 @@ public class MiniHomeController {
 		visitorNote.setUserNo(loginedUser.getNo());
 		
 		miniHomeService.insertVisitorNote(visitorNote);
+	}
+	
+	@PostMapping("/insertWelcomeNote.do")
+	public void insertWelcomeNote(@RequestParam("photoFile") MultipartFile photoFile, @RequestParam("content") String content, 
+			@RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
 		
+		WelcomeNote welcomeNote = new WelcomeNote();
+		welcomeNote.setContent(content);
+		welcomeNote.setMiniHomeNo(miniHomeNo);
+		
+		if (!photoFile.isEmpty()) { 
+			String filename = System.currentTimeMillis() + photoFile.getOriginalFilename();
+			FileCopyUtils.copy(photoFile.getInputStream(), new FileOutputStream(new File(photoDirectory, filename))); 
+			welcomeNote.setPhotoFilename(filename); 
+		}
+		
+		miniHomeService.insertWelcomeNote(welcomeNote);
+	}
+	
+	@GetMapping("/deleteWelcomeNote/{welcomeNoteNo}")
+	public void deleteWelcomeNote(@PathVariable("welcomeNoteNo") int welcomeNoteNo) {
+		miniHomeService.deleteWelcomeNote(welcomeNoteNo);
+	}
+	
+	@PostMapping("/insertFolder.do")
+	public void insertFolder(@RequestParam("folderName") String folderName, 
+			@RequestParam("parentFolderNo") int parentFolderNo) {
+		Folder folder = new Folder();
+		folder.setParentNo(parentFolderNo);
+		folder.setName(folderName);
+		
+		miniHomeService.insertFolder(folder);
+	}
+
+	@GetMapping("/deleteFolder/{folderNo}")
+	public void deleteFolder(@PathVariable("folderNo") int folderNo) {
+		miniHomeService.deleteFolder(folderNo);
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!111");
 	}
 }

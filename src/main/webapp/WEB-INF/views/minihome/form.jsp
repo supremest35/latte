@@ -285,4 +285,66 @@
 			</div>
 		</form>
 	</div>
+	<div class="card-body" id="folder-add">
+		<form id="folder-add-forms">
+			<div class="card">
+				<div class="card-header">
+					입력폼
+				</div>
+				<div class="card-body" id="folder-add-content">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+   							<span class="input-group-text" >폴더명</span>
+   						</div>
+   						<input type="text" class="form-control" name="folderName" required="required">
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+   							<span class="input-group-text" >상위폴더</span>
+   						</div>
+   						<select id="parentFolder">
+   							<c:forEach var="folder" items="${folders }">
+	   							<option value="${folder.no }">${folder.name }</option>
+   							</c:forEach>
+   						</select>
+					</div>
+				</div>
+				<div class="card-footer">
+					<div class="row">
+						<div class="col-12">
+							<a href="" class="badge badge-primary" data-btn-id="submit-folder">추가</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="card-body" id="folder-delete">
+		<form id="folder-delete-forms">
+			<div class="card">
+				<div class="card-header">
+					삭제폼
+				</div>
+				<div class="card-body" id="folder-delete-content">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+   							<span class="input-group-text" >폴더</span>
+   						</div>
+   						<select id="allFolders">
+   							<c:forEach var="folder" items="${folders }">
+	   							<option value="${folder.no }">${folder.name }</option>
+   							</c:forEach>
+   						</select>
+					</div>
+				</div>
+				<div class="card-footer">
+					<div class="row">
+						<div class="col-12">
+							<a href="" class="badge badge-primary" data-btn-id="delete-folder">삭제</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>

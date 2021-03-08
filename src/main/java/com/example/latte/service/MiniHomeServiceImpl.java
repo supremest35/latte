@@ -31,6 +31,7 @@ import com.example.latte.vo.User;
 import com.example.latte.vo.VisitorNote;
 import com.example.latte.vo.WelcomeNote;
 
+
 @Service
 public class MiniHomeServiceImpl implements MiniHomeService{
 
@@ -143,9 +144,12 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	
 	@Override
 	public List<Folder> getParentFoldersByOption(Map<String, Object> opt) {
+		System.out.println("여긴?");
 		// 각 게시판의 최상위 폴더
 		Folder rootFolder = folderDao.getRootFolderByOpt(opt);
+		System.out.println("@@@@@@@@@" + rootFolder);
 		opt.put("parentFolderNo", rootFolder.getNo());
+		System.out.println(opt);
 		// 각 게시판의 상위폴더들 반환
 		return folderDao.getFoldersByOpt(opt);
 		
@@ -162,6 +166,7 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 		List<MiniHomeBoard> boards = new ArrayList<MiniHomeBoard>();
 				
 		boards = miniHomeBoardDao.getBoardsByOption(opt);
+		
 		if (opt.get("pageNo") != null) {
 			int totalRows = miniHomeBoardDao.getTotalBoardsByOption(opt);
 			if (totalRows == 0) {
@@ -279,6 +284,9 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 
 	@Override
 	public void insertMinihomeBoard(MiniHomeBoard miniHomeBoard) {
+		Folder folder = folderDao.getFolderByNo(miniHomeBoard.getFolderNo());
+		miniHomeBoard.setCategoryNo(folder.getCategoryNo());
+		
 		miniHomeBoardDao.insertMiniHomeBoard(miniHomeBoard);
 	}
 
@@ -318,6 +326,73 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	@Override
 	public void insertVisitorNote(VisitorNote visitorNote) {
 		visitorNoteDao.insertVisitorNote(visitorNote);
+	}
+
+	@Override
+	public void insertWelcomeNote(WelcomeNote welcomeNote) {
+		WelcomeNote savedWelcomeNote = welcomeNoteDao.getWelcomeNoteByMiniHomeNo(welcomeNote.getMiniHomeNo());
+		savedWelcomeNote.setDisplay("N");
+		welcomeNoteDao.updateWelcomeNote(savedWelcomeNote);
+		
+		welcomeNoteDao.insertWelcomeNote(welcomeNote);
+	}
+
+	@Override
+	public Map<String, Object> getWelcomeNotesByOption(Map<String, Object> opt) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		int totalRows = welcomeNoteDao.getTotalRecordsByMiniHomeNo((int)opt.get("miniHomeNo"));
+		if (totalRows == 0) {
+			return resultMap;
+		}
+		
+		MiniHomePagination pagination = new MiniHomePagination((int) opt.get("pageNo"), totalRows);
+		resultMap.put("pagination", pagination);
+		resultMap.put("welcomeNotes", welcomeNoteDao.getWelcomeNotesByOption(opt));
+		
+		return resultMap;
+	}
+
+	@Override
+	public void deleteWelcomeNote(int welcomeNoteNo) {
+		WelcomeNote welcomeNote = welcomeNoteDao.getWelcomeNoteByNo(welcomeNoteNo);
+		welcomeNote.setDeleted("Y");
+		
+		welcomeNoteDao.updateWelcomeNote(welcomeNote);
+	}
+
+	@Override
+	public void resetMiniHomeTodayCnt() {
+		miniHomeDao.resetMiniHomeTodayCnt();
+	}
+
+	@Override
+	public List<Folder> getFoldersByFolderNo(int folderNo) {
+		Folder folder = folderDao.getFolderByNo(folderNo);
+		
+		Map<String, Object> opt = new HashMap<String, Object>();
+		opt.put("miniHomeNo", folder.getMiniHomeNo());
+		opt.put("categoryNo", folder.getCategoryNo());
+
+		return folderDao.getFoldersByOpt(opt);
+	}
+
+	@Override
+	public void insertFolder(Folder folder) {
+		Folder parentFolder = folderDao.getFolderByNo(folder.getParentNo());
+		folder.setMiniHomeNo(parentFolder.getMiniHomeNo());
+		folder.setCategoryNo(parentFolder.getCategoryNo());
+		
+		folderDao.insertFolder(folder);
+	}
+
+	@Override
+	public void deleteFolder(int folderNo) {
+		System.out.println("22222222222222222222222");
+		Folder folder = folderDao.getFolderByNo(folderNo);
+		folder.setDeleted("Y");
+		folderDao.updateFolder(folder);
+		System.out.println("3333333333333333333");
 	}
 
 

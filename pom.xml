@@ -27,6 +27,12 @@
 	</properties>
 	
 	<dependencies>
+		<!-- 스케줄러 -->
+		<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
+	
 		<!-- 암호화  -->
 		<dependency>
 			<groupId>commons-codec</groupId>

@@ -22,10 +22,12 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div id="welcomeNote-button">
-			<button class="badge badge-primary badge-xs">edit</button>
-			<button class="badge badge-primary badge-xs">history</button>
-		</div>
+		<c:if test="${LOGINED_USER.no eq hostUserNo}">
+			<div id="welcomeNote-button">
+				<button class="badge badge-primary badge-xs" data-form-id="#welcomeNote-edit">edit</button>
+				<button class="badge badge-primary badge-xs" data-form-id="#welcomeNote-history">history</button>
+			</div>
+		</c:if>
 	</div>
 	<div id="profile-section-side">
 		<div class="card-body">
@@ -48,6 +50,12 @@
 	<div id="photo-section-side">
 		<div class="card-body">
 			<h5>photo</h5>
+			<c:if test="${LOGINED_USER.no eq hostUserNo }">
+				<span id="folder-button">
+					<button class="badge badge-primary badge-xs" data-form-id="#folder-add">추가</button>
+					<button class="badge badge-primary badge-xs" data-form-id="#folder-delete">삭제</button>
+				</span>
+			</c:if>
 		</div>
 		<div class="card-body">
 			<ul id="photo-folder-list">
@@ -65,6 +73,12 @@
 	<div id="video-section-side">
 		<div class="card-body">
 			<h5>video</h5>
+			<c:if test="${LOGINED_USER.no eq hostUserNo }">
+				<span id="folder-button">
+					<button class="badge badge-primary badge-xs" data-form-id="#folder-add">추가</button>
+					<button class="badge badge-primary badge-xs" data-form-id="#folder-delete">삭제</button>
+				</span>
+			</c:if>
 		</div>
 		<div class="card-body">
 			<ul id="video-folder-list">
@@ -82,6 +96,12 @@
 	<div id="board-section-side">
 		<div class="card-body">
 			<h5>board</h5>
+			<c:if test="${LOGINED_USER.no eq hostUserNo }">
+				<span id="folder-button">
+					<button class="badge badge-primary badge-xs" data-form-id="#folder-add">추가</button>
+					<button class="badge badge-primary badge-xs" data-form-id="#folder-delete">삭제</button>
+				</span>
+			</c:if>
 		</div>
 		<div class="card-body">
 			<ul id="board-folder-list">
@@ -117,15 +137,11 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div id="welcomeNote-button">
-			<button class="badge badge-primary badge-xs">edit</button>
-			<button class="badge badge-primary badge-xs">history</button>
-		</div>
+		<c:if test="${LOGINED_USER.no eq hostUserNo}">
+			<div id="welcomeNote-button">
+				<button class="badge badge-primary badge-xs" data-form-id="#welcomeNote-edit">edit</button>
+				<button class="badge badge-primary badge-xs" data-form-id="#welcomeNote-history">history</button>
+			</div>
+		</c:if>
 	</div>
 </div>
-<script type="text/javascript">
-
-	
-	
-		
-</script>
