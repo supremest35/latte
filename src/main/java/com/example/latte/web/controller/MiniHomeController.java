@@ -173,7 +173,6 @@ public class MiniHomeController {
 			opt.put("end", pageNo*rows);
 			
 			Map<String, Object> resultMap = miniHomeService.getBoardsByOption(opt);
-			System.out.println(opt);
 			model.addAttribute("boards", resultMap.get("boards"));
 			model.addAttribute("userName", resultMap.get("userName"));
 			model.addAttribute("pagination", resultMap.get("pagination"));
@@ -226,7 +225,7 @@ public class MiniHomeController {
 			model.addAttribute("diary", miniHomeService.getDiaryByNo(diaryNo));
 		} else if (folderNo > 0) {
 			model.addAttribute("folder", miniHomeService.getFolderByNo(folderNo));
-			if ("#visualContent-modify".equals(formId)) {
+			if ("#visualContent-modify".equals(formId) || "#board-modify".equals(formId)) {
 				model.addAttribute("board", miniHomeService.getBoardByNo(boardNo));
 			}
 		}

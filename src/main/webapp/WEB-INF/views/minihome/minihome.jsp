@@ -65,7 +65,7 @@
 		#diary-button, #visitorNote-addButton, #visitorNote-settingButton{
 			text-align: right;
 		}
-		#search-board {
+		#search-board, #search-visitorNote {
 			text-align: center; 
 			margin-top: 20px;
 		}
@@ -308,7 +308,7 @@
 							
 						}
 						
-						$("#contents").append(imgs);
+						$("#content-scroll").append(imgs);
 					})
 				} else {
 					axios.get("http://localhost/minihome/api/boards/" + folderNo + "&" + pageNo).then(function(response) {
@@ -318,7 +318,7 @@
 							imgs += "<div class='col-3 mb-3'><a href='' data-board-no='" + boards[index].no + "' data-content-id='#visual-content-detail'><img class='card-img' src='/resources/images/" + boards[index].imgFilename + "'></a></div>";
 						}
 						
-						$("#contents").append(imgs);
+						$("#content-scroll").append(imgs);
 			
 					})
 				}
@@ -605,19 +605,105 @@
 	})
 	
 	// 게시판쪽 버튼
-	$("#main-content").on("click", "#board-section a", function() {
-
+	$("#main-content").on("click", "#board-btn a", function() {
 		var formId = $(this).data("form-id");
-		console.log(formId);
-		/*if ("#diary-delete" == formId) {
-			axios.get('http://localhost/minihome/api/deleteDiary/' + $(this).data("diary-no")).then(function() {
-			$("#btn-diary").trigger("click");
+
+		if ("#board-select-delete" == formId) {
+			var boardNoList=[];
+			$("input[name=board-checkbox]:checked").each(function() {
+				boardNoList.push($(this).val());
+			})
+			
+			var formData = new FormData;
+			formData.append("boardNoList", boardNoList);
+			axios.post('http://localhost/minihome/api/deleteSelectedBoards.do', formData).then(function() {
+				$("#btn-board").trigger("click");
 			})
 		} else {
-			$("#main-content").load("form.do " + formId, {miniHomeNo:${miniHome.no}, formId:formId, diaryNo:$(this).data("diary-no")});
-		} */
+			$("#main-content").load("form.do " + formId, {miniHomeNo:${miniHome.no}, formId:formId});
+		}
 		return false;
 	})
+	
+	// 게시판 글 등록 버튼(submit역할)
+	$("#main-content").on("click", "#board-insert a", function() {
+		
+		var formData = new FormData();
+		formData.append("file", $("#file")[0].files[0]);
+		formData.append("title", $("input[name=title]").val());
+		formData.append("content", $("textarea[name=content]").val());
+		formData.append("folderNo", folderNo);		
+		formData.append("miniHomeNo", ${miniHome.no});
+		axios.post('http://localhost/minihome/api/insertBoard.do', formData, {
+			  headers: {
+			    'Content-Type': 'multipart/form-data'
+			  }
+			}).then(function(response) {
+				$("#btn-board").trigger("click");
+			})
+		return false;
+	})
+	
+	
+	// 게시글 디테일뷰에서 삭제, 수정버튼
+	$("#main-content").on("click", "#board-detail a", function() {
+		var formId = $(this).data("form-id");
+		console.log(formId);
+		if ("#board-delete" == formId) {
+			axios.get('http://localhost/minihome/api/deleteBoard/' + $(this).data("board-no")).then(function() {
+				$("#btn-board").trigger("click");
+			})
+		} else if ("#board-modify" == formId) {
+			$("#main-content").load("form.do " + formId, {miniHomeNo:${miniHome.no}, formId:formId, folderNo:folderNo, boardNo:$(this).data("board-no")});
+		}
+		
+		return false;
+	})
+	
+	// 게시판 글 수정 버튼(submit역할)
+	$("#main-content").on("click", "#board-modify a", function() {
+		console.log("값~~~~~~~~~~~~~~~" + $(this).data("board-no"));
+		var formData = new FormData;
+		formData.append("title", $("input[name=title]").val());
+		formData.append("content", $("textarea[name=content]").val());
+		formData.append("boardNo", $(this).data("board-no"));
+		formData.append("miniHomeNo", ${miniHome.no});
+		axios.post('http://localhost/minihome/api/modifyBoard.do', formData).then(function() {
+			$("#btn-board").trigger("click");
+		})
+		return false;
+	})
+	
+	
+	// 전체선택 체크박스 클릭시 전체선택 또는 전체해제
+	$("#main-content").on("click", "#check-all", function() {
+		if ($(this).prop("checked")) {
+			$("input[name=board-checkbox]").prop("checked", true);
+		} else {
+			$("input[name=board-checkbox]").prop("checked", false);
+		}
+	})
+	
+	// 체크박스중 체크해제하면 전체선택 체크박스도 체크해제됨
+	$("#main-content").on("click", "input[name=board-checkbox]", function() {
+		if (!$(this).prop("checked")) {
+			$("#check-all").prop("checked", false);
+		}
+	})
+	
+	// 방명록 등록 버튼
+	$("#main-content").on("click", "#visitorNote-form a", function() {
+		
+		var formData = new FormData();
+		formData.append("content", $("textarea[name=content]").val());
+		formData.append("miniHomeNo", ${miniHome.no});
+		axios.post('http://localhost/minihome/api/insertVisitorNote.do', formData).then(function(response) {
+				$("#btn-visitor").trigger("click");
+			})
+		
+		return false;
+	})
+	
 	
 </script>
 </body>

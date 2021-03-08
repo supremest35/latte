@@ -29,12 +29,15 @@ import com.example.latte.dao.MiniHomeDao;
 import com.example.latte.form.DiaryEventForm;
 import com.example.latte.service.MiniHomeService;
 import com.example.latte.service.UserService;
+import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.Board;
 import com.example.latte.vo.Diary;
 import com.example.latte.vo.Folder;
 import com.example.latte.vo.MiniHomeBoard;
 import com.example.latte.vo.Profile;
 import com.example.latte.vo.Qna;
+import com.example.latte.vo.User;
+import com.example.latte.vo.VisitorNote;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 
 @CrossOrigin("*")
@@ -240,5 +243,57 @@ public class MiniHomeController {
 	@GetMapping("/deleteVisualContent/{boardNo}")
 	public void deleteVisualContent(@PathVariable("boardNo") int boardNo) throws FileNotFoundException, IOException {
 		miniHomeService.deleteMiniHomeBoard(boardNo);
+	}
+	
+	@PostMapping("/insertBoard.do")
+	public void insertBoard(@RequestParam("file") MultipartFile file, @RequestParam("content") String content, 
+			@RequestParam("title") String title, @RequestParam("folderNo") int folderNo, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		MiniHomeBoard miniHomeBoard = new MiniHomeBoard();
+
+		miniHomeBoard.setFolderNo(folderNo);
+		miniHomeBoard.setMiniHomeNo(miniHomeNo);
+		miniHomeBoard.setTitle(title);
+		miniHomeBoard.setContent(content);
+
+		if (!file.isEmpty()) { 
+			String filename = System.currentTimeMillis() + file.getOriginalFilename();
+				FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(new File(extraDirectory, filename))); 
+				miniHomeBoard.setExtraFilename(filename); 
+		}
+		
+		miniHomeService.insertMinihomeBoard(miniHomeBoard);
+	}
+
+	@PostMapping("/deleteSelectedBoards.do")
+	public void deleteSelectedBoards(@RequestParam("boardNoList") int[] boardNoList) throws FileNotFoundException, IOException {
+		miniHomeService.deleteBoards(boardNoList);
+	}
+	
+	@GetMapping("/deleteBoard/{boardNo}")
+	public void deleteBoard(@PathVariable("boardNo") int boardNo) throws FileNotFoundException, IOException {
+		miniHomeService.deleteMiniHomeBoard(boardNo);
+	}
+
+	@PostMapping("/modifyBoard.do")
+	public void modifyBoard(@RequestParam String title, @RequestParam String content, @RequestParam("boardNo") Integer boardNo, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		MiniHomeBoard miniHomeBoard = new MiniHomeBoard();
+		miniHomeBoard.setNo(boardNo);
+		miniHomeBoard.setTitle(title);
+		miniHomeBoard.setContent(content);
+		
+		miniHomeService.modifyMiniHomeBoard(miniHomeBoard);
+	}
+
+	@PostMapping("/insertVisitorNote.do")
+	public void insertVisitorNote(@RequestParam("content") String content, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+		User loginedUser = (User)SessionUtils.getAttribute("LOGINED_USER");
+		
+		VisitorNote visitorNote = new VisitorNote();
+		visitorNote.setContent(content);
+		visitorNote.setMiniHomeNo(miniHomeNo);
+		visitorNote.setUserNo(loginedUser.getNo());
+		
+		miniHomeService.insertVisitorNote(visitorNote);
+		
 	}
 }
