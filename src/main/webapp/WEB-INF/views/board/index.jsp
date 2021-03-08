@@ -104,7 +104,7 @@
 					</c:if>
 				</div>
 			</div>
-	
+			<c:if test="${category.no != 100 }">
 			<div class="row">
 				<div class="col-12">
 					<ul class="pagination justify-content-center">
@@ -127,6 +127,7 @@
 					</ul>
 				</div>
 			</div>
+			</c:if>
 		</div>
 	</div>
 </body>
