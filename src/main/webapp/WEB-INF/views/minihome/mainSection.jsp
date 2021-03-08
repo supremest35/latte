@@ -10,16 +10,20 @@
 							<p class="card-text">게시글이 존재하지 않습니다.</p>
 						</c:when>
 						<c:otherwise>
-							<c:forEach var="board" items="${boards }">
+							<c:forEach var="board" items="${boards }" varStatus="status">
 								<div class="col-3 mb-3">
-									<a href="" data-board-no="${board.no }" data-content-id="#visual-content-detail">
-									<c:if test="${not empty board.imgFilename }">
-										<img class="card-img" src="${board.imgFilename }">
-									</c:if>
-									<c:if test="${empty board.imgFilename }">
-										<p>${board.title }</p>
-									</c:if>
-									</a>
+									<c:choose>
+										<c:when test="${board.categoryNo eq 300 }">
+											<a href="" data-board-no="${board.no }" data-content-id="#board-detail">
+												<img class="card-img" src="${board.imgFilename }">
+											</a>
+										</c:when>
+										<c:otherwise>
+											<a href="" data-board-no="${board.no }" data-content-id="#visual-content-detail">
+												<img class="card-img" src="${board.imgFilename }">
+											</a>
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</c:forEach>
 						</c:otherwise>
@@ -30,15 +34,17 @@
 	</div>
 	<div class="card-body" id="profile-section">
 		<div class="card-body" id="profile-intro">
-			<div id="edit-button">
-				<c:if test="${empty profile }">
-					<a href="" class="badge badge-primary" data-form-id="#intro-insert">새 글 쓰기</a>
-				</c:if>
-				<c:if test="${not empty profile }">
-					<a href="" class="badge badge-primary" data-form-id="#intro-modify">글 수정</a>
-					<a href="" class="badge badge-primary" data-form-id="#intro-delete">글 삭제</a>
-				</c:if>
-			</div>
+			<c:if test="${LOGINED_USER.no eq hostUserNo }">
+				<div id="edit-button">
+					<c:if test="${empty profile }">
+						<a href="" class="badge badge-primary" data-form-id="#intro-insert">새 글 쓰기</a>
+					</c:if>
+					<c:if test="${not empty profile }">
+						<a href="" class="badge badge-primary" data-form-id="#intro-modify">글 수정</a>
+						<a href="" class="badge badge-primary" data-form-id="#intro-delete">글 삭제</a>
+					</c:if>
+				</div>
+			</c:if>
 			<div class="card">
 				<div class="card-header">소개</div>
 				<c:choose>
@@ -59,14 +65,16 @@
 			</div>
 		</div>
 		<div class="card-body" id="profile-keyword">
-			<div>
-				<c:if test="${empty keywords }">
-					<a href="" class="badge badge-primary" data-form-id="#keyword-insert">새 글 쓰기</a>
-				</c:if>
-				<c:if test="${not empty keywords }">
-					<a href="" class="badge badge-primary" data-form-id="#keyword-delete">글 삭제</a>
-				</c:if>
-			</div>
+			<c:if test="${LOGINED_USER.no eq hostUserNo }">
+				<div>
+					<c:if test="${empty keywords }">
+						<a href="" class="badge badge-primary" data-form-id="#keyword-insert">새 글 쓰기</a>
+					</c:if>
+					<c:if test="${not empty keywords }">
+						<a href="" class="badge badge-primary" data-form-id="#keyword-delete">글 삭제</a>
+					</c:if>
+				</div>
+			</c:if>
 			<div class="card">
 				<div class="card-header">
 					키워드
@@ -88,14 +96,16 @@
 			</div>
 		</div>
 		<div class="card-body" id="profile-qna">
-			<div>
-				<c:if test="${empty qnas }">
-					<a href="" class="badge badge-primary" data-form-id="#qna-insert">새 글 쓰기</a>
-				</c:if>
-				<c:if test="${not empty qnas }">
-					<a href="" class="badge badge-primary" data-form-id="#qna-delete">글 삭제</a>
-				</c:if>
-			</div>
+			<c:if test="${LOGINED_USER.no eq hostUserNo }">
+				<div>
+					<c:if test="${empty qnas }">
+						<a href="" class="badge badge-primary" data-form-id="#qna-insert">새 글 쓰기</a>
+					</c:if>
+					<c:if test="${not empty qnas }">
+						<a href="" class="badge badge-primary" data-form-id="#qna-delete">글 삭제</a>
+					</c:if>
+				</div>
+			</c:if>
 			<div class="card">
 				<div class="card-header">문답</div>
 				<c:choose>
@@ -152,13 +162,15 @@
 		</div>
 	</div>
 	<div class="card-body" id="diary-section">
-			<div>
-				<a href="" class="badge badge-primary" data-form-id="#diary-insert">새 글 쓰기</a>
-				<c:if test="${not empty diary }">
-					<a href="" class="badge badge-primary" data-form-id="#diary-modify" data-diary-no="${diary.no }">글 수정</a>
-					<a href="" class="badge badge-primary" data-form-id="#diary-delete" data-diary-no="${diary.no }">글 삭제</a>
-				</c:if>
-			</div>
+			<c:if test="${LOGINED_USER.no eq hostUserNo }">
+				<div>
+					<a href="" class="badge badge-primary" data-form-id="#diary-insert">새 글 쓰기</a>
+					<c:if test="${not empty diary }">
+						<a href="" class="badge badge-primary" data-form-id="#diary-modify" data-diary-no="${diary.no }">글 수정</a>
+						<a href="" class="badge badge-primary" data-form-id="#diary-delete" data-diary-no="${diary.no }">글 삭제</a>
+					</c:if>
+				</div>
+			</c:if>
 		<c:choose>
 			<c:when test="${empty diary }">
 				<div class="card">
@@ -219,9 +231,11 @@
 		</c:choose>
 	</div>
 	<div class="card-body" id="visualContents-section">
-		<div id="visualContent-btn">
-			<a href="" class="badge badge-primary" data-form-id="#visualContent-insert" >새 글 쓰기</a>
-		</div>
+		<c:if test="${LOGINED_USER.no eq hostUserNo }">
+			<div id="visualContent-btn">
+				<a href="" class="badge badge-primary" data-form-id="#visualContent-insert" >새 글 쓰기</a>
+			</div>
+		</c:if>
 		<div class="card" id="contents">
 			<div class="card-body">
 				<div class="row" id="content-scroll">
@@ -242,10 +256,12 @@
 		</div>
 	</div>							
 	<div class="card-body" id="visual-content-detail">
-		<div id="visualContent-btn">
-			<a href="" class="badge badge-primary" data-form-id="#visualContent-modify" data-board-no="${board.no }">글 수정</a>
-			<a href="" class="badge badge-primary" data-form-id="#visualContent-delete" data-board-no="${board.no }">글 삭제</a>
-		</div>
+		<c:if test="${LOGINED_USER.no eq hostUserNo }">
+			<div id="visualContent-btn">
+				<a href="" class="badge badge-primary" data-form-id="#visualContent-modify" data-board-no="${board.no }">글 수정</a>
+				<a href="" class="badge badge-primary" data-form-id="#visualContent-delete" data-board-no="${board.no }">글 삭제</a>
+			</div>
+		</c:if>
 		<div class="card">
 			<div class="card-header">
 				<c:out value="${board.title }"/>
@@ -298,10 +314,12 @@
 		</div>
 	</div>
 	<div class="card-body" id="board-section">
-		<div id="board-btn">
-			<a href="" class="badge badge-primary" data-form-id="#board-insert">새 글 쓰기</a>
-			<a href="" class="badge badge-primary" data-form-id="#board-select-delete">선택 삭제</a>
-		</div>
+		<c:if test="${LOGINED_USER.no eq hostUserNo }">
+			<div id="board-btn">
+				<a href="" class="badge badge-primary" data-form-id="#board-insert">새 글 쓰기</a>
+				<a href="" class="badge badge-primary" data-form-id="#board-select-delete">선택 삭제</a>
+			</div>
+		</c:if>
 		<c:if test="${empty boards }">
 			<div class="card-body">
 				게시글이 존재하지 않습니다.
@@ -375,10 +393,12 @@
 		</c:if>
 	</div>
 	<div class="card-body" id="board-detail">
-		<div id="board-button">
-			<a href="" class="badge badge-primary" data-form-id="#board-modify" data-board-no="${board.no }">글 수정</a>
-			<a href="" class="badge badge-primary" data-form-id="#board-delete" data-board-no="${board.no }">글 삭제</a>
-		</div>
+		<c:if test="${LOGINED_USER.no eq hostUserNo }">
+			<div id="board-button">
+				<a href="" class="badge badge-primary" data-form-id="#board-modify" data-board-no="${board.no }">글 수정</a>
+				<a href="" class="badge badge-primary" data-form-id="#board-delete" data-board-no="${board.no }">글 삭제</a>
+			</div>
+		</c:if>
 		<div class="card">
 			<div class="card-header">
 				<c:out value="${board.title }"/>
@@ -453,11 +473,13 @@
 							<a href="">${visitorNote.userName }</a>
 							<small>(<fmt:formatDate value="${visitorNote.createdDate }" pattern="yyyy-MM-dd" />)</small>
 						</div>
-						<div class="col-4">
-							<a href="">비밀로 하기</a>|
-							<a href="">삭제</a>|
-							<a href="">신고</a>
-						</div>
+						<c:if test="${LOGINED_USER.no eq hostUserNo }">
+							<div class="col-4">
+								<a href="">비밀로 하기</a>|
+								<a href="">삭제</a>|
+								<a href="">신고</a>
+							</div>
+						</c:if>
 					</div>
 				</div>
 				<div class="row">

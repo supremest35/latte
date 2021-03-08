@@ -48,6 +48,16 @@ public interface MiniHomeService {
 	
 	void insertVisitorNote(VisitorNote visitorNote);
 	
+	void insertWelcomeNote(WelcomeNote welcomeNote);
+	
+	void deleteWelcomeNote(int welcomeNoteNo);
+	
+	void resetMiniHomeTodayCnt();
+	
+	void insertFolder(Folder folder);
+	
+	void deleteFolder(int folderNo);
+	
 	MiniHome getMiniHomeByNo(int miniHomeNo);
 
 	MiniHome getMiniHomeByUserNo(int userNo);
@@ -65,6 +75,10 @@ public interface MiniHomeService {
 	Folder getFolderByNo(int folderNo);
 
 	MiniHomeBoard getBoardByNo(int boardNo);
+	
+	Map<String, Object> getWelcomeNotesByOption(Map<String, Object> opt);
+	
+	List<Folder> getFoldersByFolderNo(int folderNo);
 	
 	List<MiniHomeBoard> getAllBoardsByOption(Map<String, Object> opt);
 	

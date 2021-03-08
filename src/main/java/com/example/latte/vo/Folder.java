@@ -10,4 +10,5 @@ public class Folder {
 	private int categoryNo;
 	private String name;
 	private int parentNo;
+	private String deleted;
 }
