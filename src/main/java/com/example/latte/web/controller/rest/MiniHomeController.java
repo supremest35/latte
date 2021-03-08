@@ -44,6 +44,9 @@ public class MiniHomeController {
 
 	@Value("${directory.miniHome.photofile}")
 	String photoDirectory;
+
+	@Value("${directory.miniHome.extrafile}")
+	String extraDirectory;
 	
 	@Autowired
 	MiniHomeService miniHomeService;
@@ -198,21 +201,30 @@ public class MiniHomeController {
 	}
 	
 	@PostMapping("/insertVisualContent.do")
-	public void insertVisualContent(@RequestParam("photoFile") MultipartFile photoFile, @RequestParam("content") String content, @RequestParam("title") String title, @RequestParam("folderNo") int folderNo, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
+	public int insertVisualContent(@RequestParam("photoFile") MultipartFile photoFile, @RequestParam("content") String content, @RequestParam("title") String title, @RequestParam("folderNo") int folderNo, @RequestParam("miniHomeNo") Integer miniHomeNo) throws FileNotFoundException, IOException {
 		MiniHomeBoard miniHomeBoard = new MiniHomeBoard();
-		System.out.println("폴더넘버" + folderNo);
+
 		miniHomeBoard.setFolderNo(folderNo);
 		miniHomeBoard.setMiniHomeNo(miniHomeNo);
 		miniHomeBoard.setTitle(title);
 		miniHomeBoard.setContent(content);
 
+		int categoryNo = -1;
 		if (!photoFile.isEmpty()) { 
 			String filename = System.currentTimeMillis() + photoFile.getOriginalFilename();
-			FileCopyUtils.copy(photoFile.getInputStream(), new FileOutputStream(new File(photoDirectory, filename))); 
-			miniHomeBoard.setImgFilename(filename); 
+			Folder folder = miniHomeService.getFolderByNo(folderNo);
+			categoryNo = folder.getCategoryNo();
+			if (folder.getCategoryNo() == 200) {
+				FileCopyUtils.copy(photoFile.getInputStream(), new FileOutputStream(new File(extraDirectory, filename))); 
+				miniHomeBoard.setExtraFilename(filename); 
+			} else {
+				FileCopyUtils.copy(photoFile.getInputStream(), new FileOutputStream(new File(photoDirectory, filename))); 
+				miniHomeBoard.setImgFilename(filename); 
+			}
 		}
 		
 		miniHomeService.insertMinihomeBoard(miniHomeBoard);
+		return categoryNo;
 	}
 	
 	@PostMapping("/modifyVisualContent.do")
