@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.15/vue.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style type="text/css">
 	body, button {
@@ -48,6 +49,11 @@
    <div class="row mb-3">
 		<div class="col-12">
 			<div class="card">
+			<div>
+				<a class="btn btn-outline-dark btn-xs" href="/shopping/wish/list.do">소원리스트</a>
+				<a class="btn btn-outline-dark btn-xs" href="/shopping/my/havingitem.do">보유상품</a>
+				<a class="btn btn-outline-dark btn-xs" href="/shopping/my/acornhistory.do">도토리 사용내역</a>
+			</div>
 				<div class="card-header font-weight-bold">주문 내역</div>
 				<div class="card-body">
 					<table class="table">

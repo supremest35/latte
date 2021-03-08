@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.15/vue.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style>
 	body, button {
@@ -24,7 +25,7 @@
 	  position: absolute;
 	  width: 400px;
 	  height: 600px;
-	  top: 70%;
+	  top: 700px;
 	  left: 50%;
 	  margin: -300px 0 0 -200px;
 	}
@@ -50,7 +51,7 @@
 	            <div class="form-row">
 	               <div class="form-group col-12">
 	                  <label>도토리 (1개 = 100원)</label>
-	                  <input type="number" class="form-control" name="acornCnt" id="acorn-cnt"/>
+	                  <input type="number" class="form-control" name="acornCnt" id="acorn-cnt" min="0"/>
 	               </div>
 	            </div>
 	            <div class="form-row">
