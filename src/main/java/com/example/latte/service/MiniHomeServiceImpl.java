@@ -137,6 +137,11 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	}
 
 	@Override
+	public Folder getRootFolderByOption(Map<String, Object> opt) {
+		return folderDao.getRootFolderByOpt(opt);
+	}
+	
+	@Override
 	public List<Folder> getParentFoldersByOption(Map<String, Object> opt) {
 		// 각 게시판의 최상위 폴더
 		Folder rootFolder = folderDao.getRootFolderByOpt(opt);
@@ -157,7 +162,6 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 		List<MiniHomeBoard> boards = new ArrayList<MiniHomeBoard>();
 				
 		boards = miniHomeBoardDao.getBoardsByOption(opt);
-		
 		if (opt.get("pageNo") != null) {
 			int totalRows = miniHomeBoardDao.getTotalBoardsByOption(opt);
 			if (totalRows == 0) {
@@ -212,7 +216,9 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 
 	@Override
 	public void modifyProfile(Profile profile) {
-		profileDao.modifyProfile(profile);
+		Profile savedProfile = profileDao.getProfileByMiniHomeNo(profile.getMiniHomeNo());
+		savedProfile.setContent(profile.getContent());
+		profileDao.modifyProfile(savedProfile);
 	}
 
 	@Override
@@ -261,5 +267,37 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 		diary.setDeleted("Y");
 		diaryDao.updateDiary(diary);
 	}
+
+	@Override
+	public void modifyDiary(Diary diary) {
+		Diary savedDiary = diaryDao.getDiaryByNo(diary.getNo());
+		savedDiary.setTitle(diary.getTitle());
+		savedDiary.setContent(diary.getContent());
+		
+		diaryDao.updateDiary(savedDiary);
+	}
+
+	@Override
+	public void insertMinihomeBoard(MiniHomeBoard miniHomeBoard) {
+		miniHomeBoardDao.insertMiniHomeBoard(miniHomeBoard);
+	}
+
+	@Override
+	public void modifyMiniHomeBoard(MiniHomeBoard miniHomeBoard) {
+		MiniHomeBoard savedMiniHomeBoard = miniHomeBoardDao.getBoardByNo(miniHomeBoard.getNo());
+		savedMiniHomeBoard.setTitle(miniHomeBoard.getTitle());
+		savedMiniHomeBoard.setContent(miniHomeBoard.getContent());
+		
+		miniHomeBoardDao.updateMiniHomeBoard(savedMiniHomeBoard);
+	}
+
+	@Override
+	public void deleteMiniHomeBoard(int no) {
+		MiniHomeBoard miniHomeBoard = miniHomeBoardDao.getBoardByNo(no);
+		miniHomeBoard.setDeleted("Y");
+		miniHomeBoardDao.updateMiniHomeBoard(miniHomeBoard);
+	}
+
+	
 
 }

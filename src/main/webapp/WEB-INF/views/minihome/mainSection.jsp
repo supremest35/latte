@@ -4,25 +4,27 @@
 	<div class="card-body" id="home-section">
 		<div class="card" id="contents">
 			<div class="card-body">
-				<c:choose>
-					<c:when test="${empty boards }">
-						<p class="card-text">게시글이 존재하지 않습니다.</p>
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="board" items="${boards }">
-							<div class="col-3 mb-3">
-								<a href="" data-board-no="${board.no }" data-content-id="#visual-content-detail">
-								<c:if test="${not empty board.imgFilename }">
-									<img class="card-img" src="${board.imgFilename }">
-								</c:if>
-								<c:if test="${empty board.imgFilename }">
-									<p>${board.title }</p>
-								</c:if>
-								</a>
-							</div>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
+				<div class="row">
+					<c:choose>
+						<c:when test="${empty boards }">
+							<p class="card-text">게시글이 존재하지 않습니다.</p>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="board" items="${boards }">
+								<div class="col-3 mb-3">
+									<a href="" data-board-no="${board.no }" data-content-id="#visual-content-detail">
+									<c:if test="${not empty board.imgFilename }">
+										<img class="card-img" src="${board.imgFilename }">
+									</c:if>
+									<c:if test="${empty board.imgFilename }">
+										<p>${board.title }</p>
+									</c:if>
+									</a>
+								</div>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -217,32 +219,34 @@
 		</c:choose>
 	</div>
 	<div class="card-body" id="visualContents-section">
-		<div>
-			<a href="" class="badge badge-primary" id="board-form-btn" data-form-id="#visualContents">새 글 쓰기</a>
+		<div id="visualContent-btn">
+			<a href="" class="badge badge-primary" data-form-id="#visualContent-insert" >새 글 쓰기</a>
 		</div>
 		<div class="card" id="contents">
 			<div class="card-body">
-				<c:choose>
-					<c:when test="${empty boards }">
-						<p class="card-text">게시글이 존재하지 않습니다.</p>
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="board" items="${boards }">
-							<div class="col-3 mb-3">
-								<a href="" data-board-no="${board.no }" data-content-id="#visual-content-detail"><img class="card-img" src="${board.imgFilename }"></a>
-							</div>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
+				<div class="row">
+					<c:choose>
+						<c:when test="${empty boards }">
+							<p class="card-text">게시글이 존재하지 않습니다.</p>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="board" items="${boards }">
+								<div class="col-3 mb-3">
+									<a href="" data-board-no="${board.no }" data-content-id="#visual-content-detail"><img class="card-img" src="${board.imgFilename }"></a>
+								</div>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			</div>
 		</div>
 	</div>							
 	<div class="card-body" id="visual-content-detail">
+		<div id="visualContent-btn">
+			<a href="" class="badge badge-primary" data-form-id="#visualContent-modify" data-board-no="${board.no }">글 수정</a>
+			<a href="" class="badge badge-primary" data-form-id="#visualContent-delete" data-board-no="${board.no }">글 삭제</a>
+		</div>
 		<div class="card">
-			<div>
-				<a href="" class="badge badge-primary">글 수정</a>
-				<a href="" class="badge badge-primary">글 삭제</a>
-			</div>
 			<div class="card-header">
 				<c:out value="${board.title }"/>
 			</div>

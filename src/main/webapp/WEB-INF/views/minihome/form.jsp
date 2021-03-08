@@ -146,14 +146,79 @@
 				<div class="card-footer">
 					<div class="row">
 						<div class="col-12">
-							<a href="" class="badge badge-primary" data-btn-id="btn-modify-diary">수정</a>
+							<a href="" class="badge badge-primary" data-btn-id="btn-modify-diary" data-diary-no="${diary.no }">수정</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
-	<div id="diary"></div>
+	<div class="card-body" id="visualContent-insert">
+		<form id="visualContent-forms">
+			<div class="card">
+				<div class="card-header">
+					입력폼
+				</div>
+				<div class="card-body" id="visualContent-content">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+   							<span class="input-group-text" >제목</span>
+   						</div>
+   						<input type="text" class="form-control" name="title" required="required">
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+   							<span class="input-group-text" >내용</span>
+   						</div>
+   						<textarea rows="10" cols="95" class="form-control" name="content" required="required"></textarea>
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+   							<span class="input-group-text" >파일</span>
+   						</div>
+						<input type="file" class="form-control" name="photoFile" id="photoFile" required="required"/>
+					</div>
+				</div>
+				<div class="card-footer">
+					<div class="row">
+						<div class="col-12">
+							<a href="" class="badge badge-primary" data-btn-id="submit-visualContent">등록</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="card-body" id="visualContent-modify">
+		<form id="visualContent-forms">
+			<div class="card">
+				<div class="card-header">
+					입력폼
+				</div>
+				<div class="card-body" id="visualContent-content">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+   							<span class="input-group-text" >제목</span>
+   						</div>
+   						<input type="text" class="form-control" name="title" value="${board.title }" required="required">
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+   							<span class="input-group-text" >내용</span>
+   						</div>
+   						<textarea rows="10" cols="95" class="form-control" name="content" required="required"><c:out value="${board.content }"/></textarea>
+					</div>
+				</div>
+				<div class="card-footer">
+					<div class="row">
+						<div class="col-12">
+							<a href="" class="badge badge-primary" data-btn-id="modify-visualContent" data-board-no="${board.no }">수정</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
 	<div id="visualContents"></div>
 	<div id="board"></div>
 

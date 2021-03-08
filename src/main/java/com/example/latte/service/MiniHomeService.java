@@ -34,6 +34,14 @@ public interface MiniHomeService {
 	
 	void deleteDiary(int no);
 	
+	void modifyDiary(Diary diary);
+	
+	void insertMinihomeBoard(MiniHomeBoard miniHomeBoard);
+	
+	void modifyMiniHomeBoard(MiniHomeBoard miniHomeBoard);
+	
+	void deleteMiniHomeBoard(int no);
+	
 	MiniHome getMiniHomeByNo(int miniHomeNo);
 
 	MiniHome getMiniHomeByUserNo(int userNo);
@@ -45,6 +53,8 @@ public interface MiniHomeService {
 	Diary getDiaryByNo(int diaryNo);
 
 	Diary getLatestDiaryByMiniHomeNo(int miniHomeNo);
+	
+	Folder getRootFolderByOption(Map<String, Object> opt);
 	
 	Folder getFolderByNo(int folderNo);
 
