@@ -13,6 +13,8 @@ import com.example.latte.vo.VisitorNote;
 @Transactional
 public interface VisitorNoteDao {
 	
+	void insertVisitorNote(VisitorNote visitorNote);
+	
 	int getTotalVisitorNotesByMiniHomeNo(int miniHomeNo);
 	
 	List<VisitorNoteDto> getVisitorNotesByOption(Map<String, Object> opt);

@@ -44,6 +44,10 @@ public interface MiniHomeService {
 	
 	void deleteMiniHomeBoard(int no);
 	
+	void deleteBoards(int[] boardNoList);
+	
+	void insertVisitorNote(VisitorNote visitorNote);
+	
 	MiniHome getMiniHomeByNo(int miniHomeNo);
 
 	MiniHome getMiniHomeByUserNo(int userNo);

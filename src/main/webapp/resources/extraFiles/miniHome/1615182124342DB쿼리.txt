@@ -1,0 +1,27 @@
+미니홈피 폴더 조회하는 쿼리
+select c.folder_no, c.folder_name "상위폴더", b.folder_no, b.folder_name "하위폴더", a.folder_no, a.folder_name "최하위폴더"
+from minihome_board_folders a, minihome_board_folders b, (select folder_no, folder_name
+                                 from minihome_board_folders
+                                 where folder_category_no = 100 
+                                 and folder_parent_no is null) c
+where b.folder_parent_no = c.folder_no
+and b.folder_no = a.folder_parent_no
+order by a.folder_no;
+
+
+사진첩의 전체 파일 조회
+select 
+        a.folder_name, d.*
+		from 
+			minihome_board_folders a, minihome_board_folders b, (select 
+																	folder_no
+                                 								 from 
+                                 								 	minihome_board_folders
+                                 								 where 
+                                 								 	folder_no = 1 
+                                 								 	) c, minihome_boards d
+		where 
+			b.folder_parent_no = c.folder_no
+			and b.folder_no = a.folder_parent_no
+			and a.folder_no = d.board_folder_no
+			order by d.board_no desc;

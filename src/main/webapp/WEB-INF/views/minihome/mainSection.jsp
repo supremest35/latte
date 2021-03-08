@@ -4,7 +4,7 @@
 	<div class="card-body" id="home-section">
 		<div class="card" id="contents">
 			<div class="card-body">
-				<div class="row">
+				<div class="row" id="content-scroll">
 					<c:choose>
 						<c:when test="${empty boards }">
 							<p class="card-text">게시글이 존재하지 않습니다.</p>
@@ -224,7 +224,7 @@
 		</div>
 		<div class="card" id="contents">
 			<div class="card-body">
-				<div class="row">
+				<div class="row" id="content-scroll">
 					<c:choose>
 						<c:when test="${empty boards }">
 							<p class="card-text">게시글이 존재하지 않습니다.</p>
@@ -298,9 +298,9 @@
 		</div>
 	</div>
 	<div class="card-body" id="board-section">
-		<div>
-			<a href="" class="badge badge-primary" id="board-form-btn" data-form-id="#board">새 글 쓰기</a>
-			<a href="" class="badge badge-primary">선택 삭제</a>
+		<div id="board-btn">
+			<a href="" class="badge badge-primary" data-form-id="#board-insert">새 글 쓰기</a>
+			<a href="" class="badge badge-primary" data-form-id="#board-select-delete">선택 삭제</a>
 		</div>
 		<c:if test="${empty boards }">
 			<div class="card-body">
@@ -319,7 +319,7 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th><input type="checkbox"></th>
+						<th><input type="checkbox" id="check-all"/></th>
 						<th>번호</th>
 						<th>제목</th>
 						<th>작성자</th>
@@ -330,7 +330,7 @@
 				<tbody>
 					<c:forEach var="board" items="${boards }" varStatus="status">
 						<tr>
-							<th><input type="checkbox"></th>
+							<th><input type="checkbox" name="board-checkbox" value="${board.no }"></th>
 							<td>${status.count }</td>
 							<td><a href="" data-content-id="#board-detail" data-board-no="${board.no }"><c:out value="${board.title }"/></a><div class="badge badge-secondary"> ${board.likeCnt }</div></td>
 							<td>${userName }</td>
@@ -375,11 +375,11 @@
 		</c:if>
 	</div>
 	<div class="card-body" id="board-detail">
+		<div id="board-button">
+			<a href="" class="badge badge-primary" data-form-id="#board-modify" data-board-no="${board.no }">글 수정</a>
+			<a href="" class="badge badge-primary" data-form-id="#board-delete" data-board-no="${board.no }">글 삭제</a>
+		</div>
 		<div class="card">
-			<div id="board-button">
-				<a href="">수정</a>|
-				<a href="">글 삭제</a>
-			</div>
 			<div class="card-header">
 				<c:out value="${board.title }"/>
 			</div>
@@ -394,6 +394,7 @@
 			<div class="card-body">
 				<c:out value="${board.content }"/>
 			</div>
+			<a href="">첨부파일</a>
 			<div class="card-footer">
 				<ul>
 					<li>
@@ -421,7 +422,7 @@
 	</div>
 	<div class="card-body" id="visitor-section">
 		<c:if test="${not empty LOGINED_USER }">
-			<div class="card mb-5">
+			<div class="card mb-5" id="visitorNote-form">
 				<div class="card-header"></div>
 				<div class="row">
 					<div class="col-3">
@@ -431,13 +432,13 @@
 					</div>
 					<div class="col-9">
 						<div class="card-body">
-							<textarea rows="6" cols="60"></textarea>
+							<textarea rows="6" cols="60" name="content"></textarea>
 						</div>
 					</div>
 				</div>
 				<div class="card-footer" id="visitorNote-addButton">
-					<input type="checkbox"> 비밀로 하기
-					<button type="btn btn-primary">확인</button>
+					<small><input type="checkbox"> 비밀로 하기</small>
+					<a href="" class="badge badge-primary" data-form-id="#visitorNote-insert">등록</a>
 				</div>
 			</div>
 		</c:if>
@@ -492,20 +493,20 @@
 				<div class="col-12">
 					<ul class="pagination justify-content-center">
 						<li class="page-item ${pagination.pageNo gt 1 ? '' : 'disabled' }">
-							<a class="page-link" href="" data-content-id="#board-section" data-page-no="${pagination.pageNo - 1 }">이전</a>
+							<a class="page-link" href="" data-content-id="#visitor-section" data-page-no="${pagination.pageNo - 1 }">이전</a>
 						</li>
 						<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
 							<li class="page-item ${pagination.pageNo eq num ? 'active' : ''}" >
-								<a class="page-link" href="" data-content-id="#board-section" data-page-no="${num }">${num }</a>
+								<a class="page-link" href="" data-content-id="#visitor-section" data-page-no="${num }">${num }</a>
 							</li>
 						</c:forEach>
 						<li class="page-item ${pagination.pageNo lt pagination.totalPages ? '' : 'disabled' }">
-							<a class="page-link" href="" data-content-id="#board-section" data-page-no="${pagination.pageNo + 1 }">다음</a>
+							<a class="page-link" href="" data-content-id="#visitor-section" data-page-no="${pagination.pageNo + 1 }">다음</a>
 						</li>
 					</ul>
 				</div>
 			</div>
-			<div id="search-board" >
+			<div id="search-visitorNote" >
 				<form id="search-form" method="get" action="">
 				<input type="hidden" name="catno" value="">
 					<select name="opt">
@@ -518,7 +519,6 @@
 				</form>
 			</div>
 		</div>
-		
 	</div>
 </div>
 
