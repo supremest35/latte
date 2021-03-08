@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.example.latte.dao.VisitorNoteDao">
+	<insert id="insertVisitorNote" parameterType="com.example.latte.vo.VisitorNote">
+		insert into
+			minihome_visitor_notes(visitor_note_no, minihome_no, user_no, visitor_note_content)
+		values
+			(minihome_visitor_note_seq.nextval, #{miniHomeNo}, #{userNo}, #{content})
+	</insert>
 	<select id="getTotalVisitorNotesByMiniHomeNo" parameterType="int" resultType="int">
 		select 
 			count(*)

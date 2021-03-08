@@ -11,6 +11,7 @@ import com.example.latte.vo.MiniHome;
 @Transactional
 public interface MiniHomeDao {
 	void insertMiniHome(MiniHome miniHome);
+	void updateMiniHome(MiniHome miniHome);
 	MiniHome getMiniHomeByNo(int miniHomeNo);
 	MiniHome getMiniHomeByUserNo(int userNo);
 	MiniHome getMiniHomeByOption(Map<String, Object> opt);

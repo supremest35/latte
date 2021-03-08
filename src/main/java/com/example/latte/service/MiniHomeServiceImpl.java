@@ -169,7 +169,7 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 			}
 			MiniHomePagination pagination = new MiniHomePagination((Integer) opt.get("pageNo"), totalRows);
 			resultMap.put("pagination", pagination);
-			MiniHome miniHome = miniHomeDao.getMiniHomeByNo(boards.get(1).getMiniHomeNo());
+			MiniHome miniHome = miniHomeDao.getMiniHomeByNo(boards.get(0).getMiniHomeNo());
 			User user = userDao.getUserByNo(miniHome.getUserNo());
 			resultMap.put("userName", user.getName());
 		}
@@ -297,6 +297,29 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 		miniHomeBoard.setDeleted("Y");
 		miniHomeBoardDao.updateMiniHomeBoard(miniHomeBoard);
 	}
+
+	@Override
+	public void increaseHitCnt(MiniHome miniHome) {
+		miniHome.setTodayCnt(miniHome.getTodayCnt() + 1);
+		miniHome.setTotalCnt(miniHome.getTotalCnt() + 1);
+		miniHomeDao.updateMiniHome(miniHome);
+	}
+
+	@Override
+	public void deleteBoards(int[] boardNoList) {
+		for (int boardNo : boardNoList) {
+			MiniHomeBoard miniHomeBoard = miniHomeBoardDao.getBoardByNo(boardNo);
+			miniHomeBoard.setDeleted("Y");
+			miniHomeBoardDao.updateMiniHomeBoard(miniHomeBoard);
+		}
+		
+	}
+
+	@Override
+	public void insertVisitorNote(VisitorNote visitorNote) {
+		visitorNoteDao.insertVisitorNote(visitorNote);
+	}
+
 
 	
 

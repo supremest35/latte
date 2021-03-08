@@ -16,6 +16,8 @@ import com.example.latte.vo.WelcomeNote;
 
 public interface MiniHomeService {
 	
+	void increaseHitCnt(MiniHome miniHome);
+	
 	void insertProfile(Profile profile);
 
 	void modifyProfile(Profile profile);
@@ -41,6 +43,10 @@ public interface MiniHomeService {
 	void modifyMiniHomeBoard(MiniHomeBoard miniHomeBoard);
 	
 	void deleteMiniHomeBoard(int no);
+	
+	void deleteBoards(int[] boardNoList);
+	
+	void insertVisitorNote(VisitorNote visitorNote);
 	
 	MiniHome getMiniHomeByNo(int miniHomeNo);
 

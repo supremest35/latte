@@ -60,4 +60,14 @@
 			</if>
 		</where>
 	</select>
+	<update id="updateMiniHome" parameterType="com.example.latte.vo.MiniHome">
+		update
+			latte_minihomes
+		set
+			minihome_today_cnt = #{todayCnt},
+			minihome_total_cnt = #{totalCnt},
+			minihome_secret	= #{secret}
+		where
+			minihome_no = #{no}
+	</update>
 </mapper>

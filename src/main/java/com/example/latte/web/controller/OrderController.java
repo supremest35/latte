@@ -63,6 +63,7 @@ public class OrderController {
 		
 		user.setAcornCnt(user.getAcornCnt());
 		userService.update(user);
+		SessionUtils.setAttribute("LOGINED_USER", user);
 		
 		AcornHistory acornHistory = new AcornHistory();
 		acornHistory.setUserNo(user.getNo());
@@ -222,6 +223,7 @@ public class OrderController {
 		User loginUser = userService.getUserByNo(user.getNo());
 		loginUser.setAcornCnt(loginUser.getAcornCnt() - order.getTotalPrice());
 		userService.update(loginUser);
+		SessionUtils.setAttribute("LOGINED_USER", loginUser);
 		
 		AcornHistory acornHistory = new AcornHistory();
 		acornHistory.setUserNo(user.getNo());
