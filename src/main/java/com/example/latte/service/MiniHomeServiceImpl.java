@@ -331,8 +331,11 @@ public class MiniHomeServiceImpl implements MiniHomeService{
 	@Override
 	public void insertWelcomeNote(WelcomeNote welcomeNote) {
 		WelcomeNote savedWelcomeNote = welcomeNoteDao.getWelcomeNoteByMiniHomeNo(welcomeNote.getMiniHomeNo());
-		savedWelcomeNote.setDisplay("N");
-		welcomeNoteDao.updateWelcomeNote(savedWelcomeNote);
+
+		if (savedWelcomeNote != null) {
+			savedWelcomeNote.setDisplay("N");
+			welcomeNoteDao.updateWelcomeNote(savedWelcomeNote);
+		}
 		
 		welcomeNoteDao.insertWelcomeNote(welcomeNote);
 	}

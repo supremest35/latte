@@ -311,7 +311,6 @@ public class MiniHomeController {
 			FileCopyUtils.copy(photoFile.getInputStream(), new FileOutputStream(new File(photoDirectory, filename))); 
 			welcomeNote.setPhotoFilename(filename); 
 		}
-		
 		miniHomeService.insertWelcomeNote(welcomeNote);
 	}
 	
