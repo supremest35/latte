@@ -111,7 +111,7 @@
 							<h6 class="card-title">오늘의 날씨</h6>
 							<div style="text-align:center">
 								<input type="text" name="city" id="search-city" value="seoul" style="width:180px; height:24px; vertical-align:top" placeholder="도시를  입력하세요">
-								<button id="search-weather">날씨 검색</button> 
+								<button id="search-weather" onclick="searchWeather()">날씨 검색</button> 
 							</div>
 							
 							<div class="row" id="search-result">
@@ -185,7 +185,29 @@
 			$('.time').append(currentTime);
 		};
 	 });
+		
+	// 날씨 검색하기		
 	
+	function searchWeather() {
+		$('#current-temp').text('');
+		$('#temp-min').text('');
+		$('#temp-max').text('');
+		$('#description').text('');
+		
+		 $.getJSON("http://api.openweathermap.org/data/2.5/weather?q=" + $("#search-city").val() 
+				 + "&appid=e36da81b031737c5fa6f29d386decd41&units=metric&lang=kr", function(result) {
+			var imgSrc = "http://openweathermap.org/img/w/" + result.weather[0].icon + ".png";
+			$('#weather-img').attr('src',imgSrc);
+			$('#current-temp').append(Math.floor(result.main.temp)+'º');
+			$('#temp-min').append(Math.floor(result.main.temp_min)+'º');
+			$('#temp-max').append(Math.floor(result.main.temp_max)+'º');
+			$('#description').append(result.weather[0].description);
+			
+		 })
+	}
+		
+		
+		
 
 	// 스포츠
 	axios.get("http://localhost/board/api/news/" +"연예"+"스포츠").then(function(response) {
