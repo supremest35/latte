@@ -17,11 +17,13 @@ import com.example.latte.Exception.FailedLoginException;
 import com.example.latte.service.BoardService;
 import com.example.latte.service.CategoryService;
 import com.example.latte.service.DeptService;
+import com.example.latte.service.MiniHomeService;
 import com.example.latte.service.NoteService;
 import com.example.latte.service.UserService;
 import com.example.latte.util.SessionUtils;
 import com.example.latte.vo.BoardDto;
 import com.example.latte.vo.Category;
+import com.example.latte.vo.MiniHome;
 import com.example.latte.vo.User;
 
 
@@ -39,6 +41,8 @@ public class MainController {
 	BoardService boardService;
 	@Autowired
 	CategoryService categoryService;
+	@Autowired
+	MiniHomeService miniHomeServvice;
 
 	@RequestMapping("/main.do")
 	public String main(Model model) {
@@ -74,10 +78,12 @@ public class MainController {
 			// 일촌리스트 불러오기
 			int userNo = ((User)SessionUtils.getAttribute("LOGINED_USER")).getNo();
 			SessionUtils.setAttribute("FRIEND_LIST", userService.getMyFriendList(userNo));
-			System.out.println("#$%^&*(*&^%$#@#$%^&*(*&^%$#@"+SessionUtils.getAttribute("FRIEND_LIST"));
 			// 안읽은 쪽지 불러오기
 			SessionUtils.setAttribute("UNREADNOTE_NORMAL_CNT", noteService.getUnreadNormalNote(userNo));
 			SessionUtils.setAttribute("UNREADNOTE_FRIEND_CNT", noteService.getUnreadFriendNote(userNo));
+			// 오늘 방문자수
+			MiniHome mh = miniHomeServvice.getMiniHomeByUserNo(userNo);
+			SessionUtils.setAttribute("TODAY_VISITOR", mh.getTodayCnt());
 			
 		} catch (FailedLoginException e) {
 			rd.addFlashAttribute("message", e.getMessage());
