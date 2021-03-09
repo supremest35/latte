@@ -416,7 +416,7 @@
 											</tr>
 											<tr>
 												<th>오늘 방문자수</th>
-												<td>00명</td>
+												<td>${TODAY_VISITOR }명</td>
 											</tr>
 										</tbody>
 									</table>
