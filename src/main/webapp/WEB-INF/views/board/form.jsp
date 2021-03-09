@@ -40,11 +40,12 @@
 		                                <div class="col-2">
 		                                    <select class="form-control" name="categoryNo">
 		                                   <%--  <c:forEach var="category" items="${categories }"> --%>
-		                                        <option value="200" ${category.no == param.catno ? "selected" : "" }> 유머/정보</option>
-		                                        <option value="300" ${category.no == param.catno ? "selected" : "" }> 고민/일상</option>
-		                                        <option value="400" ${category.no == param.catno ? "selected" : "" }> 공포/미스테리</option>
-		                                        <option value="500" ${category.no == param.catno ? "selected" : "" }> 자유</option>
-		                                        <option value="600" ${category.no == param.catno ? "selected" : "" }> 아이돌/팬</option>
+		                                        <option value="" ${category.no == param.catno ? "selected" : "" }> 카테고리 선택</option>
+		                                        <option value="200" ${category.no == param.catno  }> 유머/정보</option>
+		                                        <option value="300" ${category.no == param.catno  }> 고민/일상</option>
+		                                        <option value="400" ${category.no == param.catno  }> 공포/미스테리</option>
+		                                        <option value="500" ${category.no == param.catno  }> 자유</option>
+		                                        <option value="600" ${category.no == param.catno  }> 아이돌/팬</option>
 		                                    <%-- </c:forEach> --%>
 		                                    </select>
 		                                </div>
