@@ -12,6 +12,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<style type="text/css">
+	a:link {text-decoration: none; color: #333333;}
+	a:visited {text-decoration: none; color: #333333;}
+	a:active {text-decoration: none; color: #333333;}
+	a:hover {text-decoration: underline; color: red;}
+</style>
 <title>라떼 판 - 커뮤니티</title>
 </head>
 <body>
