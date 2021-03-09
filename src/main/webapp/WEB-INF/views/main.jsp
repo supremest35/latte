@@ -161,7 +161,6 @@
 	</div>
 <script type="text/javascript">
 	var areaList =['seoul'];
-	$("#search-weather").click(function() {
 		$.getJSON("http://api.openweathermap.org/data/2.5/weather?q=" + $("#search-city").val() + "&appid=e36da81b031737c5fa6f29d386decd41&units=metric&lang=kr", function(result) {
 			var imgSrc = "http://openweathermap.org/img/w/" + result.weather[0].icon + ".png";
 			$('#weather-img').attr('src',imgSrc);
@@ -192,13 +191,12 @@
 			
 			var currentTime = convertTime(ct);
 			$('.time').append(currentTime);
-		});
+		};
 	 });
-
 	
 
 	// 스포츠
-	axios.get("http://localhost/board/api/news/" + +"연예"+"스포츠").then(function(response) {
+	axios.get("http://localhost/board/api/news/" +"연예"+"스포츠").then(function(response) {
 		var sports = response.data;
 		
 
@@ -228,26 +226,6 @@
 		}	
 	})
 </script>
-
-		// 경제
-		axios.get("http://localhost/board/api/news/" + "경제").then(function(response) {
-			var economy = response.data;
-			/* var url = "http://localhost/news/detail.do"; */
-			for (var index = 0; index <= 2; index++) {
-				var title = "<li> <a href='" + economy.items[index].link + "'>" + economy.items[index].title + "</a></li>" 
-				$("#contents-2").append(title);
-			}	
-		})	
-	
-		// it 
-		axios.get("http://localhost/board/api/news/" + "it"+"과학").then(function(response) {
-			var it = response.data;
-			for (var index = 0; index <= 2; index++) {
-				var title = "<li> <a href='" + it.items[index].link + "'>" + it.items[index].title + "</a></li>" 
-				$("#contents-3").append(title);
-			}	
-		})
-	</script>
 
 </body>
 </html>
