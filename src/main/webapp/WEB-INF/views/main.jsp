@@ -56,9 +56,6 @@
 							<h6 class="card-title">실시간 좋아요 Top 7</h6>
 							<a id="moreContent" href="/board/index.do?catno=100">더보기 >></a>
 
-							<h6 class="card-title">실시간 좋아요 Top 5</h6>
-							<a id="moreContent" href="/board/index.do?catno=100">더보기 ></a>
-
 							<table class="table" id="board-table">
 								<thead>
 									<colgroup>
@@ -107,9 +104,7 @@
 					</div>
 					<div class="col-5">
 						<div class="card">
-							<div class="card-header">뉴스
-							<a id="moreContent" href="/news/main.do">뉴스 홈으로 ></a>
-							</div>
+							<div class="card-header">뉴스</div>
 						</div>
 						<div class="card-body border">
 
@@ -135,9 +130,6 @@
 						</div>
 						<div class="card-body border">
 							<h6 class="card-title">오늘의 뉴스</h6>
-							<a id="moreContent" href="/news/main.do">더보기 >></a>
-
-							<!-- <h6 class="card-title">오늘의 뉴스</h6> -->
 
 							<div class="card-text">
 								<p>연예/스포츠<a id="moreContent" href="/news/EntSports.do">연예/스포츠 뉴스 더보기 ></a></p>
